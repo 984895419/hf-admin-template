@@ -33,9 +33,7 @@ Vue.prototype.hasPerm = hasPermission
 Vue.prototype.hasPermMenu = hasPermMenu
 
 Vue.use(Print)
-
 Vue.use(SuperFlow)
-
 Vue.use(Element, {
   size: Cookies.get('size') || 'medium', // set element-ui default size
   i18n: (key, value) => i18n.t(key, value)
