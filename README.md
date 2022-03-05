@@ -53,7 +53,7 @@ npm run lint -- --fix
 ```
 
 
-
+```
 
 ├── build                      # 构建相关
 ├── plop-templates             # 自动化基本模板,使用 npm run plop 命令创建views/components
@@ -90,3 +90,4 @@ npm run lint -- --fix
 ├── vue.config.js              # vue-cli 配置
 ├── postcss.config.js          # postcss 配置
 └── package.json               # package.json
+```
