@@ -1,14 +1,12 @@
 import Vue from 'vue'
-
+import '@/components/JSX/JsxRender.js'
 import Cookies from 'js-cookie'
 
 import 'normalize.css/normalize.css' // a modern alternative to CSS resets
-
 import Element from 'element-ui'
 import './styles/element-variables.scss'
 
 import '@/styles/index.scss' // global css
-
 import App from './App'
 import store from './store'
 import i18n from './lang' // internationalization
@@ -25,6 +23,7 @@ import ExTableColumn from '@/utils/ExTableColumn'
 import Print from '@/utils/print'
 import SuperFlow from 'vue-super-flow'
 import 'vue-super-flow/lib/index.css'
+
 Vue.prototype.$constVal = constVal
 Vue.prototype.$util = commonUtils
 Vue.prototype.$pubSub = pubSubUtils

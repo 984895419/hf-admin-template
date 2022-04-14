@@ -118,10 +118,13 @@ export default {
     // And generate the internationalized title
     generateRoutes(routes, basePath = '/', prefixTitle = []) {
       let res = []
+      if (routes === undefined || routes === null || routes.length <= 0) {
+        return
+      }
 
       for (const router of routes) {
         // skip hidden router
-        if (router.hidden) { continue }
+        if (router == null || router.hidden) { continue }
 
         const data = {
           path: path.resolve(basePath, router.path),

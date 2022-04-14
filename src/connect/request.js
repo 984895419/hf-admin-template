@@ -2,7 +2,7 @@ import axios from 'axios'
 import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/connect/auth'
-import i18n from '@/lang'
+import { getMessage, isSuccessResult, isTheRetCode } from '@/utils/ajaxResultUtil'
 
 import { isEmpty } from 'element-ui/src/utils/util' // internationalization
 
@@ -57,15 +57,15 @@ service.interceptors.response.use(
         }
       }
     }
-    // if the custom code is not 20000, it is judged as an error.
-    if (res.res !== '1') {
+    // if the custom code is not 00001, it is judged as an error.
+    if (!isSuccessResult(res)) {
       /* Message({
         message: res.resMsg || 'Error',
         type: 'error',
         duration: 5 * 1000
       })*/
-      // 50008: 用户已经登出;BASE_50012: Token outtime; BASE_50014: token illegal; BASE_50016: Token expired;
-      if (res.res === 'BASE_50008' || res.res === 'BASE_50012' || res.res === 'BASE_50014' || res.res === 'BASE_50016'/* || res.res === '50014'*/) {
+      // EXPIRED("00007",  "登录已过期");
+      if (isTheRetCode(res, '00007')) {
         // to re-login
         MessageBox.confirm('You have been logged out, you can cancel to stay on this page, or log in again', 'Confirm logout', {
           confirmButtonText: 'Re-Login',
@@ -76,35 +76,13 @@ service.interceptors.response.use(
             location.reload()
           })
         })
-      }
-      if (res.res === 'BASE_50020') { // 访问越权
-        let mesg = res.resMsg
-        if (mesg.indexOf('#hfexception#')) {
-          mesg = mesg.replace(/#hfexception#/g, '')
-        } else {
-          mesg = '【' + res.res + '】: ' + i18n.t('common.common.urlNotPermitted')
-        }
+      } else {
         Message({
           type: 'error',
-          message: mesg
+          message: getMessage(res)
         })
-        console.error('err' + res.resMsg) // for debug
-      }
-      if (res.res === 'BASE_50018') { // 权限过滤异常
-        let mesg = res.resMsg
-        if (mesg.indexOf('#hfexception#')) {
-          mesg = mesg.replace(/#hfexception#/g, '')
-        } else {
-          mesg = '【' + res.res + '】: ' + i18n.t('common.common.urlFilterError')
-        }
-        Message({
-          type: 'error',
-          message: mesg
-        })
-        console.error('err' + res.resMsg) // for debug
       }
       return res
-      // return Promise.reject(res || 'Error')
     } else {
       return res
     }

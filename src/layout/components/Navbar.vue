@@ -134,7 +134,7 @@ export default {
       dialogFormVisible: false,
       dataObj: {},
       drawer: false,
-      docs: [],
+      // docs: [],
       activeName: '0'
     }
   },
@@ -163,18 +163,18 @@ export default {
     }
   },
   created() {
-    this.toLoadAllArticle()
+    // this.toLoadAllArticle()
   },
   methods: {
-    toLoadAllArticle() {
-      loadAllArticle({ articleType: '1', pageSize: 10 }).then(resp => {
-        if (resp.res === '1') {
-          this.docs = resp.obj
-        } else {
-          this.docs = []
-        }
-      })
-    },
+    // toLoadAllArticle() {
+    //   loadAllArticle({ articleType: '1', pageSize: 10 }).then(resp => {
+    //     if (resp.res === '1') {
+    //       this.docs = resp.obj
+    //     } else {
+    //       this.docs = []
+    //     }
+    //   })
+    // },
     openUrl(url) {
       window.open(url, '_blank')
     },

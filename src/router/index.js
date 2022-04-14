@@ -1,10 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
-Vue.use(Router)
-
 /* Layout */
 import Layout from '@/layout'
+
+Vue.use(Router)
 
 /* Router Modules */
 // import componentsRouter from './modules/components'
@@ -82,6 +81,26 @@ export const constantRoutes = [
         meta: { title: 'dashboard', icon: 'dashboard', affix: true }
       }
     ]
+  },
+  {
+    path: '/example',
+    component: Layout,
+    redirect: '/example/simpleCurd',
+    children: [
+      {
+        path: 'simpleCurd',
+        component: () => import('@/views/example/simpleCurd/index'),
+        name: 'SimpleCurd',
+        meta: { title: '单表简单查询', icon: 'dashboard', affix: true }
+      },
+      {
+        path: 'simpleRefer',
+        component: () => import('@/views/example/refer/index'),
+        name: 'simpleRefer',
+        meta: { title: '简单参照', icon: 'dashboard', affix: true }
+      }
+    ],
+    meta: { title: '规范示例', icon: 'dashboard', affix: true }
   }
 ]
 

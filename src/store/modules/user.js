@@ -3,6 +3,7 @@ import { getToken, setToken, removeToken } from '@/connect/auth'
 import { resetRouter } from '@/router'
 import store from '@/store'
 import mockUserInfo from '@/mock/menulist'
+import { getData } from '@/utils/ajaxResultUtil'
 
 const state = {
   token: getToken(),
@@ -73,8 +74,7 @@ const actions = {
       // eslint-disable-next-line no-unused-vars
       login(Object.assign(loginForm, { 'lang': store.getters.language })).then(response => {
         const data = response
-
-        commit('SET_TOKEN', data.obj)
+        commit('SET_TOKEN', getData(data))
         setToken(data.obj)
         resolve(response)
       }).catch(error => {
@@ -90,7 +90,7 @@ const actions = {
         // const data = response
         const data = mockUserInfo
         // 储存用户信息
-        commit('SET_USER', data.obj)
+        commit('SET_USER', getData(data))
         // cookie保存登录状态,仅靠vuex保存的话,页面刷新就会丢失登录状态
         // 生成路由
         if (!data) {
@@ -107,7 +107,7 @@ const actions = {
       getInfo(param).then(response => {
         const data = response
         // 储存用户信息
-        commit('SET_USER', data.obj)
+        commit('SET_USER', getData(data))
         // cookie保存登录状态,仅靠vuex保存的话,页面刷新就会丢失登录状态
         // 生成路由
         if (!data) {

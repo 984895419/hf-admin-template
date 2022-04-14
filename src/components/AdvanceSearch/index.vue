@@ -1,6 +1,8 @@
 <template>
   <div style="margin-top: -20px">
-    <el-divider><el-button type="text" size="medium" :icon="btnText" style="margin-top: -9px;" @click="showToggle" /></el-divider>
+    <el-divider>
+      <el-button type="text" size="medium" :icon="btnText" style="margin-top: -9px;" @click="showToggle" />
+    </el-divider>
     <div v-show="isShow" style="margin-top: -15px">
       <slot />
     </div>
@@ -32,7 +34,7 @@ export default {
 </script>
 
 <style>
-  .el-divider__text.is-center {
-    height: 20px;
-  }
+.el-divider__text.is-center {
+  height: 20px;
+}
 </style>

@@ -123,6 +123,7 @@ import { messageErrorHandle, messageSuccesHandle } from '@/utils/message-handle'
 import SocialSign from './components/SocialSignin'
 import Mmdp from './Mmdp'
 import elDragDialog from '@/directive/el-drag-dialog'
+import { isSuccessResult, getData } from '@/utils/ajaxResultUtil'
 export default {
   name: 'Login',
   components: { LangSelect, SocialSign, Mmdp },
@@ -202,12 +203,12 @@ export default {
           const _this = this
           this.$store.dispatch('user/login', this.loginForm)
             .then(response => {
-              if (response.res === '1') {
+              if (isSuccessResult(response)) {
                 this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
                 this.loading = false
                 messageSuccesHandle(_this, _this.$t('common.login.logIn'))
               } else {
-                if (response.obj === 'RESET') {
+                if (getData(response) === 'RESET') {
                   _this.dialogFormVisible = true
                   setTimeout(function() {
                     _this.$refs.resetPannel.setFormData(_this.loginForm.userCode)

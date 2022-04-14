@@ -11,7 +11,7 @@
 # 克隆项目
 git clone xxxx
 
-# 进入项目目录
+# 进入项目目录    
 cd xxxxx
 
 # 安装依赖
