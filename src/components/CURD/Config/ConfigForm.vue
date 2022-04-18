@@ -5,30 +5,18 @@
       :size="$store.size"
       :model="value"
       :rules="formRules"
-      label-width="120px"
+      :label-width="labelWidth"
       v-bind="{...(options && options.formProps) }"
     >
-      <add-form-items :add-fields="addFields" :default-span="defaultSpan" :value="value" />
-      <el-row>
-        <el-col
-          :span="24"
-        >
-          <el-form-item>
-            <div style="float: right">
-              <el-button type="primary" icon="el-icon-search" @click="doSubmit">保存</el-button>
-              <el-button icon="el-icon-circle-close" @click="doCancel">取消</el-button>
-            </div>
-          </el-form-item>
-        </el-col>
-      </el-row>
+      <config-form-items :add-fields="addFields" :default-span="defaultSpan" :value="value" />
     </el-form>
   </div>
 </template>
 
 <script>
-import AddFormItems from '@/components/CURD/Add/AddFormItems'
+import { baseApiPostMethod } from '@/components/CURD/baseApi'
 import { getMessage, isSuccessResult } from '@/utils/ajaxResultUtil'
-import { baseApiPutMethod } from '@/components/CURD/baseApi'
+import ConfigFormItems from '@/components/CURD/Config/ConfigFormItems'
 
 /**
  * 添加的表单
@@ -37,8 +25,8 @@ export default {
   /**
    * 添加的表单
    */
-  name: 'UpdateForm',
-  components: { AddFormItems },
+  name: 'ConfigForm',
+  components: { ConfigFormItems },
   /**
    * 属性名
    */
@@ -65,7 +53,14 @@ export default {
     /**
      * 提交之前的校验， 返回true会提交表单，false则不提交
      */
-    beforeSubmit: Function
+    beforeSubmit: Function,
+    /**
+     * label的宽度
+     */
+    labelWidth: {
+      type: String,
+      default: '120px'
+    }
   },
   data() {
     return {
@@ -113,24 +108,22 @@ export default {
      * 显示数量计算
      */
     showNumCalculate() {
-      if (this.$el.getBoundingClientRect) {
-        if (this.options && this.options.showNum) {
-          this.showNum = this.options.showNum
-        } else {
-          const s = this.$el.getBoundingClientRect().width || document.body.clientWidth
-          if (s < 768) {
-            this.showNum = 1
-          } else if (s > 768 && s < 1200) {
-            this.showNum = 2
-          } else if (s > 1200 && s < 1912) {
-            this.showNum = 3
-          } else if (s >= 1912) {
-            this.showNum = 4
-          }
+      if (this.options && this.options.showNum) {
+        this.showNum = this.options.showNum
+      } else {
+        const s = this.$el.getBoundingClientRect().width || document.body.clientWidth
+        if (s < 768) {
+          this.showNum = 1
+        } else if (s > 768 && s < 1200) {
+          this.showNum = 2
+        } else if (s > 1200 && s < 1912) {
+          this.showNum = 3
+        } else if (s >= 1912) {
+          this.showNum = 4
         }
-        // 默认的显示个数
-        this.defaultSpan = 24 / this.showNum
       }
+      // 默认的显示个数
+      this.defaultSpan = 24 / this.showNum
     },
     /**
      * 提交的时候执行
@@ -144,22 +137,15 @@ export default {
               return
             }
           }
-          // 发送仅编辑的数据
-          const postData = {}
-          const fields = this.addFields.filter(s => (s.updateConfig && s.updateConfig.updatable === true) || s.primaryKey === true)
-          for (const ind in fields) {
-            const field = fields[ind]
-            postData[field.value] = this.value[field.value]
-          }
           // 发送post请求
-          baseApiPutMethod(this.url, postData).then(resp => {
+          baseApiPostMethod(this.url, this.value).then(resp => {
             if (isSuccessResult(resp)) {
               this.$message.success(getMessage(resp))
-              this.$emit('success')
-              this.$emit('closeDialog')
             } else {
               this.$message.error(getMessage(resp))
             }
+            this.$emit('success')
+            this.$emit('closeDialog')
           })
         } else {
           return false

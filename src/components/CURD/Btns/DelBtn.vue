@@ -3,7 +3,7 @@
     :type="btnType"
     icon="el-icon-delete"
     :size="$store.size"
-    style="color: red"
+    :style="{ color: btnType !== 'text' ? '' : 'red'}"
     @click="openDialog"
   >
     {{ label }}
@@ -20,7 +20,7 @@ export default {
   props: {
     btnType: {
       type: String,
-      default: 'primary'
+      default: 'danger'
     },
     label: {
       type: String,
@@ -38,6 +38,10 @@ export default {
      * 打开弹窗
      */
     openDialog() {
+      if (this.value == null || this.value.length <= 0) {
+        this.$message.warning('请选择1至少一条记录')
+        return
+      }
       this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -49,6 +53,7 @@ export default {
               type: 'success',
               message: '删除成功!'
             })
+            this.$emit('success')
           } else {
             this.$message.error(getMessage(resp))
             return
@@ -60,12 +65,6 @@ export default {
           message: '已取消删除'
         })
       })
-    },
-    /**
-     * 关闭弹窗
-     */
-    closeDialog() {
-      this.showDialog = false
     }
   }
 }

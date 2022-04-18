@@ -2,7 +2,7 @@
   <!-- 自定义查询方式 -->
   <el-card class="search-form">
     <!-- 可以抽离出去做查询方式切换 -->
-    <div v-if="showHeader" slot="header" class="clearfix">
+    <div v-if="showHeader && (existKeywordField > 0)" slot="header" class="clearfix">
       <el-button-group style="float:right;padding: 0px 3px" :size="$store.size">
         <el-button
           v-if="existKeywordField > 0"
@@ -97,7 +97,7 @@ export default {
   },
   data() {
     return {
-      cacheSearchType: this.searchType
+      cacheSearchType: this.searchFields.filter(t => t.searchConfig && t.searchConfig.keyword === true).length > 0 ? this.searchType : 'default'
     }
   },
   computed: {
@@ -105,7 +105,7 @@ export default {
      * 存在字段
      */
     existKeywordField() {
-      return this.searchFields && this.searchFields.filter(t => t.keyword === true).length > 0
+      return this.searchFields && this.searchFields.filter(t => t.searchConfig && t.searchConfig.keyword === true).length > 0
     }
   }
 }

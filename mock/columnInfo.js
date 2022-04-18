@@ -14,12 +14,19 @@ const listData = {
         label: '客户姓名',
         value: 'name',
         type: 'text',
-        keyword: true,
-        searchable: true,
-        addable: true,
-        addShowable: true,
-        updateShowable: true,
-        updatable: true,
+        searchConfig: {
+          keyword: true,
+          searchable: true
+        },
+        createConfig: {
+          addable: true,
+          addShowable: true
+        },
+        updateConfig: {
+          updateShowable: true,
+          updatable: true
+        },
+        belongGroup: '客户信息',
         tableColumnOption: {
           'sortable': 'custom'
         }
@@ -28,12 +35,18 @@ const listData = {
         label: '申请编号',
         value: 'applyNum',
         type: 'text',
-        keyword: true,
-        searchable: true,
-        addable: true,
-        updatable: true,
-        addShowable: true,
-        updateShowable: true,
+        searchConfig: {
+          keyword: true,
+          searchable: true
+        },
+        createConfig: {
+          addable: true,
+          addShowable: true
+        },
+        updateConfig: {
+          updateShowable: true,
+          updatable: true
+        },
         tableColumnOption: {
           'sortable': 'custom'
         }
@@ -41,18 +54,28 @@ const listData = {
       {
         label: '客户手机号',
         value: 'customTel',
-        searchable: true,
-        addable: true,
-        updatable: true,
-        addShowable: true,
-        updateShowable: true,
+        searchConfig: {
+          keyword: true,
+          searchable: true
+        },
+        createConfig: {
+          addable: true,
+          addShowable: true
+        },
+        updateConfig: {
+          updateShowable: true,
+          updatable: true
+        },
+        belongGroup: '客户信息',
         type: 'text'
       },
       {
         label: '状态',
         value: 'status',
         type: 'select',
-        updateShowable: true,
+        updateConfig: {
+          updateShowable: true
+        },
         children: [
           {
             label: '待征信授权审批',
@@ -67,14 +90,22 @@ const listData = {
       {
         type: 'picker',
         label: '提交时间',
-        updateShowable: true,
+        updateConfig: {
+          updateShowable: true
+        },
         value: 'picker'
       },
       {
         label: '产品',
         value: 'product',
         type: 'select',
-        updateShowable: true,
+        updateConfig: {
+          updateShowable: true
+        },
+        belongGroup: {
+          name: '状态信息',
+          sort: 1
+        },
         children: [
           {
             label: '农资贷001',
@@ -105,6 +136,10 @@ const listData = {
         label: '增信方式',
         value: 'belongTo',
         type: 'select',
+        belongGroup: {
+          name: '状态信息',
+          sort: 1
+        },
         children: [
           {
             label: '无',
@@ -136,6 +171,10 @@ const listData = {
         label: '所属MAP',
         value: 'belongToMAP',
         type: 'select',
+        belongGroup: {
+          name: '状态信息',
+          sort: 1
+        },
         children: [
           {
             label: '农资贷001',

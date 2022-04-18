@@ -3,7 +3,11 @@
     <slot name="btn-header-area">
       <el-row v-if="$attrs['show-btn-area'] !== false">
         <el-col :span="24" class="area-left">
-          <slot name="btn-area-left" />
+          <slot
+            name="btn-area-left"
+            :toggleRowSelectionArray="toggleRowSelectionArray"
+            :showSelected="tableItemOption && tableItemOption.showSelected"
+          />
           <div style="float: right">
             <div style="display: inline-block;">
               <table-column-select
@@ -15,16 +19,25 @@
           </div>
           <div style="float:right">
             <div
-              v-if="$slots['btn-area-right']"
+              v-if="$slots['btn-area-right'] !== false"
               style="display: inline-block;"
               class="area-right"
             >
-              <slot name="btn-area-right" />
+              <slot
+                name="btn-area-right"
+                :toggleRowSelectionArray="toggleRowSelectionArray"
+                :showSelected="tableItemOption && tableItemOption.showSelected"
+              />
             </div>
           </div>
         </el-col>
       </el-row>
     </slot>
+    <!--    <el-row>-->
+    <!--      <el-col :span="24">-->
+    <!--        {{ $slots }}-->
+    <!--      </el-col>-->
+    <!--    </el-row>-->
     <el-row v-if="finallyShowTableFields != null && finallyShowTableFields.length > 0">
       <el-col :span="24">
         <el-table
@@ -34,7 +47,9 @@
           border
           style="width: 100%"
           v-bind="$attrs"
-          v-on="$listeners"
+          v-on="{ ...{
+            'selection-change': this.handleSelectionChange
+          }, ...$listeners}"
         >
           <el-table-column v-if="notInFinallyShowTableFields.length > 0" type="expand">
             <template slot-scope="props">
@@ -66,7 +81,7 @@
             v-if="tableItemOption && (tableItemOption.showItemOperate !== false)"
             fixed="right"
             label="操作"
-            min-width="100"
+            width="150"
           >
             <template slot-scope="scopeRow">
               <div class="col-btn-display">
@@ -127,7 +142,8 @@ export default {
       showTableFields: [],
       notInFinallyShowTableFields: [],
       finallyShowTableFields: this.tableFields || [],
-      reRending: false
+      reRending: false,
+      toggleRowSelectionArray: []
     }
   },
   methods: {
@@ -147,7 +163,8 @@ export default {
         if (this.showTableFields) {
           columns = this.showTableFields.map(t => t.value)
         }
-        this.notInFinallyShowTableFields = this.tableFields.filter(s => (columns.indexOf(s.value) < 0 && s.expand === true))
+        this.notInFinallyShowTableFields = this.tableFields.filter(s =>
+          (columns.indexOf(s.value) < 0 && s.expand === true))
         this.$emit('colSelectedChange')
       }, 50)
     },
@@ -160,6 +177,13 @@ export default {
           this.$refs.mainTable.toggleRowSelection(vals[ind], flag || true)
         }
       }
+    },
+    /**
+     * 选中后处理的事件
+     * @param section
+     */
+    handleSelectionChange(section) {
+      this.toggleRowSelectionArray = section
     }
   }
 }

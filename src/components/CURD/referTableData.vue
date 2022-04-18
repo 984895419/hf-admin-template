@@ -70,7 +70,7 @@ import InquiryMode from '@/components/CURD/Query/InquiryMode'
 import SimpleTable from '@/components/CURD/Table/SimpleTable'
 import UpdateBtn from '@/components/CURD/Btns/UpdateBtn'
 import UpdateForm from '@/components/CURD/Add/UpdateForm'
-import DelBtn from '@/components/CURD/Btns/DelBtn'
+import DelBtn from '@/components/CURD/Btns/TemplateConfirmBtn'
 
 export default {
   name: 'ReferTableData',
@@ -172,7 +172,8 @@ export default {
         this.tableConfig.fields &&
         this.tableConfig.fields.length > 0) {
         return this.tableConfig.fields.filter(s => {
-          return s.searchable === true
+          // 设置默认所有的字段都可以搜索，除非配置了searchable为false
+          return !(s.searchConfig) || s.searchConfig.searchable !== false
         })
       }
       return []

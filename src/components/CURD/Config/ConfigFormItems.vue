@@ -9,7 +9,7 @@
           :class=" (item.span || defaultSpan) !== 24 ? '' : 'col-24-bottom'"
         >
           <slot :name="item.value" :data="item">
-            <add-form-item v-model="value" :item="item" />
+            <config-form-item v-model="value" :item="item" />
           </slot>
         </el-col>
       </el-row>
@@ -23,7 +23,7 @@
           :class=" (item.span || defaultSpan) !== 24 ? '' : 'col-24-bottom'"
         >
           <slot :name="item.value" :data="item">
-            <add-form-item v-model="value" :item="item" />
+            <config-form-item v-model="value" :item="item" />
           </slot>
         </el-col>
       </el-row>
@@ -39,7 +39,7 @@
             :class=" (item.span || defaultSpan) !== 24 ? '' : 'col-24-bottom'"
           >
             <slot :name="item.value" :data="item">
-              <add-form-item v-model="value" :item="item" />
+              <config-form-item v-model="value" :item="item" />
             </slot>
           </el-col>
         </el-row>
@@ -49,15 +49,15 @@
 </template>
 
 <script>
-import AddFormItem from '@/components/CURD/Add/AddFormItem'
+import ConfigFormItem from '@/components/CURD/Config/ConfigFormItem'
 
 function isString(obj) {
   return Object.prototype.toString.call(obj) === '[object String]'
 }
 
 export default {
-  name: 'AddFormItems',
-  components: { AddFormItem },
+  name: 'ConfigFormItems',
+  components: { ConfigFormItem },
   /**
    * 属性名
    */

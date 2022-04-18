@@ -43,7 +43,6 @@
             </el-button>
           </el-form-item>
         </el-col>
-
       </el-row>
       <el-row v-if="showMoreCondition" :gutter="10" class="more-query">
         <el-col
@@ -222,7 +221,15 @@ export default {
      */
     getEmitData() {
       if (this.returnType === 'fields') {
-        return this.searchFields
+        return this.searchFields.map(s => {
+          const obj = {
+            columnId: s.fieldId,
+            columnName: s.columnName,
+            val: s.val,
+            operate: s.operate
+          }
+          return obj
+        })
       } else {
         // 将字段解析成对象，并传递
         for (const ind in this.searchFields) {

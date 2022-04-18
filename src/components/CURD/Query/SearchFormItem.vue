@@ -41,8 +41,31 @@
       clearable
       v-bind="item.props"
       :placeholder="item.placeholder || `请输入${ item.label}`"
-      :maxlength="item.maxlength"
     />
+    <div v-else-if="item.type === 'switch'">
+      <!-- 下拉 -->
+      <el-select
+        v-model="item.val"
+        clearable
+        v-bind="item.props"
+        :placeholder=" item.placeholder ||`请选择${item.label}`"
+        @change="changeHandler"
+      >
+
+        <el-option
+          value=""
+          label="全部"
+        />
+        <el-option
+          :value="typeof item.props.activeValue === 'boolean' ? item.props.activeValue === false ? 0 : 1 : item.props.activeValue"
+          :label="item.props.activeText"
+        />
+        <el-option
+          :value="typeof item.props.inactiveValue === 'boolean' ? item.props.inactiveValue === false ? 0 : 1 : item.props.inactiveValue"
+          :label="item.props.inactiveText"
+        />
+      </el-select>
+    </div>
     <!--文本-->
     <el-input
       v-if="item.type === 'text'"
@@ -50,7 +73,6 @@
       clearable
       v-bind="item.props"
       :placeholder="item.placeholder || `请输入${item.label}`"
-      :maxlength="item.maxlength"
     />
   </el-form-item>
 </template>
@@ -77,7 +99,7 @@ export default {
      */
     changeHandler() {
       // 如果是马上触发，则
-      if (this.item.immediately && this.immediately) {
+      if (this.item.searchConfig && this.item.searchConfig.immediately && this.immediately) {
         this.$emit('valChange')
       }
     }

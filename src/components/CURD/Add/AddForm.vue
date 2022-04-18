@@ -1,15 +1,15 @@
 <template>
-  <div v-if="addFields&&addFields.length >0">
+  <div v-if="addFields&&addFields.length >0" v-loading="loading">
     <el-form
       ref="form"
       :size="$store.size"
       :model="value"
       :rules="formRules"
-      label-width="120px"
+      :label-width="labelWidth"
       v-bind="{...(options && options.formProps) }"
     >
       <add-form-items :add-fields="addFields" :default-span="defaultSpan" :value="value" />
-      <el-row>
+      <el-row v-if="showBtnArea === true">
         <el-col
           :span="24"
         >
@@ -65,10 +65,25 @@ export default {
     /**
      * 提交之前的校验， 返回true会提交表单，false则不提交
      */
-    beforeSubmit: Function
+    beforeSubmit: Function,
+    /**
+     * label的宽度
+     */
+    labelWidth: {
+      type: String,
+      default: '120px'
+    },
+    /**
+     * 是否显示按钮区域
+     */
+    showBtnArea: {
+      type: Boolean,
+      default: true
+    }
   },
   data() {
     return {
+      loading: false,
       /**
        * 默认一行显示几个查询, 默认3个
        */
@@ -143,14 +158,19 @@ export default {
             }
           }
           // 发送post请求
+          this.loading = true
           baseApiPostMethod(this.url, this.value).then(resp => {
             if (isSuccessResult(resp)) {
               this.$message.success(getMessage(resp))
+              this.$emit('success')
+              this.$emit('closeDialog')
             } else {
               this.$message.error(getMessage(resp))
             }
-            this.$emit('success')
-            this.$emit('closeDialog')
+            this.loading = false
+          }).catch(res => {
+            console.log(res)
+            this.loading = false
           })
         } else {
           return false

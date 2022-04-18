@@ -148,9 +148,10 @@ export default {
         }
       } else {
         for (const ind in this.copyTableFields) {
-          if (this.copyTableFields[ind].expand !== true) {
+          // 默认所有的字段都不会在扩展里显示，除非特殊指定
+          if (!this.copyTableFields[ind].tableConfig || this.copyTableFields[ind].expand !== true) {
             this.$set(this.copyTableFields[ind], 'selectChecked',
-              this.copyTableFields[ind].selectChecked || true)
+              this.copyTableFields[ind].selectChecked !== undefined ? this.copyTableFields[ind].selectChecked : true)
           }
         }
         return
@@ -159,7 +160,7 @@ export default {
         for (const ind in this.copyTableFields) {
           this.$set(this.copyTableFields[ind], 'selectChecked',
             (myFieldsMap[this.copyTableFields[ind].value] && myFieldsMap[this.copyTableFields[ind].value].selectChecked) ||
-            this.copyTableFields[ind].selectChecked || true)
+            this.copyTableFields[ind].selectChecked !== undefined ? this.copyTableFields[ind].selectChecked : true)
         }
       }
     },

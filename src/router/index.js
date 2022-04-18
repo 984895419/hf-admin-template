@@ -88,6 +88,12 @@ export const constantRoutes = [
     redirect: '/example/simpleCurd',
     children: [
       {
+        path: 'simpleQuery',
+        component: () => import('@/views/example/query/index'),
+        name: 'simpleQuery',
+        meta: { title: '简单查询表单', icon: 'dashboard', affix: true }
+      },
+      {
         path: 'simpleCurd',
         component: () => import('@/views/example/simpleCurd/index'),
         name: 'SimpleCurd',
@@ -101,6 +107,20 @@ export const constantRoutes = [
       }
     ],
     meta: { title: '规范示例', icon: 'dashboard', affix: true }
+  },
+  {
+    path: '/generator',
+    component: Layout,
+    redirect: '/generator/datasource',
+    children: [
+      {
+        path: 'datasource',
+        component: () => import('@/views/generator/datasource/index'),
+        name: 'datasource',
+        meta: { title: '数据源管理', icon: 'dashboard', affix: true }
+      }
+    ],
+    meta: { title: '代码生成器', icon: 'dashboard', affix: true }
   }
 ]
 

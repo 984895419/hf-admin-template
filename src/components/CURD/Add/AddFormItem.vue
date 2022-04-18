@@ -5,7 +5,11 @@
     v-bind="item.labelProps"
     :rules="item.rules"
   >
-    <div v-if="item.addable === true">
+    <!-- 如果没有配置，默认所有addShowable的字段都可以填写 -->
+    <div
+      v-if="(item.createConfig && item.createConfig.addable === true)
+        || (item.updateConfig && item.updateConfig.updatable === true)"
+    >
       <!-- 下拉 -->
       <el-select
         v-if="item.type === 'select'"
@@ -41,7 +45,6 @@
         clearable
         v-bind="item.props"
         :placeholder="item.placeholder || `请输入${ item.label}`"
-        :maxlength="item.maxlength"
       />
       <!--文本-->
       <el-input
@@ -50,7 +53,12 @@
         clearable
         v-bind="item.props"
         :placeholder="item.placeholder || `请输入${item.label}`"
-        :maxlength="item.maxlength"
+      />
+
+      <el-switch
+        v-else-if="item.type === 'switch'"
+        v-model="value[item.value]"
+        v-bind="item.props"
       />
       <!-- TODO 其他类型的添加-->
       <dynamic-refer v-else :item="item" />
@@ -77,7 +85,6 @@ export default {
       },
       render(createElement, context) {
         const it = this.item
-        debugger
         return createElement('div', it.label + ':' + it.value)
       }
     }

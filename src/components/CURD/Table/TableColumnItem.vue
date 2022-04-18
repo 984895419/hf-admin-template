@@ -10,6 +10,16 @@
         <span v-if="item.type === 'select'">
           {{ labelOption(scope.row[item.value]) }}
         </span>
+        <span v-else-if="item.type === 'switch'">
+          <el-tag
+            v-if="scope.row[item.value] === item.props.activeValue"
+            type="success"
+          >{{ item.props.activeText }}</el-tag>
+          <el-tag
+            v-if="scope.row[item.value] === item.props.inactiveValue"
+            type="danger"
+          >{{ item.props.inactiveText }}</el-tag>
+        </span>
         <span v-else>
           {{ scope.row[item.value] }}
         </span>
