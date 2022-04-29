@@ -8,15 +8,17 @@
       :label-width="labelWidth"
       v-bind="{...(options && options.formProps) }"
     >
-      <add-form-items :add-fields="addFields" :default-span="defaultSpan" :value="value" />
+      <add-form-items :add-fields="addFields" :default-span="defaultSpan" :operate="'add'" :value="value" />
       <el-row v-if="showBtnArea === true">
         <el-col
           :span="24"
         >
           <el-form-item>
             <div style="float: right">
+              <slot name="add-btn-before" :data="value" :formValidate="formValidate" />
               <el-button type="primary" icon="el-icon-search" @click="doSubmit">保存</el-button>
               <el-button icon="el-icon-circle-close" @click="doCancel">取消</el-button>
+              <slot name="add-btn-after" :data="value" :formValidate="formValidate" />
             </div>
           </el-form-item>
         </el-col>
@@ -26,6 +28,7 @@
 </template>
 
 <script>
+
 import AddFormItems from '@/components/CURD/Add/AddFormItems'
 import { baseApiPostMethod } from '@/components/CURD/baseApi'
 import { getMessage, isSuccessResult } from '@/utils/ajaxResultUtil'
@@ -124,6 +127,19 @@ export default {
     console.log('addForm')
   },
   methods: {
+    /**
+     * 表单验证的回调
+     * @param cb
+     */
+    formValidate(cb) {
+      this.$refs.form.validate((valid) => {
+        if (valid) {
+          cb()
+        } else {
+          return false
+        }
+      })
+    },
     /**
      * 显示数量计算
      */

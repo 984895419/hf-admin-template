@@ -7,6 +7,7 @@
     <el-dialog
       :visible.sync="showDialog"
       width="75%"
+      append-to-body
       v-bind="Object.assign({ 'close-on-click-modal': false}, $attrs)"
     >
       <div style="margin-top: 10px">
@@ -19,7 +20,7 @@
           </div>
           <div v-else>
             <refer
-              :show-btn-area="false"
+              :show-btn-area="$attrs['show-btn-area'] || false"
               :base-url="baseUrl"
               :table-config="tableConfig"
               :value="value"

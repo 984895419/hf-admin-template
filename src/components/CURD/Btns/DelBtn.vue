@@ -1,7 +1,6 @@
 <template>
   <el-button
     :type="btnType"
-    icon="el-icon-delete"
     :size="$store.size"
     :style="{ color: btnType !== 'text' ? '' : 'red'}"
     @click="openDialog"

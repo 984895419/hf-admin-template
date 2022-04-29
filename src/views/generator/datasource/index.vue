@@ -1,134 +1,62 @@
 <template>
   <div class="app-container">
     <c-r-u-d
-      base-url="/api/datasource"
-      :url-methods="{
-        pageUrl: '/api/datasource/nameQuery'
-      }"
-      :table-config="tableConfig"
-    />
+      :base-url="conf.baseUrl"
+      :url-methods="conf.urlMethods"
+      :table-config="conf.default"
+    >
+      <template v-slot:curd-add-before="{data, formValidate}">
+        <el-button :loading="testLoading" type="primary" @click="doTestConnection(data, formValidate)">试一试</el-button>
+      </template>
+      <template v-slot:curd-update-before="{data, formValidate}">
+        <el-button :loading="testLoading" type="primary" @click="doTestConnection(data, formValidate)">试一试</el-button>
+      </template>
+    </c-r-u-d>
   </div>
 </template>
 
 <script>
 import CRUD from '@/components/CURD'
+import * as conf from './api'
+import { getData, getMessage, isSuccessResult } from '@/utils/ajaxResultUtil'
+import { baseApiPostMethod } from '@/components/CURD/baseApi'
 
 export default {
-  name: 'IndexVue',
+  name: 'GenerateDatasourceIndexVue',
   components: { CRUD },
   data() {
     return {
-      tableConfig: {
-        tableItemOption: {
-          showItemOperate: true,
-          showSelected: true,
-          showIndex: true
-        },
-        fields: [
-          {
-            label: '主键ID',
-            value: 'datasourceId',
-            type: 'text',
-            primaryKey: true,
-            searchConfig: {
-              searchable: false
-            },
-            selectChecked: false
-          },
-          {
-            label: '数据库类型',
-            value: 'dbType',
-            type: 'select',
-            columnName: 'db_type',
-            operate: 'EQ',
-            createConfig: {
-              addable: true,
-              addShowable: true
-            },
-            updateConfig: {
-              updateShowable: true,
-              updatable: true
-            },
-            children: [
-              {
-                label: 'mysql',
-                value: 'Mysql'
-              },
-              {
-                label: 'oracle',
-                value: 'Oracle'
-              }
-            ]
-          },
-          {
-            label: 'jdbcUrl',
-            columnName: 'url',
-            value: 'url',
-            type: 'text',
-            operate: 'ALL_LIKE',
-            createConfig: {
-              addable: true,
-              addShowable: true
-            },
-            updateConfig: {
-              updateShowable: true,
-              updatable: true
+      conf: conf,
+      testUrl: conf.baseUrl + '/test',
+      testLoading: false
+    }
+  },
+  methods: {
+    doTestConnection(data, formValidate) {
+      formValidate(() => {
+        this.testLoading = true
+        baseApiPostMethod(this.testUrl, {
+          url: data.url,
+          username: data.username,
+          password: data.password,
+          driverName: data.driverName
+        }).then(resp => {
+          this.testLoading = false
+          if (isSuccessResult(resp)) {
+            const res = getData(resp)
+            if (res === true) {
+              this.$message.success('测试成功')
+            } else {
+              this.$message.error('失败')
             }
-          },
-          {
-            label: '用户名',
-            value: 'username',
-            columnName: 'username',
-            type: 'text',
-            createConfig: {
-              addable: true,
-              addShowable: true
-            },
-            updateConfig: {
-              updateShowable: true,
-              updatable: true
-            }
-          },
-          {
-            label: '密码',
-            value: 'password',
-            columnName: 'password',
-            type: 'text',
-            createConfig: {
-              addable: true,
-              addShowable: true
-            },
-            updateConfig: {
-              updateShowable: true,
-              updatable: true
-            }
-          },
-          {
-            label: '状态',
-            value: 'enableState',
-            columnName: 'enable_state',
-            type: 'switch',
-
-            createConfig: {
-              addable: true,
-              addShowable: true
-            },
-            updateConfig: {
-              updateShowable: true,
-              updatable: true
-            },
-            tableColumnOption: {
-              width: '100px'
-            },
-            props: {
-              activeText: '启用',
-              activeValue: true,
-              inactiveText: '禁用',
-              inactiveValue: false
-            }
+          } else {
+            this.$message.error(getMessage(resp))
           }
-        ]
-      }
+        }).catch(e => {
+          this.testLoading = false
+          this.$message.error('失败')
+        })
+      })
     }
   }
 }

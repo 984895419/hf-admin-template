@@ -1,18 +1,40 @@
 <template>
-  <div v-loading="loading">
+  <div>
     <inquiry-mode
+      ref="inquirySearch"
       :search-fields="searchFields"
       :search-type="'keyword'"
       @search="inquiryChangeSearch"
     />
+    <editable-table
+      v-if="editable"
+      :batch-update-url="urlMethodCache.batchUpdateUrl"
+      :editable-fields="updatableFields"
+      :table-data="jsonData.list"
+      @success="triggerSearch"
+    >
+      <template v-slot:btn-header-area>
+        <el-button type="danger" @click="changeToCannotEditable">取消编辑</el-button>
+      </template>
+    </editable-table>
     <simple-table
+      v-if="!editable"
+      v-loading="loading"
       :table-fields="tableConfig.fields"
       :table-data="jsonData.list"
       :table-item-option="tableConfig.tableItemOption"
       v-bind="$attrs"
+      :list-url="urlMethodCache.listUrl"
+      :tree-grid="tableConfig.treeGrid"
+      :tree-grid-lazy="tableConfig.treeGridLazy"
+      :element-loading-text="'正在加载中...'"
       v-on="$listeners"
       @sort-change="sortChange"
+      @expand-change="expandChange"
     >
+      <template v-slot:expand-area="{data}">
+        <slot :name="'expand-area'" :data="data" :expandedRows="expandedRows" />
+      </template>
       <template v-slot:btn-area-left>
         <add-btn>
           <template slot-scope="{ data, closeDialog }">
@@ -22,21 +44,28 @@
               :url="urlMethodCache.addUrl"
               @success="doSearch"
               @closeDialog="closeDialog"
-            />
+            >
+              <template v-slot:add-btn-before="{data, formValidate}">
+                <slot :name="'curd-add-before'" :data="data" :formValidate="formValidate" />
+              </template>
+              <template v-slot:add-btn-after="{data, formValidate}">
+                <slot :name="'curd-add-after'" :data="data" :formValidate="formValidate" />
+              </template>
+            </add-form>
           </template>
         </add-btn>
         <!-- 左侧的按钮区域, 扩展的入口 -->
-        <div v-if="$slots['curd-btn-left']" class="curd-btn-left">
+        <div v-if="$scopedSlots['curd-btn-left']" class="curd-btn-left">
           <slot name="curd-btn-left" />
         </div>
       </template>
       <template v-slot:btn-area-right="{toggleRowSelectionArray, showSelected}">
         <!-- 右侧的按钮区域, 扩展的入口 -->
-        <div v-if="$slots['curd-btn-right']" class="curd-btn-right">
+        <div v-if="$scopedSlots['curd-btn-right']" class="curd-btn-right">
           <slot name="curd-btn-right" />
         </div>
         <!-- 右侧的按钮区域, 扩展的入口 -->
-        <div v-if="$slots['curd-btn-right-after']" class="curd-btn-right-after">
+        <div v-if="$scopedSlots['curd-btn-right-after']" class="curd-btn-right-after">
           <slot name="curd-btn-right-after" />
         </div>
         <del-btn
@@ -48,7 +77,7 @@
         />
         <template-confirm-btn
           v-if="urlMethodCache.enableUrl
-            && existEnableFields"
+            && existEnableFields && showSelected"
           :url="templateUrl(urlMethodCache.enableUrl, toggleRowSelectionArray)"
           :btn-type="'primary'"
           :label="'批量启用'"
@@ -57,13 +86,14 @@
         />
         <template-confirm-btn
           v-if="urlMethodCache.disableUrl
-            && existEnableFields"
+            && existEnableFields && showSelected"
           :url="templateUrl(urlMethodCache.disableUrl, toggleRowSelectionArray)"
           :btn-type="'primary'"
           :value="toggleRowSelectionArray"
           :label="'批量禁用'"
           @success="doSearch"
         />
+        <el-button type="primary" style="margin-left: 10px" @click="changeToEditable">编辑</el-button>
       </template>
       <template v-slot:col-btn="{ data }">
         <update-btn :url="templateUrl(urlMethodCache.queryUrl, data)" :btn-type="'text'">
@@ -74,34 +104,50 @@
               :url="templateUrl(urlMethodCache.updateUrl, data)"
               @success="doSearch"
               @closeDialog="closeDialog"
-            />
+            >
+              <template v-slot:update-btn-before="{data, formValidate}">
+                <slot :name="'curd-update-before'" :data="data" :formValidate="formValidate" />
+              </template>
+              <template v-slot:update-btn-after="{data, formValidate}">
+                <slot :name="'curd-update-after'" :data="data" :formValidate="formValidate" />
+              </template>
+            </update-form>
           </template>
         </update-btn>
-        <del-btn
-          :url="templateUrl(urlMethodCache.deleteUrl, data)"
-          :btn-type="'text'"
-          :value="data"
-          @success="doSearch"
-        />
-        <template-confirm-btn
-          v-if="urlMethodCache.enableUrl && existEnableFields && data.enableState === false"
-          :url="templateUrl(urlMethodCache.enableUrl, data)"
-          :btn-type="'text'"
-          :value="data"
-          :label="'启用'"
-          @success="doSearch"
-        />
-        <template-confirm-btn
-          v-if="urlMethodCache.disableUrl && existEnableFields && data.enableState === true"
-          :url="templateUrl(urlMethodCache.disableUrl, data)"
-          :btn-type="'text'"
-          :value="data"
-          :label="'禁用'"
-          @success="doSearch"
-        />
-        <div class="moreBtn">
+        <div v-if="$scopedSlots['col-btn-more']" class="moreBtn">
           <slot name="col-btn-more" :data="data" />
         </div>
+      </template>
+      <template v-slot:col-btn-dropdown="{ data }">
+        <slot name="col-btn-dropdown" :data="data" />
+        <el-dropdown-item>
+          <template-confirm-btn
+            v-if="urlMethodCache.enableUrl && existEnableFields && data.enableState === 0"
+            :url="templateUrl(urlMethodCache.enableUrl, data)"
+            :btn-type="'text'"
+            :value="data"
+            :label="'启用'"
+            @success="doSearch"
+          />
+        </el-dropdown-item>
+        <el-dropdown-item>
+          <template-confirm-btn
+            v-if="urlMethodCache.disableUrl && existEnableFields && data.enableState === 1"
+            :url="templateUrl(urlMethodCache.disableUrl, data)"
+            :btn-type="'text'"
+            :value="data"
+            :label="'禁用'"
+            @success="doSearch"
+          />
+        </el-dropdown-item>
+        <el-dropdown-item>
+          <del-btn
+            :url="templateUrl(urlMethodCache.deleteUrl, data)"
+            :btn-type="'text'"
+            :value="data"
+            @success="doSearch"
+          />
+        </el-dropdown-item>
       </template>
       <template v-slot:pageInfo>
         <el-pagination
@@ -129,10 +175,22 @@ import UpdateForm from '@/components/CURD/Add/UpdateForm'
 import DelBtn from '@/components/CURD/Btns/DelBtn'
 import TemplateConfirmBtn from '@/components/CURD/Btns/TemplateConfirmBtn'
 import AddForm from '@/components/CURD/Add/AddForm'
+import { deepClone } from '@/utils'
+import EditableTable from '@/components/CURD/Table/EditableTable'
 
 export default {
   name: 'CRUD',
-  components: { TemplateConfirmBtn, DelBtn, UpdateForm, UpdateBtn, AddBtn, AddForm, SimpleTable, InquiryMode },
+  components: {
+    EditableTable,
+    TemplateConfirmBtn,
+    DelBtn,
+    UpdateForm,
+    UpdateBtn,
+    AddBtn,
+    AddForm,
+    SimpleTable,
+    InquiryMode
+  },
   props: {
     /**
      * 基础的默认地址
@@ -173,13 +231,17 @@ export default {
           queryUrl: baseUrl + '/{id}',
           deleteUrl: baseUrl + '/{id}',
           enableUrl: baseUrl + '/enable/{id}',
-          disableUrl: baseUrl + '/disable/{id}'
+          disableUrl: baseUrl + '/disable/{id}',
+          listUrl: baseUrl + '/list',
+          batchUpdateUrl: baseUrl + '/batch'
         }
       } else {
         return {}
       }
     }
     return {
+      // 是否是编辑的状态
+      editable: false,
       /**
        * 加载中的显示
        */
@@ -188,6 +250,7 @@ export default {
         ...defaultUrlMethod(this.baseUrl),
         ...this.urlMethods
       },
+      expandedRows: null,
       searchForm: {
         /**
          * 固定查询条件
@@ -306,6 +369,21 @@ export default {
     this.doSearch()
   },
   methods: {
+    changeToCannotEditable() {
+      this.editable = false
+    },
+    changeToEditable() {
+      this.editable = true
+    },
+    /**
+     * 触发查询操作
+     */
+    triggerSearch() {
+      // 触发查询
+      if (this.$refs.inquirySearch) {
+        this.$refs.inquirySearch.triggerSearch()
+      }
+    },
     /**
      * 排序发生变化的时候执行的排序变化
      * @param column
@@ -321,6 +399,9 @@ export default {
       }]
       // 执行排序
       this.doSearch()
+    },
+    expandChange(row, expandedRows) {
+      this.expandedRows = expandedRows
     },
     /**
      * 根据字段名，获取字段信息
@@ -358,8 +439,10 @@ export default {
             this.searchForm.fixedCondition = conditions
           }
         }
+        const obj = deepClone(this.searchForm)
+        obj.treeGridLazy = this.tableConfig.treeGridLazy
         this.loading = true
-        baseApiGetMethod(this.urlMethodCache.pageUrl, this.searchForm).then(resp => {
+        baseApiGetMethod(this.urlMethodCache.pageUrl, obj).then(resp => {
           if (isSuccessResult(resp)) {
             this.$set(this.jsonData, 'list', resp.data.list)
             this.$set(this.jsonData, 'total', resp.data.total)
@@ -380,7 +463,6 @@ export default {
 </script>
 
 <style scoped>
-
 /deep/ .curd-btn-right > div,
 .curd-btn-left > div,
 .curd-btn-right-after > div

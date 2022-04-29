@@ -9,7 +9,7 @@
             :showSelected="tableItemOption && tableItemOption.showSelected"
           />
           <div style="float: right">
-            <div style="display: inline-block;">
+            <div style="display: inline-block;margin-right: 10px">
               <table-column-select
                 v-model="showTableFields"
                 :table-fields="tableFields"
@@ -19,7 +19,7 @@
           </div>
           <div style="float:right">
             <div
-              v-if="$slots['btn-area-right'] !== false"
+              v-if="$scopedSlots['btn-area-right']"
               style="display: inline-block;"
               class="area-right"
             >
@@ -33,25 +33,28 @@
         </el-col>
       </el-row>
     </slot>
-    <!--    <el-row>-->
-    <!--      <el-col :span="24">-->
-    <!--        {{ $slots }}-->
-    <!--      </el-col>-->
-    <!--    </el-row>-->
     <el-row v-if="finallyShowTableFields != null && finallyShowTableFields.length > 0">
       <el-col :span="24">
         <el-table
           ref="mainTable"
           :size="$store.size"
           :data="tableData"
+          :row-key="primaryKeyName"
           border
+          :lazy="$attrs['tree-grid'] === true && $attrs['tree-grid-lazy'] === true"
+          :load="loadChildren"
+          :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
           style="width: 100%"
           v-bind="$attrs"
           v-on="{ ...{
             'selection-change': this.handleSelectionChange
           }, ...$listeners}"
         >
-          <el-table-column v-if="notInFinallyShowTableFields.length > 0" type="expand">
+          <el-table-column
+            v-if="showExpand === true || notInFinallyShowTableFields.length > 0"
+            label="展开"
+            type="expand"
+          >
             <template slot-scope="props">
               <slot name="expand-area" :data="props.row">
                 <el-row>
@@ -64,11 +67,13 @@
           </el-table-column>
           <el-table-column
             v-if="tableItemOption && (tableItemOption.showIndex === true)"
+            label="序号"
             type="index"
             width="50"
           />
           <el-table-column
             v-if="tableItemOption && tableItemOption.showSelected"
+            label="选择"
             type="selection"
             width="55"
           />
@@ -86,10 +91,27 @@
             <template slot-scope="scopeRow">
               <div class="col-btn-display">
                 <slot :data="scopeRow.row" name="col-btn" />
+                <el-dropdown trigger="click">
+                  <span class="el-dropdown-link">
+                    <el-button type="text">更多操作
+                      <i class="el-icon-arrow-down" />
+                    </el-button>
+                  </span>
+                  <el-dropdown-menu slot="dropdown">
+                    <slot name="col-btn-dropdown" :data="scopeRow.row" />
+                  </el-dropdown-menu>
+                </el-dropdown>
               </div>
             </template>
           </el-table-column>
         </el-table>
+        <div v-if="$attrs['table-bottom-area'] !== false" style="float: right;margin-top: 10px">
+          <slot
+            name="table-bottom-area"
+            :toggleRowSelectionArray="toggleRowSelectionArray"
+            :showSelected="tableItemOption && tableItemOption.showSelected"
+          />
+        </div>
       </el-col>
     </el-row>
     <el-row v-else>
@@ -104,7 +126,7 @@
         />
       </el-col>
     </el-row>
-    <el-row v-if="$slots['pageInfo']" style="margin-top: 10px">
+    <el-row v-if="$scopedSlots['pageInfo']" style="margin-top: 10px">
       <el-col :span="24">
         <slot name="pageInfo" />
       </el-col>
@@ -115,6 +137,8 @@
 <script>
 import TableColumnSelect from '@/components/CURD/Table/TableColumnSelect'
 import TableColumnItem from '@/components/CURD/Table/TableColumnItem'
+import { baseApiGetMethod } from '@/components/CURD/baseApi'
+import { getMessage, isSuccessResult } from '@/utils/ajaxResultUtil'
 
 /**
  * TODO 排序字段的查询
@@ -134,7 +158,18 @@ export default {
     /**
      * 表单选项
      */
-    tableItemOption: Object
+    tableItemOption: Object,
+    /**
+     * 树形结构子项查询
+     */
+    listUrl: String,
+    /**
+     * 显示扩展信息
+     */
+    showExpand: {
+      type: Boolean,
+      default: false
+    }
   },
   data() {
     return {
@@ -146,7 +181,19 @@ export default {
       toggleRowSelectionArray: []
     }
   },
+  computed: {
+    /**
+     * 主键名
+     */
+    primaryKeyName() {
+      return this.tableFields.filter(s => s.primaryKey === true)[0].value
+    }
+  },
   methods: {
+    /**
+     * 选择变化
+     * @param res
+     */
     selectedChange(res) {
       // 最终显示的字段
       this.finallyShowTableFields = []
@@ -160,11 +207,13 @@ export default {
         // 标记为重新渲染中
         this.reRending = false
         let columns = []
-        if (this.showTableFields) {
-          columns = this.showTableFields.map(t => t.value)
+        if (this.finallyShowTableFields) {
+          columns = this.finallyShowTableFields.map(t => t.value)
         }
-        this.notInFinallyShowTableFields = this.tableFields.filter(s =>
-          (columns.indexOf(s.value) < 0 && s.expand === true))
+        this.notInFinallyShowTableFields = this.tableFields.filter(s => {
+            return (columns.indexOf(s.value) < 0 && s.tableConfig && s.tableConfig.expand === true)
+          }
+        )
         this.$emit('colSelectedChange')
       }, 50)
     },
@@ -184,6 +233,25 @@ export default {
      */
     handleSelectionChange(section) {
       this.toggleRowSelectionArray = section
+    },
+    /**
+     * 加载子项
+     */
+    loadChildren(row, treeNode, resolve) {
+      if (this.$attrs['tree-grid'] === true && this.$attrs['tree-grid-lazy'] === true) {
+        if (this.listUrl) {
+          const data = { parentId: row.id }
+          baseApiGetMethod(this.listUrl, data).then(resp => {
+            if (isSuccessResult(resp)) {
+              resolve(resp.data)
+            } else {
+              this.$message.error(getMessage(data))
+            }
+          })
+        } else {
+          this.$message.warning('加载子项失败')
+        }
+      }
     }
   }
 }

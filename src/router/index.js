@@ -118,9 +118,41 @@ export const constantRoutes = [
         component: () => import('@/views/generator/datasource/index'),
         name: 'datasource',
         meta: { title: '数据源管理', icon: 'dashboard', affix: true }
+      },
+      {
+        path: 'generateTableInfo',
+        component: () => import('@/views/generator/generateTableInfo/index'),
+        name: 'generateTableInfo',
+        meta: { title: '表管理管理', icon: 'dashboard', affix: true }
       }
     ],
     meta: { title: '代码生成器', icon: 'dashboard', affix: true }
+  },
+  {
+    path: '/base',
+    component: Layout,
+    redirect: '/base/systemConfig',
+    children: [
+      {
+        path: 'systemConfig',
+        component: () => import('@/views/basic/baseSystemConfig/index'),
+        name: 'systemConfig',
+        meta: { title: '系统设置管理', icon: 'dashboard', affix: true }
+      },
+      {
+        path: 'tenant',
+        component: () => import('@/views/basic/baseTenant/index'),
+        name: 'tenant',
+        meta: { title: '租户管理', icon: 'dashboard', affix: true }
+      },
+      {
+        path: 'dictType',
+        component: () => import('@/views/basic/baseDictType/index'),
+        name: 'dictType',
+        meta: { title: '字典管理', icon: 'dashboard', affix: true }
+      }
+    ],
+    meta: { title: '基础管理', icon: 'dashboard', affix: true }
   }
 ]
 

@@ -1,8 +1,8 @@
 <template>
   <div>
     <el-button
-      type="primary"
-      icon="el-icon-circle-plus-outline"
+      :type="type"
+      :icon="icon"
       :size="$store.size"
       @click="openDialog"
     >
@@ -11,6 +11,7 @@
     <el-dialog
       :visible.sync="showDialog"
       width="75%"
+      append-to-body
       v-bind="Object.assign({ 'close-on-click-modal': false}, $attrs)"
       v-on="$listeners"
     >
@@ -29,6 +30,14 @@ import { deepClone } from '@/utils'
 export default {
   name: 'AddBtn',
   props: {
+    type: {
+      type: String,
+      default: 'primary'
+    },
+    icon: {
+      type: String,
+      default: 'el-icon-circle-plus-outline'
+    },
     label: {
       type: String,
       require: true,

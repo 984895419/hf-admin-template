@@ -33,6 +33,7 @@
     <el-dialog
       :visible.sync="showDialog"
       width="75%"
+      append-to-body
       v-bind="Object.assign({ 'close-on-click-modal': false}, $attrs)"
     >
       <div style="margin-top: 10px">

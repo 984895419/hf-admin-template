@@ -11,8 +11,8 @@
         <el-col
           v-for="item in firstLineFields"
           :key="item.value"
-          :span="item.span || defaultSpan"
-          :class=" (item.span || defaultSpan) !== 24 ? '' : 'col-24-bottom'"
+          :span="colSpan(item)"
+          :class=" (colSpan(item)) !== 24 ? '' : 'col-24-bottom'"
         >
           <slot :name="item.value" :data="item">
             <search-form-item :item="item" @valChange="doSearch" />
@@ -48,7 +48,7 @@
         <el-col
           v-for="item in hideFields"
           :key="item.value"
-          :span="item.span || defaultSpan"
+          :span="colSpan(item)"
         >
           <slot :name="item.value" :data="item">
             <search-form-item :item="item" @valChange="doSearch" />
@@ -123,6 +123,16 @@ export default {
     }
   },
   computed: {
+    colSpan() {
+      return (item) => {
+        if (item.type === 'picker') {
+          if (item.operate === 'BETWEEN') {
+            return item.span || (this.defaultSpan * 2)
+          }
+        }
+        return item.span || this.defaultSpan
+      }
+    },
     /**
      * 解析第一行的字段
      * @returns {*[]}
@@ -135,6 +145,15 @@ export default {
         if (totalRowSpan + (itemField.span || this.defaultSpan) >= 24 &&
           res.length > 0) {
           return res
+        }
+        // 如果TODO 做更多的操作
+        if (itemField.type === 'picker') {
+          if (itemField.operate === 'BETWEEN') {
+            itemField.props = {
+              ...{ type: 'datetimerange', 'value-format': 'yyyy-MM-dd HH:mm:ss' },
+              ...itemField.props
+            }
+          }
         }
         res.push(itemField)
         totalRowSpan += (itemField.span || this.defaultSpan)
@@ -155,6 +174,15 @@ export default {
           totalRowSpan += (itemField.span || this.defaultSpan)
           continue
         }
+        // 如果TODO 做更多的操作
+        if (itemField.type === 'picker') {
+          if (itemField.operate === 'BETWEEN') {
+            itemField.props = {
+              ...{ type: 'datetimerange', valueFormat: 'yyyy-MM-dd HH:mm:ss' },
+              ...itemField.props
+            }
+          }
+        }
         res.push(itemField)
         totalRowSpan += (itemField.span || this.defaultSpan)
       }
@@ -171,6 +199,12 @@ export default {
     window.onresize = this.showNumCalculate
   },
   methods: {
+    /**
+     * 触发查询操作
+     */
+    triggerSearch() {
+      this.doSearch()
+    },
     /**
      * 显示数量计算
      */
@@ -222,13 +256,23 @@ export default {
     getEmitData() {
       if (this.returnType === 'fields') {
         return this.searchFields.map(s => {
-          const obj = {
-            columnId: s.fieldId,
-            columnName: s.columnName,
-            val: s.val,
-            operate: s.operate
+          if (s.type === 'picker' && s.operate === 'BETWEEN') {
+            const obj = {
+              columnId: s.fieldId,
+              columnName: s.columnName,
+              val: s.val && s.val.join(','),
+              operate: s.operate
+            }
+            return obj
+          } else {
+            const obj = {
+              columnId: s.fieldId,
+              columnName: s.columnName,
+              val: s.val,
+              operate: s.operate
+            }
+            return obj
           }
-          return obj
         })
       } else {
         // 将字段解析成对象，并传递

@@ -24,6 +24,10 @@ import Print from '@/utils/print'
 import SuperFlow from 'vue-super-flow'
 import 'vue-super-flow/lib/index.css'
 
+import RefferInstall from './utils/RefferInstall.js'
+
+Vue.use(RefferInstall)
+
 Vue.prototype.$constVal = constVal
 Vue.prototype.$util = commonUtils
 Vue.prototype.$pubSub = pubSubUtils

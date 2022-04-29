@@ -89,7 +89,12 @@ export default {
     window.onresize = this.showNumCalculate
   },
   methods: {
-
+    /**
+     * 触发查询操作
+     */
+    triggerSearch() {
+      this.doSearch()
+    },
     /**
      * 显示数量计算
      */

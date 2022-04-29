@@ -143,7 +143,7 @@ export default {
         /**
          * 查询的数据
          */
-        query: null,
+        query: undefined,
         /**
          * 分页信息
          */
@@ -214,7 +214,9 @@ export default {
     }
   },
   created() {
-    this.doSearch()
+    this.$nextTick(() => {
+      this.doSearch()
+    })
   },
   methods: {
     /**

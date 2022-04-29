@@ -9,7 +9,7 @@
           :class=" (item.span || defaultSpan) !== 24 ? '' : 'col-24-bottom'"
         >
           <slot :name="item.value" :data="item">
-            <add-form-item v-model="value" :item="item" />
+            <add-form-item v-model="value" :operate="operate" :item="item" />
           </slot>
         </el-col>
       </el-row>
@@ -23,7 +23,7 @@
           :class=" (item.span || defaultSpan) !== 24 ? '' : 'col-24-bottom'"
         >
           <slot :name="item.value" :data="item">
-            <add-form-item v-model="value" :item="item" />
+            <add-form-item v-model="value" :operate="operate" :item="item" />
           </slot>
         </el-col>
       </el-row>
@@ -39,7 +39,7 @@
             :class=" (item.span || defaultSpan) !== 24 ? '' : 'col-24-bottom'"
           >
             <slot :name="item.value" :data="item">
-              <add-form-item v-model="value" :item="item" />
+              <add-form-item v-model="value" :operate="operate" :item="item" />
             </slot>
           </el-col>
         </el-row>
@@ -76,6 +76,13 @@ export default {
     defaultSpan: {
       type: Number,
       default: 6
+    },
+    /**
+     * 操作类型，更新
+     */
+    operate: {
+      type: String,
+      default: 'update'
     }
   },
   computed: {

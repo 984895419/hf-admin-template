@@ -23,11 +23,13 @@
     </div>
     <keyword-search-form
       v-show="cacheSearchType === 'keyword' && existKeywordField > 0"
+      ref="searchForm"
       v-bind="$props"
       v-on="$listeners"
     />
     <search-form
       v-show="cacheSearchType === 'default'"
+      ref="searchForm"
       v-bind="$props"
       v-on="$listeners"
     />
@@ -106,6 +108,17 @@ export default {
      */
     existKeywordField() {
       return this.searchFields && this.searchFields.filter(t => t.searchConfig && t.searchConfig.keyword === true).length > 0
+    }
+  },
+  methods: {
+    /**
+     * 触发查询操作
+     */
+    triggerSearch() {
+      // 触发查询
+      if (this.$refs.searchForm) {
+        this.$refs.searchForm.triggerSearch()
+      }
     }
   }
 }

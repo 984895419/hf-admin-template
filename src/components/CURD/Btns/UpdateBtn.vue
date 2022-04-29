@@ -1,8 +1,7 @@
 <template>
-  <div>
+  <div v-loading.fullscreen.lock="loading">
     <el-button
       :type="btnType"
-      icon="el-icon-edit"
       :size="$store.size"
       @click="openDialog"
     >
@@ -49,6 +48,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       showDialog: false,
       postData: null
     }
@@ -59,14 +59,17 @@ export default {
      */
     openDialog() {
       // 从指定的
+      this.loading = true
       baseApiGetMethod(this.url, this.queryData).then(resp => {
         if (isSuccessResult(resp)) {
           this.postData = getData(resp)
           this.showDialog = true
         } else {
           this.$message.error(getMessage(resp))
-          return
         }
+        this.loading = false
+      }).catch(e => {
+        this.loading = false
       })
     },
     /**

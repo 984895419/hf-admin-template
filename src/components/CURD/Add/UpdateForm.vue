@@ -15,8 +15,10 @@
         >
           <el-form-item>
             <div style="float: right">
+              <slot name="update-btn-before" :data="value" :formValidate="formValidate" />
               <el-button type="primary" icon="el-icon-search" @click="doSubmit">保存</el-button>
               <el-button icon="el-icon-circle-close" @click="doCancel">取消</el-button>
+              <slot name="update-btn-after" :data=" value" :formValidate="formValidate" />
             </div>
           </el-form-item>
         </el-col>
@@ -110,6 +112,19 @@ export default {
   },
   methods: {
     /**
+     * 表单验证的回调
+     * @param cb
+     */
+    formValidate(cb) {
+      this.$refs.form.validate((valid) => {
+        if (valid) {
+          cb()
+        } else {
+          return false
+        }
+      })
+    },
+    /**
      * 显示数量计算
      */
     showNumCalculate() {
@@ -150,6 +165,15 @@ export default {
           for (const ind in fields) {
             const field = fields[ind]
             postData[field.value] = this.value[field.value]
+            if (field.type === 'ref' && field.referOption) {
+              // 如果是参照，需要将参照的字段也塞进去
+              postData[field.referOption.valueReferName] = this.value[field.referOption.valueReferName]
+              if (field.referOption.valueExpendRefers) {
+                for (const ind in field.referOption.valueExpendRefers) {
+                  postData[ind] = this.value[ind]
+                }
+              }
+            }
           }
           // 发送post请求
           baseApiPutMethod(this.url, postData).then(resp => {
