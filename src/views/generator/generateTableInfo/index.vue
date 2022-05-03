@@ -27,8 +27,12 @@
           </common-dialog-btn>
         </dropdown-btn>
         <dropdown-btn>
-          <common-dialog-btn label="配置" type="text">
-            配置
+          <common-dialog-btn label="配置" :title="data.tableComment + '(' + data.tableName + ')' + '配置'" type="text">
+            <run-table-getter :value="data">
+              <template v-slot="{data}">
+                <run-table-config :value="data" />
+              </template>
+            </run-table-getter>
           </common-dialog-btn>
         </dropdown-btn>
       </template>
@@ -44,10 +48,14 @@ import OriginTableInfo from '@/views/generator/generateTableInfo/OriginTableInfo
 import DatasourceSelectRefer from '@/views/generator/datasource/DatasourceSelectRefer'
 import GenerateTableFieldRefer from '@/views/generator/generateTableField/GenerateTableFieldRefer'
 import DropdownBtn from '@/components/CURD/Btns/DropdownBtn'
+import RunTableConfig from '@/views/generator/generateRunTable/RunTableConfig'
+import RunTableGetter from '@/views/generator/generateRunTable/RunTableGetter'
 
 export default {
   name: 'GenerateTableInfoIndexVue',
   components: {
+    RunTableGetter,
+    RunTableConfig,
     DropdownBtn,
     GenerateTableFieldRefer,
     DatasourceSelectRefer,

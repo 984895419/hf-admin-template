@@ -124,6 +124,12 @@ export const constantRoutes = [
         component: () => import('@/views/generator/generateTableInfo/index'),
         name: 'generateTableInfo',
         meta: { title: '表管理管理', icon: 'dashboard', affix: true }
+      },
+      {
+        path: 'runColumn',
+        component: () => import('@/views/generator/generateRunColumn/index'),
+        name: 'runColumn',
+        meta: { title: '运行字段配置', icon: 'dashboard', affix: true }
       }
     ],
     meta: { title: '代码生成器', icon: 'dashboard', affix: true }

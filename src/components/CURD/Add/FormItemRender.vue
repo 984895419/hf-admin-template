@@ -50,6 +50,16 @@
         :placeholder="item.placeholder || `请输入${item.label}`"
       />
 
+      <!--文本-->
+      <el-input
+        v-else-if="item.type === 'textarea'"
+        v-model="value[item.value]"
+        type="textarea"
+        clearable
+        v-bind="item.props"
+        :placeholder="item.placeholder || `请输入${item.label}`"
+      />
+
       <el-switch
         v-else-if="item.type === 'switch'"
         v-model="value[item.value]"

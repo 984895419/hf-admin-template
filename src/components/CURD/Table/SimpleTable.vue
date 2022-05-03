@@ -77,11 +77,31 @@
             type="selection"
             width="55"
           />
-          <table-column-item
-            v-for="item in finallyShowTableFields"
-            :key="item.value"
-            :item="item"
-          />
+          <div v-if="groupLength(finallyShowTableFields) <= 1">
+            <table-column-item
+              v-for="item in finallyShowTableFields"
+              :key="item.value"
+              :item="item"
+            />
+          </div>
+          <div v-else>
+            <el-table-column
+              v-for="group in groupFields(finallyShowTableFields)"
+              :key="group.name"
+              :label="group.name"
+            >
+              <table-column-item
+                v-for="item in group.fields"
+                :key="item.value"
+                :item="item"
+              />
+            </el-table-column>
+            <table-column-item
+              v-for="item in emptyGroupFields(finallyShowTableFields)"
+              :key="item.value"
+              :item="item"
+            />
+          </div>
           <el-table-column
             v-if="tableItemOption && (tableItemOption.showItemOperate !== false)"
             fixed="right"
@@ -139,6 +159,7 @@ import TableColumnSelect from '@/components/CURD/Table/TableColumnSelect'
 import TableColumnItem from '@/components/CURD/Table/TableColumnItem'
 import { baseApiGetMethod } from '@/components/CURD/baseApi'
 import { getMessage, isSuccessResult } from '@/utils/ajaxResultUtil'
+import curdMixin from '@/components/CURD/curd.mixin'
 
 /**
  * TODO 排序字段的查询
@@ -146,6 +167,7 @@ import { getMessage, isSuccessResult } from '@/utils/ajaxResultUtil'
 export default {
   name: 'SimpleTable',
   components: { TableColumnItem, TableColumnSelect },
+  mixins: [curdMixin],
   props: {
     /**
      * 表单数据

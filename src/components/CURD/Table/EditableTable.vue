@@ -53,16 +53,64 @@
           type="selection"
           width="55"
         />
-        <el-table-column v-for="item in editFields" :key="item.value" :prop="item.vaue" :label="item.label">
-          <template v-slot="scopeRow">
-            <el-form-item
-              :prop="'tableData.' + scopeRow.$index + '.' + item.value"
-              v-bind="item.labelProps"
+        <div v-if="groupLength(editFields) <= 1">
+          <el-table-column
+            v-for="item in editFields"
+            :key="item.value"
+            :prop="item.value"
+            v-bind="item.tableColumnOption"
+            :label="item.label"
+          >
+            <template v-slot="scopeRow">
+              <el-form-item
+                :prop="'tableData.' + scopeRow.$index + '.' + item.value"
+                v-bind="item.labelProps"
+              >
+                <form-item-render :value="scopeRow.row" :item="item" />
+              </el-form-item>
+            </template>
+          </el-table-column>
+        </div>
+        <div v-else>
+          <el-table-column
+            v-for="item in emptyGroupFields(editFields)"
+            :key="item.value"
+            :prop="item.value"
+            v-bind="item.tableColumnOption"
+            :label="item.label"
+          >
+            <template v-slot="scopeRow">
+              <el-form-item
+                :prop="'tableData.' + scopeRow.$index + '.' + item.value"
+                v-bind="item.labelProps"
+              >
+                <form-item-render :value="scopeRow.row" :item="item" />
+              </el-form-item>
+            </template>
+          </el-table-column>
+          <el-table-column
+            v-for="group in groupFields(editFields)"
+            :key="group.name"
+            :label="group.name"
+          >
+            <el-table-column
+              v-for="item in group.fields"
+              :key="item.value"
+              :prop="item.value"
+              v-bind="item.tableColumnOption"
+              :label="item.label"
             >
-              <form-item-render :value="scopeRow.row" :item="item" />
-            </el-form-item>
-          </template>
-        </el-table-column>
+              <template v-slot="scopeRow">
+                <el-form-item
+                  :prop="'tableData.' + scopeRow.$index + '.' + item.value"
+                  v-bind="item.labelProps"
+                >
+                  <form-item-render :value="scopeRow.row" :item="item" />
+                </el-form-item>
+              </template>
+            </el-table-column>
+          </el-table-column>
+        </div>
         <el-table-column
           fixed="right"
           label="操作"
@@ -70,6 +118,7 @@
         >
           <template slot-scope="scopeRow">
             <el-button type="text" @click="recoverRow(scopeRow.row)">重置</el-button>
+            <slot name="col-btn" :data="scopeRow.row" />
           </template>
         </el-table-column>
       </el-table>
@@ -83,10 +132,12 @@ import FormItemRender from '@/components/CURD/Add/FormItemRender'
 import { deepClone } from '@/utils'
 import { baseApiPutMethod } from '@/components/CURD/baseApi'
 import { getData, getMessage, isSuccessResult } from '@/utils/ajaxResultUtil'
+import curdMixin from '@/components/CURD/curd.mixin'
 
 export default {
   name: 'EditableTable',
   components: { FormItemRender },
+  mixins: [curdMixin],
   props: {
     /**
      * 表单数据
@@ -100,8 +151,7 @@ export default {
      * 批量保存按钮
      */
     batchUpdateUrl: {
-      type: String,
-      required: true
+      type: String
     },
     /**
      * 防呆二次确认，默认不需要
@@ -143,6 +193,11 @@ export default {
         return this.editableFields.filter(s => s.value === this.selectField)[0]
       }
       return undefined
+    }
+  },
+  watch: {
+    tableData() {
+      this.formData.tableData = deepClone(this.tableData)
     }
   },
   methods: {

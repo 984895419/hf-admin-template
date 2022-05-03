@@ -2,14 +2,14 @@
  * 数据字典类型模块基础地址
  * @type {string}
  */
+import { defaultUrlMethod } from '@/components/CURD/defaultUrl'
+
 export const baseUrl = '/api/baseDictType'
 /**
  * 基础查询地址
  * @type {{pageUrl: string}}
  */
-export const urlMethods = {
-  pageUrl: baseUrl + '/nameQuery'
-}
+export const urlMethods = defaultUrlMethod(baseUrl)
 /**
  * 定义模块的命名空间
  * @type {string}

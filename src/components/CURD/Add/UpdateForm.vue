@@ -159,32 +159,36 @@ export default {
               return
             }
           }
-          // 发送仅编辑的数据
-          const postData = {}
-          const fields = this.addFields.filter(s => (s.updateConfig && s.updateConfig.updatable === true) || s.primaryKey === true)
-          for (const ind in fields) {
-            const field = fields[ind]
-            postData[field.value] = this.value[field.value]
-            if (field.type === 'ref' && field.referOption) {
-              // 如果是参照，需要将参照的字段也塞进去
-              postData[field.referOption.valueReferName] = this.value[field.referOption.valueReferName]
-              if (field.referOption.valueExpendRefers) {
-                for (const ind in field.referOption.valueExpendRefers) {
-                  postData[ind] = this.value[ind]
+          if (this.url) {
+            // 发送仅编辑的数据
+            const postData = {}
+            const fields = this.addFields.filter(s => (s.updateConfig && s.updateConfig.updatable === true) || s.primaryKey === true)
+            for (const ind in fields) {
+              const field = fields[ind]
+              postData[field.value] = this.value[field.value]
+              if (field.type === 'ref' && field.referOption) {
+                // 如果是参照，需要将参照的字段也塞进去
+                postData[field.referOption.valueReferName] = this.value[field.referOption.valueReferName]
+                if (field.referOption.valueExpendRefers) {
+                  for (const ind in field.referOption.valueExpendRefers) {
+                    postData[ind] = this.value[ind]
+                  }
                 }
               }
             }
+            // 发送post请求
+            baseApiPutMethod(this.url, postData).then(resp => {
+              if (isSuccessResult(resp)) {
+                this.$message.success(getMessage(resp))
+                this.$emit('success')
+                this.$emit('closeDialog')
+              } else {
+                this.$message.error(getMessage(resp))
+              }
+            })
+          } else {
+            this.$emit('success')
           }
-          // 发送post请求
-          baseApiPutMethod(this.url, postData).then(resp => {
-            if (isSuccessResult(resp)) {
-              this.$message.success(getMessage(resp))
-              this.$emit('success')
-              this.$emit('closeDialog')
-            } else {
-              this.$message.error(getMessage(resp))
-            }
-          })
         } else {
           return false
         }

@@ -1,3 +1,5 @@
+import { defaultUrlMethod } from '@/components/CURD/defaultUrl'
+
 /**
  * 代码生成器-表信息模块基础地址
  * @type {string}
@@ -7,15 +9,15 @@ export const baseUrl = '/api/generateTableInfo'
  * 基础查询地址
  * @type {{pageUrl: string}}
  */
-export const urlMethods = {
-  pageUrl: baseUrl + '/nameQuery',
-  // 同步操作
-  checkUrl: '/api/plus/check',
-  // 同步操作
-  syncUrl: '/api/plus/sync',
-  // 从原生url中查询表信息
-  originUrl: '/api/plus/queryTableInfos'
-}
+export const urlMethods = defaultUrlMethod(baseUrl,
+  {
+    // 同步操作
+    checkUrl: '/api/plus/check',
+    // 同步操作
+    syncUrl: '/api/plus/sync',
+    // 从原生url中查询表信息
+    originUrl: '/api/plus/queryTableInfos'
+  })
 /**
  * 定义模块的命名空间
  * @type {string}

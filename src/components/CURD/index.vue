@@ -99,6 +99,7 @@
         <update-btn :url="templateUrl(urlMethodCache.queryUrl, data)" :btn-type="'text'">
           <template slot-scope="{ data, closeDialog }">
             <update-form
+              v-if="existOperate(data, 'EDIT')"
               :value="data"
               :add-fields="updatableFields"
               :url="templateUrl(urlMethodCache.updateUrl, data)"
@@ -122,7 +123,7 @@
         <slot name="col-btn-dropdown" :data="data" />
         <el-dropdown-item>
           <template-confirm-btn
-            v-if="urlMethodCache.enableUrl && existEnableFields && data.enableState === 0"
+            v-if="urlMethodCache.enableUrl && existEnableFields && existOperate(data, 'ENABLE')"
             :url="templateUrl(urlMethodCache.enableUrl, data)"
             :btn-type="'text'"
             :value="data"
@@ -132,7 +133,7 @@
         </el-dropdown-item>
         <el-dropdown-item>
           <template-confirm-btn
-            v-if="urlMethodCache.disableUrl && existEnableFields && data.enableState === 1"
+            v-if="urlMethodCache.disableUrl && existEnableFields && existOperate(data, 'DISABLE')"
             :url="templateUrl(urlMethodCache.disableUrl, data)"
             :btn-type="'text'"
             :value="data"
@@ -142,6 +143,7 @@
         </el-dropdown-item>
         <el-dropdown-item>
           <del-btn
+            v-if="existOperate(data, 'DELETE')"
             :url="templateUrl(urlMethodCache.deleteUrl, data)"
             :btn-type="'text'"
             :value="data"
@@ -177,6 +179,7 @@ import TemplateConfirmBtn from '@/components/CURD/Btns/TemplateConfirmBtn'
 import AddForm from '@/components/CURD/Add/AddForm'
 import { deepClone } from '@/utils'
 import EditableTable from '@/components/CURD/Table/EditableTable'
+import CurdMixin from '@/components/CURD/curd.mixin'
 
 export default {
   name: 'CRUD',
@@ -191,6 +194,7 @@ export default {
     SimpleTable,
     InquiryMode
   },
+  mixins: [CurdMixin],
   props: {
     /**
      * 基础的默认地址
@@ -279,6 +283,14 @@ export default {
     }
   },
   computed: {
+    existOperate() {
+      return (data, operate) => {
+        if (data && data.links) {
+          return data.links.filter(s => s.operate === operate).length > 0
+        }
+        return true
+      }
+    },
     /**
      * 可查询的字段
      * @returns {T[]|*[]}
@@ -336,33 +348,6 @@ export default {
         }).length > 0
       }
       return false
-    },
-    /**
-     * 模板化url
-     * @returns {(function(*, *): (*))|*}
-     */
-    templateUrl() {
-      return (url, data) => {
-        if (data) {
-          const regex = /{([a-zA-Z0-9]+)}/
-          let res = url
-          if (Array.isArray(data)) {
-            // 集合对象// 单个对象
-            let attr = null
-            while ((attr = regex.exec(res)) != null) {
-              res = res.replace(attr[0], data.map(s => s[attr[1]]).join(','))
-            }
-          } else {
-            // 单个对象
-            let attr = null
-            while ((attr = regex.exec(res)) != null) {
-              res = res.replace(attr[0], data[attr[1]])
-            }
-          }
-          return res
-        }
-        return url
-      }
     }
   },
   created() {

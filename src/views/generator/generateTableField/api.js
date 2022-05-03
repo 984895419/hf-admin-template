@@ -1,3 +1,5 @@
+import { defaultUrlMethod } from '@/components/CURD/defaultUrl'
+
 /**
  * 模块基础地址
  * @type {string}
@@ -7,10 +9,7 @@ export const baseUrl = '/api/generateTableField'
  * 基础查询地址
  * @type {{pageUrl: string}}
  */
-export const urlMethods = {
-  pageUrl: baseUrl + '/nameQuery',
-  listUrl: baseUrl + '/list'
-}
+export const urlMethods = defaultUrlMethod(baseUrl)
 /**
  * 定义模块的命名空间
  * @type {string}

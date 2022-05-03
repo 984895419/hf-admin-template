@@ -71,10 +71,12 @@ import SimpleTable from '@/components/CURD/Table/SimpleTable'
 import UpdateBtn from '@/components/CURD/Btns/UpdateBtn'
 import UpdateForm from '@/components/CURD/Add/UpdateForm'
 import DelBtn from '@/components/CURD/Btns/TemplateConfirmBtn'
+import CurdMixin from '@/components/CURD/curd.mixin'
 
 export default {
   name: 'ReferTableData',
   components: { DelBtn, UpdateForm, UpdateBtn, SimpleTable, InquiryMode },
+  mixins: [CurdMixin],
   props: {
     /**
      * 基础的默认地址
@@ -177,29 +179,6 @@ export default {
         })
       }
       return []
-    },
-    templateUrl() {
-      return (url, data) => {
-        if (data) {
-          const regex = /{([a-zA-Z0-9]+)}/
-          let res = url
-          if (Array.isArray(data)) {
-            // 集合对象// 单个对象
-            let attr = null
-            while ((attr = regex.exec(res)) != null) {
-              res = res.replace(attr[0], data.map(s => s[attr[1]]).join(','))
-            }
-          } else {
-            // 单个对象
-            let attr = null
-            while ((attr = regex.exec(res)) != null) {
-              res = res.replace(attr[0], data[attr[1]])
-            }
-          }
-          return res
-        }
-        return url
-      }
     },
     /**
      * 勾选选中的字段
