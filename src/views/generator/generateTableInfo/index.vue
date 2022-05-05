@@ -28,11 +28,17 @@
         </dropdown-btn>
         <dropdown-btn>
           <common-dialog-btn label="配置" :title="data.tableComment + '(' + data.tableName + ')' + '配置'" type="text">
-            <run-table-getter :value="data">
-              <template v-slot="{data}">
-                <run-table-config :value="data" />
-              </template>
-            </run-table-getter>
+            <template v-slot="{ closeDialog }">
+              <run-table-getter :value="data">
+                <template v-slot="{data}">
+                  <run-table-config
+                    :value="data"
+                    @closeDialog="closeDialog"
+                    @success="this.$refs.curdRef.triggerSearch()"
+                  />
+                </template>
+              </run-table-getter>
+            </template>
           </common-dialog-btn>
         </dropdown-btn>
       </template>

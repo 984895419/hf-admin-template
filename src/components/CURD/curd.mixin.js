@@ -114,8 +114,8 @@ export default {
   },
   methods: {
     calculateWidthAndHeight() {
-      this.elWidth = this.$el.getBoundingClientRect().width
-      this.elHeight = this.$el.getBoundingClientRect().height
+      this.elWidth = (this.$el && this.$el.getBoundingClientRect().width)
+      this.elHeight = (this.$el && this.$el.getBoundingClientRect().height)
     }
   }
 }

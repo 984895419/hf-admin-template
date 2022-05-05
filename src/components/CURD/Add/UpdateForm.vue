@@ -132,7 +132,7 @@ export default {
         if (this.options && this.options.showNum) {
           this.showNum = this.options.showNum
         } else {
-          const s = this.$el.getBoundingClientRect().width || document.body.clientWidth
+          const s = (this.$el && this.$el.getBoundingClientRect().width) || document.body.clientWidth
           if (s < 768) {
             this.showNum = 1
           } else if (s > 768 && s < 1200) {

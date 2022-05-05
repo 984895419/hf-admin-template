@@ -9,7 +9,9 @@ export const baseUrl = '/api/generateRunTable'
  * 基础查询地址
  * @type {{pageUrl: string}}
  */
-export const urlMethods = defaultUrlMethod(baseUrl)
+export const urlMethods = defaultUrlMethod(baseUrl, {
+  configUrl: baseUrl + '/config'
+})
 /**
  * 定义模块的命名空间
  * @type {string}

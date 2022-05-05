@@ -159,15 +159,14 @@ export default {
     needConfirm: {
       type: Boolean,
       default: false
-    },
-    templateUrl: Function
+    }
   },
   data() {
     return {
       selectField: undefined,
       obj: {},
       formData: {
-        tableData: deepClone(this.tableData)
+        tableData: this.batchUpdateUrl ? deepClone(this.tableData) : this.tableData
       },
       toggleRowSelectionArray: []
     }
@@ -197,7 +196,7 @@ export default {
   },
   watch: {
     tableData() {
-      this.formData.tableData = deepClone(this.tableData)
+      this.formData.tableData = this.batchUpdateUrl ? deepClone(this.tableData) : this.tableData
     }
   },
   methods: {

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-form v-if="value" :size="$store.size" :inline="true" :model="value">
+    <el-form v-if="value" ref="form" :size="$store.size" :inline="true" :model="value">
       <el-collapse v-model="activeName">
         <el-collapse-item title="表格属性" name="tableConfig">
           <row-span-slot :active-re-calculate="activeName.indexOf('tableConfig') >= 0">
@@ -54,7 +54,7 @@
           </row-span-slot>
         </el-collapse-item>
         <el-collapse-item title="字段配置" name="columnConfig">
-          <run-column-getter :table-id="value.tableId">
+          <run-column-getter v-model="value.fields" :table-id="value.tableId">
             <template v-slot="{fields}">
               <run-table-field :fields="fields" />
             </template>
@@ -78,8 +78,8 @@
         </el-collapse-item>
       </el-collapse>
       <el-form-item style="margin-top: 10px">
-        <el-button type="primary">保存</el-button>
-        <el-button type="danger">取消</el-button>
+        <el-button type="primary" @click="doSubmit">保存</el-button>
+        <el-button type="danger" @click="doCancel">取消</el-button>
       </el-form-item>
     </el-form>
     <div v-else>
@@ -92,6 +92,10 @@
 import RowSpanSlot from '@/components/CURD/Slot/RowSpanSlot'
 import RunTableField from '@/views/generator/generateRunColumn/RunTableField'
 import RunColumnGetter from '@/views/generator/generateRunColumn/RunColumnGetter'
+import { baseApiPutMethod } from '@/components/CURD/baseApi'
+import { getMessage, isSuccessResult } from '@/utils/ajaxResultUtil'
+import * as conf from './api'
+import CurdMixin from '@/components/CURD/curd.mixin'
 
 /**
  * 运行时表单配置
@@ -99,12 +103,40 @@ import RunColumnGetter from '@/views/generator/generateRunColumn/RunColumnGetter
 export default {
   name: 'RunTableConfig',
   components: { RunColumnGetter, RunTableField, RowSpanSlot },
+  mixins: [CurdMixin],
   props: {
     value: Object
   },
   data() {
     return {
-      activeName: ['tableConfig']
+      activeName: ['tableConfig'],
+      conf: conf
+    }
+  },
+  methods: {
+    /**
+     * 提交的时候执行
+     */
+    doSubmit() {
+      this.$refs.form.validate((valid) => {
+        if (valid) {
+          // 发送post请求
+          baseApiPutMethod(this.templateUrl(this.conf.urlMethods.updateUrl, this.value), this.value).then(resp => {
+            if (isSuccessResult(resp)) {
+              this.$message.success(getMessage(resp))
+              this.$emit('success')
+              this.$emit('closeDialog')
+            } else {
+              this.$message.error(getMessage(resp))
+            }
+          })
+        } else {
+          this.$emit('success')
+        }
+      })
+    },
+    doCancel() {
+      this.$emit('closeDialog')
     }
   }
 }

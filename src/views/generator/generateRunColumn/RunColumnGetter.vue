@@ -15,7 +15,8 @@ export default {
     tableId: {
       type: [Object, Number],
       require: true
-    }
+    },
+    value: [Object, Array]
   },
   data() {
     return {
@@ -36,6 +37,7 @@ export default {
         baseApiGetMethod(conf.urlMethods.listUrl, { tableId: this.tableId }).then(resp => {
           if (isSuccessResult(resp)) {
             this.fields = getData(resp)
+            this.$emit('input', this.fields)
           } else {
             this.$message.error(getMessage(resp))
           }

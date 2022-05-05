@@ -44,7 +44,7 @@ export default {
         if (this.item.children) {
           for (const ind in this.item.children) {
             const tag = this.item.children[ind]
-            if (tag.value === val) {
+            if (tag.value === val || tag.value + '' === val + '') {
               return tag.label
             }
           }
