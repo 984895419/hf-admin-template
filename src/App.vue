@@ -29,7 +29,9 @@ export default {
   text-overflow: ellipsis; /*设置超出部分使用省略号*/
   white-space: nowrap; /*设置为单行*/
 }
-
+.el-table th > .cell{
+  padding-left: 14px;
+}
 .el-table input {
   padding: 0;
 }
@@ -48,7 +50,14 @@ export default {
 .el-table__body tr.current-row > td {
   background-color: #93c6fa !important;
 }
-
+.el-dialog{
+  max-height: 70vh;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+.el-dialog::-webkit-scrollbar{
+  display: none;
+}
 .el-dialog__body {
   padding: 8px 20px !important;
   margin-top: -10px;
