@@ -198,6 +198,7 @@ export default {
     },
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
+
         if (valid) {
           this.loading = true
           const _this = this

@@ -159,7 +159,55 @@ export const constantRoutes = [
       }
     ],
     meta: { title: '基础管理', icon: 'dashboard', affix: true }
-  }
+  },
+  {
+    // 人事管理-用户模块
+    path: '/oa',
+    component: Layout,
+    redirect: '/oa/account',
+    children: [
+      {
+        path: 'account',
+        component: () => import('@/views/oa/account'),
+        name: 'account',
+        meta: { title: '用户管理', icon: 'dashboard', affix: true }
+      },
+      {
+        path: 'mmdp',
+        component: () => import('@/views/oa/mmdp'),
+        name: 'mmdp',
+        meta: { title: '密码修改', icon: 'dashboard', affix: true }
+      },
+      {
+        path: 'reset',
+        component: () => import('@/views/oa/reset'),
+        name: 'reset',
+        meta: { title: '密码重置', icon: 'dashboard', affix: true }
+      }
+    ],
+    meta: { title: 'OA人事', icon: 'dashboard', affix: true }
+  },
+  {
+    // 权限部分
+    path: '/jurisdiction',
+    component: Layout,
+    redirect: '/jurisdiction/roleManagement',
+    children: [
+      {
+        path: 'roleManagement',
+        component: () => import('@/views/jurisdiction/roleManagement'),
+        name: 'roleManagement',
+        meta: { title: '角色管理', icon: 'dashboard', affix: true }
+      },
+      {
+        path: 'roleUser',
+        component: () => import('@/views/jurisdiction/roleUser'),
+        name: 'roleUser',
+        meta: { title: '角色用户', icon: 'dashboard', affix: true }
+      }
+    ],
+    meta: { title: '权限管理', icon: 'dashboard', affix: true }
+  },
 ]
 
 /**

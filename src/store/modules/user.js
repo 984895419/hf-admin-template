@@ -72,10 +72,13 @@ const actions = {
     //  Object.assign(param, this.searchForm, this.pageData)
     return new Promise((resolve, reject) => {
       // eslint-disable-next-line no-unused-vars
-      login(Object.assign(loginForm, { 'lang': store.getters.language })).then(response => {
+      login(Object.assign(loginForm))
+      .then(response => {
         const data = response
-        commit('SET_TOKEN', getData(data))
-        setToken(data.obj)
+        console.log(response ,111);
+        console.log(getData(data).token ,111);
+        commit('SET_TOKEN', getData(data).token)
+        setToken(getData(data).token)
         resolve(response)
       }).catch(error => {
         reject(error)

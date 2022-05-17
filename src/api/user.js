@@ -2,7 +2,7 @@ import request from '@/connect/request'
 
 export function login(data) {
   return request({
-    url: '/api/login/auth',
+    url: '/api/login',
     method: 'post',
     data
   })
@@ -17,7 +17,7 @@ export function getInfo(query) {
 }
 export function logout() {
   return request({
-    url: '/api/login/logout',
+    url: '/api/logout',
     method: 'get'
   })
 }
