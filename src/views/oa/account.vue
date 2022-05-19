@@ -15,7 +15,6 @@
             clearable
           >
           </el-input>
-
           <el-tree
             class="filter-tree"
             :data="companydepartsdata"
@@ -115,6 +114,8 @@
           layout="total, sizes, prev, pager, next, jumper"
         >
         </el-pagination>
+      
+      <!-- <HfBaseUserInfoIndexVue></HfBaseUserInfoIndexVue> -->
       </el-col>
     </el-row>
   </div>
@@ -126,7 +127,10 @@ import {
   companyDeparts,
   CompanyInfoidQuery,
 } from "@/api/oa";
+import HfBaseUserInfoIndexVue from '@/views/basic/hfBaseUserInfo'
+import { baseApiGetMethod } from '@/components/CURD/baseApi';
 export default {
+  components: { HfBaseUserInfoIndexVue },
   data() {
     return {
       filterText: "",
@@ -168,7 +172,12 @@ export default {
     },
     handleNodeClick(data) {
       console.log(data);
-      CompanyInfoidQuery(this.pageData.pageNum, this.pageData.pageSize).then(
+      baseApiGetMethod("/api/hfBaseUserInfo/nameQuery",{
+        pageInfo: {
+          pageNo: this.pageData.pageNum,
+          pageSize: this.pageData.pageSize
+        }
+      }).then(
         (resp) => {
           if (resp.retCode == "00001") {
             console.log(resp.data, 111);
