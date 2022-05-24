@@ -19,6 +19,9 @@ export default {
         return {
             conf: conf
         }
+    },
+    mounted(){
+        console.log(this.conf.default,'this.conf')
     }
 }
 </script>

@@ -25,10 +25,10 @@ export function CompanyInfoidQuery(pageSize,pageNo) {
   })
 }
 
-// export function fetchAccountList(query) {
-//   return request({
-//     url: '/api/account/queryAccounts',
-//     method: 'get',
-//     params: query
-//   })
-// }
+export function syncNcInfoData(query) {
+  return request({
+    url: '/api//hfBaseUserInfo/sync',
+    method: 'get',
+    params: query
+  })
+}
