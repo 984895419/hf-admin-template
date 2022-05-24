@@ -1,36 +1,40 @@
 <template>
-  <div v-loading.fullscreen.lock="fullscreenLoading" element-loading-text="拼命加载中"
-    element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.1)" class="app-container">
+  <div
+    v-loading.fullscreen.lock="fullscreenLoading"
+    element-loading-text="拼命加载中"
+    element-loading-spinner="el-icon-loading"
+    element-loading-background="rgba(0, 0, 0, 0.1)"
+    class="app-container"
+  >
     <el-row>
       <el-col :span="3">
         <tree-search :data="companydepartsdata" @treeNodeval="treeNodeval" />
       </el-col>
       <el-col :span="21">
-        <HfBaseUserInfoIndexVue></HfBaseUserInfoIndexVue>
+        <HfBaseUserInfoIndexVue />
       </el-col>
     </el-row>
   </div>
 </template>
 <script>
 import {
-  hfBaseUserInfosync,
   companyDeparts,
-  CompanyInfoidQuery,
   syncNcInfoData
-} from "@/views/oa/api.js";
+} from '@/views/oa/api.js'
 import HfBaseUserInfoIndexVue from '@/views/basic/hfBaseUserInfo'
 import TreeSearch from './TreeSearch.vue'
-import { baseApiGetMethod } from '@/components/CURD/baseApi';
+import { baseApiGetMethod } from '@/components/CURD/baseApi'
+
 import { isEmpty } from 'element-ui/src/utils/util'
 export default {
   components: { HfBaseUserInfoIndexVue, TreeSearch },
   data() {
     return {
-      filterText: "",
+      filterText: '',
       companydepartsdata: [],
       defaultProps: {
-        children: "children",
-        label: "name",
+        children: 'children',
+        label: 'name'
       },
       /**
      * 加载中是否显示
@@ -53,27 +57,32 @@ export default {
       currentPage4: 4,
       pageData: {
         pageNum: 1,
-        pageSize: 10,
+        pageSize: 10
       },
-      fullscreenLoading: false,
-    };
+      fullscreenLoading: false
+    }
+  },
+  watch: {
+    filterText(val) {
+      this.$refs.tree.filter(val)
+    }
   },
   mounted() {
-    this.getCompanyDeparts();
+    this.getCompanyDeparts()
     this.init()
   },
   methods: {
     filterNode(value, data) {
       console.log(value, data, 33)
-      if (!value) return true;
-      return data.name.indexOf(value) !== -1;
+      if (!value) return true
+      return data.name.indexOf(value) !== -1
     },
 
     handleClick(row) {
-      console.log(row);
+      console.log(row)
     },
     treeNodeval(data) {
-      console.log(data,treedata)
+      console.log(data, 'treedata')
       let param = {}
       // this.searchForm.companyName=data
       param = Object.assign(this.searchForm, this.pageData)
@@ -85,15 +94,15 @@ export default {
         //   Object.assign(param, { deptId: data.id })
         // }
       }
-      baseApiGetMethod("/api/hfBaseUserInfo/nameQuery", param).then(
+      baseApiGetMethod('/api/hfBaseUserInfo/nameQuery', param).then(
         (resp) => {
-          if (resp.retCode == "00001") {
+          if (resp.retCode === '00001') {
             this.data.list = resp.data.list
             this.data.total = resp.data.total
-            console.log(resp.data, 111);
+            console.log(resp.data, 111)
           }
         }
-      );
+      )
     },
 
     // 一页多个
@@ -109,40 +118,40 @@ export default {
     // 通用
     getBaseUserInfo(val) {
       this.listLoading = true
-      baseApiGetMethod("/api/hfBaseUserInfo/nameQuery", val).then(
+      baseApiGetMethod('/api/hfBaseUserInfo/nameQuery', val).then(
         (resp) => {
-          if (resp.retCode == "00001") {
+          if (resp.retCode === '00001') {
             this.listLoading = false
             this.data.list = resp.data.list
             this.data.total = resp.data.total
           }
         }
-      );
+      )
     },
-    //获取公司与部门
+    // 获取公司与部门
     getCompanyDeparts() {
       companyDeparts().then((resp) => {
-        this.fullscreenLoading = true;
-        if (resp.retCode == "00001") {
-          this.companydepartsdata = resp.data.companyInfos;
-          this.fullscreenLoading = false;
+        this.fullscreenLoading = true
+        if (resp.retCode === '00001') {
+          this.companydepartsdata = resp.data.companyInfos
+          this.fullscreenLoading = false
         }
-      });
+      })
     },
     // 从NC同步用户信息
     syncNcData() {
       syncNcInfoData().then((resp) => {
-        this.listLoading = true;
-        if (resp.retCode == "00001") {
-          this.listLoading = false;
-          this.$message({ message: resp.message, type: 'success' });
+        this.listLoading = true
+        if (resp.retCode === '00001') {
+          this.listLoading = false
+          this.$message({ message: resp.message, type: 'success' })
         }
       })
     },
     // 初始化数据
     init() {
       let param = {}
-      let pageInfos = {
+      const pageInfos = {
         pageInfo: {
           pageNo: this.pageData.pageNum,
           pageSize: this.pageData.pageSize
@@ -153,17 +162,10 @@ export default {
     },
     handleSelectionChange() {
       alert('未选择')
-    },
+    }
 
-    
-
-  },
-  watch: {
-    filterText(val) {
-      this.$refs.tree.filter(val);
-    },
-  },
-};
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -179,9 +181,10 @@ export default {
   border-radius: 4px;
 }
 
-
-
 .app-container {
+  width: 200px;
+
+  position: absolute;
   .content-rt {
     padding: 20px 0 0 0;
     box-sizing: border-box;
