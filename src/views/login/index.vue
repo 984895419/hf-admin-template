@@ -88,7 +88,8 @@
       </div>-->
     </el-form>
     <div :class="{ 'is-active': isLoginPage === 1 }" class="codepage">
-      <div id="qr_login" />
+      <!-- <div id="qr_login" /> -->
+      <iframe v-if="isLoginPage === 1" src="/api/oauth/qywx" frameborder="0" />
     </div>
 
     <el-dialog :title="$t('common.login.thirdparty')" :visible.sync="showDialog">
@@ -119,6 +120,7 @@ import SocialSign from './components/SocialSignin'
 import Mmdp from './Mmdp'
 import elDragDialog from '@/directive/el-drag-dialog'
 import { isSuccessResult, getData } from '@/utils/ajaxResultUtil'
+import { baseApiGetMethod } from '@/components/CURD/baseApi'
 export default {
   name: 'Login',
   components: { LangSelect, SocialSign, Mmdp },
@@ -167,8 +169,10 @@ export default {
   },
 
   created() {
-    this.getWeChat()
     // window.addEventListener('storage', this.afterQRScan)
+    // setInterval(() => {
+    this.checkLogin()
+    // }, 5000)
   },
   mounted() {
     if (this.loginForm.userCode === '') {
@@ -176,8 +180,6 @@ export default {
     } else if (this.loginForm.password === '') {
       this.$refs.password.focus()
     }
-    // const url = 'https://open.work.weixin.qq.com/wwopen/sso/qrConnect?appid=wx458e451958444efa&agentid=1000091&redirect_uri=http://app.huafeng-cn.com:8022/wx/w1rcgqhm&state=088dc9abe4c2416c08e3c9e31a142ea4'
-    // let url = location.origin + '/xpest/console_v2/ui/login';
   },
   destroyed() {
     // window.removeEventListener('storage', this.afterQRScan)
@@ -267,25 +269,17 @@ export default {
     changeCurPage(val) {
       this.isLoginPage = val
     },
-    getWeChat() {
-      // 动态引入企业微信js文件
-      const s = document.createElement('script')
-      s.type = 'text/javascript'
-      s.src = 'http://wwcdn.weixin.qq.com/node/wework/wwopen/js/wwLogin-1.2.4.js'
-      const wxElement = document.body.appendChild(s)
-      // 调用企业微信二维码方法
-      wxElement.onload = function() {
-      new WwLogin({
-          id: 'qr_login', // 需要显示的容器id
-          appid: 'wx458e451958444efa', // 公众号appid wx*******
-          agentid: '1000091', // 公众号agentid wx*******
-          redirect_uri: encodeURIComponent('http://app.huafeng-cn.com:8022/wx/w1rcgqhm'), // 授权成功后回调的url，需要在企业微信配置，我的方法是回调到自己的weChatBack页面
-          state: Math.round(Math.random() * 10), // 可设置为简单的随机数加session用来校验
-          href: '', // 外部css文件url，需要https
-          lang: 'zh'
-        })
-      }
+    checkLogin() {
+      baseApiGetMethod('/api/oauth/checkLogin').then(
+        (resp) => {
+          if (resp.retCode === '00001') {
+            console.log('成功')
+            this.listLoading = false
+          }
+        }
+      )
     }
+
   }
 }
 </script>
