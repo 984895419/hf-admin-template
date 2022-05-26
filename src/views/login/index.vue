@@ -1,20 +1,26 @@
 <template>
   <div class="login-container">
+    <div class="title-container">
+      <div class="login-title">
+        <h3
+          v-for="(items, index) in pageList"
+          :key="index"
+          class="title-items "
+          :class="{ 'is-active': isLoginPage === index }"
+          @click="changeCurPage(index)"
+        >{{ items }}</h3>
+      </div>
+      <lang-select class="set-language" />
+    </div>
     <el-form
       ref="loginForm"
+      :class="{ 'is-active': isLoginPage === 0 }"
       :model="loginForm"
       :rules="loginRules"
       class="login-form"
       autocomplete="on"
       label-position="left"
     >
-
-      <div class="title-container">
-        <h3 class="title">
-          {{ $t('common.login.title') }}
-        </h3>
-        <lang-select class="set-language" />
-      </div>
 
       <el-form-item prop="userCode">
         <span class="svg-container">
@@ -31,12 +37,7 @@
         />
       </el-form-item>
 
-      <el-tooltip
-        v-model="capsTooltip"
-        content="Caps lock is On"
-        placement="right"
-        manual
-      >
+      <el-tooltip v-model="capsTooltip" content="Caps lock is On" placement="right" manual>
         <el-form-item prop="password">
           <span class="svg-container">
             <svg-icon icon-class="password" />
@@ -54,10 +55,7 @@
             @blur="capsTooltip = false"
             @keyup.enter.native="handleLogin"
           />
-          <span
-            class="show-pwd"
-            @click="showPwd"
-          >
+          <span class="show-pwd" @click="showPwd">
             <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
           </span>
         </el-form-item>
@@ -89,11 +87,11 @@
         </el-button>
       </div>-->
     </el-form>
+    <div :class="{ 'is-active': isLoginPage === 1 }" class="codepage">
+      <div id="qr_login" />
+    </div>
 
-    <el-dialog
-      :title="$t('common.login.thirdparty')"
-      :visible.sync="showDialog"
-    >
+    <el-dialog :title="$t('common.login.thirdparty')" :visible.sync="showDialog">
       {{ $t('common.login.thirdpartyTips') }}
       <br>
       <br>
@@ -108,10 +106,7 @@
       title="重置密码"
       :close-on-click-modal="false"
     >
-      <Mmdp
-        ref="resetPannel"
-        @submit-success="submitResetMMdp"
-      />
+      <Mmdp ref="resetPannel" @submit-success="submitResetMMdp" />
     </el-dialog>
   </div>
 </template>
@@ -153,7 +148,9 @@ export default {
       showDialog: false,
       dialogFormVisible: false,
       redirect: undefined,
-      otherQuery: {}
+      otherQuery: {},
+      isLoginPage: 0,
+      pageList: ['系统登录', '扫码']
     }
   },
   watch: {
@@ -168,7 +165,9 @@ export default {
       immediate: true
     }
   },
+
   created() {
+    this.getWeChat()
     // window.addEventListener('storage', this.afterQRScan)
   },
   mounted() {
@@ -177,6 +176,8 @@ export default {
     } else if (this.loginForm.password === '') {
       this.$refs.password.focus()
     }
+    // const url = 'https://open.work.weixin.qq.com/wwopen/sso/qrConnect?appid=wx458e451958444efa&agentid=1000091&redirect_uri=http://app.huafeng-cn.com:8022/wx/w1rcgqhm&state=088dc9abe4c2416c08e3c9e31a142ea4'
+    // let url = location.origin + '/xpest/console_v2/ui/login';
   },
   destroyed() {
     // window.removeEventListener('storage', this.afterQRScan)
@@ -198,7 +199,6 @@ export default {
     },
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
-
         if (valid) {
           this.loading = true
           const _this = this
@@ -245,7 +245,7 @@ export default {
       this.loginForm.userCode = ''
       this.loginForm.password = ''
       this.dialogFormVisible = false
-    }
+    },
     // afterQRScan() {
     //   if (e.key === 'x-admin-oauth-code') {
     //     const code = getQueryObject(e.newValue)
@@ -264,6 +264,28 @@ export default {
     //     }
     //   }
     // }
+    changeCurPage(val) {
+      this.isLoginPage = val
+    },
+    getWeChat() {
+      // 动态引入企业微信js文件
+      const s = document.createElement('script')
+      s.type = 'text/javascript'
+      s.src = 'http://wwcdn.weixin.qq.com/node/wework/wwopen/js/wwLogin-1.2.4.js'
+      const wxElement = document.body.appendChild(s)
+      // 调用企业微信二维码方法
+      wxElement.onload = function() {
+      new WwLogin({
+          id: 'qr_login', // 需要显示的容器id
+          appid: 'wx458e451958444efa', // 公众号appid wx*******
+          agentid: '1000091', // 公众号agentid wx*******
+          redirect_uri: encodeURIComponent('http://app.huafeng-cn.com:8022/wx/w1rcgqhm'), // 授权成功后回调的url，需要在企业微信配置，我的方法是回调到自己的weChatBack页面
+          state: Math.round(Math.random() * 10), // 可设置为简单的随机数加session用来校验
+          href: '', // 外部css文件url，需要https
+          lang: 'zh'
+        })
+      }
+    }
   }
 }
 </script>
@@ -325,14 +347,69 @@ $light_gray: #eee;
   width: 100%;
   background-color: $bg;
   overflow: hidden;
+  height: 100vh;
+
+  .login-title {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 26px;
+    color: #eee;
+    font-weight: bold;
+    line-height: 1;
+
+    .title-items {
+      cursor: pointer;
+      color: rgba(255, 255, 255, 0.3);
+
+      &:nth-of-type(2) {
+        margin-left: 30px;
+      }
+
+      &.is-active {
+        transition: 1s all ease;
+        color: rgba(255, 255, 255, 1);
+      }
+    }
+  }
 
   .login-form {
-    position: relative;
     width: 520px;
     max-width: 100%;
-    padding: 160px 35px 0;
+    padding: 0px 35px 0;
     margin: 0 auto;
+    position: relative;
     overflow: hidden;
+    opacity: 0;
+    display: none;
+
+    &.is-active {
+      transition: 1s all ease;
+      opacity: 1;
+      display: block;
+    }
+  }
+
+  .codepage {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 450px;
+    height: 380px;
+    opacity: 0;
+    display: flex;
+    justify-content: center;
+
+    iframe {
+      width: 100%;
+      height: 100%;
+    }
+
+    &.is-active {
+      transition: 1s all ease;
+      opacity: 1;
+    }
   }
 
   .tips {
@@ -357,6 +434,11 @@ $light_gray: #eee;
 
   .title-container {
     position: relative;
+    width: 450px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding-top: 120px;
+    box-sizing: border-box;
 
     .title {
       font-size: 26px;
@@ -373,6 +455,8 @@ $light_gray: #eee;
       font-size: 18px;
       right: 0px;
       cursor: pointer;
+      padding-top: 120px;
+      box-sizing: border-box;
     }
   }
 

@@ -208,6 +208,27 @@ export const constantRoutes = [
     ],
     meta: { title: '权限管理', icon: 'dashboard', affix: true }
   },
+  {
+    // 菜单部分
+    path: '/resource',
+    component: Layout,
+    redirect: '/resource/menu',
+    children: [
+      {
+        path: 'menu',
+        component: () => import('@/views/resource/menu'),
+        name: 'menu',
+        meta: { title: '菜单管理', icon: 'dashboard', affix: true }
+      },
+      {
+        path: 'operate',
+        component: () => import('@/views/resource/operate'),
+        name: 'operate',
+        meta: { title: '操作管理', icon: 'dashboard', affix: true }
+      }
+    ],
+    meta: { title: '菜单管理', icon: 'dashboard', affix: true }
+  }
 ]
 
 /**
