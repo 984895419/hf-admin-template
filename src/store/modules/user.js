@@ -75,8 +75,8 @@ const actions = {
       login(Object.assign(loginForm))
       .then(response => {
         const data = response
-        console.log(response ,111);
-        console.log(getData(data).token ,111);
+        console.log(response, 111)
+        console.log(getData(data).token, 111)
         commit('SET_TOKEN', getData(data).token)
         setToken(getData(data).token)
         resolve(response)
@@ -105,6 +105,7 @@ const actions = {
       })
     })
   },
+
   changeCampany({ commit, state, dispatch }, param) {
     return new Promise((resolve, reject) => {
       getInfo(param).then(response => {
@@ -155,6 +156,7 @@ const actions = {
       commit('SET_TOKEN', token)
       setToken(token)
       resolve()
+      console.log(1231456456)
     })
   }
 }

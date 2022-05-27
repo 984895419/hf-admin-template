@@ -210,7 +210,6 @@ export default {
      */
     showNumCalculate() {
       if (this.$el) {
-        debugger
         if (this.options && this.options.showNum) {
           this.showNum = this.options.showNum
         } else {

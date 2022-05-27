@@ -182,9 +182,7 @@ export default {
 }
 
 .app-container {
-  width: 200px;
 
-  position: absolute;
   .content-rt {
     padding: 20px 0 0 0;
     box-sizing: border-box;

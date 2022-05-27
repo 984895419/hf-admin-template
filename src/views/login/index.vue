@@ -152,7 +152,8 @@ export default {
       redirect: undefined,
       otherQuery: {},
       isLoginPage: 0,
-      pageList: ['系统登录', '扫码']
+      pageList: ['系统登录', '扫码'],
+      timer: {}
     }
   },
   watch: {
@@ -169,10 +170,9 @@ export default {
   },
 
   created() {
-    // window.addEventListener('storage', this.afterQRScan)
-    // setInterval(() => {
-    this.checkLogin()
-    // }, 5000)
+    this.timer = setInterval(() => {
+      this.checkLogin()
+    }, 5000)
   },
   mounted() {
     if (this.loginForm.userCode === '') {
@@ -273,8 +273,9 @@ export default {
       baseApiGetMethod('/api/oauth/checkLogin').then(
         (resp) => {
           if (resp.retCode === '00001') {
-            console.log('成功')
-            this.listLoading = false
+            clearInterval(this.timer)
+            this.$store.dispatch('user/setToken', resp.data.token)
+            this.$router.push('/')
           }
         }
       )

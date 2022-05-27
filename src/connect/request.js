@@ -81,10 +81,10 @@ service.interceptors.response.use(
           })
         })
       } else {
-        Message({
-          type: 'error',
-          message: getMessage(res)
-        })
+        // Message({
+        //   type: 'error',
+        //   message: getMessage(res)
+        // })
       }
       return res
     } else {
@@ -93,11 +93,11 @@ service.interceptors.response.use(
   },
   error => {
     console.log('err' + error) // for debug
-    Message({
-      message: error.message,
-      type: 'error',
-      duration: 5 * 1000
-    })
+    // Message({
+    //   message: error.message,
+    //   type: 'error',
+    //   duration: 5 * 1000
+    // })
     return Promise.reject(error)
   }
 )

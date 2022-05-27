@@ -183,6 +183,12 @@ export const constantRoutes = [
         component: () => import('@/views/oa/reset'),
         name: 'reset',
         meta: { title: '密码重置', icon: 'dashboard', affix: true }
+      },
+      {
+        path: 'role-settings',
+        component: () => import('@/views/oa/role-settings'),
+        name: 'role-settings',
+        meta: { title: '设置角色', icon: 'dashboard', affix: true }
       }
     ],
     meta: { title: 'OA人事', icon: 'dashboard', affix: true }
@@ -208,8 +214,9 @@ export const constantRoutes = [
     ],
     meta: { title: '权限管理', icon: 'dashboard', affix: true }
   },
+
   {
-    // 菜单部分
+    // 资源管理
     path: '/resource',
     component: Layout,
     redirect: '/resource/menu',
@@ -218,7 +225,7 @@ export const constantRoutes = [
         path: 'menu',
         component: () => import('@/views/resource/menu'),
         name: 'menu',
-        meta: { title: '菜单管理', icon: 'dashboard', affix: true }
+        meta: { title: '菜单列表', icon: 'dashboard', affix: true }
       },
       {
         path: 'operate',
@@ -227,7 +234,34 @@ export const constantRoutes = [
         meta: { title: '操作管理', icon: 'dashboard', affix: true }
       }
     ],
-    meta: { title: '菜单管理', icon: 'dashboard', affix: true }
+    meta: { title: '资源管理', icon: 'dashboard', affix: true }
+  },
+  {
+    // 角色部分
+    path: '/role',
+    component: Layout,
+    redirect: '/role/role-list',
+    children: [
+      {
+        path: 'role-list',
+        component: () => import('@/views/role/role-list'),
+        name: 'role-list',
+        meta: { title: '角色列表', icon: 'dashboard', affix: true }
+      },
+      {
+        path: 'user-bind',
+        component: () => import('@/views/role/user-bind'),
+        name: 'user-bind',
+        meta: { title: '绑定用户', icon: 'dashboard', affix: true }
+      },
+      {
+        path: 'permission-setting',
+        component: () => import('@/views/role/permission-setting'),
+        name: 'permission-setting',
+        meta: { title: '权限设置', icon: 'dashboard', affix: true }
+      }
+    ],
+    meta: { title: '角色', icon: 'dashboard', affix: true }
   }
 ]
 
