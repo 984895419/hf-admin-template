@@ -12,6 +12,7 @@
           <template slot-scope="scope">
             <el-button type="text" size="small" @click="handleClick(scope.row)">查看</el-button>
             <el-button type="text" size="small">编辑</el-button>
+            <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -57,6 +58,13 @@ export default {
   methods: {
     handleClick(row) {
       console.log(row)
+    },
+    handleDelete(index, row) {
+      console.log(index, row)
+    },
+
+    handleEdit(index, row) {
+      console.log(index, row)
     }
   }
 

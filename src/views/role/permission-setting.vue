@@ -39,24 +39,24 @@ export default {
       return data
     }
     return {
-        data: generateData(),
-        value: [1],
-        value4: [1],
-        renderFunc(h, option) {
-          return <span>{ option.key } - { option.label }</span>
-        }
+      data: generateData(),
+      value: [1],
+      value4: [1],
+      renderFunc(h, option) {
+        return <span>{option.key} - {option.label}</span>
+      }
     }
   },
   methods: {
-     handleChange(value, direction, movedKeys) {
-        console.log(value, direction, movedKeys)
-      }
+    handleChange(value, direction, movedKeys) {
+      console.log(value, direction, movedKeys)
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.container-main{
+.container-main {
   text-align: center;
   margin: 20px 0 0 0;
 }
