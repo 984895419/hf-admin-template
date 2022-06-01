@@ -3,7 +3,7 @@ import { getToken, setToken, removeToken } from '@/connect/auth'
 import { resetRouter } from '@/router'
 import store from '@/store'
 import mockUserInfo from '@/mock/menulist'
-import { getData } from '@/utils/ajaxResultUtil'
+import { getData, isSuccessResult } from '@/utils/ajaxResultUtil'
 
 const state = {
   token: getToken(),
@@ -74,11 +74,12 @@ const actions = {
       // eslint-disable-next-line no-unused-vars
       login(Object.assign(loginForm))
       .then(response => {
+        debugger
         const data = response
-        console.log(response, 111)
-        console.log(getData(data).token, 111)
-        commit('SET_TOKEN', getData(data).token)
-        setToken(getData(data).token)
+        if (isSuccessResult(response)) {
+          commit('SET_TOKEN', getData(data).token)
+          setToken(getData(data).token)
+        }
         resolve(response)
       }).catch(error => {
         reject(error)

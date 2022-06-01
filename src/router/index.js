@@ -262,6 +262,27 @@ export const constantRoutes = [
       }
     ],
     meta: { title: '角色', icon: 'dashboard', affix: true }
+  },
+  {
+    // 应用管理
+    path: '/application',
+    component: Layout,
+    redirect: '/application/authClient',
+    children: [
+      {
+        path: 'authClient',
+        component: () => import('@/views/sso/ssoAuthClient'),
+        name: 'authClient',
+        meta: { title: '授权应用', icon: 'dashboard', affix: true }
+      },
+      {
+        path: 'loginApp',
+        component: () => import('@/views/sso/ssoLoginApp'),
+        name: 'loginApp',
+        meta: { title: '免登应用', icon: 'dashboard', affix: true }
+      }
+    ],
+    meta: { title: '应用管理', icon: 'dashboard', affix: true }
   }
 ]
 

@@ -28,7 +28,7 @@ async function translate(translateText, targetLanguage) {
     if (doesNeedTranslateValidate(strText)) {
       return translateText
     }
-    const transData = { translateRequest: { text: strText, targetLanguage: targetLanguage } }
+    const transData = { translateRequest: { text: strText, targetLanguage: targetLanguage }}
     let result = translateText
     await doTranslate(transData).then(resp => {
       if (resp.obj) {
@@ -280,6 +280,22 @@ export default {
   },
   formatMoneyForTableRow(row, column, cellValue, index) {
     return formatMoney(cellValue)
+  },
+  /**
+   * 从location中获取请求参数
+   * @param {*} variable 参数名称
+   * @returns 参数值
+   */
+  getQueryVariable(variable) {
+    var query = window.location.search.substring(1)
+    var vars = query.split('&')
+    for (var i = 0; i < vars.length; i++) {
+            var pair = vars[i].split('=')
+            if (pair[0] === variable) {
+              return pair[1]
+            }
+    }
+    return undefined
   }
 }
 

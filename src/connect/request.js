@@ -69,7 +69,7 @@ service.interceptors.response.use(
         duration: 5 * 1000
       })*/
       // EXPIRED("00007",  "登录已过期");
-      if (isTheRetCode(res, '00007')) {
+      if (isTheRetCode(res, '00007') || isTheRetCode(res, '00009')) {
         // to re-login
         MessageBox.confirm('You have been logged out, you can cancel to stay on this page, or log in again', 'Confirm logout', {
           confirmButtonText: 'Re-Login',
@@ -93,11 +93,11 @@ service.interceptors.response.use(
   },
   error => {
     console.log('err' + error) // for debug
-    // Message({
-    //   message: error.message,
-    //   type: 'error',
-    //   duration: 5 * 1000
-    // })
+    Message({
+      message: error.message,
+      type: 'error',
+      duration: 5 * 1000
+    })
     return Promise.reject(error)
   }
 )
