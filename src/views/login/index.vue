@@ -201,7 +201,6 @@ export default {
           const _this = this
           this.$store.dispatch('user/login', this.loginForm)
             .then(response => {
-              debugger
               if (isSuccessResult(response)) {
                 this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
                 this.loading = false
