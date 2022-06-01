@@ -24,6 +24,7 @@
 import { fetchMenuTree } from '@/api/menu'
 import { isEmpty } from 'element-ui/src/utils/util'
 import { expendnode } from '@/utils/tree-util'
+import { baseApiGetMethod } from '@/components/CURD/baseApi'
 export default {
   name: 'MenuTree',
   data() {
@@ -34,6 +35,7 @@ export default {
         label: 'metaTitle'
       },
       filterText: ''
+
     }
   },
   watch: {
@@ -43,6 +45,7 @@ export default {
   },
   created() {
     this.getMenuTree()
+    this.getMenuTree1()
   },
   methods: {
     getMenuTree(treeSelected) {
@@ -60,6 +63,18 @@ export default {
           }, 200)
         }
       })
+    },
+    getMenuTree1() {
+     baseApiGetMethod('/api/hfBaseRightMenu/nameQuery').then(
+        (resp) => {
+          if (resp.retCode === '00001') {
+            // this.data.list = resp.data.list
+            // this.data.total = resp.data.total
+            // console.log(resp.data, 111)
+            console.log(resp, 123)
+          }
+        }
+      )
     },
     handleNodeClick(data) {
       this.$emit('tree-node-click', data)

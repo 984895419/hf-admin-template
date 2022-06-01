@@ -193,27 +193,6 @@ export const constantRoutes = [
     ],
     meta: { title: 'OA人事', icon: 'dashboard', affix: true }
   },
-  {
-    // 权限部分
-    path: '/jurisdiction',
-    component: Layout,
-    redirect: '/jurisdiction/roleManagement',
-    children: [
-      {
-        path: 'roleManagement',
-        component: () => import('@/views/jurisdiction/roleManagement'),
-        name: 'roleManagement',
-        meta: { title: '角色管理', icon: 'dashboard', affix: true }
-      },
-      {
-        path: 'roleUser',
-        component: () => import('@/views/jurisdiction/roleUser'),
-        name: 'roleUser',
-        meta: { title: '角色用户', icon: 'dashboard', affix: true }
-      }
-    ],
-    meta: { title: '权限管理', icon: 'dashboard', affix: true }
-  },
 
   {
     // 资源管理
