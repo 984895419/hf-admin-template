@@ -150,6 +150,11 @@
             @success="doSearch"
           />
         </el-dropdown-item>
+        <el-dropdown-item>
+          <common-dialog-btn :label="'设置角色'" :type="'text'">
+            <role-settings />
+          </common-dialog-btn>
+        </el-dropdown-item>
       </template>
       <template v-slot:pageInfo>
         <el-pagination
@@ -176,6 +181,8 @@ import UpdateBtn from '@/components/CURD/Btns/UpdateBtn'
 import UpdateForm from '@/components/CURD/Add/UpdateForm'
 import DelBtn from '@/components/CURD/Btns/DelBtn'
 import TemplateConfirmBtn from '@/components/CURD/Btns/TemplateConfirmBtn'
+import CommonDialogBtn from '@/components/CURD/Btns/CommonDialogBtn'
+import RoleSettings from '@/views/oa/role-settings.vue'
 import AddForm from '@/components/CURD/Add/AddForm'
 import { deepClone } from '@/utils'
 import EditableTable from '@/components/CURD/Table/EditableTable'
@@ -192,7 +199,9 @@ export default {
     AddBtn,
     AddForm,
     SimpleTable,
-    InquiryMode
+    InquiryMode,
+    CommonDialogBtn,
+    RoleSettings
   },
   mixins: [CurdMixin],
   props: {

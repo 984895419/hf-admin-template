@@ -12,6 +12,7 @@
 </template>
 
 <script>
+import { baseApiGetMethod } from '@/components/CURD/baseApi'
 const cityOptions = ['上海', '北京', '广州', '深圳']
 export default {
   data() {
@@ -22,6 +23,9 @@ export default {
       isIndeterminate: true
     }
   },
+  mounted() {
+    this.init()
+  },
   methods: {
     handleCheckAllChange(val) {
       this.checkedCities = val ? cityOptions : []
@@ -31,6 +35,15 @@ export default {
       const checkedCount = value.length
       this.checkAll = checkedCount === this.cities.length
       this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length
+    },
+    init() {
+        baseApiGetMethod('/api/hfBaseRightRole/').then(
+        (resp) => {
+          if (resp.retCode === '00001') {
+            console.log(resp.data, 111)
+          }
+        }
+      )
     }
   }
 }
