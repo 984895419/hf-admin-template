@@ -152,7 +152,9 @@
         </el-dropdown-item>
         <el-dropdown-item>
           <common-dialog-btn :label="'设置角色'" :type="'text'">
-            <role-settings />
+            <template slot-scope="{ closeDialog }">
+              <role-settings :data="data" @closeDialog="closeDialog" />
+            </template>
           </common-dialog-btn>
         </el-dropdown-item>
       </template>

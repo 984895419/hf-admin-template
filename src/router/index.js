@@ -202,7 +202,7 @@ export const constantRoutes = [
     children: [
       {
         path: 'menu',
-        component: () => import('@/views/resource/menu'),
+        component: () => import('@/views/basic/hfBaseRightMenu'),
         name: 'menu',
         meta: { title: '菜单列表', icon: 'dashboard', affix: true }
       },
@@ -223,7 +223,7 @@ export const constantRoutes = [
     children: [
       {
         path: 'role-list',
-        component: () => import('@/views/role/role-list'),
+        component: () => import('@/views/basic/hfBaseRightRole'),
         name: 'role-list',
         meta: { title: '角色列表', icon: 'dashboard', affix: true }
       },
