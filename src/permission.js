@@ -29,15 +29,16 @@ router.beforeEach(async (to, from, next) => {
       if (hasRoles) {
         next()
       } else {
+        // 获取用户的登录信息
       //   try {
       //     // get user info
-      //     await store.dispatch('user/getInfo').then((data) => {
+      await store.dispatch('user/getInfo').then(async(data) => {
         await store.dispatch('permission/generateRoutes', []).then(() => {
               // 生成该用户的新路由json操作完毕之后,调用vue-router的动态新增路由方法,将新路由添加
               router.addRoutes(store.getters.addRouters)
               next({ ...to, replace: true })
             })
-      //     })
+      })
       //   } catch (error) {
       //     // remove token and go to login page to re-login
       //     await store.dispatch('user/resetToken')

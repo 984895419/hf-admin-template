@@ -2,8 +2,7 @@ import { login, logout, getInfo } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/connect/auth'
 import { resetRouter } from '@/router'
 import store from '@/store'
-import mockUserInfo from '@/mock/menulist'
-import { getData } from '@/utils/ajaxResultUtil'
+import { getData, isSuccessResult } from '@/utils/ajaxResultUtil'
 
 const state = {
   token: getToken(),
@@ -75,10 +74,10 @@ const actions = {
       login(Object.assign(loginForm))
       .then(response => {
         const data = response
-        console.log(response, 111)
-        console.log(getData(data).token, 111)
-        commit('SET_TOKEN', getData(data).token)
-        setToken(getData(data).token)
+        if (isSuccessResult(response)) {
+          commit('SET_TOKEN', getData(data).token)
+          setToken(getData(data).token)
+        }
         resolve(response)
       }).catch(error => {
         reject(error)
@@ -90,10 +89,9 @@ const actions = {
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
       getInfo().then(response => {
-        // const data = response
-        const data = mockUserInfo
+        const data = getData(response)
         // 储存用户信息
-        commit('SET_USER', getData(data))
+        commit('SET_USER', data)
         // cookie保存登录状态,仅靠vuex保存的话,页面刷新就会丢失登录状态
         // 生成路由
         if (!data) {

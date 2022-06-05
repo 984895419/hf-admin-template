@@ -10,8 +10,8 @@ export function login(data) {
 
 export function getInfo(query) {
   return request({
-    url: '/api/login/getInfo',
-    method: 'post',
+    url: '/api/getUserInfo',
+    method: 'get',
     params: query
   })
 }

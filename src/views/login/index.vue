@@ -89,7 +89,8 @@
     </el-form>
     <div :class="{ 'is-active': isLoginPage === 1 }" class="codepage">
       <!-- <div id="qr_login" /> -->
-      <iframe v-if="isLoginPage === 1" src="/api/oauth/qywx" frameborder="0" />
+      <!-- <iframe v-if="isLoginPage === 1" src="/api/oauth/qywx" frameborder="0" /> -->
+      <qywx-scan-login :is-login-page="isLoginPage"></qywx-scan-login>
     </div>
 
     <el-dialog :title="$t('common.login.thirdparty')" :visible.sync="showDialog">
@@ -119,11 +120,11 @@ import { messageErrorHandle, messageSuccesHandle } from '@/utils/message-handle'
 import SocialSign from './components/SocialSignin'
 import Mmdp from './Mmdp'
 import elDragDialog from '@/directive/el-drag-dialog'
-import { isSuccessResult, getData } from '@/utils/ajaxResultUtil'
-import { baseApiGetMethod } from '@/components/CURD/baseApi'
+import QywxScanLogin from './qywxScanLogin'
+import { isSuccessResult, getData, getMessage } from '@/utils/ajaxResultUtil'
 export default {
   name: 'Login',
-  components: { LangSelect, SocialSign, Mmdp },
+  components: { LangSelect, SocialSign, Mmdp, QywxScanLogin },
   directives: {
     elDragDialog
   },
@@ -168,12 +169,6 @@ export default {
       immediate: true
     }
   },
-
-  created() {
-    this.timer = setInterval(() => {
-      this.checkLogin()
-    }, 5000)
-  },
   mounted() {
     if (this.loginForm.userCode === '') {
       this.$refs.userCode.focus()
@@ -211,16 +206,17 @@ export default {
                 this.loading = false
                 messageSuccesHandle(_this, _this.$t('common.login.logIn'))
               } else {
-                if (getData(response) === 'RESET') {
-                  _this.dialogFormVisible = true
-                  setTimeout(function() {
-                    _this.$refs.resetPannel.setFormData(_this.loginForm.userCode)
-                  }, 100)
-                  this.loading = false
-                  return
-                }
+                // if (getData(response) === 'RESET') {
+                //   _this.dialogFormVisible = true
+                //   setTimeout(function() {
+                //     _this.$refs.resetPannel.setFormData(_this.loginForm.userCode)
+                //   }, 100)
+                //   this.loading = false
+                //   return
+                // }
                 this.loading = false
-                messageErrorHandle(_this, response, _this.$t('common.login.logIn'))
+                // messageErrorHandle(_this, response, _this.$t('common.login.logIn'))
+                this.$message.error(getMessage(response))
               }
             })
             .catch(() => {
@@ -268,17 +264,6 @@ export default {
     // }
     changeCurPage(val) {
       this.isLoginPage = val
-    },
-    checkLogin() {
-      baseApiGetMethod('/api/oauth/checkLogin').then(
-        (resp) => {
-          if (resp.retCode === '00001') {
-            clearInterval(this.timer)
-            this.$store.dispatch('user/setToken', resp.data.token)
-            this.$router.push('/')
-          }
-        }
-      )
     }
 
   }
