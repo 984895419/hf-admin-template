@@ -9,7 +9,7 @@
           :class=" (item.span || defaultSpan) !== 24 ? '' : 'col-24-bottom'"
         >
           <slot :name="item.value" :data="item">
-            <add-form-item v-model="value" :operate="operate" :item="item" />
+            <add-form-item v-model="value" :operate="operate" :item="item" :error="error(item.value)"/>
           </slot>
         </el-col>
       </el-row>
@@ -23,7 +23,7 @@
           :class=" (item.span || defaultSpan) !== 24 ? '' : 'col-24-bottom'"
         >
           <slot :name="item.value" :data="item">
-            <add-form-item v-model="value" :operate="operate" :item="item" />
+            <add-form-item v-model="value" :operate="operate" :item="item" :error="error(item.value)" />
           </slot>
         </el-col>
       </el-row>
@@ -39,7 +39,7 @@
             :class=" (item.span || defaultSpan) !== 24 ? '' : 'col-24-bottom'"
           >
             <slot :name="item.value" :data="item">
-              <add-form-item v-model="value" :operate="operate" :item="item" />
+              <add-form-item v-model="value" :operate="operate" :item="item" :error="error(item.value)" />
             </slot>
           </el-col>
         </el-row>
@@ -81,6 +81,22 @@ export default {
     operate: {
       type: String,
       default: 'update'
+    },
+    /**
+     * 错误信息
+     */
+    errorInfo: {
+      type: Object,
+      default: function() {
+        return {}
+      }
+    }
+  },
+  computed: {
+    error() {
+      return (fieldName) => {
+        return this.errorInfo ? this.errorInfo[fieldName] : undefined
+      }
     }
   }
 }

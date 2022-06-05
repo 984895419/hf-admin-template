@@ -8,7 +8,7 @@
       label-width="120px"
       v-bind="{...(options && options.formProps) }"
     >
-      <add-form-items :add-fields="addFields" :default-span="defaultSpan" :value="value" />
+      <add-form-items :add-fields="addFields" :default-span="defaultSpan" :value="value" :errorInfo="errorInfo"/>
       <el-row>
         <el-col
           :span="24"
@@ -29,7 +29,7 @@
 
 <script>
 import AddFormItems from '@/components/CURD/Add/AddFormItems'
-import { getMessage, isSuccessResult } from '@/utils/ajaxResultUtil'
+import { getData, getMessage, isSuccessResult, isTheRetCode } from '@/utils/ajaxResultUtil'
 import { baseApiPutMethod } from '@/components/CURD/baseApi'
 
 /**
@@ -78,7 +78,8 @@ export default {
       /**
        * 默认显示的span个数
        */
-      defaultSpan: 6
+      defaultSpan: 6,
+      errorInfo: null
     }
   },
   computed: {
@@ -183,7 +184,11 @@ export default {
                 this.$emit('success')
                 this.$emit('closeDialog')
               } else {
+                if (isTheRetCode('00004')) {
+                this.errorInfo = getData(resp)
+              } else {
                 this.$message.error(getMessage(resp))
+              }
               }
             })
           } else {

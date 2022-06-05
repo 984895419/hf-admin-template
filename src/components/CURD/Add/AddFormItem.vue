@@ -3,6 +3,7 @@
     :label="item.label"
     :prop="item.value"
     v-bind="item.labelProps"
+    :error="error"
     :rules="defaultRules"
   >
     <form-item-render :item="item" :value="value" :operate="operate" />
@@ -27,6 +28,9 @@ export default {
     operate: {
       type: String,
       default: 'update'
+    },
+    error: {
+      type: String
     }
   },
   computed: {

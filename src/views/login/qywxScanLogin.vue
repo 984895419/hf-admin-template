@@ -1,5 +1,5 @@
 <template>
-   <iframe v-if="isLoginPage === 1" src="/api/oauth/qywx" frameborder="0" />
+  <iframe v-if="isLoginPage === 1" src="/api/oauth/qywx" frameborder="0" />
 </template>
 <script>
 import { baseApiGetMethod } from '@/components/CURD/baseApi'
@@ -7,6 +7,12 @@ import { Loading } from 'element-ui'
 import { getData, getMessage, isSuccessResult, isTheRetCode } from '@/utils/ajaxResultUtil'
 export default {
     name: 'QywxScanLogin',
+    props: {
+        isLoginPage: {
+            type: Number,
+            default: 0
+        }
+    },
     data() {
         return {
             timer: null,
@@ -16,12 +22,6 @@ export default {
             timeSplit: 1000,
             loadingInstance: null,
             checking: false
-        }
-    },
-    props: {
-        isLoginPage: {
-            type: Number,
-            default: 0
         }
     },
     watch: {
@@ -70,8 +70,7 @@ export default {
                         if (isSuccessResult(resp)) {
                             clearInterval(this.timer)
                             this.$store.dispatch('user/setToken', getData(resp).token)
-                            // TODO 移除参数
-                            // this.$router.push('/')
+                            // 本地重定向下，隐藏请求扫码结果参数
                             location.href = window.location.protocol + '//' + window.location.host
                         } else {
                             if (!isTheRetCode('00003')) {

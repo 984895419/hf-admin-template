@@ -8,7 +8,7 @@
       :label-width="labelWidth"
       v-bind="{...(options && options.formProps) }"
     >
-      <add-form-items :add-fields="addFields" :default-span="defaultSpan" :operate="'add'" :value="value" />
+      <add-form-items :add-fields="addFields" :errorInfo="errorInfo" :default-span="defaultSpan" :operate="'add'" :value="value" />
       <el-row v-if="showBtnArea === true">
         <el-col
           :span="24"
@@ -31,7 +31,7 @@
 
 import AddFormItems from '@/components/CURD/Add/AddFormItems'
 import { baseApiPostMethod } from '@/components/CURD/baseApi'
-import { getMessage, isSuccessResult } from '@/utils/ajaxResultUtil'
+import { getData, getMessage, isSuccessResult, isTheRetCode } from '@/utils/ajaxResultUtil'
 
 /**
  * 添加的表单
@@ -94,7 +94,8 @@ export default {
       /**
        * 默认显示的span个数
        */
-      defaultSpan: 6
+      defaultSpan: 6,
+      errorInfo: null
     }
   },
   computed: {
@@ -167,6 +168,7 @@ export default {
     doSubmit() {
       this.$refs.form.validate((valid) => {
         if (valid) {
+          this.errorInfo = null;
           if (this.beforeSubmit) {
             const passed = this.beforeSubmit(this.value)
             if (!(passed === true)) {
@@ -181,7 +183,12 @@ export default {
               this.$emit('success')
               this.$emit('closeDialog')
             } else {
-              this.$message.error(getMessage(resp))
+              debugger
+              if (isTheRetCode('00004')) {
+                this.errorInfo = getData(resp)
+              } else {
+                this.$message.error(getMessage(resp))
+              }
             }
             this.loading = false
           }).catch(res => {

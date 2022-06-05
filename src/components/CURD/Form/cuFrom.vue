@@ -1,0 +1,121 @@
+<template>
+  <el-form
+    ref="form"
+    :size="$store.size"
+    :model="value"
+    v-bind="$attrs"
+    :rules="formRules"
+  >
+    <slot :data="value" :errorMessage="errorMessage" />
+    <el-form-item>
+      <div style="float: right">
+        <slot name="add-btn-before" :data="value" :formValidate="formValidate" />
+        <el-button type="primary" icon="el-icon-search" @click="doSubmit">保存</el-button>
+        <el-button icon="el-icon-circle-close" @click="doCancel">取消</el-button>
+        <slot name="add-btn-after" :data="value" :formValidate="formValidate" />
+      </div>
+    </el-form-item>
+  </el-form>
+</template>
+<script>
+import { baseApiPostMethod } from '@/components/CURD/baseApi'
+import { getData, getMessage, isSuccessResult, isTheRetCode } from '@/utils/ajaxResultUtil'
+export default {
+  name: 'CuForm',
+  props: {
+    value: {
+      type: Object,
+      default: function() {
+        return {}
+      }
+    },
+    formRules: {
+      type: Object,
+      default: function() {
+        return {}
+      }
+    },
+    actionMethod: {
+      type: Function,
+      required: true
+    },
+    beforeSubmit: {
+      type: Function,
+      default: undefined
+    }
+  },
+  data() {
+    return {
+      errorInfo: null
+    }
+  },
+  computed: {
+    errorMessage() {
+      return (field) => {
+        if (this.errorInfo) {
+          return this.errorInfo[field]
+        }
+        return undefined
+      }
+    }
+  },
+  methods: {
+    /**
+     * 表单验证的回调
+     * @param cb
+     */
+    formValidate(cb) {
+      this.$refs.form.validate((valid) => {
+        if (valid) {
+          cb()
+        } else {
+          return false
+        }
+      })
+    },
+    /**
+     * 提交的时候执行
+     */
+    doSubmit() {
+      this.errorInfo = null
+      this.$refs.form.validate((valid) => {
+        if (valid) {
+          if (this.beforeSubmit) {
+            const passed = this.beforeSubmit(this.value)
+            if (!(passed === true)) {
+              return
+            }
+          }
+          // 发送post请求
+          this.loading = true
+            this.actionMethod(this.value).then(resp => {
+            if (isSuccessResult(resp)) {
+              this.$message.success(getMessage(resp))
+              this.$emit('success')
+              this.$emit('closeDialog')
+            } else {
+              if (isTheRetCode('00004')) {
+                this.errorInfo = getData(resp)
+              } else {
+                this.$message.error(getMessage(resp))
+              }
+            }
+            this.loading = false
+          }).catch(res => {
+            console.log(res)
+            this.loading = false
+          })
+        } else {
+          return false
+        }
+      })
+    },
+    /**
+     * 重置
+     */
+    doCancel() {
+      this.$emit('closeDialog')
+    }
+  }
+}
+</script>
