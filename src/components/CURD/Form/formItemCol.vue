@@ -2,7 +2,7 @@
   <el-col :span="span">
     <el-form-item
       :size="$store.size"
-      :label="label"
+      :label="computeLabel"
       :prop="prop"
       :label-width="labelWidth"
       :required="required"
@@ -10,7 +10,7 @@
       :error="error"
     >
       <slot>
-        <el-input v-model="value[prop]" v-bind="$attrs" />
+        <el-input v-model="value[prop]" v-bind="$attrs" :placeholer="computedPlaceholder" />
       </slot>
     </el-form-item>
   </el-col>
@@ -19,14 +19,50 @@
 export default {
   name: 'FormItemCol',
   props: {
-    span: Number,
-    value: Object,
-    prop: String,
-    rules: Object,
-    error: String,
-    label: String,
-    required: Boolean,
-    labelWidth: String
-  }
+    span: {
+          type: Number,
+          default: undefined
+        },
+    value: {
+          type: Object,
+          default: undefined
+        },
+    prop: {
+          type: String,
+          default: undefined
+        },
+    rules: {
+          type: Object,
+          default: undefined
+        },
+    error: {
+          type: String,
+          default: undefined
+        },
+    label: {
+          type: String,
+          default: undefined
+        },
+    required: {
+          type: Boolean,
+          default: undefined
+        },
+    labelWidth: {
+          type: String,
+          default: undefined
+        },
+    namespace: {
+          type: String,
+          default: undefined
+        }
+  },
+    computed: {
+      computeLabel() {
+          return this.label ? this.label : (this.namespace ? this.$t(this.namespace + '.' + this.prop) : '')
+      },
+      computedPlaceholder() {
+          return this.$attrs['placeholder'] ? this.$attrs['placeholder'] : this.$t('common.pleaseInput') + this.computeLabel
+      }
+    }
 }
 </script>

@@ -16,37 +16,9 @@
         <!-- 查询框 -->
         <div>
           <simple-search v-model="searchForm" :inline="true" @search="doSearch">
-            <template v-slot="{ span }">
-              <!-- 新增的的字段配置 -->
-                            <form-item-col
-                :value="searchForm"
-                :span="span"
-                prop="appId"
-                :namespace="conf.namespace"
-              />
-              <form-item-col
-                :value="searchForm"
-                :span="span"
-                prop="appName"
-                :namespace="conf.namespace"
-              />
-              <form-item-col-dict
-                :value="searchForm"
-                :span="span"
-                prop="noLoginType"
-                :dict-code="'NO_LOGIN_TYPE'"
-                :namespace="conf.namespace"
-              />
-              <!-- 字典字段字段设置方法如下
-              <form-item-col-dict
-                :value="data"
-                :error="errorMessage('clientMethod')"
-                :span="span"
-                prop="clientMethod"
-                :dict-code="'CLIENT_METHOD_TYPES'"
-                :namespace="conf.namespace"
-              /> -->
-            </template>
+            <el-form-item :label="$t(conf.getI18nName('clientId'))">
+              <el-input v-model="searchForm.clientId" :placeholder="$t('common.pleaseInput')+$t(conf.getI18nName('clientId'))" />
+            </el-form-item>
           </simple-search>
         </div>
         <!-- 列表-->
@@ -56,7 +28,7 @@
           @row-dblclick="rowDbClick"
         >
           <!-- 显示的字段-->
-          <sso-login-app-columns
+          <sso-auth-columns
             :show-fields="conf.default"
             :url-methods="conf.urlMethods"
             @success="doSearch"
@@ -79,20 +51,14 @@
     import * as conf from './api'
     import { baseApiGetMethod } from '@/components/CURD/baseApi'
     import { isSuccessResult } from '@/utils/ajaxResultUtil'
-    import { getData, getMessage } from '@/utils/ajaxResultUtil'
-    import SimpleSearch from '@/components/CURD/Query/search'
-    import HfTable from '@/components/CURD/Table/HfTable'
-    import CurdPagination from '@/components/CURD/pagination/Pagination'
-    import SsoLoginAppColumns from './ssoLoginAppColumns'
-    import FormItemColDict from '@/components/CURD/Form/formItemColDict.vue'
-    import FormItemCol from '@/components/CURD/Form/formItemCol.vue'
-    import RowSpanSlot from '@/components/CURD/Slot/RowSpanSlot.vue'
+    import { getData, getMessage } from '../../../utils/ajaxResultUtil'
+    import HfTable from '../../../components/CURD/Table/HfTable'
+    import CurdPagination from '../../../components/CURD/pagination/Pagination'
+    import SsoAuthColumns from './ssoAuthColumns'
+    import SimpleSearch from '../../../components/CURD/Query/search'
     export default {
-        name: 'SsoLoginAppInputRefer',
-        components: { SsoLoginAppColumns, CurdPagination, HfTable, SimpleSearch,
-          FormItemColDict,
-          FormItemCol,
-          RowSpanSlot },
+        name: 'SsoAuthInputRefer',
+        components: { SimpleSearch, SsoAuthColumns, CurdPagination, HfTable },
         props: {
             value: {
                 type: Object,
@@ -129,21 +95,7 @@
                  * 查询的表单信息
                  */
                 searchForm: {
-                  id: null,
-                  appId: null,
-                  appName: null,
-                  noLoginType: null,
-                  creator: null,
-                  createTime: null,
-                  modifier: null,
-                  modifyTime: null,
-                  enableState: null,
-                  deleted: null,
-                  sort: null,
-                  homeUri: null,
-                  tokenUri: null,
-                  icon: null,
-                  protectUri: null,
+                    clientId: null,
                     enableState: 1,
                     /**
                      * 分页信息

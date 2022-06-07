@@ -11,7 +11,9 @@
     <el-dialog
       :visible.sync="showDialog"
       width="75%"
+      :title="title"
       append-to-body
+      top="5vh"
       v-bind="Object.assign({ 'close-on-click-modal': false}, $attrs)"
       v-on="$listeners"
     >
@@ -37,6 +39,10 @@ export default {
     icon: {
       type: String,
       default: 'el-icon-circle-plus-outline'
+    },
+    title: {
+        type: String,
+        default: '新增'
     },
     label: {
       type: String,

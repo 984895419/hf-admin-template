@@ -8,7 +8,7 @@
       :label-width="labelWidth"
       v-bind="{...(options && options.formProps) }"
     >
-      <add-form-items :add-fields="addFields" :errorInfo="errorInfo" :default-span="defaultSpan" :operate="'add'" :value="value" />
+      <add-form-items :add-fields="addFields" :error-info="errorInfo" :default-span="defaultSpan" :operate="'add'" :value="value" />
       <el-row v-if="showBtnArea === true">
         <el-col
           :span="24"
@@ -168,7 +168,7 @@ export default {
     doSubmit() {
       this.$refs.form.validate((valid) => {
         if (valid) {
-          this.errorInfo = null;
+          this.errorInfo = null
           if (this.beforeSubmit) {
             const passed = this.beforeSubmit(this.value)
             if (!(passed === true)) {
@@ -183,7 +183,6 @@ export default {
               this.$emit('success')
               this.$emit('closeDialog')
             } else {
-              debugger
               if (isTheRetCode('00004')) {
                 this.errorInfo = getData(resp)
               } else {

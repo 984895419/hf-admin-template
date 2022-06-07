@@ -1,5 +1,11 @@
 <template>
-  <el-table-column prop="enableState"  label="状态" :width="operate ? 150 : 55">
+  <el-table-column
+    prop="enableState"
+    :label="$t('common.state')"
+    v-bind="$attrs"
+    :width="operate ? 150 : 55"
+    v-on="$listeners"
+  >
     <template slot-scope="scope">
       <div v-if="operate">
         <el-switch
@@ -8,14 +14,14 @@
           :inactive-value="0"
           active-color="#13ce66"
           inactive-color="#ff4949"
-          active-text="启用"
+          :active-text="$t('common.enable')"
+          :inactive-text="$t('common.disable')"
           @change="doSwitchState(scope.row)"
-          inactive-text="禁用">
-        </el-switch>
+        />
       </div>
       <div v-else>
-        <el-tag type="success" v-if="scope.row.enableState === 1">启用</el-tag>
-        <el-tag type="danger" v-if="scope.row.enableState === 0">禁用</el-tag>
+        <el-tag v-if="scope.row.enableState === 1" type="success">{{ $t('common.enable') }}</el-tag>
+        <el-tag v-if="scope.row.enableState === 0" type="danger">{{ $t('common.disable') }}</el-tag>
       </div>
     </template>
   </el-table-column>

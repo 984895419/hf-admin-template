@@ -3,6 +3,7 @@
     ref="form"
     :size="$store.size"
     :model="value"
+    :label-width="$attrs['label-width'] || 'auto'"
     v-bind="$attrs"
     :rules="formRules"
   >
@@ -18,7 +19,6 @@
   </el-form>
 </template>
 <script>
-import { baseApiPostMethod } from '@/components/CURD/baseApi'
 import { getData, getMessage, isSuccessResult, isTheRetCode } from '@/utils/ajaxResultUtil'
 export default {
   name: 'CuForm',

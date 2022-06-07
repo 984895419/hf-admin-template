@@ -10,6 +10,7 @@
     <el-dialog
       :visible.sync="showDialog"
       width="75%"
+      :title="title"
       append-to-body
       v-bind="Object.assign({ 'close-on-click-modal': false}, $attrs)"
       v-on="$listeners"
@@ -36,6 +37,10 @@ export default {
       type: String,
       require: true,
       default: '编辑'
+    },
+    title: {
+        type: String,
+        default: '编辑'
     },
     /**
      * 附带的查询数据

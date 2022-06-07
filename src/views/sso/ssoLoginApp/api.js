@@ -1,24 +1,94 @@
+import { defaultUrlMethod } from '@/components/CURD/defaultUrl'
 /**
-* 免登应用管理模块基础地址
-* @type {string}
-*/
+ * 单点登录认证管理模块基础地址
+ * @type {string}
+ */
 export const baseUrl = '/api/ssoLoginApp'
 /**
-* 基础查询地址
-* @type {{pageUrl: string}}
-*/
-export const urlMethods = {
-    pageUrl: baseUrl + '/nameQuery'
+ * 基础查询地址
+ * @type {{pageUrl: string}}
+ */
+export const urlMethods = defaultUrlMethod(baseUrl, 'appId', {
+  pageUrl: baseUrl + '/pageQuery'
+})
+/**
+ * 定义模块的命名空间
+ * @type {string}
+ */
+const modelName = 'ssoLoginApp'
+export const namespace = modelName
+
+/**
+ * 正则
+ * @param name
+ * @returns {string}
+ */
+export function getI18nName(name) {
+  return modelName + '.' + name
 }
-/**
-* 定义模块的命名空间
-* @type {string}
-*/
-export const namespace = 'sso_login_app'
+
+const exportTableFields = (fields) => {
+  return fields.map(t => {
+    return { value: t }
+  })
+}
 
 /**
-* curd的配置， TODO 后续改成从后台查询返回这些配置
-*/
-const tableConfig = { 'tableItemOption': { 'showIndex': true, 'showSelected': true, 'showItemOperate': true }, 'searchOption': { 'returnType': 'fields' }, 'referOption': { 'referId': 'id', 'referName': 'appName' }, 'fields': [{ 'label': '主键', 'i18nLabel': 'SSO_LOGIN_APP_ID', 'value': 'id', 'columnName': 'id', 'type': 'text', 'primaryKey': true, 'searchConfig': { 'immediately': false, 'keywordSearch': true, 'searchable': false }, 'required': false, 'createConfig': { 'addable': false, 'addShowable': false }, 'updateConfig': { 'updatable': false, 'updateShowable': false }, 'selectChecked': false }, { 'label': '应用ID', 'i18nLabel': 'SSO_LOGIN_APP_APP_ID', 'value': 'appId', 'columnName': 'app_id', 'type': 'text', 'primaryKey': false, 'searchConfig': { 'immediately': false, 'keywordSearch': true, 'searchable': true }, 'required': false, 'createConfig': { 'addable': true, 'addShowable': true }, 'updateConfig': { 'updatable': true, 'updateShowable': true }, 'selectChecked': true }, { 'label': '应用名称', 'i18nLabel': 'SSO_LOGIN_APP_APP_NAME', 'value': 'appName', 'columnName': 'app_name', 'type': 'text', 'primaryKey': false, 'searchConfig': { 'immediately': false, 'keywordSearch': true, 'searchable': true }, 'required': false, 'createConfig': { 'addable': true, 'addShowable': true }, 'updateConfig': { 'updatable': true, 'updateShowable': true }, 'selectChecked': true }, { 'label': '免登类型', 'i18nLabel': 'SSO_LOGIN_APP_NO_LOGIN_TYPE', 'value': 'noLoginType', 'columnName': 'no_login_type', 'type': 'text', 'primaryKey': false, 'searchConfig': { 'immediately': false, 'keywordSearch': true, 'searchable': true }, 'required': false, 'createConfig': { 'addable': true, 'addShowable': true }, 'updateConfig': { 'updatable': true, 'updateShowable': true }, 'selectChecked': true }, { 'label': '创建人', 'i18nLabel': 'SSO_LOGIN_APP_CREATOR', 'value': 'creator', 'columnName': 'creator', 'type': 'text', 'primaryKey': false, 'searchConfig': { 'immediately': false, 'keywordSearch': true, 'searchable': true }, 'required': false, 'createConfig': { 'addable': false, 'addShowable': false }, 'updateConfig': { 'updatable': false, 'updateShowable': true }, 'selectChecked': false }, { 'label': '创建时间', 'i18nLabel': 'SSO_LOGIN_APP_CREATE_TIME', 'value': 'createTime', 'columnName': 'create_time', 'type': 'text', 'primaryKey': false, 'searchConfig': { 'immediately': false, 'keywordSearch': true, 'searchable': true }, 'required': false, 'createConfig': { 'addable': false, 'addShowable': false }, 'updateConfig': { 'updatable': false, 'updateShowable': true }, 'selectChecked': false }, { 'label': '修改人', 'i18nLabel': 'SSO_LOGIN_APP_MODIFIER', 'value': 'modifier', 'columnName': 'modifier', 'type': 'text', 'primaryKey': false, 'searchConfig': { 'immediately': false, 'keywordSearch': true, 'searchable': true }, 'required': false, 'createConfig': { 'addable': false, 'addShowable': false }, 'updateConfig': { 'updatable': false, 'updateShowable': true }, 'selectChecked': false }, { 'label': '修改时间', 'i18nLabel': 'SSO_LOGIN_APP_MODIFY_TIME', 'value': 'modifyTime', 'columnName': 'modify_time', 'type': 'text', 'primaryKey': false, 'searchConfig': { 'immediately': false, 'keywordSearch': true, 'searchable': true }, 'required': false, 'createConfig': { 'addable': false, 'addShowable': false }, 'updateConfig': { 'updatable': false, 'updateShowable': true }, 'selectChecked': false }, { 'label': '启用/禁用', 'i18nLabel': 'SSO_LOGIN_APP_ENABLE_STATE', 'value': 'enableState', 'columnName': 'enable_state', 'type': 'switch', 'primaryKey': false, 'props': { 'activeValue': 1, 'activeText': '启用', 'inactiveValue': 0, 'inactiveText': '禁用' }, 'searchConfig': { 'immediately': false, 'keywordSearch': true, 'searchable': true }, 'required': false, 'createConfig': { 'addable': true, 'addShowable': true }, 'updateConfig': { 'updatable': true, 'updateShowable': true }, 'selectChecked': true }, { 'label': '排序', 'i18nLabel': 'SSO_LOGIN_APP_SORT', 'value': 'sort', 'columnName': 'sort', 'type': 'text', 'primaryKey': false, 'searchConfig': { 'immediately': false, 'keywordSearch': true, 'searchable': true }, 'required': false, 'createConfig': { 'addable': true, 'addShowable': true }, 'updateConfig': { 'updatable': true, 'updateShowable': true }, 'selectChecked': true }, { 'label': '主页的地址', 'i18nLabel': 'SSO_LOGIN_APP_HOME_URI', 'value': 'homeUri', 'columnName': 'home_uri', 'type': 'text', 'primaryKey': false, 'searchConfig': { 'immediately': false, 'keywordSearch': true, 'searchable': true }, 'required': false, 'createConfig': { 'addable': true, 'addShowable': true }, 'updateConfig': { 'updatable': true, 'updateShowable': true }, 'selectChecked': true }, { 'label': 'token的地址', 'i18nLabel': 'SSO_LOGIN_APP_TOKEN_URI', 'value': 'tokenUri', 'columnName': 'token_uri', 'type': 'text', 'primaryKey': false, 'searchConfig': { 'immediately': false, 'keywordSearch': true, 'searchable': true }, 'required': false, 'createConfig': { 'addable': true, 'addShowable': true }, 'updateConfig': { 'updatable': true, 'updateShowable': true }, 'selectChecked': true }, { 'label': '应用图标', 'i18nLabel': 'SSO_LOGIN_APP_ICON', 'value': 'icon', 'columnName': 'icon', 'type': 'text', 'primaryKey': false, 'searchConfig': { 'immediately': false, 'keywordSearch': true, 'searchable': true }, 'required': false, 'createConfig': { 'addable': true, 'addShowable': true }, 'updateConfig': { 'updatable': true, 'updateShowable': true }, 'selectChecked': true }, { 'label': '受保护的地址， 跳转到非法的地址上', 'i18nLabel': 'SSO_LOGIN_APP_PROTECT_URI', 'value': 'protectUri', 'columnName': 'protect_uri', 'type': 'text', 'primaryKey': false, 'searchConfig': { 'immediately': false, 'keywordSearch': true, 'searchable': true }, 'required': false, 'createConfig': { 'addable': true, 'addShowable': true }, 'updateConfig': { 'updatable': true, 'updateShowable': true }, 'selectChecked': true }] }
+ * 字段的配置，用在国际化及列表选择显示字段的时候
+ * @type {*[]}
+ */
+const tableFields = ['appId', 'appName', 'noLoginType', 'creator', 'createTime', 'modifier', 'modifyTime', 'enableState', 'deleted', 'sort', 'homeUri', 'tokenUri', 'icon', 'protectUri']
 
-export default tableConfig
+export default exportTableFields(tableFields)
+
+/**
+ * 字段的验证规则
+ * @param vm
+ * @returns {{clientId: {trigger: string, message: *, required: boolean}[]}}
+ */
+export function formRules(vm) {
+  return {
+    appId: [
+      { required: true, message: vm.$t(getI18nName('appId')) + vm.$t('common.notAllowedNull'), trigger: 'blur' }
+    ],
+    appName: [
+      { required: true, message: vm.$t(getI18nName('appName')) + vm.$t('common.notAllowedNull'), trigger: 'blur' }
+    ],
+    noLoginType: [
+      { required: true, message: vm.$t(getI18nName('noLoginType')) + vm.$t('common.notAllowedNull'), trigger: 'blur' }
+    ],
+    creator: [
+      { required: true, message: vm.$t(getI18nName('creator')) + vm.$t('common.notAllowedNull'), trigger: 'blur' }
+    ],
+    createTime: [
+      { required: true, message: vm.$t(getI18nName('createTime')) + vm.$t('common.notAllowedNull'), trigger: 'blur' }
+    ],
+    modifier: [
+      { required: true, message: vm.$t(getI18nName('modifier')) + vm.$t('common.notAllowedNull'), trigger: 'blur' }
+    ],
+    modifyTime: [
+      { required: true, message: vm.$t(getI18nName('modifyTime')) + vm.$t('common.notAllowedNull'), trigger: 'blur' }
+    ],
+    enableState: [
+      { required: true, message: vm.$t(getI18nName('enableState')) + vm.$t('common.notAllowedNull'), trigger: 'blur' }
+    ],
+    deleted: [
+      { required: true, message: vm.$t(getI18nName('deleted')) + vm.$t('common.notAllowedNull'), trigger: 'blur' }
+    ],
+    sort: [
+      { required: true, message: vm.$t(getI18nName('sort')) + vm.$t('common.notAllowedNull'), trigger: 'blur' }
+    ],
+    homeUri: [
+      { required: true, message: vm.$t(getI18nName('homeUri')) + vm.$t('common.notAllowedNull'), trigger: 'blur' }
+    ],
+    tokenUri: [
+      { required: true, message: vm.$t(getI18nName('tokenUri')) + vm.$t('common.notAllowedNull'), trigger: 'blur' }
+    ],
+    icon: [
+      { required: true, message: vm.$t(getI18nName('icon')) + vm.$t('common.notAllowedNull'), trigger: 'blur' }
+    ],
+    protectUri: [
+      { required: true, message: vm.$t(getI18nName('protectUri')) + vm.$t('common.notAllowedNull'), trigger: 'blur' }
+    ]
+  }
+}

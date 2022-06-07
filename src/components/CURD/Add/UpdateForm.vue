@@ -8,7 +8,7 @@
       label-width="120px"
       v-bind="{...(options && options.formProps) }"
     >
-      <add-form-items :add-fields="addFields" :default-span="defaultSpan" :value="value" :errorInfo="errorInfo"/>
+      <add-form-items :add-fields="addFields" :default-span="defaultSpan" :value="value" :error-info="errorInfo" />
       <el-row>
         <el-col
           :span="24"

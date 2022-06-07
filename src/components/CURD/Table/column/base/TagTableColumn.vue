@@ -1,12 +1,17 @@
 <template>
-  <el-table-column v-bind="$attrs" :prop="prop">
+  <el-table-column
+    v-bind="$attrs"
+    :prop="prop"
+    v-on="$listeners"
+  >
     <template slot-scope="scope">
       <div v-if="scope.row[prop]">
         <el-tag
           v-for="item in scope.row[prop].split(',')"
           :key="item"
-          style="margin-bottom: 5px; margin-right: 5px">
-          {{item}}
+          style="margin-bottom: 5px; margin-right: 5px"
+        >
+          {{ item }}
         </el-tag>
       </div>
     </template>

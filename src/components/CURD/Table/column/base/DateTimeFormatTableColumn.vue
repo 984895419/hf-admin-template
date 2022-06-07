@@ -1,9 +1,12 @@
 <template>
-  <el-table-column v-bind="{...$attrs, formatter: timeFormat}"> </el-table-column>
+  <el-table-column
+    v-bind="{...$attrs, formatter: timeFormat}"
+    v-on="$listeners"
+  />
 </template>
 
 <script>
-    import {parseTime} from "../../../../utils";
+    import { parseTime } from '../../../../../utils'
 
     export default {
         name: 'DateTimeFormatTableColumn',
@@ -19,7 +22,6 @@
         computed: {
             timeFormat() {
                 return (row, column, cellValue, index) => {
-                    debugger
                     return parseTime(cellValue, this.formatStr)
                 }
             }

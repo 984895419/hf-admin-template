@@ -1,155 +1,273 @@
 <template>
-    <el-card class="app-container">
-        <div>
-          <sso-client-search :inline="true" v-model="searchForm" @search="doSearch">
-            <el-form-item label="客户端ID">
-              <el-input v-model="searchForm.clientId" placeholder="请输入客户端ID"></el-input>
-            </el-form-item>
-          </sso-client-search>
-        </div>
-        <div style="margin-bottom: 10px">
-          <sso-client-add :action-url="conf.urlMethods.addUrl"/>
-        </div>
-      <hf-table :table-data="jsonData.list" v-loading="loading">
-        <el-table-column prop="clientId"  label="客户端ID" width="130"> </el-table-column>
-        <el-table-column prop="clientSecret"  label="客户端密钥" width="180"> </el-table-column>
-        <el-table-column prop="redirectUri"  label="重定向地址" width="180"> </el-table-column>
-        <enable-state-table-column
-            :operate="true"
-            :enable-url="conf.urlMethods.enableUrl"
-            :disable-url="conf.urlMethods.disableUrl"
-            @success="doSearch"/>
-        <tag-table-column prop="clientMethodName"  label="客户端支持的认证方式" width="180"></tag-table-column>
-        <tag-table-column prop="authorizationGrantTypesNames"  label="支持认证方式" width="180"> </tag-table-column>
-        <el-table-column prop="description"  label="描述"> </el-table-column>
-        <create-audit-table-column/>
-        <el-table-column
-          fixed="right"
-          label="操作"
-          width="150"
-        >
-          <template slot-scope="scopeRow">
-            <sso-client-update :value="scopeRow.row"
-                               @success="doSearch"
-                               :query-url="conf.urlMethods.queryUrl"
-                               :update-url="conf.urlMethods.updateUrl">
-
-            </sso-client-update>
-          </template>
-        </el-table-column>
-      </hf-table>
-      <curd-pagination
-        :current-page="searchForm.pageInfo.pageNo"
-        :page-size="searchForm.pageInfo.pageSize"
-        :total="jsonData.total"
-        @size-change="doSearch"
-        @current-change="doSearch"
+  <el-card class="app-container">
+    <!-- 查询框 -->
+    <div>
+      <simple-search v-model="searchForm" :inline="true" @search="doSearch">
+        <template v-slot="{ span }">
+          <form-item-col
+            :value="searchForm"
+            :span="span"
+            prop="clientId"
+            :namespace="conf.namespace"
+          />
+          <form-item-col-dict
+            :value="searchForm"
+            prop="clientMethod"
+            :span="span"
+            :dict-code="'CLIENT_METHOD_TYPES'"
+            :namespace="conf.namespace"
+          />
+          <form-item-col-dict
+            :value="searchForm"
+            multiple
+            :span="span"
+            prop="authorizationGrantTypes"
+            :dict-code="'AUTHORIZATION_GRANT_TYPES'"
+            :namespace="conf.namespace"
+          />
+        </template>
+      </simple-search>
+    </div>
+    <!-- 操作栏-->
+    <div style="margin-bottom: 10px" class="col-btn-display">
+      <sso-client-add @success="doSearch" :action-url="conf.urlMethods.addUrl" />
+      <div style="float: right" class="col-btn-display">
+        <del-btn
+          v-if="conf.urlMethods.deleteUrl
+            && toggleRowSelectionArray.length > 0"
+          :url="templateUrl(conf.urlMethods.deleteUrl, toggleRowSelectionArray)"
+          :value="toggleRowSelectionArray"
+          :label="$t('common.batchDelete')"
+          @success="doSearch"
+        />
+        <template-confirm-btn
+          v-if="conf.urlMethods.enableUrl
+            && toggleRowSelectionArray.length > 0"
+          :url="templateUrl(conf.urlMethods.enableUrl, toggleRowSelectionArray)"
+          :btn-type="'primary'"
+          :label="$t('common.batchEnable')"
+          :value="toggleRowSelectionArray"
+          @success="doSearch"
+        />
+        <template-confirm-btn
+          v-if="conf.urlMethods.disableUrl
+            && toggleRowSelectionArray.length > 0"
+          :url="templateUrl(conf.urlMethods.disableUrl, toggleRowSelectionArray)"
+          :btn-type="'primary'"
+          :value="toggleRowSelectionArray"
+          :label="$t('common.batchDisable')"
+          @success="doSearch"
+        />
+      </div>
+    </div>
+    <!-- 列表-->
+    <hf-table
+      v-loading="loading"
+      :table-data="jsonData.list"
+      @selection-change="handleSelectionChange"
+      @sort-change="sortChange"
+    >
+      <el-table-column
+        fixed="left"
+        type="selection"
+        width="40"
       />
-    </el-card>
+      <!-- 显示的字段-->
+      <sso-auth-columns :show-fields="showFields" :url-methods="conf.urlMethods" @success="doSearch" />
+      <el-table-column
+        fixed="right"
+        :label="$t('common.operate')"
+        width="150"
+      >
+        <template v-slot:header>
+          操作
+          <curd-table-column-select
+            v-if="tableFields"
+            v-model="showFields"
+            :preference-alias="conf.namespace"
+            :table-fields="tableFields"
+            style="float: right"
+            @selectedChange="reRenderTable"
+          />
+        </template>
+        <template slot-scope="scopeRow">
+          <div class="col-btn-display">
+            <!-- 更新 -->
+            <sso-client-update
+              :value="scopeRow.row"
+              :query-url="conf.urlMethods.queryUrl"
+              :update-url="conf.urlMethods.updateUrl"
+              @success="doSearch"
+            />
+            <!-- 删除-->
+            <del-btn
+              :url="templateUrl(conf.urlMethods.deleteUrl, scopeRow.row)"
+              :btn-type="'text'"
+              :value="scopeRow.row"
+              @success="doSearch"
+            />
+            <!-- 查看 -->
+            <sso-auth-detail
+              :value="scopeRow.row"
+            />
+          </div>
+        </template>
+      </el-table-column>
+    </hf-table>
+    <!-- 分页信息 -->
+    <curd-pagination
+      :current-page="searchForm.pageInfo.pageNo"
+      :page-size="searchForm.pageInfo.pageSize"
+      :total="jsonData.total"
+      @size-change="doSearch"
+      @current-change="doSearch"
+    />
+  </el-card>
 </template>
 
 <script>
-import * as conf from './api'
-import SsoClientAdd from "./add";
-import HfTable from "../../../components/CURD/Table/HfTable";
-import {baseApiGetMethod} from "../../../components/CURD/baseApi";
-import {isSuccessResult} from "../../../utils/ajaxResultUtil";
-import SsoClientSearch from "./search";
-import RowSpanSlot from "../../../components/CURD/Slot/RowSpanSlot";
-import FormItemCol from "../../../components/CURD/Form/formItemCol";
-import EnableStateTableColumn from "../../../components/CURD/Table/column/EnableStateTableColumn";
-import CurdPagination from "../../../components/CURD/pagination/Pagination";
-import SsoClientUpdate from "./update";
-import TagTableColumn from "../../../components/CURD/Table/column/TagTableColumn";
-import CreateAuditTableColumn from "../../../components/CURD/Table/column/CreateAuditTableColumn";
+    import * as conf from './api'
+    import SsoClientAdd from './add'
+    import HfTable from '@/components/CURD/Table/HfTable'
+    import { baseApiGetMethod } from '@/components/CURD/baseApi'
+    import { isSuccessResult } from '@/utils/ajaxResultUtil'
+    import CurdPagination from '@/components/CURD/pagination/Pagination'
+    import SsoClientUpdate from './update'
+    import DelBtn from '@/components/CURD/Btns/DelBtn'
+    import CurdMixin from '@/components/CURD/curd.mixin'
+    import CurdTableColumnSelect from '@/components/CURD/Table/select/TableColumnSelect'
+    import SsoAuthDetail from './detail'
+    import SsoAuthColumns from './ssoAuthColumns'
+    import TemplateConfirmBtn from '@/components/CURD/Btns/TemplateConfirmBtn'
+    import FormItemColDict from '@/components/CURD/Form/formItemColDict.vue'
+    import FormItemCol from '@/components/CURD/Form/formItemCol.vue'
+    import SimpleSearch from '@/components/CURD/Query/search'
 
-export default {
-    name: 'SsoAuthClientIndexVue',
-    components: {
-        CreateAuditTableColumn,
-        TagTableColumn,
-        SsoClientUpdate,
-        CurdPagination, EnableStateTableColumn, FormItemCol, RowSpanSlot, SsoClientSearch, HfTable, SsoClientAdd },
-    data() {
-        return {
-            loading: false,
-            /**
-             * 查询的表单信息
-             */
-            searchForm: {
-                clientId: null,
+    export default {
+        name: 'SsoAuthClientIndexVue',
+        components: {
+            SimpleSearch,
+            TemplateConfirmBtn,
+            SsoAuthColumns,
+            SsoAuthDetail,
+            CurdTableColumnSelect,
+            DelBtn,
+            SsoClientUpdate,
+            CurdPagination,
+            HfTable, SsoClientAdd,
+            FormItemColDict,
+            FormItemCol
+        },
+        mixins: [CurdMixin],
+        data() {
+            return {
+                db: {},
+                showFields: null,
+                loading: false,
                 /**
-                 * 分页信息
+                 * 查询的表单信息
                  */
-                pageInfo: {
-                    pageNo: 1,
-                    pageSize: 100
+                searchForm: {
+                    clientId: null,
+                    /**
+                     * 分页信息
+                     */
+                    pageInfo: {
+                        pageNo: 1,
+                        pageSize: 100
+                    },
+                    /**
+                     * 排序信息
+                     */
+                    sortInfo: []
                 },
-                /**
-                 * 排序信息
-                 */
-                sortInfo: []
-            },
-            conf: conf,
-            jsonData: {
-                list: [],
-                total: 0
+                conf: conf,
+                jsonData: {
+                    list: [],
+                    total: 0
+                },
+                tableFields: conf.default,
+                toggleRowSelectionArray: []
             }
-        }
-    },
-    created() {
-      this.doSearch()
-    },
-    methods: {
-        /**
-         * 排序发生变化的时候执行的排序变化
-         * @param column
-         * @param prop
-         * @param order
-         */
-        sortChange({ column, prop, order }) {
-            console.log(column, prop, order)
-            // 设置排序字段信息
-            this.searchForm.sortInfo = [{
-                sort: order === 'ascending' ? 0 : 1,
-                fieldName: prop
-            }]
-            // 执行排序
+        },
+        created() {
             this.doSearch()
         },
-        /**
-         * 查询条件变化
-         */
-        inquiryChangeSearch(query) {
-            this.searchForm.query = query
-            this.doSearch()
-        },
-        /**
-         * 执行查询操作
-         */
-        doSearch() {
-            if (this.conf.urlMethods && this.conf.urlMethods.pageUrl) {
-                this.loading = true
-                baseApiGetMethod(this.conf.urlMethods.pageUrl, this.searchForm).then(resp => {
-                    if (isSuccessResult(resp)) {
-                        this.$set(this.jsonData, 'list', resp.data.list)
-                        this.$set(this.jsonData, 'total', resp.data.total)
-                    } else {
-                        this.$message.error(resp.message)
-                    }
-                    this.loading = false
-                }).catch(e => {
-                    console.log(e)
-                    this.loading = false
-                })
-            } else {
-                this.$message.error('请配置分页查询地址参数:{pageUrl: xxxx}')
+        methods: {
+            reRenderTable(res) {
+                // 扩展显示的字段
+                this.showFields = []
+                // 标记为重新渲染中
+                this.reRending = true
+                setTimeout(() => {
+                    this.showFields = res
+                    // 标记为重新渲染中
+                    this.reRending = false
+                }, 50)
+            },
+            /**
+             * 排序发生变化的时候执行的排序变化
+             * @param column
+             * @param prop
+             * @param order
+             */
+            sortChange({ column, prop, order }) {
+                // 设置排序字段信息
+                if (order) {
+                  this.searchForm.sortInfo = [{
+                      sort: order === 'ascending' ? 0 : (1),
+                      fieldName: prop
+                  }]
+                } else {
+                  this.searchForm.sortInfo = []
+                }
+                // 执行排序
+                this.doSearch()
+            },
+            /**
+             * 查询条件变化
+             */
+            inquiryChangeSearch(query) {
+                this.searchForm.query = query
+                this.doSearch()
+            },
+            /**
+             * 选中后处理的事件
+             * @param section
+             */
+            handleSelectionChange(section) {
+                this.toggleRowSelectionArray = section
+            },
+            /**
+             * 执行查询操作
+             */
+            doSearch() {
+                if (this.conf.urlMethods && this.conf.urlMethods.pageUrl) {
+                    this.loading = true
+                    baseApiGetMethod(this.conf.urlMethods.pageUrl, this.searchForm).then(resp => {
+                        if (isSuccessResult(resp)) {
+                            this.$set(this.jsonData, 'list', resp.data.list)
+                            this.$set(this.jsonData, 'total', resp.data.total)
+                        } else {
+                            this.$message.error(resp.message)
+                        }
+                        this.loading = false
+                    }).catch(e => {
+                        console.log(e)
+                        this.loading = false
+                    })
+                } else {
+                    this.$message.error('请配置分页查询地址参数:{pageUrl: xxxx}')
+                }
             }
         }
     }
-}
 </script>
 
 <style scoped>
-
+  /deep/ .col-btn-display > div,
+  .col-btn-display > .el-button {
+    display: inline-block;
+    margin-right: 10px;
+  }
 </style>

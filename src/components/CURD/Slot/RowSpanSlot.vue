@@ -1,5 +1,5 @@
 <template>
-  <el-row>
+  <el-row :gutter="5">
     <slot :span="defaultSpan" />
   </el-row>
 </template>

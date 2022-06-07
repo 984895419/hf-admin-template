@@ -2,7 +2,7 @@
   <el-col :span="span">
     <el-form-item
       :size="$store.size"
-      :label="label"
+      :label="computeLabel"
       :prop="prop"
       :label-width="labelWidth"
       :required="required"
@@ -12,10 +12,11 @@
       <slot>
         <!-- 下拉 -->
         <el-select
-          v-if="!$attrs['multiple']"
+          v-if="$attrs['multiple'] === undefined || $attrs['multiple'] === false"
           v-model="value[prop]"
           clearable
           v-bind="$attrs"
+          :placeholer="computedPlaceholder"
           v-on="$listeners"
         >
           <el-option
@@ -26,10 +27,12 @@
           />
         </el-select>
         <el-select
-          v-if="$attrs['multiple']"
+          v-else
           v-model="multipleSelect"
           clearable
+          collapse-tags
           v-bind="$attrs"
+          :placeholer="computedPlaceholder"
           v-on="$listeners"
           @change="multipleChange"
         >
@@ -48,28 +51,67 @@
  * 数据字典的方式; 数据字典的url
  */
 
-import {baseApiGetMethod} from "../baseApi";
-import {getData, getMessage, isSuccessResult} from "../../../utils/ajaxResultUtil";
+import { baseApiGetMethod } from '../baseApi'
+import { getData, getMessage, isSuccessResult } from '../../../utils/ajaxResultUtil'
 
 export default {
   name: 'FormItemColDict',
   props: {
-    span: Number,
-    value: Object,
-    prop: String,
-    rules: Object,
-    error: String,
-    label: String,
-    required: Boolean,
-    labelWidth: String,
-    dictCode: null
+    span: {
+          type: Number,
+          default: undefined
+        },
+    value: {
+          type: Object,
+          default: undefined
+        },
+    prop: {
+          type: String,
+          default: undefined
+        },
+    rules: {
+          type: Object,
+          default: undefined
+        },
+    error: {
+          type: String,
+          default: undefined
+        },
+    label: {
+          type: String,
+          default: undefined
+        },
+    required: {
+          type: Boolean,
+          default: undefined
+        },
+    labelWidth: {
+          type: String,
+          default: undefined
+        },
+    namespace: {
+          type: String,
+          default: undefined
+        },
+    dictCode: {
+      type: String,
+      default: null
+    }
   },
   data() {
       return {
           dictListUrl: '/api/baseDictValue/list',
           list: null,
-          multipleSelect: this.$attrs['multiple']
-              ? (this.value[this.prop] ? [] : this.value[this.prop].split(',')) : []
+          multipleSelect: (this.$attrs['multiple'] === undefined || this.$attrs['multiple'] === false)
+              ? [] : (this.value[this.prop] ? this.value[this.prop].split(',') : [])
+      }
+  },
+  computed: {
+      computeLabel() {
+          return this.label ? this.label : (this.namespace ? this.$t(this.namespace + '.' + this.prop) : '')
+      },
+      computedPlaceholder() {
+          return this.$attrs['placeholder'] ? this.$attrs['placeholder'] : this.$t('common.pleaseSelect') + this.computeLabel
       }
   },
   created() {
@@ -89,8 +131,7 @@ export default {
         })
     },
     multipleChange() {
-        debugger
-      this.value[this.prop] = this.multipleSelect.join(",")
+      this.value[this.prop] = this.multipleSelect.join(',')
     }
   }
 }
