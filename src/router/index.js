@@ -259,6 +259,12 @@ export const constantRoutes = [
         component: () => import('@/views/sso/ssoLoginApp'),
         name: 'loginApp',
         meta: { title: '免登应用', icon: 'dashboard', affix: true }
+      },
+      {
+        path: 'ssoLoginPermission',
+        component: () => import('@/views/sso/ssoLoginPermission'),
+        name: 'ssoLoginPermission',
+        meta: { title: '权限管理', icon: 'dashboard', affix: true }
       }
     ],
     meta: { title: '应用管理', icon: 'dashboard', affix: true }

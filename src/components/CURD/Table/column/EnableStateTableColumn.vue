@@ -52,7 +52,6 @@
         methods: {
           doSwitchState(row) {
               let url = this.disableUrl
-              debugger
               if (row.enableState === 1) {
                   url = this.enableUrl
               }
@@ -60,6 +59,7 @@
                   baseApiPutMethod(this.templateUrl(url, row)).then(resp => {
                       if (isSuccessResult(resp)) {
                           this.$emit('success')
+                          this.$message.success(getMessage(resp))
                       } else {
                           this.$message.error(getMessage(resp))
                       }

@@ -12,6 +12,7 @@
           :table-data="value"
           :table-item-option="{ ...tableItemOption}"
           v-bind="$attrs"
+          :max-height="400"
           highlight-current-row
           v-on="$listeners"
         >
@@ -159,6 +160,7 @@ export default {
      */
     doEnsure() {
       this.$emit('input', this.initData)
+      this.$emit('success', this.initData)
       this.closeDialog()
     },
     /**
@@ -168,7 +170,7 @@ export default {
     deleteTheData(row) {
       if (this.deleteBefore) {
         this.deleteBefore(row, () => {
-          if (this.value.indexOf(row) > 0) {
+          if (this.value.indexOf(row) >= 0) {
             this.value.splice(this.value.indexOf(row), 1)
           }
         })
@@ -178,9 +180,12 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          if (this.value.indexOf(row) > 0) {
+            debugger
+          if (this.value.indexOf(row) >= 0) {
             this.value.splice(this.value.indexOf(row), 1)
           }
+          this.$emit('input', this.value)
+          this.$emit('success', this.value)
         }).catch(() => {
           this.$message({
             type: 'info',
@@ -204,6 +209,8 @@ export default {
           type: 'warning'
         }).then(() => {
           this.value.splice(0, this.value.length)
+          this.$emit('input', this.value)
+          this.$emit('success', this.value)
         }).catch(() => {
           this.$message({
             type: 'info',

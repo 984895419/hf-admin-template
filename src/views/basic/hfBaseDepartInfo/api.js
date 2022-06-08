@@ -1,3 +1,4 @@
+import { defaultUrlMethod } from '@/components/CURD/defaultUrl'/**
 /**
 * 部门信息模块基础地址
 * @type {string}
@@ -7,9 +8,9 @@ export const baseUrl = '/api/hfBaseDepartInfo'
 * 基础查询地址
 * @type {{pageUrl: string}}
 */
-export const urlMethods = {
+export const urlMethods = defaultUrlMethod(baseUrl, 'pkDept', {
     pageUrl: baseUrl + '/nameQuery'
-}
+})
 /**
 * 定义模块的命名空间
 * @type {string}

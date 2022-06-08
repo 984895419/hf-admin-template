@@ -2,11 +2,12 @@
     <div>
         <multiple-refer
             v-if="conf.default"
-            v-model="value"
+            v-model="deepValue"
             :base-url="conf.baseUrl"
             :url-methods="conf.urlMethods"
             :table-config="conf.default"
             :table-fields="conf.default.fields"
+            v-on="$listeners"
         />
     </div>
 </template>
@@ -14,19 +15,26 @@
 <script>
 import MultipleRefer from '@/components/CURD/multipleRefer'
 import * as conf from './api'
+import {deepClone} from "../../../utils";
 
 export default {
     name: 'HfBaseDepartInfoMultipleRefer',
     components: { MultipleRefer },
     props: {
         value: {
-            type: Object,
+            type: Array,
             require: true
+        }
+    },
+    watch: {
+        value() {
+            this.deepValue = deepClone(this.value)
         }
     },
     data() {
         return {
-            conf: conf
+            conf: conf,
+            deepValue: deepClone(this.value || [])
         }
     }
 }

@@ -16,6 +16,7 @@
       v-bind="$attrs"
       highlight-current-row
       v-on="$listeners"
+      :max-height="600"
       @sort-change="sortChange"
       @selection-change="handleSelectionChange"
       @colSelectedChange="triggerSelection"

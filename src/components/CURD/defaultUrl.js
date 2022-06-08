@@ -14,10 +14,12 @@ export function defaultUrlMethod(baseUrl, primaryKeyField, customUrl) {
       updateUrl: baseUrl + '/{' + primaryKeyField + '}',
       queryUrl: baseUrl + '/{' + primaryKeyField + '}',
       deleteUrl: baseUrl + '/{' + primaryKeyField + '}',
-      enableUrl: baseUrl + '/enable/' + primaryKeyField + '}',
-      disableUrl: baseUrl + '/disable/' + primaryKeyField + '}',
+      enableUrl: baseUrl + '/enable/{' + primaryKeyField + '}',
+      disableUrl: baseUrl + '/disable/{' + primaryKeyField + '}',
       listUrl: baseUrl + '/list',
+      listQueryUrl: baseUrl + '/list/query',
       batchUpdateUrl: baseUrl + '/batch',
+      batchQueryUrl: baseUrl + '/batch/{' + primaryKeyField + '}',
       ...customUrl
     }
   } else {

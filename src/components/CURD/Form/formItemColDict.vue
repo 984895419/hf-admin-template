@@ -122,7 +122,7 @@ export default {
        * 加载字典信息
        */
     loadDict() {
-        baseApiGetMethod(this.dictListUrl, { typeCode: this.dictCode }).then(resp => {
+        baseApiGetMethod(this.dictListUrl, { typeCode: this.dictCode, enableState: 1 }).then(resp => {
             if (isSuccessResult(resp)) {
               this.list = getData(resp)
             } else {

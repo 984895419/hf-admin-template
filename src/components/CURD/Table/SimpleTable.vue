@@ -74,6 +74,7 @@
           <el-table-column
             v-if="tableItemOption && tableItemOption.showSelected"
             label="选择"
+            fixed="left"
             type="selection"
             width="55"
           />

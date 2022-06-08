@@ -8,20 +8,15 @@
           <form-item-col
             :value="searchForm"
             :span="span"
-            prop="appId"
+            prop="permissionName"
             :namespace="conf.namespace"
           />
-          <form-item-col
-            :value="searchForm"
-            :span="span"
-            prop="appName"
-            :namespace="conf.namespace"
-          />
+
           <form-item-col-dict
             :value="searchForm"
             :span="span"
-            prop="noLoginType"
-            :dict-code="'NO_LOGIN_TYPE'"
+            prop="permissionType"
+            :dict-code="'PERMISSION_TYPE'"
             :namespace="conf.namespace"
           />
           <!-- 字典字段字段设置方法如下
@@ -38,7 +33,7 @@
     </div>
     <!-- 操作栏-->
     <div style="margin-bottom: 10px" class="col-btn-display">
-      <sso-login-app-add :action-url="conf.urlMethods.addUrl" @success="doSearch" />
+      <sso-login-permission-add :action-url="conf.urlMethods.addUrl" @success="doSearch" />
       <div style="float: right" class="col-btn-display">
         <del-btn
           v-if="conf.urlMethods.deleteUrl
@@ -81,7 +76,7 @@
         width="40"
       />
       <!-- 显示的字段-->
-      <sso-login-app-columns :show-fields="showFields" :url-methods="conf.urlMethods" @success="doSearch" />
+      <sso-login-permission-columns :show-fields="showFields" :url-methods="conf.urlMethods" @success="doSearch" />
       <el-table-column
         fixed="right"
         :label="$t('common.operate')"
@@ -101,7 +96,7 @@
         <template slot-scope="scopeRow">
           <div class="col-btn-display">
             <!-- 更新 -->
-            <sso-login-app-update
+            <sso-login-permission-update
               :value="scopeRow.row"
               :query-url="conf.urlMethods.queryUrl"
               :update-url="conf.urlMethods.updateUrl"
@@ -115,11 +110,15 @@
               @success="doSearch"
             />
             <!-- 查看 -->
-            <sso-login-app-detail
+            <sso-login-permission-detail
               :value="scopeRow.row"
             />
-            <!-- 免登 -->
-            <el-button type="text" @click="openAuth(scopeRow.row)">进入</el-button>
+            <!-- 绑定应用 -->
+            <common-dialog-btn type="text" :label="$t(conf.getI18nName('bindApps'))" :title="$t(conf.getI18nName('bindApps'))">
+              <template v-slot="{closeDialog}">
+                <app-permission :permission-id="scopeRow.row.permissionId" @success="bindSuccessHandler(closeDialog)()"/>
+              </template>
+            </common-dialog-btn>
           </div>
         </template>
       </el-table-column>
@@ -137,33 +136,37 @@
 
 <script>
     import * as conf from './api'
-    import SsoLoginAppAdd from './add'
+    import SsoLoginPermissionAdd from './add'
     import HfTable from '@/components/CURD/Table/HfTable'
     import { baseApiGetMethod } from '@/components/CURD/baseApi'
     import { isSuccessResult } from '@/utils/ajaxResultUtil'
     import CurdPagination from '@/components/CURD/pagination/Pagination'
-    import SsoLoginAppUpdate from './update'
+    import SsoLoginPermissionUpdate from './update'
     import DelBtn from '@/components/CURD/Btns/DelBtn'
     import CurdMixin from '@/components/CURD/curd.mixin'
     import CurdTableColumnSelect from '@/components/CURD/Table/select/TableColumnSelect'
-    import SsoLoginAppDetail from './detail'
-    import SsoLoginAppColumns from './ssoLoginAppColumns'
+    import SsoLoginPermissionDetail from './detail'
+    import SsoLoginPermissionColumns from './ssoLoginPermissionColumns'
     import TemplateConfirmBtn from '@/components/CURD/Btns/TemplateConfirmBtn'
     import FormItemColDict from '@/components/CURD/Form/formItemColDict.vue'
     import FormItemCol from '@/components/CURD/Form/formItemCol.vue'
     import SimpleSearch from '@/components/CURD/Query/search'
+    import CommonDialogBtn from '@/components/CURD/Btns/CommonDialogBtn'
+    import AppPermission from './AppPermission'
 
     export default {
-        name: 'SsoLoginAppIndexVue',
+        name: 'SsoLoginPermissionIndexVue',
         components: {
+            AppPermission,
+            CommonDialogBtn,
             TemplateConfirmBtn,
-          SsoLoginAppColumns,
-          SsoLoginAppDetail,
+          SsoLoginPermissionColumns,
+          SsoLoginPermissionDetail,
             CurdTableColumnSelect,
             DelBtn,
-          SsoLoginAppUpdate,
+          SsoLoginPermissionUpdate,
             CurdPagination,
-            HfTable, SsoLoginAppAdd,
+            HfTable, SsoLoginPermissionAdd,
           FormItemColDict,
           FormItemCol,
           SimpleSearch
@@ -178,21 +181,16 @@
                  * 查询的表单信息
                  */
                 searchForm: {
-          id: null,
-          appId: null,
-          appName: null,
-          noLoginType: null,
+          permissionId: null,
+          permissionName: null,
+          permissionType: null,
+          permissionCnt: null,
           creator: null,
           createTime: null,
           modifier: null,
           modifyTime: null,
           enableState: null,
           deleted: null,
-          sort: null,
-          homeUri: null,
-          tokenUri: null,
-          icon: null,
-          protectUri: null,
                     /**
                      * 分页信息
                      */
@@ -236,17 +234,17 @@
              * @param order
              */
             sortChange({ column, prop, order }) {
-                // 设置排序字段信息
-                if (order) {
-                  this.searchForm.sortInfo = [{
-                      sort: order === 'ascending' ? 0 : (1),
-                      fieldName: prop
-                  }]
-                } else {
-                  this.searchForm.sortInfo = []
-                }
-                // 执行排序
-                this.doSearch()
+              // 设置排序字段信息
+              if (order) {
+                this.searchForm.sortInfo = [{
+                  sort: order === 'ascending' ? 0 : (1),
+                  fieldName: prop
+                }]
+              } else {
+                this.searchForm.sortInfo = []
+              }
+               // 执行排序
+              this.doSearch()
             },
             /**
              * 查询条件变化
@@ -284,8 +282,14 @@
                     this.$message.error('请配置分页查询地址参数:{pageUrl: xxxx}')
                 }
             },
-            openAuth(row) {
-                return window.open('http://127.0.0.1:8790/proxy/' + row.appId, '_blank')
+            bindSuccessHandler(cb) {
+                return () => {
+                    debugger
+                    if (cb) {
+                        cb()
+                    }
+                    this.doSearch()
+                }
             }
         }
     }

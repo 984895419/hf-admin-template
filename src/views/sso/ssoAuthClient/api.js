@@ -8,7 +8,7 @@ export const baseUrl = '/api/ssoAuthClient'
  * 基础查询地址
  * @type {{pageUrl: string}}
  */
-export const urlMethods = defaultUrlMethod(baseUrl, {
+export const urlMethods = defaultUrlMethod(baseUrl, undefined, {
   pageUrl: baseUrl + '/pageQuery'
 })
 /**
