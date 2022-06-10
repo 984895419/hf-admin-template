@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <CRUD v-if="tableConfig" :base-url="'/api/consumer'" :table-config="tableConfig" />
+<!--    <CRUD v-if="tableConfig" :base-url="'/api/consumer'" :table-config="tableConfig" />-->
   </div>
 </template>
 
@@ -8,10 +8,10 @@
 
 import { getMessage, isSuccessResult } from '@/utils/ajaxResultUtil'
 import { fetchMyColumnInfos } from '@/api/columnInfo'
-import CRUD from '@/components/CURD/index.vue'
+// import CRUD from '@/components/CURD/index.vue'
 
 export default {
-  components: { CRUD },
+  // components: { CRUD },
   data() {
     return {
       currentPage4: 4,
@@ -22,7 +22,7 @@ export default {
     }
   },
   created() {
-    this.loadFields()
+    // this.loadFields()
   },
   methods: {
     loadFields() {

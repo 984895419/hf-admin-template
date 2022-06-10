@@ -152,6 +152,7 @@
     import FormItemColDict from '@/components/CURD/Form/formItemColDict.vue'
     import FormItemCol from '@/components/CURD/Form/formItemCol.vue'
     import SimpleSearch from '@/components/CURD/Query/search'
+    import {getData, getMessage} from "../../../utils/ajaxResultUtil";
 
     export default {
         name: 'SsoLoginAppIndexVue',
@@ -285,7 +286,43 @@
                 }
             },
             openAuth(row) {
-                return window.open('http://127.0.0.1:8790/proxy/' + row.appId, '_blank')
+                if (row.noLoginType === 'FANRUAN') {
+                    baseApiGetMethod('/api/proxy/' + row.appId).then(resp => {
+                        if (isSuccessResult(resp)) {
+                            const { authUri , successUri } = getData(resp)
+                            this.doSubmit(authUri, successUri)
+                        } else {
+                           this.$message.error(getMessage(resp))
+                        }
+                    })
+                } else {
+                    return window.open(process.env.VUE_APP_HOST_URI + '/proxy/' + row.appId, '_blank')
+                }
+            },
+            doSubmit(authUri, successUri) {
+                // const tab = window.open(authUri, 'scrollbars=yes,resizable=yes,width=1200,height=900,top=100,left=400')
+                // window.open(successUri, 'scrollbars=yes,resizable=yes,width=1200,height=900,top=100,left=400')
+                // 创建iframe
+                var scr = document.createElement('iframe')
+                // 将报表验证用户名密码的地址指向此iframe
+                scr.src = authUri
+                if (scr.attachEvent) { // 判断是否为ie浏览器
+                    scr.attachEvent('onload', function() { // 如果为ie浏览器则页面加载完成后立即执行
+                        /* 跳转到指定登录成功页面，index.jsp
+                        var f = document.getElementById("login");
+                            f.submit();  */
+                        window.open(successUri, '_blank')
+                    })
+                } else {
+                    scr.onload = function() { // 其他浏览器则重新加载onload事件
+                        /* 跳转到指定登录成功页面,index.jsp
+                         var f = document.getElementById("login");
+                             f.submit(); */
+                        window.open(successUri, '_blank')
+                    }
+                }
+
+                document.getElementsByTagName('head')[0].appendChild(scr) // 将iframe标签嵌入到head中
             }
         }
     }

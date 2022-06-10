@@ -33,6 +33,7 @@ export default {
                 this.timer = setInterval(() => {
                     this.checkLogin()
                 }, this.timeSplit)
+               // let tab = window.open('/api/oauth/qywx', '_blank')
            } else {
                  if (this.timer) {
                     window.clearInterval(this.timer)

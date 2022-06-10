@@ -15,7 +15,7 @@
 <script>
 import MultipleRefer from '@/components/CURD/multipleRefer'
 import * as conf from './api'
-import {deepClone} from "../../../utils";
+import {deepClone} from '../../../utils'
 
 export default {
     name: 'HfBaseCompanyInfoMultipleRefer',
