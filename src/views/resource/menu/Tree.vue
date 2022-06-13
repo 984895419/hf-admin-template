@@ -67,8 +67,6 @@ export default {
     getMenuTree1() {
      baseApiGetMethod('/api/hfBaseRightMenu/list').then(
         (resp) => {
-       debugger
-
           if (resp.retCode === '00001') {
             this.data.list = resp.data.list
             this.data.total = resp.data.total

@@ -42,7 +42,6 @@ export default {
         (resp) => {
           if (resp.retCode === '00001') {
             this.tableData = resp.data.list
-
             console.log(resp, 'resp')
           }
         }

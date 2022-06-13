@@ -162,6 +162,11 @@
             <router-link style="display:block" :to="{ name:'user-bind'}">绑定用户</router-link>
           </el-button>
         </el-dropdown-item>
+        <el-dropdown-item>
+          <el-button type="text">
+            <router-link style="display:block" :to="{ name:'permission-setting'}">权限设置</router-link>
+          </el-button>
+        </el-dropdown-item>
       </template>
       <template v-slot:pageInfo>
         <el-pagination

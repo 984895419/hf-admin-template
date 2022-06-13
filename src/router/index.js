@@ -202,7 +202,7 @@ export const constantRoutes = [
     children: [
       {
         path: 'menu',
-        component: () => import('@/views/basic/hfBaseRightMenu'),
+        component: () => import('@/views/resource/menu'),
         name: 'menu',
         meta: { title: '菜单列表', icon: 'dashboard', affix: true }
       },

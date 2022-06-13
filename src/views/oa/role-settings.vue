@@ -4,7 +4,8 @@
       <div>用户拥有的角色如下: </div>
       <div style="margin: 15px 0;" />
       <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
-        <el-checkbox v-for="(item,index) in cities" :key="index" :label="item.roleName">{{ item.roleName }}</el-checkbox>
+        <el-checkbox v-for="(item, index) in cities" :key="index" :label="item.roleName">{{ item.roleName }}
+        </el-checkbox>
       </el-checkbox-group>
       <div class="main-btn">
         <el-button type="primary" @click="saveRole()">保存</el-button>
@@ -85,8 +86,11 @@ export default {
       baseApiGetMethod(`/api/hfBaseUserInfo/bindRoles/${this.data.userId}`).then(
         (resp) => {
           if (resp.retCode === '00001') {
-            // this.$set(this.checkedCities, 0, resp.data)
-            this.checkedCities = resp.data
+            const roleBindList = []
+            resp.data.forEach((item, index) => {
+              roleBindList.push(item.roleName)
+            })
+            this.checkedCities = roleBindList
           }
         }
       )
