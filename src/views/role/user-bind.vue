@@ -11,17 +11,17 @@
         <tree-search :data="companydepartsdata" @treeNodeval="treeNodeval" />
       </el-col>
       <el-col :span="21">
-        <HfBaseUserInfoIndexVue />
+        <hfBaseRightRoleUser />
       </el-col>
     </el-row>
   </div>
 </template>
 <script>
-import HfBaseUserInfoIndexVue from '@/views/basic/hfBaseUserInfo'
+import hfBaseRightRoleUser from '@/views/basic/hfBaseUserInfo'
 import TreeSearch from '../oa/TreeSearch.vue'
 import { baseApiGetMethod } from '@/components/CURD/baseApi'
 export default {
-  components: { HfBaseUserInfoIndexVue, TreeSearch },
+  components: { hfBaseRightRoleUser, TreeSearch },
   data() {
     return {
       filterText: '',

@@ -4,7 +4,7 @@
       <div>用户拥有的角色如下: </div>
       <div style="margin: 15px 0;" />
       <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
-        <el-checkbox v-for="(item, index) in cities" :key="index" :label="item.roleName">{{ item.roleName }}
+        <el-checkbox v-for="(item, index) in cities" :key="index" :label="item.roleId">{{ item.roleName }}
         </el-checkbox>
       </el-checkbox-group>
       <div class="main-btn">
@@ -38,9 +38,14 @@ export default {
     this.getUserIdBindRole()
   },
   methods: {
-
+    //  选中数据
     handleCheckedCitiesChange(value) {
-
+      const roleBindList1 = []
+      value.forEach((item, index) => {
+        roleBindList1.push(item.roleId)
+      })
+      this.checkedCities = value
+      console.log(this.checkedCities)
     },
     // 查看角色管理
     viewRoleManagement() {
@@ -52,21 +57,31 @@ export default {
         }
       )
     },
+    // 获取用户绑定的角色
+    getUserIdBindRole() {
+      baseApiGetMethod(`/api/hfBaseUserInfo/bindRoles/${this.data.userId}`).then(
+        (resp) => {
+          if (resp.retCode === '00001') {
+            const roleBindList = []
+            resp.data.forEach((item) => {
+              roleBindList.push(item.roleId)
+            })
+            this.checkedCities = roleBindList
+          }
+        }
+      )
+    },
     // 保存
     saveRole() {
-      const roleIdList = []
       if (this.checkedCities.length === 0) {
         this.$message({
           message: '还没有选择角色',
           type: 'warning'
         })
       } else {
-        this.checkedCities.forEach((item, index) => {
-          roleIdList.push(item.roleId)
-        })
         const param = {
           'userId': this.data.userId,
-          'roleIds': roleIdList
+          'roleIds': this.checkedCities
         }
         baseApiPostMethod('/api/hfBaseUserInfo/bindRoles', param).then(
           (resp) => {
@@ -81,20 +96,7 @@ export default {
         )
       }
     },
-    // 获取用户绑定的角色
-    getUserIdBindRole() {
-      baseApiGetMethod(`/api/hfBaseUserInfo/bindRoles/${this.data.userId}`).then(
-        (resp) => {
-          if (resp.retCode === '00001') {
-            const roleBindList = []
-            resp.data.forEach((item, index) => {
-              roleBindList.push(item.roleName)
-            })
-            this.checkedCities = roleBindList
-          }
-        }
-      )
-    },
+
     closeDialog() {
       this.$emit('closeDialog')
     }
