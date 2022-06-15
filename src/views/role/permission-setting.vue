@@ -1,5 +1,8 @@
 <template>
   <div class="app-container">
+    <div class="container-title">
+      角色1关联的权限列表
+    </div>
     <div class="container-main">
       <el-transfer
         v-model="value"
@@ -16,11 +19,13 @@
         }"
         :data="data"
         @change="handleChange"
-      >
-        <el-button slot="left-footer" class="transfer-footer" size="small">操作</el-button>
-        <el-button slot="right-footer" class="transfer-footer" size="small">操作</el-button>
-      </el-transfer>
+      />
     </div>
+    <div class="container-btn">
+      <el-button class="transfer-footer" size="small">取消</el-button>
+      <el-button class="transfer-footer" type="primary" size="small">确定</el-button>
+    </div>
+
   </div>
 </template>
 
@@ -33,7 +38,6 @@ export default {
         data.push({
           key: i,
           label: `备选项 ${i}`
-          // disabled: i % 4 === 0
         })
       }
       return data
@@ -41,7 +45,6 @@ export default {
     return {
       data: generateData(),
       value: [1],
-      value4: [1],
       renderFunc(h, option) {
         return <span>{option.key} - {option.label}</span>
       }
@@ -50,14 +53,25 @@ export default {
   methods: {
     handleChange(value, direction, movedKeys) {
       console.log(value, direction, movedKeys)
+    },
+    init() {
+
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.container-title{
+
+}
 .container-main {
   text-align: center;
   margin: 20px 0 0 0;
+}
+.container-btn{
+ display: flex;
+ justify-content: flex-end;
+ margin-top: 20px;
 }
 </style>

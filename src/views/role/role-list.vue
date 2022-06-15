@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="container-main">
-      <el-table :data="tableData" border style="width: 100%">
+      <!-- <el-table :data="tableData" border style="width: 100%">
         <el-table-column fixed prop="roleName" label="角色名称" width="150" />
         <el-table-column prop="roleDesc" label="创建人" width="120" />
         <el-table-column prop="tenantId" label="状态" width="120" />
@@ -12,7 +12,7 @@
             <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
           </template>
         </el-table-column>
-      </el-table>
+      </el-table> -->
     </div>
   </div>
 </template>
@@ -42,7 +42,6 @@ export default {
         (resp) => {
           if (resp.retCode === '00001') {
             this.tableData = resp.data.list
-
             console.log(resp, 'resp')
           }
         }

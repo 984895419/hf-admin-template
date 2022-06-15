@@ -13,7 +13,7 @@
       />
     </el-col>
     <el-col :span="21">
-      <el-form
+      <!-- <el-form
         ref="searchForm"
         :rules="rules"
         :model="searchForm"
@@ -238,7 +238,8 @@
           @submit-success="submitSuccess"
           @cancel="cancel"
         />
-      </el-dialog>
+      </el-dialog> -->
+      <hfBaseRightMenu />
     </el-col>
 
   </div>
@@ -246,9 +247,11 @@
 
 <script>
 import { fetchMenuList } from '@/api/menu'
-import Pagination from '@/components/Pagination'
-import MenuAdd from './Add'
+// import Pagination from '@/components/Pagination'
+// import MenuAdd from './Add'
 import MenuTree from './Tree'
+
+import hfBaseRightMenu from '@/views/basic/hfBaseRightMenu'
 import { delteMenus } from '@/api/menu'
 import { messageErrorHandle, messageSuccesHandle } from '@/utils/message-handle'
 import { isEmpty } from 'element-ui/src/utils/util'
@@ -257,7 +260,7 @@ import { specificationRegExp } from '@/utils/validate'
 export default {
   name: 'MenuList',
   directives: { elDragDialog },
-  components: { Pagination, MenuAdd, MenuTree },
+  components: { MenuTree, hfBaseRightMenu },
   data() {
     return {
       treeSelected: [], //  树选中
