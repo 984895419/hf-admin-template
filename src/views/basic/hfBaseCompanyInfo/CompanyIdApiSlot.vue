@@ -1,15 +1,16 @@
 <template>
-    <div>
-      <api-slot
-        v-if="pkCorps"
-        :get-url="templateUrl(conf.urlMethods.batchQueryUrl, {pkCorp: pkCorps})"
-        :query-change-trigger="true">
-        <template v-slot="{data}">
-          <slot :data="data"/>
-        </template>
-      </api-slot>
-      <slot v-else :data="[]"/>
-    </div>
+  <div>
+    <api-slot
+      v-if="pkCorps"
+      :get-url="templateUrl(conf.urlMethods.batchQueryUrl, {pkCorp: pkCorps})"
+      :query-change-trigger="true"
+    >
+      <template v-slot="{data}">
+        <slot :data="data" />
+      </template>
+    </api-slot>
+    <slot v-else :data="[]" />
+  </div>
 </template>
 
 <script>
@@ -23,12 +24,12 @@
     export default {
         name: 'CompanyIdApiSlot',
         components: { ApiSlot },
+        mixins: [CurdMixin],
         props: {
             pkCorps: {
                 type: [Array, String]
             }
         },
-        mixins: [CurdMixin],
         data() {
             return {
                 conf: conf

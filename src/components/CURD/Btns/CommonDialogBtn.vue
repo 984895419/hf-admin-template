@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-button :size="$store.size" :type="type" @click="showImportDialog = true">{{ label }}</el-button>
+    <el-button :size="$store.size" :type="type" @click="openDialog">{{ label }}</el-button>
     <el-dialog
       :top="'5vh'"
       :visible.sync="showImportDialog"
@@ -38,7 +38,10 @@ export default {
     }
   },
   methods: {
-
+    openDialog() {
+        this.showImportDialog = true
+        this.$emit('success')
+    },
     /**
      * 打开弹窗
      */

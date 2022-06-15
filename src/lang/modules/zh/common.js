@@ -25,6 +25,10 @@ export default {
   batchDelete: '批量删除',
   state: '状态',
   pic: '图片',
+  ensure: '确定',
+  copySuccess: '复制成功',
+  copyFailed: '复制失败',
+  import: '导入',
   navbar: {
     dashboard: '首页',
     github: '项目地址',

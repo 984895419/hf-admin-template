@@ -90,7 +90,7 @@ export const constantRoutes = [
       {
         path: 'simpleQuery',
         component: () => import('@/views/example/query/index'),
-        name: 'simpleQuery',
+          name: 'simpleQuery',
         meta: { title: '简单查询表单', icon: 'dashboard', affix: true }
       },
       {
@@ -211,6 +211,12 @@ export const constantRoutes = [
         component: () => import('@/views/resource/operate'),
         name: 'operate',
         meta: { title: '操作管理', icon: 'dashboard', affix: true }
+      },
+      {
+        path: 'baseHandlerMappingMethod',
+        component: () => import('@/views/basic/baseHandlerMappingMethod'),
+        name: 'baseHandlerMappingMethod',
+        meta: { title: '方法权限', icon: 'dashboard', affix: true }
       }
     ],
     meta: { title: '资源管理', icon: 'dashboard', affix: true }

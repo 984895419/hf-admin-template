@@ -69,61 +69,65 @@
       </div>
     </div>
     <!-- 列表-->
-    <hf-table
-      v-loading="loading"
-      :table-data="jsonData.list"
-      @selection-change="handleSelectionChange"
-      @sort-change="sortChange"
-    >
-      <el-table-column
-        fixed="left"
-        type="selection"
-        width="40"
-      />
-      <!-- 显示的字段-->
-      <sso-login-app-columns :show-fields="showFields" :url-methods="conf.urlMethods" @success="doSearch" />
-      <el-table-column
-        fixed="right"
-        :label="$t('common.operate')"
-        width="150"
-      >
-        <template v-slot:header>
-          {{ $t('common.operate') }}
-          <curd-table-column-select
-            v-if="tableFields"
-            v-model="showFields"
-            :preference-alias="conf.namespace"
-            :table-fields="tableFields"
-            style="float: right"
-            @selectedChange="reRenderTable"
-          />
-        </template>
-        <template slot-scope="scopeRow">
-          <div class="col-btn-display">
-            <!-- 更新 -->
-            <sso-login-app-update
-              :value="scopeRow.row"
-              :query-url="conf.urlMethods.queryUrl"
-              :update-url="conf.urlMethods.updateUrl"
-              @success="doSearch"
-            />
-            <!-- 删除-->
-            <del-btn
-              :url="templateUrl(conf.urlMethods.deleteUrl, scopeRow.row)"
-              :btn-type="'text'"
-              :value="scopeRow.row"
-              @success="doSearch"
-            />
-            <!-- 查看 -->
-            <sso-login-app-detail
-              :value="scopeRow.row"
-            />
-            <!-- 免登 -->
-            <el-button type="text" @click="openAuth(scopeRow.row)">进入</el-button>
-          </div>
-        </template>
-      </el-table-column>
-    </hf-table>
+    <table-column-preference-setting-api-slot
+      :init-data="tableFields"
+      v-model="showFields"
+      :preference-alias="conf.namespace">
+      <template v-slot="{doSave, preferenceData}">
+        <hf-table
+          v-if="showFields"
+          v-loading="loading"
+          :table-data="jsonData.list"
+          @selection-change="handleSelectionChange"
+          @sort-change="sortChange"
+        >
+          <section-table-column/>
+          <!-- 显示的字段-->
+          <sso-login-app-columns :show-fields="showFields" :url-methods="conf.urlMethods" @success="doSearch" />
+          <el-table-column
+            fixed="right"
+            :label="$t('common.operate')"
+            width="150"
+          >
+            <template v-slot:header>
+              {{ $t('common.operate') }}
+              <curd-table-column-select
+                v-model="showFields"
+                :preference-alias="conf.namespace"
+                :table-fields="preferenceData"
+                style="float: right"
+                @selectedChange="reRenderTable"
+                @doSave="doSave"
+              />
+            </template>
+            <template slot-scope="scopeRow">
+              <div class="col-btn-display">
+                <!-- 更新 -->
+                <sso-login-app-update
+                  :value="scopeRow.row"
+                  :query-url="conf.urlMethods.queryUrl"
+                  :update-url="conf.urlMethods.updateUrl"
+                  @success="doSearch"
+                />
+                <!-- 删除-->
+                <del-btn
+                  :url="templateUrl(conf.urlMethods.deleteUrl, scopeRow.row)"
+                  :btn-type="'text'"
+                  :value="scopeRow.row"
+                  @success="doSearch"
+                />
+                <!-- 查看 -->
+                <sso-login-app-detail
+                  :value="scopeRow.row"
+                />
+                <!-- 免登 -->
+                <el-button type="text" @click="openAuth(scopeRow.row)">进入</el-button>
+              </div>
+            </template>
+          </el-table-column>
+        </hf-table>
+      </template>
+    </table-column-preference-setting-api-slot>
     <!-- 分页信息 -->
     <curd-pagination
       :current-page="searchForm.pageInfo.pageNo"
@@ -152,11 +156,15 @@
     import FormItemColDict from '@/components/CURD/Form/formItemColDict.vue'
     import FormItemCol from '@/components/CURD/Form/formItemCol.vue'
     import SimpleSearch from '@/components/CURD/Query/search'
-    import {getData, getMessage} from "../../../utils/ajaxResultUtil";
+    import {getData, getMessage} from '@/utils/ajaxResultUtil'
+    import TableColumnPreferenceSettingApiSlot from '@/views/basic/preferenceSetting/TableColumnPrefenceSettingApiSlot'
+    import SectionTableColumn from '@/components/CURD/Table/column/base/SectionTableColumn'
 
     export default {
         name: 'SsoLoginAppIndexVue',
         components: {
+            SectionTableColumn,
+            TableColumnPreferenceSettingApiSlot,
             TemplateConfirmBtn,
           SsoLoginAppColumns,
           SsoLoginAppDetail,

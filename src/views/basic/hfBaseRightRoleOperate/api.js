@@ -1,24 +1,67 @@
+import { defaultUrlMethod } from '@/components/CURD/defaultUrl'
 /**
-* 角色与操作权限模块基础地址
-* @type {string}
-*/
+ * 单点登录认证管理模块基础地址
+ * @type {string}
+ */
 export const baseUrl = '/api/hfBaseRightRoleOperate'
 /**
-* 基础查询地址
-* @type {{pageUrl: string}}
-*/
-export const urlMethods = {
-    pageUrl: baseUrl + '/nameQuery'
+ * 基础查询地址
+ * @type {{pageUrl: string}}
+ */
+export const urlMethods = defaultUrlMethod(baseUrl, 'id', {
+  pageUrl: baseUrl + '/pageQuery'
+})
+/**
+ * 定义模块的命名空间
+ * @type {string}
+ */
+const modelName = 'hfBaseRightRoleOperate'
+export const namespace = modelName
+
+/**
+ * 正则
+ * @param name
+ * @returns {string}
+ */
+export function getI18nName(name) {
+  return modelName + '.' + name
 }
-/**
-* 定义模块的命名空间
-* @type {string}
-*/
-export const namespace = 'hf_base_right_role_operate'
+
+const exportTableFields = (fields) => {
+  return fields.map(t => {
+    return { value: t }
+  })
+}
 
 /**
-* curd的配置， TODO 后续改成从后台查询返回这些配置
-*/
-const tableConfig = {"tableItemOption":{"showIndex":true,"showSelected":true,"showItemOperate":true},"searchOption":{"returnType":"fields"},"referOption":{"referId":"id"},"fields":[{"label":"","i18nLabel":"HF_BASE_RIGHT_ROLE_OPERATE_ID","value":"id","columnName":"id","type":"text","primaryKey":true,"searchConfig":{"immediately":false,"keywordSearch":true,"searchable":false},"required":false,"createConfig":{"addable":false,"addShowable":false},"updateConfig":{"updatable":false,"updateShowable":false},"selectChecked":false},{"label":"菜单id","i18nLabel":"HF_BASE_RIGHT_ROLE_OPERATE_MENU_ID","value":"menuId","columnName":"menu_id","type":"text","primaryKey":false,"searchConfig":{"immediately":false,"keywordSearch":true,"searchable":true},"required":false,"createConfig":{"addable":true,"addShowable":true},"updateConfig":{"updatable":true,"updateShowable":true},"selectChecked":true},{"label":"租户id","i18nLabel":"HF_BASE_RIGHT_ROLE_OPERATE_TENANT_ID","value":"tenantId","columnName":"tenant_id","type":"text","primaryKey":false,"searchConfig":{"immediately":false,"keywordSearch":true,"searchable":true},"required":false,"createConfig":{"addable":false,"addShowable":false},"updateConfig":{"updatable":false,"updateShowable":true},"selectChecked":false},{"label":"操作权限的id","i18nLabel":"HF_BASE_RIGHT_ROLE_OPERATE_METHOD_ID","value":"methodId","columnName":"method_id","type":"text","primaryKey":false,"searchConfig":{"immediately":false,"keywordSearch":true,"searchable":true},"required":false,"createConfig":{"addable":true,"addShowable":true},"updateConfig":{"updatable":true,"updateShowable":true},"selectChecked":true},{"label":"角色id","i18nLabel":"HF_BASE_RIGHT_ROLE_OPERATE_ROLE_ID","value":"roleId","columnName":"role_id","type":"text","primaryKey":false,"searchConfig":{"immediately":false,"keywordSearch":true,"searchable":true},"required":false,"createConfig":{"addable":true,"addShowable":true},"updateConfig":{"updatable":true,"updateShowable":true},"selectChecked":true}]}
+ * 字段的配置，用在国际化及列表选择显示字段的时候
+ * @type {*[]}
+ */
+const tableFields = ['id', 'menuId', 'tenantId', 'methodId', 'roleId']
 
-export default tableConfig
+export default exportTableFields(tableFields)
+
+/**
+ * 字段的验证规则
+ * @param vm
+ * @returns {{clientId: {trigger: string, message: *, required: boolean}[]}}
+ */
+export function formRules(vm) {
+  return {
+    id: [
+      { required: true, message: vm.$t(getI18nName('id')) + vm.$t('common.notAllowedNull'), trigger: 'blur' }
+    ],
+    menuId: [
+      { required: true, message: vm.$t(getI18nName('menuId')) + vm.$t('common.notAllowedNull'), trigger: 'blur' }
+    ],
+    tenantId: [
+      { required: true, message: vm.$t(getI18nName('tenantId')) + vm.$t('common.notAllowedNull'), trigger: 'blur' }
+    ],
+    methodId: [
+      { required: true, message: vm.$t(getI18nName('methodId')) + vm.$t('common.notAllowedNull'), trigger: 'blur' }
+    ],
+    roleId: [
+      { required: true, message: vm.$t(getI18nName('roleId')) + vm.$t('common.notAllowedNull'), trigger: 'blur' }
+    ]
+  }
+}

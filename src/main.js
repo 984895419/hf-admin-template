@@ -23,6 +23,9 @@ import ExTableColumn from '@/utils/ExTableColumn'
 import Print from '@/utils/print'
 import SuperFlow from 'vue-super-flow'
 import 'vue-super-flow/lib/index.css'
+import Clipboard from 'v-clipboard'
+
+Vue.use(Clipboard)
 
 import RefferInstall from './utils/RefferInstall.js'
 

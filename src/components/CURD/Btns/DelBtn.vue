@@ -30,7 +30,11 @@ export default {
     /**
      * 查询的url
      */
-    url: String
+    url: String,
+    /**
+     * 删除的函数
+     */
+    deleteHandler: Function
   },
   methods: {
     /**
@@ -46,18 +50,23 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        baseApiDeleteMethod(this.url, this.value).then(resp => {
-          if (isSuccessResult(resp)) {
-            this.$message({
-              type: 'success',
-              message: '删除成功!'
-            })
-            this.$emit('success')
-          } else {
-            this.$message.error(getMessage(resp))
-            return
+          if (this.deleteHandler) {
+              this.deleteHandler(this.value)
           }
-        })
+          if (this.url && this.value) {
+              baseApiDeleteMethod(this.url, this.value).then(resp => {
+                  if (isSuccessResult(resp)) {
+                      this.$message({
+                          type: 'success',
+                          message: '删除成功!'
+                      })
+                      this.$emit('success')
+                  } else {
+                      this.$message.error(getMessage(resp))
+                      return
+                  }
+              })
+          }
       }).catch(() => {
         this.$message({
           type: 'info',

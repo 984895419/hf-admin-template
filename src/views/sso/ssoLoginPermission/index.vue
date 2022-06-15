@@ -64,65 +64,73 @@
       </div>
     </div>
     <!-- 列表-->
-    <hf-table
-      v-loading="loading"
-      :table-data="jsonData.list"
-      @selection-change="handleSelectionChange"
-      @sort-change="sortChange"
-    >
-      <el-table-column
-        fixed="left"
-        type="selection"
-        width="40"
-      />
-      <!-- 显示的字段-->
-      <sso-login-permission-columns :show-fields="showFields" :url-methods="conf.urlMethods" @success="doSearch" />
-      <el-table-column
-        fixed="right"
-        :label="$t('common.operate')"
-        width="150"
-      >
-        <template v-slot:header>
-          {{ $t('common.operate') }}
-          <curd-table-column-select
-            v-if="tableFields"
-            v-model="showFields"
-            :preference-alias="conf.namespace"
-            :table-fields="tableFields"
-            style="float: right"
-            @selectedChange="reRenderTable"
+    <table-column-preference-setting-api-slot
+      :init-data="tableFields"
+      v-model="showFields"
+      :preference-alias="conf.namespace">
+      <template v-slot="{doSave, preferenceData}">
+        <hf-table
+          v-if="showFields"
+          v-loading="loading"
+          :table-data="jsonData.list"
+          @selection-change="handleSelectionChange"
+          @sort-change="sortChange"
+        >
+          <el-table-column
+            fixed="left"
+            type="selection"
+            width="40"
           />
-        </template>
-        <template slot-scope="scopeRow">
-          <div class="col-btn-display">
-            <!-- 更新 -->
-            <sso-login-permission-update
-              :value="scopeRow.row"
-              :query-url="conf.urlMethods.queryUrl"
-              :update-url="conf.urlMethods.updateUrl"
-              @success="doSearch"
-            />
-            <!-- 删除-->
-            <del-btn
-              :url="templateUrl(conf.urlMethods.deleteUrl, scopeRow.row)"
-              :btn-type="'text'"
-              :value="scopeRow.row"
-              @success="doSearch"
-            />
-            <!-- 查看 -->
-            <sso-login-permission-detail
-              :value="scopeRow.row"
-            />
-            <!-- 绑定应用 -->
-            <common-dialog-btn type="text" :label="$t(conf.getI18nName('bindApps'))" :title="$t(conf.getI18nName('bindApps'))">
-              <template v-slot="{closeDialog}">
-                <app-permission :permission-id="scopeRow.row.permissionId" @success="bindSuccessHandler(closeDialog)()"/>
-              </template>
-            </common-dialog-btn>
-          </div>
-        </template>
-      </el-table-column>
-    </hf-table>
+          <!-- 显示的字段-->
+          <sso-login-permission-columns :show-fields="showFields" :url-methods="conf.urlMethods" @success="doSearch" />
+          <el-table-column
+            fixed="right"
+            :label="$t('common.operate')"
+            width="150"
+          >
+            <template v-slot:header>
+              {{ $t('common.operate') }}
+              <curd-table-column-select
+                v-model="showFields"
+                :preference-alias="conf.namespace"
+                :table-fields="preferenceData"
+                style="float: right"
+                @selectedChange="reRenderTable"
+                @doSave="doSave"
+              />
+            </template>
+            <template slot-scope="scopeRow">
+              <div class="col-btn-display">
+                <!-- 更新 -->
+                <sso-login-permission-update
+                  :value="scopeRow.row"
+                  :query-url="conf.urlMethods.queryUrl"
+                  :update-url="conf.urlMethods.updateUrl"
+                  @success="doSearch"
+                />
+                <!-- 删除-->
+                <del-btn
+                  :url="templateUrl(conf.urlMethods.deleteUrl, scopeRow.row)"
+                  :btn-type="'text'"
+                  :value="scopeRow.row"
+                  @success="doSearch"
+                />
+                <!-- 查看 -->
+                <sso-login-permission-detail
+                  :value="scopeRow.row"
+                />
+                <!-- 绑定应用 -->
+                <common-dialog-btn type="text" :label="$t(conf.getI18nName('bindApps'))" :title="$t(conf.getI18nName('bindApps'))">
+                  <template v-slot="{closeDialog}">
+                    <app-permission :permission-id="scopeRow.row.permissionId" @success="bindSuccessHandler(closeDialog)()"/>
+                  </template>
+                </common-dialog-btn>
+              </div>
+            </template>
+          </el-table-column>
+        </hf-table>
+      </template>
+    </table-column-preference-setting-api-slot>
     <!-- 分页信息 -->
     <curd-pagination
       :current-page="searchForm.pageInfo.pageNo"
@@ -153,10 +161,12 @@
     import SimpleSearch from '@/components/CURD/Query/search'
     import CommonDialogBtn from '@/components/CURD/Btns/CommonDialogBtn'
     import AppPermission from './AppPermission'
+    import TableColumnPreferenceSettingApiSlot from '@/views/basic/preferenceSetting/TableColumnPrefenceSettingApiSlot'
 
     export default {
         name: 'SsoLoginPermissionIndexVue',
         components: {
+            TableColumnPreferenceSettingApiSlot,
             AppPermission,
             CommonDialogBtn,
             TemplateConfirmBtn,

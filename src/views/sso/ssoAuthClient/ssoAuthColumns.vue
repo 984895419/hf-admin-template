@@ -31,7 +31,7 @@
         v-if="item.value === 'clientMethodName'"
         prop="clientMethodName"
         :label="$t(conf.namespace + '.clientMethodName')"
-        width="140"
+        width="160"
       />
       <tag-table-column
         v-if="item.value === 'authorizationGrantTypesNames'"

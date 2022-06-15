@@ -57,10 +57,7 @@
  * - 将字段进行转化，将结果保存起来
  */
 import { deepClone } from '@/utils'
-import { getMessage, isSuccessResult } from '@/utils/ajaxResultUtil'
 import Sortable from 'sortablejs'
-import { baseApiGetMethod, baseApiPostMethod } from '../../baseApi'
-import { getData } from '../../../../utils/ajaxResultUtil'
 
 export default {
   name: 'CurdTableColumnSelect',
@@ -120,48 +117,14 @@ export default {
     }
   },
   created() {
-    this.loadPreferenceSettings()
+    this.doPostInit()
   },
   methods: {
-    /**
-     * 从远程加载配置
-     */
-    loadPreferenceSettings() {
-        if (this.preferenceAlias) {
-            baseApiGetMethod('/api/basePreferenceSetting/list/query',
-                { 'preferenceAlias': this.preferenceAlias }).then(resp => {
-                if (isSuccessResult(resp)) {
-                    const settings = getData(resp)
-                    if (settings && settings[0] && settings[0].config) {
-                        this.myTableFields = JSON.parse(settings[0].config)
-                        // 初始化，从远程查询字段
-                        this.doPostInit()
-                    } else {
-                        this.doPostInit()
-                    }
-                } else {
-                    this.$message.error(getMessage(resp))
-                    this.doPostInit()
-                }
-            })
-        } else {
-            this.doPostInit()
-        }
-    },
     doPostInit() {
-        // 动态调整顺序
-        if (this.myTableFields && this.myTableFields.length > 0) {
-            const names = this.myTableFields.map(t => t.value)
-            this.copyTableFields = this.copyTableFields.sort((a, b) => {
-                return names.indexOf(a.value) - names.indexOf(b.value)
-            })
-        }
         // 初始化，从远程查询字段
-        this.mergeFieldShow(this.myTableFields)
+        this.mergeFieldShow(this.value)
         // 保存为初始配置
         this.doInit()
-        // 初始化输出
-        this.emitValue()
         this.$nextTick(() => {
             // 初始化拖拽
             this.setSort()
@@ -201,10 +164,11 @@ export default {
       }
       if (this.copyTableFields) {
         for (const ind in this.copyTableFields) {
-          this.$set(this.copyTableFields[ind], 'selectChecked',
-            (myFieldsMap[this.copyTableFields[ind].value] && myFieldsMap[this.copyTableFields[ind].value].selectChecked !== undefined)
-            ? (myFieldsMap[this.copyTableFields[ind].value] && myFieldsMap[this.copyTableFields[ind].value].selectChecked)
-            : (this.copyTableFields[ind].selectChecked !== undefined ? this.copyTableFields[ind].selectChecked : true))
+          if (myFieldsMap !== {}) {
+              this.$set(this.copyTableFields[ind], 'selectChecked', myFieldsMap[this.copyTableFields[ind].value] && myFieldsMap[this.copyTableFields[ind].value].selectChecked)
+          } else {
+              this.$set(this.copyTableFields[ind], 'selectChecked', true)
+          }
         }
       }
     },
@@ -249,23 +213,7 @@ export default {
      * 保存字段信息
      */
     doSaveMyColumnInfos() {
-      baseApiPostMethod('/api/basePreferenceSetting/save', {
-          preferenceType: this.preferenceType,
-          preferenceAlias: this.preferenceAlias,
-          config: JSON.stringify(this.copyTableFields)
-      }).then(resp => {
-        if (isSuccessResult(resp)) {
-          this.$message({
-            message: getMessage(resp),
-            type: 'success'
-          })
-        } else {
-          this.$message({
-            message: getMessage(resp),
-            type: 'danger'
-          })
-        }
-      })
+      this.$emit('doSave', this.copyTableFields)
     },
     /**
      * 输出要显示的字段

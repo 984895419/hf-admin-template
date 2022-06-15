@@ -10,6 +10,7 @@
       :error="error"
     >
       <slot>
+        <!--        <el-input v-if="$attrs.type === 'number'"  v-model.number="value[prop]" v-bind="$attrs" :placeholer="computedPlaceholder"></el-input>-->
         <el-input v-model="value[prop]" v-bind="$attrs" :placeholer="computedPlaceholder" />
       </slot>
     </el-form-item>

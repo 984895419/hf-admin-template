@@ -18,7 +18,7 @@
           v-if="item.value === 'appCnt'"
           prop="appCnt"
           :label="$t(conf.namespace + '.appCnt')"
-          min-width="120"
+          min-width="140"
         />
         <el-table-column
           v-if="item.value === 'permissionType'"
@@ -30,7 +30,7 @@
           v-if="item.value === 'permissionCnt'"
           prop="permissionCnt"
           :label="$t(conf.namespace + '.userType')"
-          min-width="100"
+          min-width="120"
         >
           <template slot-scope="scopeRow">
             <span v-if="scopeRow.row.permissionType === 'ONLY_THE_TYPE'">
