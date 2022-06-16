@@ -7,20 +7,14 @@
           <!-- 新增的的字段配置 -->
                     <form-item-col
             :value="searchForm"
-            :span="span"
+            :span="12"
             prop="groupKey"
             :namespace="conf.namespace"
           />
           <form-item-col
             :value="searchForm"
-            :span="span"
+            :span="12"
             prop="groupName"
-            :namespace="conf.namespace"
-          />
-          <form-item-col
-            :value="searchForm"
-            :span="span"
-            prop="enableState"
             :namespace="conf.namespace"
           />
           <!-- 字典字段字段设置方法如下
@@ -78,6 +72,8 @@
           :table-data="jsonData.list"
           @selection-change="handleSelectionChange"
           @sort-change="sortChange"
+          v-on="$listeners"
+          v-bind="$attrs"
         >
           <section-table-column/>
           <!-- 显示的字段-->

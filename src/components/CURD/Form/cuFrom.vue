@@ -42,6 +42,9 @@ export default {
     beforeSubmit: {
       type: Function,
       default: undefined
+    },
+    namespace: {
+      type: String
     }
   },
   data() {
@@ -53,7 +56,11 @@ export default {
     errorMessage() {
       return (field) => {
         if (this.errorInfo) {
-          return this.errorInfo[field]
+            debugger
+            if (this.namespace && this.errorInfo[field] && this.errorInfo[field].endsWith('NOT_NULL')) {
+              return this.$t(this.namespace + '.' + field) + this.$t('common.notAllowedNull')
+            }
+            return this.errorInfo[field]
         }
         return undefined
       }

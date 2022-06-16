@@ -1,7 +1,7 @@
 <template>
   <add-btn :init-data="value">
     <template v-slot="{ closeDialog, data }">
-      <cu-form :value="data" :action-method="addUrl" :form-rules="formRules" v-on="$listeners" @closeDialog="closeDialog">
+      <cu-form :namespace="conf.namespace" :value="data" :action-method="addUrl" :form-rules="formRules" v-on="$listeners" @closeDialog="closeDialog">
         <template v-slot="{ errorMessage }">
           <row-span-slot>
             <template v-slot="{ span }">

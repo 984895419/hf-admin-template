@@ -7,26 +7,14 @@
           <!-- 新增的的字段配置 -->
                     <form-item-col
             :value="searchForm"
-            :span="span"
+            :span="12"
             prop="locale"
             :namespace="conf.namespace"
           />
           <form-item-col
             :value="searchForm"
-            :span="span"
+            :span="12"
             prop="content"
-            :namespace="conf.namespace"
-          />
-          <form-item-col
-            :value="searchForm"
-            :span="span"
-            prop="groupId"
-            :namespace="conf.namespace"
-          />
-          <form-item-col
-            :value="searchForm"
-            :span="span"
-            prop="groupName"
             :namespace="conf.namespace"
           />
           <!-- 字典字段字段设置方法如下
@@ -42,7 +30,7 @@
     </div>
     <!-- 操作栏-->
     <div style="margin-bottom: 10px" class="col-btn-display">
-      <base-i18n-locale-add :action-url="conf.urlMethods.addUrl"  @success="doSearch" />
+      <base-i18n-locale-add v-if="groupId" :value="{ groupId: groupId, groupName: groupName, enableState: 1 }" :action-url="conf.urlMethods.addUrl"  @success="doSearch" />
       <div style="float: right" class="col-btn-display">
         <del-btn
           v-if="conf.urlMethods.deleteUrl
@@ -179,6 +167,20 @@
           TableColumnPreferenceSettingApiSlot
         },
         mixins: [CurdMixin],
+        props: {
+            groupId: {
+                type: [Number, String]
+            },
+            groupName: {
+                type: String
+            }
+        },
+        watch: {
+            groupId() {
+                this.searchForm.groupId = this.groupId
+                this.doSearch()
+            }
+        },
         data() {
             return {
                 db: {},
@@ -188,11 +190,9 @@
                  * 查询的表单信息
                  */
                 searchForm: {
-                    localeId: null,
                     locale: null,
                     content: null,
-                    groupId: null,
-                    groupName: null,
+                    groupId: this.groupId,
                     /**
                      * 分页信息
                      */

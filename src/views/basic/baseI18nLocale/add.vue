@@ -1,17 +1,18 @@
 <template>
   <add-btn :init-data="value">
     <template v-slot="{ closeDialog, data }">
-      <cu-form :value="data" :action-method="addUrl" :form-rules="formRules" v-on="$listeners" @closeDialog="closeDialog">
+      <cu-form :namespace="conf.namespace" :value="data" :action-method="addUrl" :form-rules="formRules" v-on="$listeners" @closeDialog="closeDialog">
         <template v-slot="{ errorMessage }">
           <row-span-slot>
             <template v-slot="{ span }">
               <!-- 新增的的字段配置 -->
-                             <form-item-col
+                             <form-item-col-dict
                 :value="data"
                 :error="errorMessage('locale')"
                 :span="span"
                 prop="locale"
                 :namespace="conf.namespace"
+                :dict-code="'I18N_LANGUAGE'"
                />
                <form-item-col
                 :value="data"

@@ -29,7 +29,7 @@
     </div>
     <!-- 操作栏-->
     <div style="margin-bottom: 10px" class="col-btn-display">
-      <base-dict-value-add :value="{ typeCode: code, name: name, enableState: 1 }" :action-url="conf.urlMethods.addUrl"  @success="doSearch" />
+      <base-dict-value-add v-if="code" :value="{ typeCode: code, name: name, enableState: 1 }" :action-url="conf.urlMethods.addUrl"  @success="doSearch" />
       <div style="float: right" class="col-btn-display">
         <del-btn
           v-if="conf.urlMethods.deleteUrl

@@ -162,6 +162,12 @@ export const constantRoutes = [
         component: () => import('@/views/basic/baseI18bGroup/indexSplit'),
         name: 'i18nManager',
         meta: { title: '国际化管理', icon: 'dashboard', affix: true }
+      },
+      {
+        path: 'baseRegexRule',
+        component: () => import('@/views/basic/baseRegexRule/index'),
+        name: 'baseRegexRule',
+        meta: { title: '正则表达式管理', icon: 'dashboard', affix: true }
       }
     ],
     meta: { title: '基础管理', icon: 'dashboard', affix: true }

@@ -5,7 +5,7 @@
       <simple-search v-model="searchForm" :inline="true" @search="doSearch">
         <template v-slot="{ span }">
           <!-- 新增的的字段配置 -->
-                    <form-item-col
+          <form-item-col
             :value="searchForm"
             :span="span"
             prop="regexKey"
@@ -15,18 +15,6 @@
             :value="searchForm"
             :span="span"
             prop="regexValue"
-            :namespace="conf.namespace"
-          />
-          <form-item-col
-            :value="searchForm"
-            :span="span"
-            prop="description"
-            :namespace="conf.namespace"
-          />
-          <form-item-col
-            :value="searchForm"
-            :span="span"
-            prop="enableState"
             :namespace="conf.namespace"
           />
           <!-- 字典字段字段设置方法如下

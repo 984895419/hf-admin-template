@@ -27,7 +27,7 @@
               this.selectRow = row
             },
             cellClassName({ row, column, rowIndex, columnIndex }) {
-                if (this.selectRow === row) {
+                if (this.selectRow && this.selectRow.code === row.code) {
                     return 'success-row'
                 }
             }
