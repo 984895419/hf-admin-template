@@ -1,7 +1,6 @@
 import { defaultUrlMethod } from '@/components/CURD/defaultUrl'
-
 /**
- * 数据字典值模块基础地址
+ * 单点登录认证管理模块基础地址
  * @type {string}
  */
 export const baseUrl = '/api/baseDictValue'
@@ -9,100 +8,63 @@ export const baseUrl = '/api/baseDictValue'
  * 基础查询地址
  * @type {{pageUrl: string}}
  */
-export const urlMethods = defaultUrlMethod(baseUrl)
+export const urlMethods = defaultUrlMethod(baseUrl, 'valueId', {
+  pageUrl: baseUrl + '/pageQuery'
+})
 /**
  * 定义模块的命名空间
  * @type {string}
  */
-export const namespace = 'base_dict_value'
+const modelName = 'baseDictValue'
+export const namespace = modelName
 
 /**
- * curd的配置， TODO 后续改成从后台查询返回这些配置
+ * 正则
+ * @param name
+ * @returns {string}
  */
-const tableConfig = {
-  'tableItemOption': { 'showSelected': true, 'showItemOperate': true },
-  'searchOption': { 'returnType': 'fields' },
-  'referOption': { 'referId': 'valueId', 'referName': 'name' },
-  'fields': [{
-    'label': '字典值主键',
-    'i18nLabel': 'BASE_DICT_VALUE_VALUE_ID',
-    'value': 'valueId',
-    'columnName': 'value_id',
-    'type': 'text',
-    'primaryKey': true,
-    'searchConfig': { 'immediately': false, 'keywordSearch': true, 'searchable': false },
-    'tableConfig': { 'expand': true },
-    'required': false,
-    'createConfig': { 'addable': false, 'addShowable': false },
-    'updateConfig': { 'updatable': false, 'updateShowable': false },
-    'selectChecked': false
-  }, {
-    'label': '字典类型code',
-    'i18nLabel': 'BASE_DICT_VALUE_TYPE_CODE',
-    'value': 'typeCode',
-    'columnName': 'type_code',
-    'type': 'text',
-    'primaryKey': false,
-    'searchConfig': { 'immediately': false, 'keywordSearch': true, 'searchable': true },
-    'tableConfig': { 'expand': false },
-    'required': false,
-    'createConfig': { 'addable': false, 'addShowable': true },
-    'updateConfig': { 'updatable': false, 'updateShowable': true },
-    'selectChecked': false
-  }, {
-    'label': '字典类型名称',
-    'i18nLabel': 'BASE_DICT_VALUE_NAME',
-    'value': 'name',
-    'columnName': 'name',
-    'type': 'text',
-    'primaryKey': false,
-    'searchConfig': { 'immediately': false, 'keywordSearch': true, 'searchable': true },
-    'tableConfig': { 'expand': false },
-    'required': false,
-    'createConfig': { 'addable': false, 'addShowable': true },
-    'updateConfig': { 'updatable': false, 'updateShowable': true },
-    'selectChecked': true
-  }, {
-    'label': '字典的key',
-    'i18nLabel': 'BASE_DICT_VALUE_DICT_KEY',
-    'value': 'dictKey',
-    'columnName': 'dict_key',
-    'type': 'text',
-    'primaryKey': false,
-    'searchConfig': { 'immediately': false, 'keywordSearch': true, 'searchable': true },
-    'tableConfig': { 'expand': false },
-    'required': false,
-    'createConfig': { 'addable': true, 'addShowable': true },
-    'updateConfig': { 'updatable': true, 'updateShowable': true },
-    'selectChecked': true
-  }, {
-    'label': '字典值',
-    'i18nLabel': 'BASE_DICT_VALUE_DICT_VALUE',
-    'value': 'dictValue',
-    'columnName': 'dict_value',
-    'type': 'text',
-    'primaryKey': false,
-    'searchConfig': { 'immediately': false, 'keywordSearch': true, 'searchable': true },
-    'tableConfig': { 'expand': false },
-    'required': false,
-    'createConfig': { 'addable': true, 'addShowable': true },
-    'updateConfig': { 'updatable': true, 'updateShowable': true },
-    'selectChecked': true
-  }, {
-    'label': '启用/禁用',
-    'i18nLabel': 'BASE_DICT_VALUE_ENABLE_STATE',
-    'value': 'enableState',
-    'columnName': 'enable_state',
-    'type': 'switch',
-    'primaryKey': false,
-    'props': { 'activeValue': 1, 'activeText': '启用', 'inactiveValue': 0, 'inactiveText': '禁用' },
-    'searchConfig': { 'immediately': false, 'keywordSearch': true, 'searchable': true },
-    'tableConfig': { 'expand': false },
-    'required': false,
-    'createConfig': { 'addable': true, 'addShowable': true },
-    'updateConfig': { 'updatable': true, 'updateShowable': true },
-    'selectChecked': true
-  }]
+export function getI18nName(name) {
+  return modelName + '.' + name
 }
 
-export default tableConfig
+const exportTableFields = (fields) => {
+  return fields.map(t => {
+    return { value: t }
+  })
+}
+
+/**
+ * 字段的配置，用在国际化及列表选择显示字段的时候
+ * @type {*[]}
+ */
+const tableFields = ['valueId', 'typeCode', 'name', 'dictKey', 'dictValue', 'enableState']
+
+export default exportTableFields(tableFields)
+
+/**
+ * 字段的验证规则
+ * @param vm
+ * @returns {{clientId: {trigger: string, message: *, required: boolean}[]}}
+ */
+export function formRules(vm) {
+  return {
+    valueId: [
+      { required: true, message: vm.$t(getI18nName('valueId')) + vm.$t('common.notAllowedNull'), trigger: 'blur' }
+    ],
+    typeCode: [
+      { required: true, message: vm.$t(getI18nName('typeCode')) + vm.$t('common.notAllowedNull'), trigger: 'blur' }
+    ],
+    name: [
+      { required: true, message: vm.$t(getI18nName('name')) + vm.$t('common.notAllowedNull'), trigger: 'blur' }
+    ],
+    dictKey: [
+      { required: true, message: vm.$t(getI18nName('dictKey')) + vm.$t('common.notAllowedNull'), trigger: 'blur' }
+    ],
+    dictValue: [
+      { required: true, message: vm.$t(getI18nName('dictValue')) + vm.$t('common.notAllowedNull'), trigger: 'blur' }
+    ],
+    enableState: [
+      { required: true, message: vm.$t(getI18nName('enableState')) + vm.$t('common.notAllowedNull'), trigger: 'blur' }
+    ]
+  }
+}

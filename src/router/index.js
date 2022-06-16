@@ -153,9 +153,15 @@ export const constantRoutes = [
       },
       {
         path: 'dictType',
-        component: () => import('@/views/basic/baseDictType/index'),
+        component: () => import('@/views/basic/baseDictType/indexSplit'),
         name: 'dictType',
         meta: { title: '字典管理', icon: 'dashboard', affix: true }
+      },
+      {
+        path: 'i18nManager',
+        component: () => import('@/views/basic/baseI18bGroup/indexSplit'),
+        name: 'i18nManager',
+        meta: { title: '国际化管理', icon: 'dashboard', affix: true }
       }
     ],
     meta: { title: '基础管理', icon: 'dashboard', affix: true }

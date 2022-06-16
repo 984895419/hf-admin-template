@@ -100,7 +100,7 @@ export default {
   },
   data() {
       return {
-          dictListUrl: '/api/baseDictValue/list',
+          dictListUrl: '/api/baseDictValue/list/query',
           list: null,
           multipleSelect: (this.$attrs['multiple'] === undefined || this.$attrs['multiple'] === false)
               ? [] : (this.value[this.prop] ? this.value[this.prop].split(',') : [])

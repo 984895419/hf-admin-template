@@ -89,12 +89,13 @@ export default {
           // 发送post请求
           this.loading = true
             this.actionMethod(this.value).then(resp => {
+                debugger
             if (isSuccessResult(resp)) {
               this.$message.success(getMessage(resp))
               this.$emit('success')
               this.$emit('closeDialog')
             } else {
-              if (isTheRetCode('00004')) {
+              if (isTheRetCode(resp, '00004') === true) {
                 this.errorInfo = getData(resp)
               } else {
                 this.$message.error(getMessage(resp))

@@ -1,7 +1,6 @@
 import { defaultUrlMethod } from '@/components/CURD/defaultUrl'
-
 /**
- * 系统配置模块基础地址
+ * 单点登录认证管理模块基础地址
  * @type {string}
  */
 export const baseUrl = '/api/baseSystemConfig'
@@ -9,169 +8,81 @@ export const baseUrl = '/api/baseSystemConfig'
  * 基础查询地址
  * @type {{pageUrl: string}}
  */
-export const urlMethods = defaultUrlMethod(baseUrl)
+export const urlMethods = defaultUrlMethod(baseUrl, 'configId', {
+  pageUrl: baseUrl + '/pageQuery'
+})
 /**
  * 定义模块的命名空间
  * @type {string}
  */
-export const namespace = 'base_system_config'
+const modelName = 'baseSystemConfig'
+export const namespace = modelName
 
 /**
- * curd的配置， TODO 后续改成从后台查询返回这些配置
+ * 正则
+ * @param name
+ * @returns {string}
  */
-const tableConfig = {
-  'tableItemOption': { 'showIndex': true, 'showSelected': true, 'showItemOperate': true },
-  'searchOption': { 'returnType': 'fields' },
-  'referOption': { 'referId': 'configId' },
-  'fields': [{
-    'label': '配置ID',
-    'i18nLabel': 'BASE_SYSTEM_CONFIG_CONFIG_ID',
-    'value': 'configId',
-    'columnName': 'config_id',
-    'type': 'text',
-    'primaryKey': true,
-    'searchConfig': { 'immediately': false, 'keywordSearch': true, 'searchable': false },
-    'tableConfig': { 'expand': true },
-    'required': false,
-    'createConfig': { 'addable': false, 'addShowable': false },
-    'updateConfig': { 'updatable': false, 'updateShowable': false },
-    'selectChecked': false
-  }, {
-    'label': '配置的key',
-    'i18nLabel': 'BASE_SYSTEM_CONFIG_CONFIG_KEY',
-    'value': 'configKey',
-    'columnName': 'config_key',
-    'type': 'text',
-    'primaryKey': false,
-    'searchConfig': { 'immediately': false, 'keywordSearch': true, 'searchable': true },
-    'tableConfig': { 'expand': false },
-    'required': false,
-    'createConfig': { 'addable': true, 'addShowable': true },
-    'updateConfig': { 'updatable': true, 'updateShowable': true },
-    'selectChecked': true
-  }, {
-    'label': '配置值',
-    'i18nLabel': 'BASE_SYSTEM_CONFIG_CONFIG_VALUE',
-    'value': 'configValue',
-    'columnName': 'config_value',
-    'type': 'text',
-    'primaryKey': false,
-    'searchConfig': { 'immediately': false, 'keywordSearch': true, 'searchable': true },
-    'tableConfig': { 'expand': false },
-    'required': false,
-    'createConfig': { 'addable': true, 'addShowable': true },
-    'updateConfig': { 'updatable': true, 'updateShowable': true },
-    'selectChecked': true
-  }, {
-    'label': '配置描述',
-    'i18nLabel': 'BASE_SYSTEM_CONFIG_CONFIG_DESCRIPTION',
-    'value': 'configDescription',
-    'columnName': 'config_description',
-    'type': 'text',
-    'primaryKey': false,
-    'searchConfig': { 'immediately': false, 'keywordSearch': true, 'searchable': true },
-    'tableConfig': { 'expand': false },
-    'required': false,
-    'createConfig': { 'addable': true, 'addShowable': true },
-    'updateConfig': { 'updatable': true, 'updateShowable': true },
-    'selectChecked': true
-  }, {
-    'label': '创建人',
-    'i18nLabel': 'BASE_SYSTEM_CONFIG_CREATOR',
-    'value': 'creator',
-    'columnName': 'creator',
-    'type': 'text',
-    'primaryKey': false,
-    'searchConfig': { 'immediately': false, 'keywordSearch': true, 'searchable': true },
-    'tableConfig': { 'expand': true },
-    'required': false,
-    'createConfig': { 'addable': false, 'addShowable': false },
-    'updateConfig': { 'updatable': false, 'updateShowable': true },
-    'selectChecked': false
-  }, {
-    'label': '创建时间',
-    'i18nLabel': 'BASE_SYSTEM_CONFIG_CREATE_TIME',
-    'value': 'createTime',
-    'columnName': 'create_time',
-    'type': 'text',
-    'primaryKey': false,
-    'searchConfig': { 'immediately': false, 'keywordSearch': true, 'searchable': true },
-    'tableConfig': { 'expand': true },
-    'required': false,
-    'createConfig': { 'addable': false, 'addShowable': false },
-    'updateConfig': { 'updatable': false, 'updateShowable': true },
-    'selectChecked': false
-  }, {
-    'label': '修改人',
-    'i18nLabel': 'BASE_SYSTEM_CONFIG_MODIFIER',
-    'value': 'modifier',
-    'columnName': 'modifier',
-    'type': 'text',
-    'primaryKey': false,
-    'searchConfig': { 'immediately': false, 'keywordSearch': true, 'searchable': true },
-    'tableConfig': { 'expand': true },
-    'required': false,
-    'createConfig': { 'addable': false, 'addShowable': false },
-    'updateConfig': { 'updatable': false, 'updateShowable': true },
-    'selectChecked': false
-  }, {
-    'label': '修改时间',
-    'i18nLabel': 'BASE_SYSTEM_CONFIG_MODIFY_TIME',
-    'value': 'modifyTime',
-    'columnName': 'modify_time',
-    'type': 'text',
-    'primaryKey': false,
-    'searchConfig': { 'immediately': false, 'keywordSearch': true, 'searchable': true },
-    'tableConfig': { 'expand': true },
-    'required': false,
-    'createConfig': { 'addable': false, 'addShowable': false },
-    'updateConfig': { 'updatable': false, 'updateShowable': true },
-    'selectChecked': false
-  }, {
-    'label': '启用/禁用',
-    'i18nLabel': 'BASE_SYSTEM_CONFIG_ENABLE_STATE',
-    'value': 'enableState',
-    'columnName': 'enable_state',
-    'type': 'switch',
-    'primaryKey': false,
-    'props': { 'activeValue': 1, 'activeText': '启用', 'inactiveValue': 0, 'inactiveText': '禁用' },
-    'searchConfig': { 'immediately': false, 'keywordSearch': true, 'searchable': true },
-    'tableConfig': { 'expand': false },
-    'required': false,
-    'createConfig': { 'addable': true, 'addShowable': true },
-    'updateConfig': { 'updatable': true, 'updateShowable': true },
-    'selectChecked': true
-  }, {
-    'label': '是否属于系统(系统的不可删除)',
-    'i18nLabel': 'BASE_SYSTEM_CONFIG_INIT_DATA',
-    'value': 'initData',
-    'columnName': 'init_data',
-    'type': 'select',
-    'primaryKey': false,
-    'searchConfig': { 'immediately': false, 'keywordSearch': true, 'searchable': true },
-    'tableConfig': { 'expand': false },
-    'required': false,
-    'createConfig': { 'addable': true, 'addShowable': true },
-    'updateConfig': { 'updatable': true, 'updateShowable': true },
-    'selectChecked': true,
-    'children': [
-      { label: '是', value: 1 },
-      { label: '否', value: 0 }
-    ]
-  }, {
-    'label': '所属的租户ID',
-    'i18nLabel': 'BASE_SYSTEM_CONFIG_TENANT_ID',
-    'value': 'tenantId',
-    'columnName': 'tenant_id',
-    'type': 'text',
-    'primaryKey': false,
-    'searchConfig': { 'immediately': false, 'keywordSearch': true, 'searchable': true },
-    'tableConfig': { 'expand': true },
-    'required': false,
-    'createConfig': { 'addable': false, 'addShowable': false },
-    'updateConfig': { 'updatable': false, 'updateShowable': true },
-    'selectChecked': false
-  }]
+export function getI18nName(name) {
+  return modelName + '.' + name
 }
 
-export default tableConfig
+const exportTableFields = (fields) => {
+  return fields.map(t => {
+    return { value: t }
+  })
+}
+
+/**
+ * 字段的配置，用在国际化及列表选择显示字段的时候
+ * @type {*[]}
+ */
+const tableFields = ['configId', 'configKey', 'configValue', 'configDescription', 'creator', 'createTime', 'modifier', 'modifyTime', 'enableState', 'deleted', 'initData', 'tenantId']
+
+export default exportTableFields(tableFields)
+
+/**
+ * 字段的验证规则
+ * @param vm
+ * @returns {{clientId: {trigger: string, message: *, required: boolean}[]}}
+ */
+export function formRules(vm) {
+  return {
+    configId: [
+      { required: true, message: vm.$t(getI18nName('configId')) + vm.$t('common.notAllowedNull'), trigger: 'blur' }
+    ],
+    configKey: [
+      { required: true, message: vm.$t(getI18nName('configKey')) + vm.$t('common.notAllowedNull'), trigger: 'blur' }
+    ],
+    configValue: [
+      { required: true, message: vm.$t(getI18nName('configValue')) + vm.$t('common.notAllowedNull'), trigger: 'blur' }
+    ],
+    configDescription: [
+      { required: true, message: vm.$t(getI18nName('configDescription')) + vm.$t('common.notAllowedNull'), trigger: 'blur' }
+    ],
+    creator: [
+      { required: true, message: vm.$t(getI18nName('creator')) + vm.$t('common.notAllowedNull'), trigger: 'blur' }
+    ],
+    createTime: [
+      { required: true, message: vm.$t(getI18nName('createTime')) + vm.$t('common.notAllowedNull'), trigger: 'blur' }
+    ],
+    modifier: [
+      { required: true, message: vm.$t(getI18nName('modifier')) + vm.$t('common.notAllowedNull'), trigger: 'blur' }
+    ],
+    modifyTime: [
+      { required: true, message: vm.$t(getI18nName('modifyTime')) + vm.$t('common.notAllowedNull'), trigger: 'blur' }
+    ],
+    enableState: [
+      { required: true, message: vm.$t(getI18nName('enableState')) + vm.$t('common.notAllowedNull'), trigger: 'blur' }
+    ],
+    deleted: [
+      { required: true, message: vm.$t(getI18nName('deleted')) + vm.$t('common.notAllowedNull'), trigger: 'blur' }
+    ],
+    initData: [
+      { required: true, message: vm.$t(getI18nName('initData')) + vm.$t('common.notAllowedNull'), trigger: 'blur' }
+    ],
+    tenantId: [
+      { required: true, message: vm.$t(getI18nName('tenantId')) + vm.$t('common.notAllowedNull'), trigger: 'blur' }
+    ]
+  }
+}
