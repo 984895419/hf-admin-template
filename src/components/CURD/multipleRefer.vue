@@ -180,7 +180,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-            debugger
+
           if (this.value.indexOf(row) >= 0) {
             this.value.splice(this.value.indexOf(row), 1)
           }

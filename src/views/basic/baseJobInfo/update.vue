@@ -6,40 +6,34 @@
           <template v-slot="{ errorMessage }">
             <row-span-slot>
               <template v-slot="{ span }">
-                <!-- 修改的字段配置 -->
-                                <form-item-col
+                <!-- 新增的的字段配置 -->
+                <form-item-col
                   :value="data"
                   :error="errorMessage('jobName')"
                   :span="span"
                   prop="jobName"
                   :namespace="conf.namespace"
                 />
-                <form-item-col
+                <form-item-col-text-area
                   :value="data"
                   :error="errorMessage('jobDescription')"
                   :span="span"
                   prop="jobDescription"
                   :namespace="conf.namespace"
                 />
-                <form-item-col
+                <form-item-col-dict
                   :value="data"
-                  :error="errorMessage('jobData')"
+                  :error="errorMessage('triggerType')"
                   :span="span"
-                  prop="jobData"
+                  prop="triggerType"
+                  :dict-code="'JOB_TRIGGER_TYPE'"
                   :namespace="conf.namespace"
                 />
                 <form-item-col
                   :value="data"
-                  :error="errorMessage('jobTypeId')"
+                  :error="errorMessage('triggerTime')"
                   :span="span"
-                  prop="jobTypeId"
-                  :namespace="conf.namespace"
-                />
-                <form-item-col
-                  :value="data"
-                  :error="errorMessage('jobTypeName')"
-                  :span="span"
-                  prop="jobTypeName"
+                  prop="triggerTime"
                   :namespace="conf.namespace"
                 />
                 <form-item-col-enable-state
@@ -49,19 +43,31 @@
                 />
                 <form-item-col
                   :value="data"
-                  :error="errorMessage('runState')"
+                  :error="errorMessage('jobTypeId')"
                   :span="span"
-                  prop="runState"
+                  prop="jobTypeId"
                   :namespace="conf.namespace"
-                />
+                >
+                  <base-job-type-input-refer :value="data" value-refer-id="jobTypeId" value-refer-name="jobTypeName"/>
+                </form-item-col>
                 <form-item-col
                   :value="data"
-                  :error="errorMessage('finishTime')"
+                  v-if="data.jobTypeId"
+                  :error="errorMessage('jobData')"
                   :span="span"
-                  prop="finishTime"
+                  prop="jobData"
                   :namespace="conf.namespace"
-                />
-                <!-- 字段字段设置方法如下
+                >
+                  <base-job-type-job-type-id-slot :job-type-ids="[data.jobTypeId]">
+                    <template v-slot="scopeRow">
+                      <div v-if="scopeRow.data && scopeRow.data.length > 0">
+                        <component v-model="data.jobData" v-if="scopeRow.data[0].jobComponentPath && !scopeRow.data[0].jobComponentPath.startsWith('http')" :is="scopeRow.data[0].jobComponentPath"></component>
+                      </div>
+                      <div v-else>不支持的类型</div>
+                    </template>
+                  </base-job-type-job-type-id-slot>
+                </form-item-col>
+                <!-- 字典字段字段设置方法如下
                 <form-item-col-dict
                   :value="data"
                   :error="errorMessage('clientMethod')"
@@ -89,9 +95,13 @@
     import { baseApiPutMethod } from '@/components/CURD/baseApi'
     import FormItemColDict from '@/components/CURD/Form/formItemColDict'
     import FormItemColEnableState from '@/components/CURD/Form/formItemColEnableState'
+    import FormItemColTextArea from "../../../components/CURD/Form/formItemColTextarea";
+    import BaseJobTypeJobTypeIdSlot from "../baseJobType/baseJobTypeApiSlot";
     export default {
         name: 'BaseJobInfoUpdate',
-        components: { FormItemColDict, FormItemCol, RowSpanSlot, CuForm, UpdateBtn, FormItemColEnableState },
+        components: {
+            BaseJobTypeJobTypeIdSlot,
+            FormItemColTextArea, FormItemColDict, FormItemCol, RowSpanSlot, CuForm, UpdateBtn, FormItemColEnableState },
         mixins: [CurdMixin],
         props: {
             value: {

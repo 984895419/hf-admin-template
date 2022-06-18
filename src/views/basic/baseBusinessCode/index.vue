@@ -5,27 +5,30 @@
       <simple-search v-model="searchForm" :inline="true" @search="doSearch">
         <template v-slot="{ span }">
           <!-- 新增的的字段配置 -->
+                    <form-item-col
+            :value="searchForm"
+            :span="span"
+            prop="businessKey"
+            :namespace="conf.namespace"
+          />
           <form-item-col
             :value="searchForm"
             :span="span"
-            prop="permissionName"
+            prop="businessName"
             :namespace="conf.namespace"
           />
-
-          <form-item-col-dict
+          <form-item-col
             :value="searchForm"
             :span="span"
-            prop="permissionType"
-            :dict-code="'PERMISSION_TYPE'"
+            prop="prefix"
             :namespace="conf.namespace"
           />
           <!-- 字典字段字段设置方法如下
           <form-item-col-dict
-            :value="data"
-            :error="errorMessage('clientMethod')"
+            :value="searchForm"
             :span="span"
-            prop="clientMethod"
-            :dict-code="'CLIENT_METHOD_TYPES'"
+            prop="menuType"
+            :dict-code="'MENU_TYPE'"
             :namespace="conf.namespace"
           /> -->
         </template>
@@ -33,7 +36,7 @@
     </div>
     <!-- 操作栏-->
     <div style="margin-bottom: 10px" class="col-btn-display">
-      <sso-login-permission-add :action-url="conf.urlMethods.addUrl" @success="doSearch" />
+      <base-business-code-add :action-url="conf.urlMethods.addUrl"  @success="doSearch" />
       <div style="float: right" class="col-btn-display">
         <del-btn
           v-if="conf.urlMethods.deleteUrl
@@ -65,9 +68,9 @@
     </div>
     <!-- 列表-->
     <table-column-preference-setting-api-slot
-      :init-data="tableFields"
-      v-model="showFields"
-      :preference-alias="conf.namespace">
+            :init-data="tableFields"
+            v-model="showFields"
+            :preference-alias="conf.namespace">
       <template v-slot="{doSave, preferenceData}">
         <hf-table
           v-if="showFields"
@@ -76,20 +79,16 @@
           @selection-change="handleSelectionChange"
           @sort-change="sortChange"
         >
-          <el-table-column
-            fixed="left"
-            type="selection"
-            width="40"
-          />
+          <section-table-column/>
           <!-- 显示的字段-->
-          <sso-login-permission-columns :show-fields="showFields" :url-methods="conf.urlMethods" @success="doSearch" />
+          <base-business-code-columns :show-fields="showFields" :url-methods="conf.urlMethods" @success="doSearch" />
           <el-table-column
             fixed="right"
             :label="$t('common.operate')"
             width="150"
           >
             <template v-slot:header>
-              {{ $t('common.operate') }}
+              {{$t('common.operate')}}
               <curd-table-column-select
                 v-model="showFields"
                 :preference-alias="conf.namespace"
@@ -102,7 +101,7 @@
             <template slot-scope="scopeRow">
               <div class="col-btn-display">
                 <!-- 更新 -->
-                <sso-login-permission-update
+                <base-business-code-update
                   :value="scopeRow.row"
                   :query-url="conf.urlMethods.queryUrl"
                   :update-url="conf.urlMethods.updateUrl"
@@ -116,14 +115,12 @@
                   @success="doSearch"
                 />
                 <!-- 查看 -->
-                <sso-login-permission-detail
+                <base-business-code-detail
                   :value="scopeRow.row"
                 />
-                <!-- 绑定应用 -->
-                <common-dialog-btn type="text" :label="$t(conf.getI18nName('bindApps'))" :title="$t(conf.getI18nName('bindApps'))">
-                  <template v-slot="{closeDialog}">
-                    <app-permission :permission-id="scopeRow.row.permissionId" @success="bindSuccessHandler(closeDialog)()"/>
-                  </template>
+
+                <common-dialog-btn label="下个编码" type="text" @success="getNextCode">
+                  {{nextCode}}
                 </common-dialog-btn>
               </div>
             </template>
@@ -144,63 +141,67 @@
 
 <script>
     import * as conf from './api'
-    import SsoLoginPermissionAdd from './add'
+    import BaseBusinessCodeAdd from './add'
     import HfTable from '@/components/CURD/Table/HfTable'
     import { baseApiGetMethod } from '@/components/CURD/baseApi'
     import { isSuccessResult } from '@/utils/ajaxResultUtil'
     import CurdPagination from '@/components/CURD/pagination/Pagination'
-    import SsoLoginPermissionUpdate from './update'
+    import BaseBusinessCodeUpdate from './update'
     import DelBtn from '@/components/CURD/Btns/DelBtn'
     import CurdMixin from '@/components/CURD/curd.mixin'
     import CurdTableColumnSelect from '@/components/CURD/Table/select/TableColumnSelect'
-    import SsoLoginPermissionDetail from './detail'
-    import SsoLoginPermissionColumns from './ssoLoginPermissionColumns'
+    import BaseBusinessCodeDetail from './detail'
+    import BaseBusinessCodeColumns from './baseBusinessCodeColumns'
     import TemplateConfirmBtn from '@/components/CURD/Btns/TemplateConfirmBtn'
     import FormItemColDict from '@/components/CURD/Form/formItemColDict.vue'
     import FormItemCol from '@/components/CURD/Form/formItemCol.vue'
     import SimpleSearch from '@/components/CURD/Query/search'
-    import CommonDialogBtn from '@/components/CURD/Btns/CommonDialogBtn'
-    import AppPermission from './AppPermission'
     import TableColumnPreferenceSettingApiSlot from '@/views/basic/preferenceSetting/TableColumnPrefenceSettingApiSlot'
+    import SectionTableColumn from '@/components/CURD/Table/column/base/SectionTableColumn'
+    import CommonDialogBtn from "../../../components/CURD/Btns/CommonDialogBtn";
+    import {getData, getMessage} from "../../../utils/ajaxResultUtil";
 
     export default {
-        name: 'SsoLoginPermissionIndexVue',
+        name: 'BaseBusinessCodeIndexVue',
         components: {
-            TableColumnPreferenceSettingApiSlot,
-            AppPermission,
             CommonDialogBtn,
-            TemplateConfirmBtn,
-          SsoLoginPermissionColumns,
-          SsoLoginPermissionDetail,
+          SectionTableColumn,
+          TemplateConfirmBtn,
+          BaseBusinessCodeColumns,
+          BaseBusinessCodeDetail,
             CurdTableColumnSelect,
             DelBtn,
-          SsoLoginPermissionUpdate,
+          BaseBusinessCodeUpdate,
             CurdPagination,
-            HfTable, SsoLoginPermissionAdd,
+            HfTable, BaseBusinessCodeAdd,
           FormItemColDict,
           FormItemCol,
-          SimpleSearch
+          SimpleSearch,
+          TableColumnPreferenceSettingApiSlot
         },
         mixins: [CurdMixin],
         data() {
             return {
-                db: {},
+                nextCode: null,
                 showFields: null,
                 loading: false,
                 /**
                  * 查询的表单信息
                  */
                 searchForm: {
-          permissionId: null,
-          permissionName: null,
-          permissionType: null,
-          permissionCnt: null,
-          creator: null,
-          createTime: null,
-          modifier: null,
-          modifyTime: null,
-          enableState: null,
-          deleted: null,
+                    businessId: null,
+                    businessKey: null,
+                    businessName: null,
+                    businessDescription: null,
+                    prefix: null,
+                    suffix: null,
+                    useDate: null,
+                    dateFormat: null,
+                    seqStart: null,
+                    seqStep: null,
+                    seqLength: null,
+                    seqCurrent: null,
+                    enableState: null,
                     /**
                      * 分页信息
                      */
@@ -292,14 +293,14 @@
                     this.$message.error('请配置分页查询地址参数:{pageUrl: xxxx}')
                 }
             },
-            bindSuccessHandler(cb) {
-                return () => {
-
-                    if (cb) {
-                        cb()
+            getNextCode(row) {
+                baseApiGetMethod(this.conf.urlMethods.nextCodeUrl, row).then(resp => {
+                    if (isSuccessResult(resp)) {
+                        this.nextCode = getData(resp)
+                    } else {
+                        this.$message.error(getMessage(resp))
                     }
-                    this.doSearch()
-                }
+                })
             }
         }
     }

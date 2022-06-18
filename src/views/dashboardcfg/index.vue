@@ -340,7 +340,7 @@ export default {
      * 添加(货币)
      */
     handleMenuFocus() {
-      debugger
+
       if (this.nodeSetting.prop !== 'start' && this.nodeSetting.prop !== 'end') {
         this.menuFormVisible = true
       }

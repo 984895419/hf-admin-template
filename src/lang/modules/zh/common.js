@@ -29,6 +29,9 @@ export default {
   copySuccess: '复制成功',
   copyFailed: '复制失败',
   import: '导入',
+  start: '启动',
+  stop: '停止',
+  restart: '重启',
   navbar: {
     dashboard: '首页',
     github: '项目地址',

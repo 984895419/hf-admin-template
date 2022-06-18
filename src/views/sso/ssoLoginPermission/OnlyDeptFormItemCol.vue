@@ -53,7 +53,7 @@
         },
         methods: {
             successHandler(val) {
-                debugger
+
                 if (val && val.length > 0) {
                     this.value['permissionValue'] = val.map(t => {
                         return {

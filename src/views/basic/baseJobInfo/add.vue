@@ -13,34 +13,28 @@
                 prop="jobName"
                 :namespace="conf.namespace"
                />
-               <form-item-col
+               <form-item-col-text-area
                 :value="data"
                 :error="errorMessage('jobDescription')"
                 :span="span"
                 prop="jobDescription"
                 :namespace="conf.namespace"
                />
-               <form-item-col
+              <form-item-col-dict
                 :value="data"
-                :error="errorMessage('jobData')"
+                :error="errorMessage('triggerType')"
                 :span="span"
-                prop="jobData"
+                prop="triggerType"
+                :dict-code="'JOB_TRIGGER_TYPE'"
                 :namespace="conf.namespace"
-               />
-               <form-item-col
+              />
+              <form-item-col
                 :value="data"
-                :error="errorMessage('jobTypeId')"
+                :error="errorMessage('triggerTime')"
                 :span="span"
-                prop="jobTypeId"
+                prop="triggerTime"
                 :namespace="conf.namespace"
-               />
-               <form-item-col
-                :value="data"
-                :error="errorMessage('jobTypeName')"
-                :span="span"
-                prop="jobTypeName"
-                :namespace="conf.namespace"
-               />
+              />
               <form-item-col-enable-state
                 :value="data"
                 :span="span"
@@ -48,18 +42,23 @@
               />
                <form-item-col
                 :value="data"
-                :error="errorMessage('runState')"
+                :error="errorMessage('jobTypeId')"
                 :span="span"
-                prop="runState"
+                prop="jobTypeId"
                 :namespace="conf.namespace"
-               />
-               <form-item-col
+               >
+                 <base-job-type-input-refer :value="data" value-refer-id="jobTypeId" value-refer-name="jobTypeName"/>
+               </form-item-col>
+              <form-item-col
                 :value="data"
-                :error="errorMessage('finishTime')"
+                v-if="data.jobTypeId"
+                :error="errorMessage('jobData')"
                 :span="span"
-                prop="finishTime"
+                prop="jobData"
                 :namespace="conf.namespace"
-               />
+              >
+                <job-type-render :value="data" field="jobData" :job-type-id="data.jobTypeId"/>
+              </form-item-col>
               <!-- 字典字段字段设置方法如下
               <form-item-col-dict
                 :value="data"
@@ -86,9 +85,15 @@
     import FormItemColDict from '@/components/CURD/Form/formItemColDict'
     import { baseApiPostMethod } from '@/components/CURD/baseApi'
     import FormItemColEnableState from '@/components/CURD/Form/formItemColEnableState'
+    import BaseJobTypeInputRefer from "../baseJobType/inputRefer"
+    import FormItemColTextArea from '@/components/CURD/Form/formItemColTextarea'
+    import JobTypeRender from '../baseJobType/JobTypeRender'
     export default {
         name: 'BaseJobInfoAdd',
-        components: { FormItemColDict, FormItemCol, RowSpanSlot, CuForm, AddBtn, FormItemColEnableState },
+        components: {
+            JobTypeRender,
+            FormItemColTextArea,
+            BaseJobTypeInputRefer, FormItemColDict, FormItemCol, RowSpanSlot, CuForm, AddBtn, FormItemColEnableState },
         props: {
             value: {
                 type: Object,

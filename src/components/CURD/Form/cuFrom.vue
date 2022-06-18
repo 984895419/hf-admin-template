@@ -56,7 +56,7 @@ export default {
     errorMessage() {
       return (field) => {
         if (this.errorInfo) {
-            debugger
+
             if (this.namespace && this.errorInfo[field] && this.errorInfo[field].endsWith('NOT_NULL')) {
               return this.$t(this.namespace + '.' + field) + this.$t('common.notAllowedNull')
             }
@@ -96,7 +96,7 @@ export default {
           // 发送post请求
           this.loading = true
             this.actionMethod(this.value).then(resp => {
-                debugger
+
             if (isSuccessResult(resp)) {
               this.$message.success(getMessage(resp))
               this.$emit('success')

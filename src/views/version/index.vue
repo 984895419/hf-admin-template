@@ -43,7 +43,7 @@ export default {
     toLoadAllArticle() {
       this.fullscreenLoading = true
       loadAllArticle({ articleType: '0', pageSize: 10, needContent: true }).then(resp => {
-        debugger
+
         this.fullscreenLoading = false
         if (resp.res === '1') {
           this.versions = resp.obj

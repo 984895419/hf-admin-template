@@ -168,6 +168,24 @@ export const constantRoutes = [
         component: () => import('@/views/basic/baseRegexRule/index'),
         name: 'baseRegexRule',
         meta: { title: '正则表达式管理', icon: 'dashboard', affix: true }
+      },
+      {
+        path: 'baseBusinessCode',
+        component: () => import('@/views/basic/baseBusinessCode/index'),
+        name: 'baseBusinessCode',
+        meta: { title: '编码规则', icon: 'dashboard', affix: true }
+      },
+      {
+        path: 'baseJobType',
+        component: () => import('@/views/basic/baseJobType/index'),
+        name: 'baseJobType',
+        meta: { title: '调度任务类型', icon: 'dashboard', affix: true }
+      },
+      {
+        path: 'baseJobInfo',
+        component: () => import('@/views/basic/baseJobInfo/index'),
+        name: 'baseJobInfo',
+        meta: { title: '调度任务管理', icon: 'dashboard', affix: true }
       }
     ],
     meta: { title: '基础管理', icon: 'dashboard', affix: true }

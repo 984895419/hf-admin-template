@@ -1,42 +1,86 @@
 <template>
   <add-btn :init-data="value">
     <template v-slot="{ closeDialog, data }">
-      <cu-form :namespace="conf.namespace" :value="data" :action-method="addUrl" :form-rules="formRules" v-on="$listeners" @closeDialog="closeDialog">
+      <cu-form :value="data" :action-method="addUrl" :form-rules="formRules" v-on="$listeners" @closeDialog="closeDialog">
         <template v-slot="{ errorMessage }">
           <row-span-slot>
             <template v-slot="{ span }">
               <!-- 新增的的字段配置 -->
                              <form-item-col
                 :value="data"
-                :error="errorMessage('jobTypeName')"
+                :error="errorMessage('businessKey')"
                 :span="span"
-                prop="jobTypeName"
+                prop="businessKey"
                 :namespace="conf.namespace"
                />
                <form-item-col
                 :value="data"
-                :error="errorMessage('jobTypeKey')"
+                :error="errorMessage('businessName')"
                 :span="span"
-                prop="jobTypeKey"
+                prop="businessName"
                 :namespace="conf.namespace"
                />
                <form-item-col
                 :value="data"
-                :error="errorMessage('jobComponentPath')"
+                :error="errorMessage('prefix')"
                 :span="span"
-                prop="jobComponentPath"
+                prop="prefix"
                 :namespace="conf.namespace"
                />
-              <form-item-col
+               <form-item-col
                 :value="data"
-                :error="errorMessage('javaExpression')"
-                :span="24"
-                prop="javaExpression"
+                :error="errorMessage('suffix')"
+                :span="span"
+                prop="suffix"
                 :namespace="conf.namespace"
-              />
+               />
+               <form-item-col-dict
+                :value="data"
+                :error="errorMessage('useDate')"
+                :span="span"
+                prop="useDate"
+                :dict-code="'YES_OR_NO'"
+                :namespace="conf.namespace"
+               />
+               <form-item-col
+                :value="data"
+                v-if="data.useDate === '1'"
+                :error="errorMessage('dateFormat')"
+                :span="span"
+                prop="dateFormat"
+                :namespace="conf.namespace"
+               />
+               <form-item-col
+                :value="data"
+                :error="errorMessage('seqStart')"
+                :span="span"
+                prop="seqStart"
+                :namespace="conf.namespace"
+               />
+               <form-item-col
+                :value="data"
+                :error="errorMessage('seqStep')"
+                :span="span"
+                prop="seqStep"
+                :namespace="conf.namespace"
+               />
+               <form-item-col
+                :value="data"
+                :error="errorMessage('seqLength')"
+                :span="span"
+                prop="seqLength"
+                :namespace="conf.namespace"
+               />
               <form-item-col-enable-state
                 :value="data"
                 :span="span"
+                :namespace="conf.namespace"
+              />
+              <form-item-col
+                :value="data"
+                :error="errorMessage('businessDescription')"
+                :span="24"
+                prop="businessDescription"
                 :namespace="conf.namespace"
               />
               <!-- 字典字段字段设置方法如下
@@ -65,10 +109,9 @@
     import FormItemColDict from '@/components/CURD/Form/formItemColDict'
     import { baseApiPostMethod } from '@/components/CURD/baseApi'
     import FormItemColEnableState from '@/components/CURD/Form/formItemColEnableState'
-    import JobTypeRender from "./JobTypeRender";
     export default {
-        name: 'BaseJobTypeAdd',
-        components: {JobTypeRender, FormItemColDict, FormItemCol, RowSpanSlot, CuForm, AddBtn, FormItemColEnableState },
+        name: 'BaseBusinessCodeAdd',
+        components: { FormItemColDict, FormItemCol, RowSpanSlot, CuForm, AddBtn, FormItemColEnableState },
         props: {
             value: {
                 type: Object,

@@ -80,7 +80,7 @@ export default {
     },
     changeCampany(index, deptId, deptName) {
       const _this = this
-      debugger
+
       if (_this.companyList[index].companyId === _this.$store.getters.curCompanyId && deptId === (_this.currentDataObject.curDeptId || _this.$store.getters.curDeptId)) {
         this.$emit('cancel')
         return

@@ -17,6 +17,7 @@
 
 import { getMessage, isSuccessResult } from '@/utils/ajaxResultUtil'
 import { baseApiDeleteMethod, baseApiPostMethod, baseApiPutMethod } from '@/components/CURD/baseApi'
+import {getData} from "../../../utils/ajaxResultUtil";
 
 export default {
   name: 'TemplateConfirmBtn',
@@ -103,11 +104,18 @@ export default {
       }
       promis.then(resp => {
         if (isSuccessResult(resp)) {
-          this.$message({
-            type: 'success',
-            message: this.label + '成功!'
-          })
-          this.$emit('success')
+          if (getData(resp) === false) {
+            this.$message({
+              type: 'error',
+              message: this.label + '失败!'
+            })
+          } else {
+            this.$message({
+              type: 'success',
+              message: this.label + '成功!'
+            })
+            this.$emit('success')
+          }
         } else {
           this.$message.error(getMessage(resp))
           return

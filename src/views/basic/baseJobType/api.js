@@ -37,7 +37,7 @@ const exportTableFields = (fields) => {
  * 字段的配置，用在国际化及列表选择显示字段的时候
  * @type {*[]}
  */
-const tableFields = ['jobTypeId', 'jobTypeName', 'jobTypeKey', 'jobComponentPath', 'creator', 'createTime', 'modifier', 'modifyTime', 'enableState', 'deleted', 'tenantId']
+const tableFields = ['jobTypeId', 'jobTypeName', 'jobTypeKey', 'jobComponentPath', 'javaExpression', 'creator', 'createTime', 'modifier', 'modifyTime', 'enableState', 'deleted', 'tenantId']
 
 export default exportTableFields(tableFields)
 

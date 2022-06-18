@@ -16,31 +16,73 @@
                                                                         <form-item-col
                                                 :value="searchForm"
                                                 :span="span"
-                                                prop="configKey"
+                                                prop="businessKey"
                                                 :namespace="conf.namespace"
                                         />
                                         <form-item-col
                                                 :value="searchForm"
                                                 :span="span"
-                                                prop="configValue"
+                                                prop="businessName"
                                                 :namespace="conf.namespace"
                                         />
                                         <form-item-col
                                                 :value="searchForm"
                                                 :span="span"
-                                                prop="configDescription"
+                                                prop="businessDescription"
+                                                :namespace="conf.namespace"
+                                        />
+                                        <form-item-col
+                                                :value="searchForm"
+                                                :span="span"
+                                                prop="prefix"
+                                                :namespace="conf.namespace"
+                                        />
+                                        <form-item-col
+                                                :value="searchForm"
+                                                :span="span"
+                                                prop="suffix"
+                                                :namespace="conf.namespace"
+                                        />
+                                        <form-item-col
+                                                :value="searchForm"
+                                                :span="span"
+                                                prop="useDate"
+                                                :namespace="conf.namespace"
+                                        />
+                                        <form-item-col
+                                                :value="searchForm"
+                                                :span="span"
+                                                prop="dateFormat"
+                                                :namespace="conf.namespace"
+                                        />
+                                        <form-item-col
+                                                :value="searchForm"
+                                                :span="span"
+                                                prop="seqStart"
+                                                :namespace="conf.namespace"
+                                        />
+                                        <form-item-col
+                                                :value="searchForm"
+                                                :span="span"
+                                                prop="seqStep"
+                                                :namespace="conf.namespace"
+                                        />
+                                        <form-item-col
+                                                :value="searchForm"
+                                                :span="span"
+                                                prop="seqLength"
+                                                :namespace="conf.namespace"
+                                        />
+                                        <form-item-col
+                                                :value="searchForm"
+                                                :span="span"
+                                                prop="seqCurrent"
                                                 :namespace="conf.namespace"
                                         />
                                         <form-item-col
                                                 :value="searchForm"
                                                 :span="span"
                                                 prop="enableState"
-                                                :namespace="conf.namespace"
-                                        />
-                                        <form-item-col
-                                                :value="searchForm"
-                                                :span="span"
-                                                prop="initData"
                                                 :namespace="conf.namespace"
                                         />
                             </template>
@@ -62,7 +104,7 @@
                                 width="40"
                         />
                         <!-- 显示的字段-->
-                        <base-system-config-columns :show-fields="showFields" :url-methods="conf.urlMethods" @success="doSearch" />
+                        <base-business-code-columns :show-fields="showFields" :url-methods="conf.urlMethods" @success="doSearch" />
                         <el-table-column
                                 fixed="right"
                                 :label="$t('common.operate')"
@@ -108,7 +150,7 @@
             >
                 <section-table-column/>
                 <!-- 显示的字段-->
-                <base-system-config-columns :show-fields="showFields" :url-methods="conf.urlMethods" @success="doSearch" />
+                <base-business-code-columns :show-fields="showFields" :url-methods="conf.urlMethods" @success="doSearch" />
                 <el-table-column
                         fixed="right"
                         :label="$t('common.operate')"
@@ -151,7 +193,7 @@
     import CurdMixin from '@/components/CURD/curd.mixin'
     import CurdPagination from '@/components/CURD/pagination/Pagination'
     import HfTable from '@/components/CURD/Table/HfTable'
-    import BaseSystemConfigColumns from './baseSystemConfigColumns'
+    import BaseBusinessCodeColumns from './baseBusinessCodeColumns'
     import DelBtn from '@/components/CURD/Btns/DelBtn'
     import CurdTableColumnSelect from '@/components/CURD/Table/select/TableColumnSelect'
     import CommonDialogBtn from '@/components/CURD/Btns/CommonDialogBtn'
@@ -159,13 +201,13 @@
     import SectionTableColumn from '@/components/CURD/Table/column/base/SectionTableColumn'
 
     export default {
-        name: 'BaseSystemConfigMultipleRefer',
+        name: 'BaseBusinessCodeMultipleRefer',
         components: {
             SectionTableColumn,
             TableColumnPreferenceSettingApiSlot,
             CommonDialogBtn,
             CurdTableColumnSelect,
-            DelBtn, BaseSystemConfigColumns,
+            DelBtn, BaseBusinessCodeColumns,
             HfTable, CurdPagination, FormItemCol, SimpleSearch },
         mixins: [CurdMixin],
         props: {
@@ -179,15 +221,22 @@
                 showFields: null,
                 loading: false,
                 conf: conf,
-                uniqueColumn: 'configId',
+                uniqueColumn: 'businessId',
                 deepValue: deepClone(this.value || []),
                 searchForm: {
-                    configId: null,
-                    configKey: null,
-                    configValue: null,
-                    configDescription: null,
+                    businessId: null,
+                    businessKey: null,
+                    businessName: null,
+                    businessDescription: null,
+                    prefix: null,
+                    suffix: null,
+                    useDate: null,
+                    dateFormat: null,
+                    seqStart: null,
+                    seqStep: null,
+                    seqLength: null,
+                    seqCurrent: null,
                     enableState: 1,
-                    initData: null,
 
                     /**
                      * 分页信息

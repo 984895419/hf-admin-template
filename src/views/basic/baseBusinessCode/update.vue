@@ -7,37 +7,81 @@
             <row-span-slot>
               <template v-slot="{ span }">
                 <!-- 修改的字段配置 -->
-                                <form-item-col
+                <form-item-col
                   :value="data"
-                  :error="errorMessage('jobTypeName')"
+                  :error="errorMessage('businessKey')"
                   :span="span"
-                  prop="jobTypeName"
+                  prop="businessKey"
                   :namespace="conf.namespace"
                 />
                 <form-item-col
                   :value="data"
-                  :error="errorMessage('jobTypeKey')"
+                  :error="errorMessage('businessName')"
                   :span="span"
-                  prop="jobTypeKey"
+                  prop="businessName"
                   :namespace="conf.namespace"
                 />
                 <form-item-col
                   :value="data"
-                  :error="errorMessage('jobComponentPath')"
+                  :error="errorMessage('prefix')"
                   :span="span"
-                  prop="jobComponentPath"
+                  prop="prefix"
                   :namespace="conf.namespace"
                 />
                 <form-item-col
                   :value="data"
-                  :error="errorMessage('javaExpression')"
-                  :span="24"
-                  prop="javaExpression"
+                  :error="errorMessage('suffix')"
+                  :span="span"
+                  prop="suffix"
+                  :namespace="conf.namespace"
+                />
+                <form-item-col-dict
+                  :value="data"
+                  :error="errorMessage('useDate')"
+                  :span="span"
+                  prop="useDate"
+                  :dict-code="'YES_OR_NO'"
+                  :namespace="conf.namespace"
+                />
+                <form-item-col
+                  v-if="data.useDate === '1'"
+                  :value="data"
+                  :error="errorMessage('dateFormat')"
+                  :span="span"
+                  prop="dateFormat"
+                  :namespace="conf.namespace"
+                />
+                <form-item-col
+                  :value="data"
+                  :error="errorMessage('seqStart')"
+                  :span="span"
+                  prop="seqStart"
+                  :namespace="conf.namespace"
+                />
+                <form-item-col
+                  :value="data"
+                  :error="errorMessage('seqStep')"
+                  :span="span"
+                  prop="seqStep"
+                  :namespace="conf.namespace"
+                />
+                <form-item-col
+                  :value="data"
+                  :error="errorMessage('seqLength')"
+                  :span="span"
+                  prop="seqLength"
                   :namespace="conf.namespace"
                 />
                 <form-item-col-enable-state
                   :value="data"
                   :span="span"
+                  :namespace="conf.namespace"
+                />
+                <form-item-col
+                  :value="data"
+                  :error="errorMessage('businessDescription')"
+                  :span="24"
+                  prop="businessDescription"
                   :namespace="conf.namespace"
                 />
                 <!-- 字段字段设置方法如下
@@ -69,7 +113,7 @@
     import FormItemColDict from '@/components/CURD/Form/formItemColDict'
     import FormItemColEnableState from '@/components/CURD/Form/formItemColEnableState'
     export default {
-        name: 'BaseJobTypeUpdate',
+        name: 'BaseBusinessCodeUpdate',
         components: { FormItemColDict, FormItemCol, RowSpanSlot, CuForm, UpdateBtn, FormItemColEnableState },
         mixins: [CurdMixin],
         props: {

@@ -18,10 +18,76 @@
           <simple-search v-model="searchForm" :inline="true" @search="doSearch">
             <template v-slot="{ span }">
               <!-- 新增的的字段配置 -->
+                            <form-item-col
+                :value="searchForm"
+                :span="span"
+                prop="businessKey"
+                :namespace="conf.namespace"
+              />
               <form-item-col
                 :value="searchForm"
                 :span="span"
-                prop="menuName"
+                prop="businessName"
+                :namespace="conf.namespace"
+              />
+              <form-item-col
+                :value="searchForm"
+                :span="span"
+                prop="businessDescription"
+                :namespace="conf.namespace"
+              />
+              <form-item-col
+                :value="searchForm"
+                :span="span"
+                prop="prefix"
+                :namespace="conf.namespace"
+              />
+              <form-item-col
+                :value="searchForm"
+                :span="span"
+                prop="suffix"
+                :namespace="conf.namespace"
+              />
+              <form-item-col
+                :value="searchForm"
+                :span="span"
+                prop="useDate"
+                :namespace="conf.namespace"
+              />
+              <form-item-col
+                :value="searchForm"
+                :span="span"
+                prop="dateFormat"
+                :namespace="conf.namespace"
+              />
+              <form-item-col
+                :value="searchForm"
+                :span="span"
+                prop="seqStart"
+                :namespace="conf.namespace"
+              />
+              <form-item-col
+                :value="searchForm"
+                :span="span"
+                prop="seqStep"
+                :namespace="conf.namespace"
+              />
+              <form-item-col
+                :value="searchForm"
+                :span="span"
+                prop="seqLength"
+                :namespace="conf.namespace"
+              />
+              <form-item-col
+                :value="searchForm"
+                :span="span"
+                prop="seqCurrent"
+                :namespace="conf.namespace"
+              />
+              <form-item-col
+                :value="searchForm"
+                :span="span"
+                prop="enableState"
                 :namespace="conf.namespace"
               />
               <!-- 字典字段字段设置方法如下
@@ -43,7 +109,7 @@
           @row-dblclick="rowDbClick"
         >
           <!-- 显示的字段-->
-          <hf-base-right-menu-columns
+          <base-business-code-columns
             :show-fields="conf.default"
             :url-methods="conf.urlMethods"
             @success="doSearch"
@@ -70,13 +136,13 @@
     import SimpleSearch from '@/components/CURD/Query/search'
     import HfTable from '@/components/CURD/Table/HfTable'
     import CurdPagination from '@/components/CURD/pagination/Pagination'
-    import HfBaseRightMenuColumns from './hfBaseRightMenuColumns'
+    import BaseBusinessCodeColumns from './baseBusinessCodeColumns'
     import FormItemColDict from '@/components/CURD/Form/formItemColDict.vue'
     import FormItemCol from '@/components/CURD/Form/formItemCol.vue'
     import RowSpanSlot from '@/components/CURD/Slot/RowSpanSlot.vue'
     export default {
-        name: 'HfBaseRightMenuInputRefer',
-        components: { HfBaseRightMenuColumns, CurdPagination, HfTable, SimpleSearch,
+        name: 'BaseBusinessCodeInputRefer',
+        components: { BaseBusinessCodeColumns, CurdPagination, HfTable, SimpleSearch,
           FormItemColDict,
           FormItemCol,
           RowSpanSlot },
@@ -104,10 +170,6 @@
              */
             valueExpendRefers: {
                 type: Object
-            },
-            menuType: {
-              type: String,
-              default: 'PATH_MENU'
             }
         },
         data() {
@@ -120,9 +182,26 @@
                  * 查询的表单信息
                  */
                 searchForm: {
-                  menuName: null,
-                  menuType: this.menuType,
-                  enableState: 1,
+                  businessId: null,
+                  businessKey: null,
+                  businessName: null,
+                  businessDescription: null,
+                  prefix: null,
+                  suffix: null,
+                  useDate: null,
+                  dateFormat: null,
+                  seqStart: null,
+                  seqStep: null,
+                  seqLength: null,
+                  seqCurrent: null,
+                  creator: null,
+                  createTime: null,
+                  modifier: null,
+                  modifyTime: null,
+                  enableState: null,
+                  deleted: null,
+                  tenantId: null,
+                    enableState: 1,
                     /**
                      * 分页信息
                      */
@@ -182,13 +261,12 @@
              * @param event
              */
             rowDbClick(row, column, event) {
-
                 if (this.value) {
                     if (this.valueReferId) {
-                        this.$set(this.value, this.valueReferId, row.menuId)
+                        this.$set(this.value, this.valueReferId, row.clientId)
                     }
                     if (this.valueReferName) {
-                        this.$set(this.value, this.valueReferName, row.menuName)
+                        this.$set(this.value, this.valueReferName, row.clientId)
                     }
                     if (this.valueExpendRefers) {
                         for (const ind in this.valueExpendRefers) {

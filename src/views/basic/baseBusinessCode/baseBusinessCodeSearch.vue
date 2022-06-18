@@ -38,7 +38,7 @@
     import RowSpanSlot from '@/components/CURD/Slot/RowSpanSlot.vue'
 
     export default {
-        name: 'SsoLoginAppSearch',
+        name: 'BaseBusinessCodeSearch',
         components: { RowSpanSlot },
         props: {
           value: Object
@@ -60,7 +60,6 @@
              * 重置查询条件
              */
             doReset() {
-
                 this.$emit('input', deepClone(this.initValue))
                 this.$emit('search')
             }

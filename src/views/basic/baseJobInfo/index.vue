@@ -14,43 +14,21 @@
           <form-item-col
             :value="searchForm"
             :span="span"
-            prop="jobDescription"
-            :namespace="conf.namespace"
-          />
-          <form-item-col
-            :value="searchForm"
-            :span="span"
-            prop="jobData"
-            :namespace="conf.namespace"
-          />
-          <form-item-col
-            :value="searchForm"
-            :span="span"
             prop="jobTypeId"
             :namespace="conf.namespace"
           />
-          <form-item-col
-            :value="searchForm"
-            :span="span"
-            prop="jobTypeName"
-            :namespace="conf.namespace"
-          />
-          <form-item-col
-            :value="searchForm"
-            :span="span"
-            prop="enableState"
-            :namespace="conf.namespace"
-          />
-          <form-item-col
+          <form-item-col-dict
             :value="searchForm"
             :span="span"
             prop="runState"
+            :dict-code="'JOB_RUN_STATE'"
             :namespace="conf.namespace"
           />
-          <form-item-col
+          <form-item-col-dict
             :value="searchForm"
             :span="span"
-            prop="finishTime"
+            prop="triggerType"
+            :dict-code="'JOB_TRIGGER_TYPE'"
             :namespace="conf.namespace"
           />
           <!-- 字典字段字段设置方法如下
@@ -148,6 +126,36 @@
                 <base-job-info-detail
                   :value="scopeRow.row"
                 />
+                <!-- 启动 -->
+                <template-confirm-btn
+                  :url="templateUrl(conf.urlMethods.startUrl, scopeRow.row)"
+                  :label="$t('common.start')"
+                  :value="scopeRow.row"
+                  btnType="text"
+                  httpMethod="post"
+                  :confirmLabel="'启动该任务？'"
+                  @success="doSearch"
+                />
+                <!-- 停止 -->
+                <template-confirm-btn
+                  :url="templateUrl(conf.urlMethods.stopUrl, scopeRow.row)"
+                  :label="$t('common.stop')"
+                  :value="scopeRow.row"
+                  btnType="text"
+                  httpMethod="post"
+                  :confirmLabel="'停止任务？'"
+                  @success="doSearch"
+                />
+                <!-- 重启 -->
+                <template-confirm-btn
+                  :url="templateUrl(conf.urlMethods.restartUrl, scopeRow.row)"
+                  :label="$t('common.restart')"
+                  :value="scopeRow.row"
+                  btnType="text"
+                  httpMethod="post"
+                  :confirmLabel="'重启任务？'"
+                  @success="doSearch"
+                />
               </div>
             </template>
           </el-table-column>
@@ -212,15 +220,8 @@
                  * 查询的表单信息
                  */
                 searchForm: {
-                    jobId: null,
                     jobName: null,
-                    jobDescription: null,
-                    jobData: null,
                     jobTypeId: null,
-                    jobTypeName: null,
-                    enableState: null,
-                    runState: null,
-                    finishTime: null,
                     /**
                      * 分页信息
                      */

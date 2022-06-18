@@ -3,33 +3,75 @@
     <!-- 有拖拽选择的时候 -->
     <div v-for="item in showFields" :key="item.value">
               <el-table-column
-          v-if="item.value === 'jobTypeId'"
-          prop="jobTypeId"
-          :label="$t(conf.namespace + '.jobTypeId')"
+          v-if="item.value === 'businessId'"
+          prop="businessId"
+          :label="$t(conf.namespace + '.businessId')"
           min-width="130"
         />
         <el-table-column
-          v-if="item.value === 'javaExpression'"
-          prop="javaExpression"
-          :label="$t(conf.namespace + '.javaExpression')"
-          min-width="200"
-        />
-        <el-table-column
-          v-if="item.value === 'jobTypeName'"
-          prop="jobTypeName"
-          :label="$t(conf.namespace + '.jobTypeName')"
+          v-if="item.value === 'businessKey'"
+          prop="businessKey"
+          :label="$t(conf.namespace + '.businessKey')"
           min-width="130"
         />
         <el-table-column
-          v-if="item.value === 'jobTypeKey'"
-          prop="jobTypeKey"
-          :label="$t(conf.namespace + '.jobTypeKey')"
+          v-if="item.value === 'businessName'"
+          prop="businessName"
+          :label="$t(conf.namespace + '.businessName')"
           min-width="130"
         />
         <el-table-column
-          v-if="item.value === 'jobComponentPath'"
-          prop="jobComponentPath"
-          :label="$t(conf.namespace + '.jobComponentPath')"
+          v-if="item.value === 'businessDescription'"
+          prop="businessDescription"
+          :label="$t(conf.namespace + '.businessDescription')"
+          min-width="130"
+        />
+        <el-table-column
+          v-if="item.value === 'prefix'"
+          prop="prefix"
+          :label="$t(conf.namespace + '.prefix')"
+          min-width="130"
+        />
+        <el-table-column
+          v-if="item.value === 'suffix'"
+          prop="suffix"
+          :label="$t(conf.namespace + '.suffix')"
+          min-width="130"
+        />
+        <el-table-column
+          v-if="item.value === 'useDate'"
+          prop="useDate"
+          :label="$t(conf.namespace + '.useDate')"
+          min-width="130"
+        />
+        <el-table-column
+          v-if="item.value === 'dateFormat'"
+          prop="dateFormat"
+          :label="$t(conf.namespace + '.dateFormat')"
+          min-width="130"
+        />
+        <el-table-column
+          v-if="item.value === 'seqStart'"
+          prop="seqStart"
+          :label="$t(conf.namespace + '.seqStart')"
+          min-width="130"
+        />
+        <el-table-column
+          v-if="item.value === 'seqStep'"
+          prop="seqStep"
+          :label="$t(conf.namespace + '.seqStep')"
+          min-width="130"
+        />
+        <el-table-column
+          v-if="item.value === 'seqLength'"
+          prop="seqLength"
+          :label="$t(conf.namespace + '.seqLength')"
+          min-width="130"
+        />
+        <el-table-column
+          v-if="item.value === 'seqCurrent'"
+          prop="seqCurrent"
+          :label="$t(conf.namespace + '.seqCurrent')"
           min-width="130"
         />
         <creator-table-column v-if="item.value === 'creator'" />
@@ -69,7 +111,7 @@
     import ModifyTimeTableColumn from '@/components/CURD/Table/column/ModifyTimeTableColumn'
 
     export default {
-        name: 'BaseJobTypeColumns',
+        name: 'BaseBusinessCodeColumns',
         components: { EnableStateTableColumn,
             CreatorTableColumn, CreateTimeTableColumn,
             ModifierTableColumn, ModifyTimeTableColumn },

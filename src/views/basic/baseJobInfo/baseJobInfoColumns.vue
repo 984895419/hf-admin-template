@@ -61,9 +61,9 @@
           :label="$t(conf.namespace + '.tenantId')"
           min-width="130"
         />
-        <el-table-column
+        <tag-table-column
           v-if="item.value === 'runState'"
-          prop="runState"
+          prop="runStateName"
           :label="$t(conf.namespace + '.runState')"
           min-width="130"
         />
@@ -73,6 +73,51 @@
           :label="$t(conf.namespace + '.finishTime')"
           min-width="130"
         />
+
+      <el-table-column
+        v-if="item.value === 'triggerType'"
+        prop="triggerType"
+        :label="$t(conf.namespace + '.triggerType')"
+        min-width="130"
+      />
+
+      <el-table-column
+        v-if="item.value === 'triggerTime'"
+        prop="triggerTime"
+        :label="$t(conf.namespace + '.triggerTime')"
+        min-width="130"
+      />
+
+      <el-table-column
+        v-if="item.value === 'startTime'"
+        prop="startTime"
+        :label="$t(conf.namespace + '.startTime')"
+        min-width="100"
+      />
+      <el-table-column
+        v-if="item.value === 'endTime'"
+        prop="endTime"
+        :label="$t(conf.namespace + '.endTime')"
+        min-width="100"
+      />
+      <el-table-column
+        v-if="item.value === 'nextFireTime'"
+        prop="nextFireTime"
+        :label="$t(conf.namespace + '.nextFireTime')"
+        min-width="100"
+      />
+      <el-table-column
+        v-if="item.value === 'previousFireTime'"
+        prop="previousFireTime"
+        :label="$t(conf.namespace + '.previousFireTime')"
+        min-width="100"
+      />
+      <tag-table-column
+        v-if="item.value === 'executeState'"
+        prop="executeStateName"
+        :label="$t(conf.namespace + '.executeState')"
+        min-width="100"
+      />
     </div>
   </div>
 </template>
@@ -85,10 +130,12 @@
     import CreateTimeTableColumn from '@/components/CURD/Table/column/CreateTimeTableColumn'
     import ModifierTableColumn from '@/components/CURD/Table/column/ModifierTableColumn'
     import ModifyTimeTableColumn from '@/components/CURD/Table/column/ModifyTimeTableColumn'
+    import TagTableColumn from "../../../components/CURD/Table/column/base/TagTableColumn";
 
     export default {
         name: 'BaseJobInfoColumns',
-        components: { EnableStateTableColumn,
+        components: {
+            TagTableColumn, EnableStateTableColumn,
             CreatorTableColumn, CreateTimeTableColumn,
             ModifierTableColumn, ModifyTimeTableColumn },
         props: {

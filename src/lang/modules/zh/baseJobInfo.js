@@ -13,5 +13,12 @@ export default {
   deleted: '删除状态',
   tenantId: '所属的租户ID',
   runState: '运行状态',
-  finishTime: '任务完成时间'
+  finishTime: '最近一次执行事件',
+  triggerTime: '触发时间',
+  triggerType: '触发类型',
+  executeState: '最近一次执行状态',
+  startTime: '开始时间',
+  endTime: '结束时间',
+  nextFireTime: '下次触发时间',
+  previousFireTime: '上次触发时间'
 }

@@ -3,6 +3,7 @@ export default {
   jobTypeName: '任务类型名称',
   jobTypeKey: '任务类型的key',
   jobComponentPath: 'vue组件路径/http页面路径',
+  javaExpression: 'java表达式',
   creator: '创建人',
   createTime: '创建时间',
   modifier: '修改人',
