@@ -42,6 +42,13 @@
                 />
                 <form-item-col
                   :value="data"
+                  :error="errorMessage('internetHomeUri')"
+                  :span="span"
+                  prop="internetHomeUri"
+                  :namespace="conf.namespace"
+                />
+                <form-item-col
+                  :value="data"
                   :error="errorMessage('tokenUri')"
                   :span="span"
                   prop="tokenUri"
@@ -89,8 +96,8 @@
     import CurdMixin from '@/components/CURD/curd.mixin'
     import { baseApiPutMethod } from '@/components/CURD/baseApi'
     import FormItemColDict from '@/components/CURD/Form/formItemColDict'
-    import FormItemColUploadImage from "../../../components/CURD/Form/formItemColUploadImage";
-    import FormItemColEnableState from "../../../components/CURD/Form/formItemColEnableState";
+    import FormItemColUploadImage from '../../../components/CURD/Form/formItemColUploadImage'
+    import FormItemColEnableState from '../../../components/CURD/Form/formItemColEnableState'
     export default {
         name: 'SsoLoginAppUpdate',
         components: {

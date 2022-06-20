@@ -90,7 +90,7 @@
     <div :class="{ 'is-active': isLoginPage === 1 }" class="codepage">
       <!-- <div id="qr_login" /> -->
       <!-- <iframe v-if="isLoginPage === 1" src="/api/oauth/qywx" frameborder="0" /> -->
-      <qywx-scan-login :is-login-page="isLoginPage"></qywx-scan-login>
+      <qywx-scan-login :is-login-page="isLoginPage" />
     </div>
 
     <el-dialog :title="$t('common.login.thirdparty')" :visible.sync="showDialog">

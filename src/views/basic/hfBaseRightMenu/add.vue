@@ -43,7 +43,15 @@
                 :namespace="conf.namespace"
               />
               <form-item-col
-                v-if="data.menuType === 'PROXY_MENU'"
+                v-if="data.menuType === 'ENDING_MENU'"
+                :value="data"
+                :error="errorMessage('component')"
+                :span="span"
+                prop="component"
+                :namespace="conf.namespace"
+              />
+              <form-item-col
+                v-if="data.menuType !== 'ENDING_MENU'"
                 :value="data"
                 :error="errorMessage('redirect')"
                 :span="span"

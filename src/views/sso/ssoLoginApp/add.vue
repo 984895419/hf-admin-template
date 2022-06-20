@@ -24,7 +24,7 @@
                 :value="data"
                 :span="span"
                 :namespace="conf.namespace"
-                />
+              />
               <form-item-col
                 :value="data"
                 :error="errorMessage('sort')"
@@ -37,6 +37,13 @@
                 :error="errorMessage('homeUri')"
                 :span="span"
                 prop="homeUri"
+                :namespace="conf.namespace"
+              />
+              <form-item-col
+                :value="data"
+                :error="errorMessage('internetHomeUri')"
+                :span="span"
+                prop="internetHomeUri"
                 :namespace="conf.namespace"
               />
               <form-item-col
@@ -90,7 +97,7 @@
     import FormItemColEnableState from '@/components/CURD/Form/formItemColEnableState'
     export default {
         name: 'SsoLoginAppAdd',
-        components: {FormItemColEnableState, FormItemColUploadImage, FormItemColDict, FormItemCol, RowSpanSlot, CuForm, AddBtn },
+        components: { FormItemColEnableState, FormItemColUploadImage, FormItemColDict, FormItemCol, RowSpanSlot, CuForm, AddBtn },
         props: {
             value: {
                 type: Object,

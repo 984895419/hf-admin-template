@@ -38,7 +38,7 @@ const exportTableFields = (fields) => {
  * 字段的配置，用在国际化及列表选择显示字段的时候
  * @type {*[]}
  */
-const tableFields = ['menuId', 'menuAlias', 'menuName', 'menuType', 'i18nMenuName', 'controllerId', 'icon', 'redirect', 'creator', 'createTime', 'modifier', 'modifyTime', 'enableState', 'parentId', 'level', 'levelStr', 'sort', 'deleted']
+const tableFields = ['menuId', 'menuAlias', 'component', 'menuName', 'menuType', 'i18nMenuName', 'controllerId', 'icon', 'redirect', 'creator', 'createTime', 'modifier', 'modifyTime', 'enableState', 'parentId', 'level', 'levelStr', 'sort', 'deleted']
 
 export default exportTableFields(tableFields)
 

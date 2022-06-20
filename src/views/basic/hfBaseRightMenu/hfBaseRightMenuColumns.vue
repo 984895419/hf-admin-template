@@ -86,6 +86,12 @@
         min-width="130"
       />
       <el-table-column
+        v-if="item.value === 'component'"
+        prop="component"
+        :label="$t(conf.namespace + '.component')"
+        min-width="130"
+      />
+      <el-table-column
         v-if="item.value === 'deleted'"
         prop="deleted"
         :label="$t(conf.namespace + '.deleted')"

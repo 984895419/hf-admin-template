@@ -16,5 +16,6 @@ export default {
   level: '层级',
   levelStr: '层级字符串',
   sort: '排序',
-  deleted: '删除状态'
+  deleted: '删除状态',
+  component: '组件路径'
 }

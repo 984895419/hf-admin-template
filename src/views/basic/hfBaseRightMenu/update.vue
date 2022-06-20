@@ -44,7 +44,15 @@
                   :namespace="conf.namespace"
                 />
                 <form-item-col
-                  v-if="data.menuType === 'PROXY_MENU'"
+                  v-if="data.menuType === 'ENDING_MENU'"
+                  :value="data"
+                  :error="errorMessage('component')"
+                  :span="span"
+                  prop="component"
+                  :namespace="conf.namespace"
+                />
+                <form-item-col
+                  v-if="data.menuType !== 'ENDING_MENU'"
                   :value="data"
                   :error="errorMessage('redirect')"
                   :span="span"
@@ -104,10 +112,10 @@
     import { baseApiPutMethod } from '@/components/CURD/baseApi'
     import FormItemColDict from '@/components/CURD/Form/formItemColDict'
     import FormItemColEnableState from '@/components/CURD/Form/formItemColEnableState'
-    import HfBaseRightMenuInputRefer from "./inputRefer";
+    import HfBaseRightMenuInputRefer from './inputRefer'
     export default {
         name: 'HfBaseRightMenuUpdate',
-        components: {HfBaseRightMenuInputRefer, FormItemColDict, FormItemCol, RowSpanSlot, CuForm, UpdateBtn, FormItemColEnableState },
+        components: { HfBaseRightMenuInputRefer, FormItemColDict, FormItemCol, RowSpanSlot, CuForm, UpdateBtn, FormItemColEnableState },
         mixins: [CurdMixin],
         props: {
             value: {

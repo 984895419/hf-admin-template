@@ -11,6 +11,7 @@ export default {
   deleted: '删除状态',
   sort: '排序',
   homeUri: '主页的地址',
+  internetHomeUri: '外网主页地址',
   tokenUri: 'token的地址',
   icon: '应用图标',
   iconPath: '应用图标',
