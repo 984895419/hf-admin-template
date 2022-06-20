@@ -9,7 +9,7 @@ NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
 const whiteList = ['/login', '/auth-redirect', '/weighbridgeRecord'] // no redirect whitelist
 
-router.beforeEach(async (to, from, next) => {
+router.beforeEach(async(to, from, next) => {
   // start progress bar
   NProgress.start()
   // set page title
@@ -25,7 +25,7 @@ router.beforeEach(async (to, from, next) => {
       // determine whether the user has obtained his permission roles through getInfo
       // const ff = store.getters.addRouters
       const hasRoles = store.getters.addRouters
-      console.log(hasRoles)
+      console.log(hasRoles, 123)
       if (hasRoles) {
         next()
       } else {
