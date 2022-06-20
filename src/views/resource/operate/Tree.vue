@@ -25,6 +25,7 @@
 </template>
 <script>
 import { fetchMenuTree } from '@/api/menu'
+import { baseApiGetMethod } from '@/components/CURD/baseApi'
 export default {
   name: 'MenuTree',
   data() {
@@ -32,7 +33,7 @@ export default {
       data: [],
       defaultProps: {
         children: 'subMenuList',
-        label: 'metaTitle'
+        label: 'menuName'
       },
       filterText: ''
     }
@@ -47,6 +48,7 @@ export default {
   },
   created() {
     this.getMenuTree()
+    this.getMenuTreeList()
   },
   methods: {
     getMenuTree() {
@@ -57,6 +59,15 @@ export default {
       fetchMenuTree().then((response) => {
         _this.data = response.obj
       })
+    },
+    getMenuTreeList() {
+     baseApiGetMethod('/api/hfBaseRightMenu/list/query').then(
+        (resp) => {
+          if (resp.retCode === '00001') {
+            this.data = resp.data
+          }
+        }
+      )
     },
     handleNodeClick(data) {
       this.$emit('tree-node-click', data)

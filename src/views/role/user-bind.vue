@@ -6,22 +6,26 @@
     element-loading-background="rgba(0, 0, 0, 0.1)"
     class="app-container"
   >
+    <div class="">{{ dataList.roleName }}绑定用户</div>
     <el-row>
       <el-col :span="3">
         <tree-search :data="companydepartsdata" @treeNodeval="treeNodeval" />
       </el-col>
       <el-col :span="21">
-        <hfBaseRightRoleUser />
+        <hfBaseUserInfo />
       </el-col>
     </el-row>
   </div>
 </template>
 <script>
-import hfBaseRightRoleUser from '@/views/basic/hfBaseUserInfo'
+import hfBaseUserInfo from '@/views/basic/hfBaseUserInfo'
 import TreeSearch from '../oa/TreeSearch.vue'
 import { baseApiGetMethod } from '@/components/CURD/baseApi'
 export default {
-  components: { hfBaseRightRoleUser, TreeSearch },
+  components: { hfBaseUserInfo, TreeSearch },
+  props: {
+    dataList: []
+  },
   data() {
     return {
       filterText: '',

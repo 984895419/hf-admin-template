@@ -32,7 +32,7 @@ export default {
       data: [],
       defaultProps: {
         children: 'subMenuList',
-        label: 'metaTitle'
+        label: 'menuName'
       },
       filterText: ''
 
@@ -45,7 +45,7 @@ export default {
   },
   created() {
     this.getMenuTree()
-    this.getMenuTree1()
+    this.getMenuTreeList()
   },
   methods: {
     getMenuTree(treeSelected) {
@@ -64,14 +64,11 @@ export default {
         }
       })
     },
-    getMenuTree1() {
-     baseApiGetMethod('/api/hfBaseRightMenu/list').then(
+    getMenuTreeList() {
+     baseApiGetMethod('/api/hfBaseRightMenu/list/query').then(
         (resp) => {
           if (resp.retCode === '00001') {
-            this.data.list = resp.data.list
-            this.data.total = resp.data.total
-            // console.log(resp.data, 111)
-            console.log(resp, 123)
+            this.data = resp.data
           }
         }
       )

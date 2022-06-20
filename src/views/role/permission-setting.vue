@@ -62,18 +62,18 @@ export default {
     init() {
       console.log(123123)
       // 获取用户拥有的路由权限
-      baseApiGetMethod('/api/hfBaseRightMenu/route').then(
-        (resp) => {
-          if (isSuccessResult(resp)) {
-            console.log(resp)
-          } else {
-            if (!isTheRetCode('00003')) {
-              this.$message.error(getMessage(resp))
-            }
-          }
-        }
-      ).catch(e => {
-      })
+      // baseApiGetMethod('/api/hfBaseRightMenu/route').then(
+      //   (resp) => {
+      //     if (isSuccessResult(resp)) {
+      //       console.log(resp)
+      //     } else {
+      //       if (!isTheRetCode('00003')) {
+      //         this.$message.error(getMessage(resp))
+      //       }
+      //     }
+      //   }
+      // ).catch(e => {
+      // })
     }
   }
 }
