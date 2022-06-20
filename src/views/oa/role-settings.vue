@@ -25,6 +25,7 @@ export default {
   },
   data() {
     return {
+      checkAll: false,
       checkedCities: [],
       cities: [],
       isIndeterminate: true,
@@ -38,14 +39,14 @@ export default {
     this.getUserIdBindRole()
   },
   methods: {
+
     //  选中数据
     handleCheckedCitiesChange(value) {
       const roleBindList1 = []
-      value.forEach((item, index) => {
+      value.forEach((item) => {
         roleBindList1.push(item.roleId)
       })
       this.checkedCities = value
-      console.log(this.checkedCities)
     },
     // 查看角色管理
     viewRoleManagement() {
@@ -96,7 +97,6 @@ export default {
         )
       }
     },
-
     closeDialog() {
       this.$emit('closeDialog')
     }

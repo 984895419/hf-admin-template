@@ -30,6 +30,8 @@
 </template>
 
 <script>
+import { baseApiGetMethod } from '@/components/CURD/baseApi'
+import { getData, getMessage, isSuccessResult, isTheRetCode } from '@/utils/ajaxResultUtil'
 export default {
   data() {
     const generateData = _ => {
@@ -50,28 +52,44 @@ export default {
       }
     }
   },
+  created() {
+    this.init()
+  },
   methods: {
     handleChange(value, direction, movedKeys) {
       console.log(value, direction, movedKeys)
     },
     init() {
-
+      console.log(123123)
+      // 获取用户拥有的路由权限
+      baseApiGetMethod('/api/hfBaseRightMenu/route').then(
+        (resp) => {
+          if (isSuccessResult(resp)) {
+            console.log(resp)
+          } else {
+            if (!isTheRetCode('00003')) {
+              this.$message.error(getMessage(resp))
+            }
+          }
+        }
+      ).catch(e => {
+      })
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.container-title{
+.container-title {}
 
-}
 .container-main {
   text-align: center;
   margin: 20px 0 0 0;
 }
-.container-btn{
- display: flex;
- justify-content: flex-end;
- margin-top: 20px;
+
+.container-btn {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
 }
 </style>
