@@ -31,7 +31,7 @@ export default {
     return {
       data: [],
       defaultProps: {
-        children: 'subMenuList',
+        children: 'children',
         label: 'menuName'
       },
       filterText: ''

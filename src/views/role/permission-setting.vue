@@ -4,18 +4,11 @@
       {{ dataList.roleName }}关联的权限列表
     </div>
     <div class="container-main">
-      <el-tree
-        :data="data"
-        show-checkbox
-        node-key="id"
-        :default-expanded-keys="[2, 3]"
-        :default-checked-keys="[5]"
-        :props="defaultProps"
-      />
+      <el-tree :data="menusData" show-checkbox node-key="menuId" :props="defaultProps" />
     </div>
     <div class="container-btn">
-      <el-button class="transfer-footer" size="small">取消</el-button>
-      <el-button class="transfer-footer" type="primary" size="small">确定</el-button>
+      <el-button class="transfer-footer" size="small" @click="closeDialog()">取消</el-button>
+      <el-button class="transfer-footer" type="primary" size="small" @click="savemMenusData()">保存</el-button>
     </div>
 
   </div>
@@ -23,53 +16,19 @@
 
 <script>
 import { baseApiGetMethod } from '@/components/CURD/baseApi'
-import { getData, getMessage, isSuccessResult, isTheRetCode } from '@/utils/ajaxResultUtil'
+import { getMessage, isSuccessResult, isTheRetCode } from '@/utils/ajaxResultUtil'
 export default {
   props: {
-    dataList: {}
+    'dataList': {}
   },
   data() {
     return {
       getRightMenusParam: {},
-      data: [{
-        id: 1,
-        label: '一级 1',
-        children: [{
-          id: 4,
-          label: '二级 1-1',
-          children: [{
-            id: 9,
-            label: '三级 1-1-1'
-          }, {
-            id: 10,
-            label: '三级 1-1-2'
-          }]
-        }]
-      }, {
-        id: 2,
-        label: '一级 2',
-        children: [{
-          id: 5,
-          label: '二级 2-1'
-        }, {
-          id: 6,
-          label: '二级 2-2'
-        }]
-      }, {
-        id: 3,
-        label: '一级 3',
-        children: [{
-          id: 7,
-          label: '二级 3-1'
-        }, {
-          id: 8,
-          label: '二级 3-2'
-        }]
-      }],
+      menusData: [],
       defaultProps: {
-        children: 'children',
-        label: 'label'
-      }
+          children: 'children',
+          label: 'menuName'
+        }
     }
   },
   created() {
@@ -78,7 +37,6 @@ export default {
   methods: {
 
     init() {
-      console.log(123123)
       // 获取用户拥有的路由权限
       this.getRightMenusParam = {
         'onlyRight': false,
@@ -87,6 +45,8 @@ export default {
       baseApiGetMethod('/api/hfBaseRightMenu/getRightMenus', this.getRightMenusParam).then(
         (resp) => {
           if (isSuccessResult(resp)) {
+            this.menusData = resp.data
+            debugger
             console.log(resp)
           } else {
             if (!isTheRetCode('00003')) {
@@ -96,6 +56,26 @@ export default {
         }
       ).catch(e => {
       })
+
+      // baseApiGetMethod('/api/hfBaseRightMenu/route').then(
+      //   (resp) => {
+      //     if (isSuccessResult(resp)) {
+      //       console.log(resp)
+      //       debugger
+      //     } else {
+      //       if (!isTheRetCode('00003')) {
+      //         this.$message.error(getMessage(resp))
+      //       }
+      //     }
+      //   }
+      // ).catch(e => {
+      // })
+    },
+    savemMenusData(val) {
+      console.log(val)
+    },
+      closeDialog() {
+      this.$emit('closeDialog')
     }
   }
 }

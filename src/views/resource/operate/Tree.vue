@@ -12,7 +12,7 @@
     />
     <el-tree
       ref="tree"
-      :data="data"
+      :data="data1"
       accordion
       :filter-node-method="filterNode"
       :props="defaultProps"
@@ -30,9 +30,9 @@ export default {
   name: 'MenuTree',
   data() {
     return {
-      data: [],
+      data1: [],
       defaultProps: {
-        children: 'subMenuList',
+        children: 'children',
         label: 'menuName'
       },
       filterText: ''
@@ -57,14 +57,15 @@ export default {
       }
       const _this = this
       fetchMenuTree().then((response) => {
-        _this.data = response.obj
+        _this.data1 = response.obj
       })
     },
     getMenuTreeList() {
+       const _this = this
      baseApiGetMethod('/api/hfBaseRightMenu/list/query').then(
         (resp) => {
           if (resp.retCode === '00001') {
-            this.data = resp.data
+            _this.data1 = resp.data
           }
         }
       )
