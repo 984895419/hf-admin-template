@@ -98,11 +98,21 @@
                 />
                 <!-- 查看 -->
                 <hf-base-right-role-detail :value="scopeRow.row" />
-                <dialog-Btn-Page   :label="'绑定用户'" :type="'text'">
-                <template slot-scope="{ closeDialog }">
-                  <user-bind :dataList="scopeRow.row" @closeDialog="closeDialog" />
-                </template>
-              </dialog-Btn-Page>
+                <!-- 绑定用户 -->
+                <dialog-Btn-Page :label="'绑定用户'" :type="'text'">
+                  <template slot-scope="{ closeDialog }">
+                    <user-bind
+                      :data-list="scopeRow.row"
+                      @closeDialog="closeDialog"
+                    />
+                  </template>
+                </dialog-Btn-Page>
+                <!-- 权限设置 -->
+                <dialog-Btn-Page :label="'权限设置'" :type="'text'">
+                  <template slot-scope="{ closeDialog }">
+                    <permission-setting :data-list="scopeRow.row" @closeDialog="closeDialog" />
+                  </template>
+                </dialog-Btn-Page>
               </div>
             </template>
           </el-table-column>
@@ -140,7 +150,9 @@ import SimpleSearch from '@/components/CURD/Query/search'
 import TableColumnPreferenceSettingApiSlot from '@/views/basic/preferenceSetting/TableColumnPrefenceSettingApiSlot'
 import SectionTableColumn from '@/components/CURD/Table/column/base/SectionTableColumn'
 import UserBind from '@/views/role/user-bind.vue'
+import RoleSettings from '@/views/role/permission-setting.vue'
 import DialogBtnPage from '@/components/CURD/Btns/DialogBtnPage'
+import PermissionSetting from '@/views/role/permission-setting.vue'
 
 export default {
   name: 'HfBaseRightRoleIndexVue',
@@ -159,7 +171,9 @@ export default {
     SimpleSearch,
     TableColumnPreferenceSettingApiSlot,
     UserBind,
-    DialogBtnPage
+    RoleSettings,
+    DialogBtnPage,
+    PermissionSetting
   },
   mixins: [CurdMixin],
   data() {
@@ -244,6 +258,10 @@ export default {
     handleSelectionChange(section) {
       this.toggleRowSelectionArray = section
     },
+    checkboxHasSelect(val) {
+      console.log(val)
+      debugger
+    },
     /**
      * 执行查询操作
      */
@@ -266,6 +284,7 @@ export default {
         this.$message.error('请配置分页查询地址参数:{pageUrl: xxxx}')
       }
     }
+
   }
 }
 </script>

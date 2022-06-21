@@ -1,24 +1,16 @@
 <template>
   <div class="app-container">
     <div class="container-title">
-      角色1关联的权限列表
+      {{ dataList.roleName }}关联的权限列表
     </div>
     <div class="container-main">
-      <el-transfer
-        v-model="value"
-        style="text-align: left; display: inline-block"
-        filterable
-        :left-default-checked="[2, 3]"
-        :right-default-checked="[1]"
-        :render-content="renderFunc"
-        :titles="['Source', 'Target']"
-        :button-texts="['到左边', '到右边']"
-        :format="{
-          noChecked: '${total}',
-          hasChecked: '${checked}/${total}'
-        }"
+      <el-tree
         :data="data"
-        @change="handleChange"
+        show-checkbox
+        node-key="id"
+        :default-expanded-keys="[2, 3]"
+        :default-checked-keys="[5]"
+        :props="defaultProps"
       />
     </div>
     <div class="container-btn">
@@ -33,22 +25,50 @@
 import { baseApiGetMethod } from '@/components/CURD/baseApi'
 import { getData, getMessage, isSuccessResult, isTheRetCode } from '@/utils/ajaxResultUtil'
 export default {
+  props: {
+    dataList: {}
+  },
   data() {
-    const generateData = _ => {
-      const data = []
-      for (let i = 1; i <= 15; i++) {
-        data.push({
-          key: i,
-          label: `备选项 ${i}`
-        })
-      }
-      return data
-    }
     return {
-      data: generateData(),
-      value: [1],
-      renderFunc(h, option) {
-        return <span>{option.key} - {option.label}</span>
+      getRightMenusParam: {},
+      data: [{
+        id: 1,
+        label: '一级 1',
+        children: [{
+          id: 4,
+          label: '二级 1-1',
+          children: [{
+            id: 9,
+            label: '三级 1-1-1'
+          }, {
+            id: 10,
+            label: '三级 1-1-2'
+          }]
+        }]
+      }, {
+        id: 2,
+        label: '一级 2',
+        children: [{
+          id: 5,
+          label: '二级 2-1'
+        }, {
+          id: 6,
+          label: '二级 2-2'
+        }]
+      }, {
+        id: 3,
+        label: '一级 3',
+        children: [{
+          id: 7,
+          label: '二级 3-1'
+        }, {
+          id: 8,
+          label: '二级 3-2'
+        }]
+      }],
+      defaultProps: {
+        children: 'children',
+        label: 'label'
       }
     }
   },
@@ -56,24 +76,26 @@ export default {
     this.init()
   },
   methods: {
-    handleChange(value, direction, movedKeys) {
-      console.log(value, direction, movedKeys)
-    },
+
     init() {
       console.log(123123)
       // 获取用户拥有的路由权限
-      // baseApiGetMethod('/api/hfBaseRightMenu/route').then(
-      //   (resp) => {
-      //     if (isSuccessResult(resp)) {
-      //       console.log(resp)
-      //     } else {
-      //       if (!isTheRetCode('00003')) {
-      //         this.$message.error(getMessage(resp))
-      //       }
-      //     }
-      //   }
-      // ).catch(e => {
-      // })
+      this.getRightMenusParam = {
+        'onlyRight': false,
+        'roleId': this.dataList.roleId
+      }
+      baseApiGetMethod('/api/hfBaseRightMenu/getRightMenus', this.getRightMenusParam).then(
+        (resp) => {
+          if (isSuccessResult(resp)) {
+            console.log(resp)
+          } else {
+            if (!isTheRetCode('00003')) {
+              this.$message.error(getMessage(resp))
+            }
+          }
+        }
+      ).catch(e => {
+      })
     }
   }
 }

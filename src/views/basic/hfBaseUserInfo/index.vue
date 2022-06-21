@@ -60,8 +60,10 @@
       <template v-slot="{ doSave, preferenceData }">
         <hf-table
           v-if="showFields"
+          ref="hfMainTable"
           v-loading="loading"
           :table-data="jsonData.list"
+          row-key="id"
           @selection-change="handleSelectionChange"
           @sort-change="sortChange"
         >
@@ -104,7 +106,6 @@
                   </template>
                 </common-dialog-btn>
               </div>
-
             </template>
           </el-table-column>
         </hf-table>
@@ -161,6 +162,7 @@ export default {
     CommonDialogBtn
   },
   mixins: [CurdMixin],
+  props: { 'binduserlist': Array },
   data() {
     return {
       db: {},
@@ -192,11 +194,15 @@ export default {
         total: 0
       },
       tableFields: conf.default,
-      toggleRowSelectionArray: []
+      toggleRowSelectionArray: [],
+      roleBindList: []
     }
   },
   created() {
     this.doSearch()
+  },
+  mounted() {
+
   },
   methods: {
     reRenderTable(res) {
@@ -242,6 +248,10 @@ export default {
      */
     handleSelectionChange(section) {
       this.toggleRowSelectionArray = section
+      section.forEach((item, index) => {
+        this.roleBindList.push(item.userId)
+      })
+      this.$emit('userbindlist', this.roleBindList)
     },
     /**
      * 执行查询操作
@@ -253,6 +263,15 @@ export default {
           if (isSuccessResult(resp)) {
             this.$set(this.jsonData, 'list', resp.data.list)
             this.$set(this.jsonData, 'total', resp.data.total)
+            setTimeout(() => {
+              if (this.binduserlist.length > 0) {
+                this.$nextTick(() => {
+                  this.$refs.hfMainTable.toggleRowSelection(this.jsonData.list.filter(row => this.binduserlist.indexOf(row.id) >= 0), true)
+                })
+              } else {
+                console.log()
+              }
+            }, 500)
           } else {
             this.$message.error(resp.message)
           }
