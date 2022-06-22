@@ -210,6 +210,7 @@ export default {
              this.alreadyBindUserList.forEach((item) => {
                     this.hasSelectList.push(item.id)
               })
+             this.init()
           }
         }
       )

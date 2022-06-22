@@ -100,7 +100,8 @@
                 />
                 <!-- 查看 -->
                 <hf-base-user-info-detail :value="scopeRow.row" />
-                <common-dialog-btn :label="'设置角色'" :type="'text'">
+                <!-- 设置角色 -->
+                <common-dialog-btn v-show="$route.path === '/oa/account'" :label="'设置角色'" :type="'text'">
                   <template slot-scope="{ closeDialog }">
                     <role-settings :data="scopeRow.row" @closeDialog="closeDialog" />
                   </template>
