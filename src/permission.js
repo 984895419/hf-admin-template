@@ -10,10 +10,14 @@ NProgress.configure({ showSpinner: false }) // NProgress Configuration
 const whiteList = ['/login', '/auth-redirect', '/weighbridgeRecord'] // no redirect whitelist
 
 router.beforeEach(async(to, from, next) => {
+  // 判断是否有获取全局设置，没有去获取
+  if (store.getters.settingLoader !== true) {
+    store.dispatch('app/loadSettings').then(resp => {
+      document.title = store.getters.title || getPageTitle(to.meta.title)
+    })
+  }
   // start progress bar
   NProgress.start()
-  // set page title
-  document.title = getPageTitle(to.meta.title)
   // determine whether the user has logged in
   const hasToken = getToken()
   if (hasToken) {

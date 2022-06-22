@@ -22,6 +22,8 @@ export default {
   disable: '禁用',
   batchDisable: '批量禁用',
   delete: '删除',
+  add: '新增',
+  edit: '编辑',
   batchDelete: '批量删除',
   state: '状态',
   pic: '图片',
@@ -32,6 +34,8 @@ export default {
   start: '启动',
   stop: '停止',
   restart: '重启',
+  searchUsed: '复制查询表单配置',
+  formUsed: '复制增改表单配置',
   navbar: {
     dashboard: '首页',
     github: '项目地址',

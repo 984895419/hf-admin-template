@@ -304,6 +304,33 @@ export const constantRoutes = [
       }
     ],
     meta: { title: '应用管理', icon: 'dashboard', affix: true }
+  },
+  {
+    // 应用管理
+    path: '/log',
+    component: Layout,
+    redirect: '/log/base',
+    children: [
+      {
+        path: 'base',
+        component: () => import('@/views/basic/baseLog'),
+        name: 'base',
+        meta: { title: '请求日志', icon: 'dashboard', affix: true }
+      },
+      {
+        path: 'loginLog',
+        component: () => import('@/views/basic/hfBaseUserLoginLog'),
+        name: 'loginLog',
+        meta: { title: '登录日志', icon: 'dashboard', affix: true }
+      },
+      {
+        path: 'appLog',
+        component: () => import('@/views/sso/ssoLoginAppLog'),
+        name: 'appLog',
+        meta: { title: '应用免登', icon: 'dashboard', affix: true }
+      }
+    ],
+    meta: { title: '日志管理', icon: 'dashboard', affix: true }
   }
 ]
 

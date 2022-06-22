@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-button :size="$store.size" :type="type" @click="openDialog">{{ label }}</el-button>
+    <el-button :size="size" :type="type" @click="openDialog">{{ label }}</el-button>
     <el-dialog
       :top="'5vh'"
       :visible.sync="showImportDialog"
@@ -18,7 +18,7 @@
 </template>
 
 <script>
-
+import { mapGetters } from 'vuex'
 export default {
   name: 'CommonDialogBtn',
   props: {
@@ -36,6 +36,11 @@ export default {
     return {
       showImportDialog: false
     }
+  },
+  computed: {
+      ...mapGetters([
+          'size'
+      ])
   },
   methods: {
     openDialog() {

@@ -2,7 +2,7 @@
   <div>
     <el-form
       ref="form"
-      :size="$store.size"
+      :size="size"
       :model="value"
       v-bind="$attrs"
     >
@@ -11,10 +11,11 @@
           <slot :span="span" />
           <el-col :span="span">
             <el-form-item>
-              <el-button type="primary" icon="el-icon-search" @click="doSearch">{{ $t('common.search') }}</el-button>
-              <el-button icon="el-icon-circle-close" @click="doReset">{{ $t('common.reset') }}</el-button>
+              <el-button type="primary" :size="size" icon="el-icon-search" @click="doSearch">{{ $t('common.search') }}</el-button>
+              <el-button icon="el-icon-circle-close" :size="size"  @click="doReset">{{ $t('common.reset') }}</el-button>
               <slot name="btns" />
               <el-button
+                :size="size"
                 v-if="$scopedSlots['pageInfo'] && !more"
                 icon="el-icon-arrow-down"
                 type="primary"
@@ -36,6 +37,7 @@
 <script>
     import { deepClone } from '@/utils'
     import RowSpanSlot from '@/components/CURD/Slot/RowSpanSlot.vue'
+    import { mapGetters } from 'vuex'
 
     export default {
         name: 'SimpleSearch',
@@ -48,6 +50,11 @@
               initValue: deepClone(this.value),
               more: false
           }
+        },
+        computed: {
+            ...mapGetters([
+                'size'
+            ])
         },
         methods: {
             /**

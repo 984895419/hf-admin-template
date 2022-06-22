@@ -6,13 +6,15 @@
           v-if="item.value === 'groupId'"
           prop="groupId"
           :label="$t(conf.namespace + '.groupId')"
-          min-width="130"
+          width="60"
         />
-        <el-table-column
+        <default-table-column
           v-if="item.value === 'groupKey'"
           prop="groupKey"
           :label="$t(conf.namespace + '.groupKey')"
           min-width="130"
+          :namespace="conf.namespace"
+          :copyable="true"
         />
         <el-table-column
           v-if="item.value === 'groupName'"
@@ -49,10 +51,12 @@
     import CreateTimeTableColumn from '@/components/CURD/Table/column/CreateTimeTableColumn'
     import ModifierTableColumn from '@/components/CURD/Table/column/ModifierTableColumn'
     import ModifyTimeTableColumn from '@/components/CURD/Table/column/ModifyTimeTableColumn'
+    import DefaultTableColumn from "../../../components/CURD/Table/column/DefaultTableColumn";
 
     export default {
         name: 'BaseI18bGroupColumns',
-        components: { EnableStateTableColumn,
+        components: {
+            DefaultTableColumn, EnableStateTableColumn,
             CreatorTableColumn, CreateTimeTableColumn,
             ModifierTableColumn, ModifyTimeTableColumn },
         props: {

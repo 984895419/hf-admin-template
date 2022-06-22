@@ -6,13 +6,10 @@
           v-if="item.value === 'typeId'"
           prop="typeId"
           :label="$t(conf.namespace + '.typeId')"
-          min-width="130"
+          width="60"
         />
-        <el-table-column
+        <developer-copier-column
           v-if="item.value === 'code'"
-          prop="code"
-          :label="$t(conf.namespace + '.code')"
-          min-width="130"
         />
         <el-table-column
           v-if="item.value === 'name'"
@@ -61,10 +58,12 @@
     import CreateTimeTableColumn from '@/components/CURD/Table/column/CreateTimeTableColumn'
     import ModifierTableColumn from '@/components/CURD/Table/column/ModifierTableColumn'
     import ModifyTimeTableColumn from '@/components/CURD/Table/column/ModifyTimeTableColumn'
+    import DeveloperCopierColumn from './DeveloperCopierColumn'
 
     export default {
         name: 'BaseDictTypeColumns',
-        components: { EnableStateTableColumn,
+        components: {
+            DeveloperCopierColumn, EnableStateTableColumn,
             CreatorTableColumn, CreateTimeTableColumn,
             ModifierTableColumn, ModifyTimeTableColumn },
         props: {

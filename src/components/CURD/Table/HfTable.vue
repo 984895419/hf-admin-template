@@ -1,18 +1,21 @@
 <template>
-  <el-table
-    ref="mainTable"
-    :size="$store.size"
-    :data="tableData"
-    border
-    :rowKey="rowKey"
-    v-bind="$attrs"
-    v-on="$listeners"
-  >
-    <slot></slot>
-  </el-table>
+  <div>
+    <el-table
+      ref="mainTable"
+      :size="size"
+      :data="tableData"
+      border
+      :rowKey="rowKey"
+      v-bind="$attrs"
+      v-on="$listeners"
+    >
+      <slot></slot>
+    </el-table>
+  </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
     name: 'HfTable',
     props: {
@@ -22,6 +25,9 @@ export default {
         }
     },
     computed: {
+      ...mapGetters([
+          'size'
+      ]),
       valTableData() {
           return (vals) => {
               const sectionIds = vals ? vals.map(s => s[this.rowKey]) : []

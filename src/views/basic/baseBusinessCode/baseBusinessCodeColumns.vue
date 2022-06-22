@@ -6,13 +6,15 @@
           v-if="item.value === 'businessId'"
           prop="businessId"
           :label="$t(conf.namespace + '.businessId')"
-          min-width="130"
+          width="60"
         />
-        <el-table-column
+        <default-table-column
           v-if="item.value === 'businessKey'"
           prop="businessKey"
           :label="$t(conf.namespace + '.businessKey')"
-          min-width="130"
+          min-width="180"
+          :namespace="conf.namespace"
+          :copyable="true"
         />
         <el-table-column
           v-if="item.value === 'businessName'"
@@ -30,13 +32,13 @@
           v-if="item.value === 'prefix'"
           prop="prefix"
           :label="$t(conf.namespace + '.prefix')"
-          min-width="130"
+          width="80"
         />
         <el-table-column
           v-if="item.value === 'suffix'"
           prop="suffix"
           :label="$t(conf.namespace + '.suffix')"
-          min-width="130"
+          width="80"
         />
         <el-table-column
           v-if="item.value === 'useDate'"
@@ -109,10 +111,12 @@
     import CreateTimeTableColumn from '@/components/CURD/Table/column/CreateTimeTableColumn'
     import ModifierTableColumn from '@/components/CURD/Table/column/ModifierTableColumn'
     import ModifyTimeTableColumn from '@/components/CURD/Table/column/ModifyTimeTableColumn'
+    import DefaultTableColumn from "../../../components/CURD/Table/column/DefaultTableColumn";
 
     export default {
         name: 'BaseBusinessCodeColumns',
-        components: { EnableStateTableColumn,
+        components: {
+            DefaultTableColumn, EnableStateTableColumn,
             CreatorTableColumn, CreateTimeTableColumn,
             ModifierTableColumn, ModifyTimeTableColumn },
         props: {

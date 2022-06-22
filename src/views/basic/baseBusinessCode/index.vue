@@ -130,8 +130,8 @@
     </table-column-preference-setting-api-slot>
     <!-- 分页信息 -->
     <curd-pagination
-      :current-page="searchForm.pageInfo.pageNo"
-      :page-size="searchForm.pageInfo.pageSize"
+      :current-page.sync="searchForm.pageInfo.pageNo"
+      :page-size.sync="searchForm.pageInfo.pageSize"
       :total="jsonData.total"
       @size-change="doSearch"
       @current-change="doSearch"
@@ -158,8 +158,8 @@
     import SimpleSearch from '@/components/CURD/Query/search'
     import TableColumnPreferenceSettingApiSlot from '@/views/basic/preferenceSetting/TableColumnPrefenceSettingApiSlot'
     import SectionTableColumn from '@/components/CURD/Table/column/base/SectionTableColumn'
-    import CommonDialogBtn from "../../../components/CURD/Btns/CommonDialogBtn";
-    import {getData, getMessage} from "../../../utils/ajaxResultUtil";
+    import CommonDialogBtn from '../../../components/CURD/Btns/CommonDialogBtn'
+    import {getData, getMessage} from '../../../utils/ajaxResultUtil'
 
     export default {
         name: 'BaseBusinessCodeIndexVue',
@@ -207,7 +207,7 @@
                      */
                     pageInfo: {
                         pageNo: 1,
-                        pageSize: 100
+                        pageSize: this.$store.getters.pageSize
                     },
                     /**
                      * 排序信息

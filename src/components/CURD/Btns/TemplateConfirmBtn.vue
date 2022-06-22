@@ -4,7 +4,7 @@
       v-if="supportCheck"
       :type="btnType"
       :icon="icon"
-      :size="$store.size"
+      :size="size"
       @click="openDialog"
     >
       {{ label }}
@@ -17,7 +17,8 @@
 
 import { getMessage, isSuccessResult } from '@/utils/ajaxResultUtil'
 import { baseApiDeleteMethod, baseApiPostMethod, baseApiPutMethod } from '@/components/CURD/baseApi'
-import {getData} from "../../../utils/ajaxResultUtil";
+import {getData} from '../../../utils/ajaxResultUtil'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'TemplateConfirmBtn',
@@ -58,6 +59,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters([
+        'size'
+    ]),
     supportCheck() {
       return [
         'delete', 'post', 'put'

@@ -6,19 +6,25 @@
           v-if="item.value === 'ruleId'"
           prop="ruleId"
           :label="$t(conf.namespace + '.ruleId')"
-          min-width="130"
+          width="60"
         />
-        <el-table-column
+<!--        <default-table-column-->
+<!--          v-if="item.value === 'regexKey'"-->
+<!--          prop="regexKey"-->
+<!--          :label="$t(conf.namespace + '.regexKey')"-->
+<!--          min-width="180"-->
+<!--          :namespace="conf.namespace"-->
+<!--          :copyable="true"-->
+<!--        />-->
+        <developer-regex-copier-column
           v-if="item.value === 'regexKey'"
-          prop="regexKey"
-          :label="$t(conf.namespace + '.regexKey')"
-          min-width="130"
         />
-        <el-table-column
+        <default-table-column
           v-if="item.value === 'regexValue'"
           prop="regexValue"
           :label="$t(conf.namespace + '.regexValue')"
-          min-width="130"
+          min-width="180"
+          :namespace="conf.namespace"
         />
         <el-table-column
           v-if="item.value === 'description'"
@@ -55,10 +61,14 @@
     import CreateTimeTableColumn from '@/components/CURD/Table/column/CreateTimeTableColumn'
     import ModifierTableColumn from '@/components/CURD/Table/column/ModifierTableColumn'
     import ModifyTimeTableColumn from '@/components/CURD/Table/column/ModifyTimeTableColumn'
+    import DefaultTableColumn from "../../../components/CURD/Table/column/DefaultTableColumn";
+    import DeveloperRegexCopierColumn from "./DeveloperRegexCopierColumn";
 
     export default {
         name: 'BaseRegexRuleColumns',
-        components: { EnableStateTableColumn,
+        components: {
+            DeveloperRegexCopierColumn,
+            DefaultTableColumn, EnableStateTableColumn,
             CreatorTableColumn, CreateTimeTableColumn,
             ModifierTableColumn, ModifyTimeTableColumn },
         props: {

@@ -1,7 +1,7 @@
 <template>
   <el-form
     ref="form"
-    :size="$store.size"
+    :size="size"
     :model="value"
     :label-width="$attrs['label-width'] || 'auto'"
     v-bind="$attrs"
@@ -11,8 +11,8 @@
     <el-form-item>
       <div style="float: right">
         <slot name="add-btn-before" :data="value" :formValidate="formValidate" />
-        <el-button type="primary" icon="el-icon-search" @click="doSubmit">保存</el-button>
-        <el-button icon="el-icon-circle-close" @click="doCancel">取消</el-button>
+        <el-button type="primary" :size="size" icon="el-icon-search" @click="doSubmit">{{$t('common.search')}}</el-button>
+        <el-button icon="el-icon-circle-close" :size="size" @click="doCancel">{{$t('common.cancel')}}</el-button>
         <slot name="add-btn-after" :data="value" :formValidate="formValidate" />
       </div>
     </el-form-item>
@@ -20,6 +20,7 @@
 </template>
 <script>
 import { getData, getMessage, isSuccessResult, isTheRetCode } from '@/utils/ajaxResultUtil'
+import { mapGetters } from 'vuex'
 export default {
   name: 'CuForm',
   props: {
@@ -53,6 +54,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters([
+        'size'
+    ]),
     errorMessage() {
       return (field) => {
         if (this.errorInfo) {

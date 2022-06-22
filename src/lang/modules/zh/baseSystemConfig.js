@@ -10,5 +10,6 @@ export default {
   enableState: '启用/禁用',
   deleted: '删除状态',
   initData: '是否属于系统(系统的不可删除)',
-  tenantId: '所属的租户ID'
+  tenantId: '所属的租户ID',
+  terminal: '所属端点'
 }

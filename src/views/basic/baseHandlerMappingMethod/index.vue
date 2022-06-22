@@ -188,7 +188,7 @@
                      */
                     pageInfo: {
                         pageNo: 1,
-                        pageSize: 100
+                        pageSize: this.$store.getters.pageSize
                     },
                     /**
                      * 排序信息

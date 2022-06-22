@@ -1,5 +1,5 @@
 export default {
-  groupId: '',
+  groupId: '主键',
   groupKey: '关键字',
   groupName: '名称',
   creator: '创建人',

@@ -75,8 +75,8 @@
         </hf-table>
         <!-- 分页信息 -->
         <curd-pagination
-          :current-page="searchForm.pageInfo.pageNo"
-          :page-size="searchForm.pageInfo.pageSize"
+          :current-page.sync="searchForm.pageInfo.pageNo"
+          :page-size.sync="searchForm.pageInfo.pageSize"
           :total="jsonData.total"
           @size-change="doSearch"
           @current-change="doSearch"
@@ -152,7 +152,7 @@
                      */
                     pageInfo: {
                         pageNo: 1,
-                        pageSize: 100
+                        pageSize: this.$store.getters.pageSize
                     },
                     /**
                      * 排序信息

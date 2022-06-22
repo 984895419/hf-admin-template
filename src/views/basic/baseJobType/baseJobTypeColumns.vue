@@ -6,7 +6,7 @@
           v-if="item.value === 'jobTypeId'"
           prop="jobTypeId"
           :label="$t(conf.namespace + '.jobTypeId')"
-          min-width="130"
+          width="60"
         />
         <el-table-column
           v-if="item.value === 'javaExpression'"
@@ -30,7 +30,7 @@
           v-if="item.value === 'jobComponentPath'"
           prop="jobComponentPath"
           :label="$t(conf.namespace + '.jobComponentPath')"
-          min-width="130"
+          min-width="180"
         />
         <creator-table-column v-if="item.value === 'creator'" />
         <create-time-table-column v-if="item.value === 'createTime'" />

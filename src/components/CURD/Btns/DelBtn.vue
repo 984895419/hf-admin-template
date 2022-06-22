@@ -1,7 +1,7 @@
 <template>
   <el-button
     :type="btnType"
-    :size="$store.size"
+    :size="size"
     :style="{ color: btnType !== 'text' ? '' : 'red'}"
     @click="openDialog"
   >
@@ -13,18 +13,23 @@
 
 import { getMessage, isSuccessResult } from '@/utils/ajaxResultUtil'
 import { baseApiDeleteMethod } from '@/components/CURD/baseApi'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'DelBtn',
   props: {
     btnType: {
       type: String,
-      default: 'danger'
+      default: function() {
+          return this.$t('common.delete')
+      }
     },
     label: {
       type: String,
       require: true,
-      default: '删除'
+      default: function() {
+          return this.$t('common.delete')
+      }
     },
     value: [Object, Array, String],
     /**
@@ -35,6 +40,11 @@ export default {
      * 删除的函数
      */
     deleteHandler: Function
+  },
+  computed: {
+      ...mapGetters([
+          'size'
+      ])
   },
   methods: {
     /**

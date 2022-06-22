@@ -2,42 +2,42 @@
   <div v-if="showFields">
     <!-- 有拖拽选择的时候 -->
     <div v-for="item in showFields" :key="item.value">
-              <el-table-column
-          v-if="item.value === 'id'"
-          prop="id"
-          :label="$t(conf.namespace + '.id')"
-          min-width="130"
-        />
-        <el-table-column
-          v-if="item.value === 'userId'"
-          prop="userId"
-          :label="$t(conf.namespace + '.userId')"
-          min-width="130"
-        />
-        <el-table-column
-          v-if="item.value === 'loginType'"
-          prop="loginType"
-          :label="$t(conf.namespace + '.loginType')"
-          min-width="130"
-        />
-        <el-table-column
-          v-if="item.value === 'loginTime'"
-          prop="loginTime"
-          :label="$t(conf.namespace + '.loginTime')"
-          min-width="130"
-        />
-        <el-table-column
-          v-if="item.value === 'lastLoginIp'"
-          prop="lastLoginIp"
-          :label="$t(conf.namespace + '.lastLoginIp')"
-          min-width="130"
-        />
-        <el-table-column
-          v-if="item.value === 'lastLoginFinger'"
-          prop="lastLoginFinger"
-          :label="$t(conf.namespace + '.lastLoginFinger')"
-          min-width="130"
-        />
+      <el-table-column
+        v-if="item.value === 'id'"
+        prop="id"
+        :label="$t(conf.namespace + '.id')"
+        min-width="130"
+      />
+      <el-table-column
+        v-if="item.value === 'userId'"
+        prop="creatorUserName"
+        :label="$t(conf.namespace + '.userId')"
+        min-width="130"
+      />
+      <el-table-column
+        v-if="item.value === 'loginType'"
+        prop="loginTypeName"
+        :label="$t(conf.namespace + '.loginType')"
+        min-width="130"
+      />
+      <el-table-column
+        v-if="item.value === 'loginTime'"
+        prop="loginTime"
+        :label="$t(conf.namespace + '.loginTime')"
+        min-width="130"
+      />
+      <el-table-column
+        v-if="item.value === 'lastLoginIp'"
+        prop="lastLoginIp"
+        :label="$t(conf.namespace + '.lastLoginIp')"
+        min-width="130"
+      />
+      <el-table-column
+        v-if="item.value === 'lastLoginFinger'"
+        prop="lastLoginFinger"
+        :label="$t(conf.namespace + '.lastLoginFinger')"
+        min-width="130"
+      />
     </div>
   </div>
 </template>

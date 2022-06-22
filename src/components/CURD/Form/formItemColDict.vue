@@ -21,8 +21,8 @@
         >
           <el-option
             v-for="option in list"
-            :key="option.dictValue"
-            :value="option.dictValue"
+            :key="selectOptionValue(option.dictValue)"
+            :value="selectOptionValue(option.dictValue)"
             :label="option.dictKey"
           />
         </el-select>
@@ -112,6 +112,16 @@ export default {
       },
       computedPlaceholder() {
           return this.$attrs['placeholder'] ? this.$attrs['placeholder'] : this.$t('common.pleaseSelect') + this.computeLabel
+      },
+      selectOptionValue() {
+          return (val) => {
+              if (this.value[this.prop]) {
+                  if (typeof this.value[this.prop] === 'number') {
+                      return parseInt(val)
+                  }
+              }
+              return val
+          }
       }
   },
   created() {

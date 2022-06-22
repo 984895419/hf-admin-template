@@ -6,40 +6,48 @@
           <row-span-slot>
             <template v-slot="{ span }">
               <!-- 新增的的字段配置 -->
-                             <form-item-col
+              <form-item-col
                 :value="data"
                 :error="errorMessage('configKey')"
                 :span="span"
                 prop="configKey"
                 :namespace="conf.namespace"
-               />
-               <form-item-col
+              />
+              <form-item-col
                 :value="data"
                 :error="errorMessage('configValue')"
                 :span="span"
                 prop="configValue"
                 :namespace="conf.namespace"
-               />
-               <form-item-col
+              />
+              <form-item-col
                 :value="data"
                 :error="errorMessage('configDescription')"
                 :span="span"
                 prop="configDescription"
                 :namespace="conf.namespace"
-               />
+              />
               <form-item-col-enable-state
                 :value="data"
                 :span="span"
                 :namespace="conf.namespace"
               />
-               <form-item-col-dict
+              <form-item-col-dict
                 :value="data"
                 :error="errorMessage('initData')"
                 :span="span"
                 prop="initData"
                 :dict-code="'YES_OR_NO'"
                 :namespace="conf.namespace"
-               />
+              />
+              <form-item-col-dict
+                :value="data"
+                :error="errorMessage('terminal')"
+                :span="span"
+                prop="terminal"
+                :dict-code="'CONFIG_TERMINAL'"
+                :namespace="conf.namespace"
+              />
               <!-- 字典字段字段设置方法如下
               <form-item-col-dict
                 :value="data"
@@ -73,7 +81,7 @@
             value: {
                 type: Object,
                 default: function() {
-                    return { enableState: 1}
+                    return { enableState: 1 }
                 }
             },
             actionUrl: String

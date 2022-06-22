@@ -6,7 +6,7 @@
           v-if="item.value === 'valueId'"
           prop="valueId"
           :label="$t(conf.namespace + '.valueId')"
-          min-width="130"
+          width="60"
         />
         <el-table-column
           v-if="item.value === 'typeCode'"
@@ -26,11 +26,13 @@
           :label="$t(conf.namespace + '.dictKey')"
           min-width="130"
         />
-        <el-table-column
+        <default-table-column
           v-if="item.value === 'dictValue'"
           prop="dictValue"
           :label="$t(conf.namespace + '.dictValue')"
           min-width="130"
+          :namespace="conf.namespace"
+          :copyable="true"
         />
         <enable-state-table-column
           v-if="item.value === 'enableState'"
@@ -51,10 +53,12 @@
     import CreateTimeTableColumn from '@/components/CURD/Table/column/CreateTimeTableColumn'
     import ModifierTableColumn from '@/components/CURD/Table/column/ModifierTableColumn'
     import ModifyTimeTableColumn from '@/components/CURD/Table/column/ModifyTimeTableColumn'
+    import DefaultTableColumn from "../../../components/CURD/Table/column/DefaultTableColumn";
 
     export default {
         name: 'BaseDictValueColumns',
-        components: { EnableStateTableColumn,
+        components: {
+            DefaultTableColumn, EnableStateTableColumn,
             CreatorTableColumn, CreateTimeTableColumn,
             ModifierTableColumn, ModifyTimeTableColumn },
         props: {

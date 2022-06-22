@@ -5,7 +5,7 @@
       <simple-search v-model="searchForm" :inline="true" @search="doSearch">
         <template v-slot="{ span }">
           <!-- 新增的的字段配置 -->
-                    <form-item-col
+          <form-item-col
             :value="searchForm"
             :span="span"
             prop="userId"
@@ -20,19 +20,7 @@
           <form-item-col
             :value="searchForm"
             :span="span"
-            prop="loginTime"
-            :namespace="conf.namespace"
-          />
-          <form-item-col
-            :value="searchForm"
-            :span="span"
             prop="lastLoginIp"
-            :namespace="conf.namespace"
-          />
-          <form-item-col
-            :value="searchForm"
-            :span="span"
-            prop="lastLoginFinger"
             :namespace="conf.namespace"
           />
           <!-- 字典字段字段设置方法如下
@@ -48,42 +36,13 @@
       </simple-search>
     </div>
     <!-- 操作栏-->
-    <div style="margin-bottom: 10px" class="col-btn-display">
-      <hf-base-user-login-log-add :action-url="conf.urlMethods.addUrl"  @success="doSearch" />
-      <div style="float: right" class="col-btn-display">
-        <del-btn
-          v-if="conf.urlMethods.deleteUrl
-            && toggleRowSelectionArray.length > 0"
-          :url="templateUrl(conf.urlMethods.deleteUrl, toggleRowSelectionArray)"
-          :value="toggleRowSelectionArray"
-          :label="$t('common.batchDelete')"
-          @success="doSearch"
-        />
-        <template-confirm-btn
-          v-if="conf.urlMethods.enableUrl
-            && toggleRowSelectionArray.length > 0"
-          :url="templateUrl(conf.urlMethods.enableUrl, toggleRowSelectionArray)"
-          :btn-type="'primary'"
-          :label="$t('common.batchEnable')"
-          :value="toggleRowSelectionArray"
-          @success="doSearch"
-        />
-        <template-confirm-btn
-          v-if="conf.urlMethods.disableUrl
-            && toggleRowSelectionArray.length > 0"
-          :url="templateUrl(conf.urlMethods.disableUrl, toggleRowSelectionArray)"
-          :btn-type="'primary'"
-          :value="toggleRowSelectionArray"
-          :label="$t('common.batchDisable')"
-          @success="doSearch"
-        />
-      </div>
-    </div>
+    <div style="margin-bottom: 10px" class="col-btn-display" />
     <!-- 列表-->
     <table-column-preference-setting-api-slot
-            :init-data="tableFields"
-            v-model="showFields"
-            :preference-alias="conf.namespace">
+      v-model="showFields"
+      :init-data="tableFields"
+      :preference-alias="conf.namespace"
+    >
       <template v-slot="{doSave, preferenceData}">
         <hf-table
           v-if="showFields"
@@ -92,7 +51,7 @@
           @selection-change="handleSelectionChange"
           @sort-change="sortChange"
         >
-          <section-table-column/>
+          <section-table-column />
           <!-- 显示的字段-->
           <hf-base-user-login-log-columns :show-fields="showFields" :url-methods="conf.urlMethods" @success="doSearch" />
           <el-table-column
@@ -101,7 +60,7 @@
             width="150"
           >
             <template v-slot:header>
-              {{$t('common.operate')}}
+              {{ $t('common.operate') }}
               <curd-table-column-select
                 v-model="showFields"
                 :preference-alias="conf.namespace"
@@ -113,20 +72,6 @@
             </template>
             <template slot-scope="scopeRow">
               <div class="col-btn-display">
-                <!-- 更新 -->
-                <hf-base-user-login-log-update
-                  :value="scopeRow.row"
-                  :query-url="conf.urlMethods.queryUrl"
-                  :update-url="conf.urlMethods.updateUrl"
-                  @success="doSearch"
-                />
-                <!-- 删除-->
-                <del-btn
-                  :url="templateUrl(conf.urlMethods.deleteUrl, scopeRow.row)"
-                  :btn-type="'text'"
-                  :value="scopeRow.row"
-                  @success="doSearch"
-                />
                 <!-- 查看 -->
                 <hf-base-user-login-log-detail
                   :value="scopeRow.row"
@@ -139,8 +84,8 @@
     </table-column-preference-setting-api-slot>
     <!-- 分页信息 -->
     <curd-pagination
-      :current-page="searchForm.pageInfo.pageNo"
-      :page-size="searchForm.pageInfo.pageSize"
+      :current-page.sync="searchForm.pageInfo.pageNo"
+      :page-size.sync="searchForm.pageInfo.pageSize"
       :total="jsonData.total"
       @size-change="doSearch"
       @current-change="doSearch"
@@ -195,18 +140,15 @@
                  * 查询的表单信息
                  */
                 searchForm: {
-          id: null,
-          userId: null,
-          loginType: null,
-          loginTime: null,
-          lastLoginIp: null,
-          lastLoginFinger: null,
+                  userId: null,
+                  loginType: null,
+                  lastLoginIp: null,
                     /**
                      * 分页信息
                      */
                     pageInfo: {
                         pageNo: 1,
-                        pageSize: 100
+                        pageSize: this.$store.getters.pageSize
                     },
                     /**
                      * 排序信息

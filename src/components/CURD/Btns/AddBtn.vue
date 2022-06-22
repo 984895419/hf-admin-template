@@ -3,7 +3,7 @@
     <el-button
       :type="type"
       :icon="icon"
-      :size="$store.size"
+      :size="size"
       @click="openDialog"
     >
       {{ label }}
@@ -28,6 +28,7 @@
  * 新增按钮
  */
 import { deepClone } from '@/utils'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'AddBtn',
@@ -42,12 +43,16 @@ export default {
     },
     title: {
         type: String,
-        default: '新增'
+        default: function() {
+            return this.$t('common.add')
+        }
     },
     label: {
       type: String,
       require: true,
-      default: '新增'
+        default: function() {
+          return this.$t('common.add')
+      }
     },
     initData: {
       type: Object,
@@ -61,6 +66,11 @@ export default {
       showDialog: false,
       postData: null
     }
+  },
+  computed: {
+    ...mapGetters([
+      'size'
+    ])
   },
   methods: {
     /**

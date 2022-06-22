@@ -30,8 +30,8 @@
               if (this.pageSizes) {
                   return this.pageSizes
               }
-              if (this.$store.getters.settings && this.$store.getters.settings.pageSize) {
-                  return this.$store.getters.settings.pageSize
+              if (this.$store.getters.pageSizes && this.$store.getters.pageSizes.length > 0) {
+                  return this.$store.getters.pageSizes
               }
               return this.defaultPageSize
           }

@@ -24,7 +24,7 @@
         v-if="item.value === 'menuType'"
         prop="menuTypeName"
         :label="$t(conf.namespace + '.menuType')"
-        min-width="60"
+        width="100"
       />
       <el-table-column
         v-if="item.value === 'i18nMenuName'"

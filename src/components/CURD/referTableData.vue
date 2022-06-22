@@ -51,9 +51,9 @@
       </template>
       <template v-slot:pageInfo>
         <el-pagination
-          :current-page="searchForm.pageInfo.pageNo"
+          :current-page.sync="searchForm.pageInfo.pageNo"
           :page-sizes="[100, 200, 300, 400]"
-          :page-size="searchForm.pageInfo.pageSize"
+          :page-size.sync="searchForm.pageInfo.pageSize"
           layout="total, sizes, prev, pager, next, jumper"
           :total="jsonData.total"
           @size-change="doSearch"
@@ -152,7 +152,7 @@ export default {
          */
         pageInfo: {
           pageNo: 1,
-          pageSize: 100
+          pageSize: this.$store.getters.pageSize
         },
         /**
          * 排序信息

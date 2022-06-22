@@ -1,5 +1,5 @@
 export default {
-  valueId: '字典值主键',
+  valueId: '主键',
   typeCode: '字典类型code',
   name: '字典类型名称',
   dictKey: '字典的key',

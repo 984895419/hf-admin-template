@@ -26,6 +26,7 @@ service.interceptors.request.use(
       // ['X-Token'] is a custom headers key
       // please modify it according to the actual situation
       config.headers['Authorization'] = getToken()
+      config.headers['Accept-Language'] = store.getters.language
     }
     return config
   },

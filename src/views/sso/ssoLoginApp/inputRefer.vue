@@ -64,8 +64,8 @@
         </hf-table>
         <!-- 分页信息 -->
         <curd-pagination
-          :current-page="searchForm.pageInfo.pageNo"
-          :page-size="searchForm.pageInfo.pageSize"
+          :current-page.sync="searchForm.pageInfo.pageNo"
+          :page-size.sync="searchForm.pageInfo.pageSize"
           :total="jsonData.total"
           @size-change="doSearch"
           @current-change="doSearch"
@@ -150,7 +150,7 @@
                      */
                     pageInfo: {
                         pageNo: 1,
-                        pageSize: 100
+                        pageSize: this.$store.getters.pageSize
                     },
                     /**
                      * 排序信息
@@ -206,10 +206,10 @@
             rowDbClick(row, column, event) {
                 if (this.value) {
                     if (this.valueReferId) {
-                        this.$set(this.value, this.valueReferId, row.clientId)
+                        this.$set(this.value, this.valueReferId, row.appId)
                     }
                     if (this.valueReferName) {
-                        this.$set(this.value, this.valueReferName, row.clientId)
+                        this.$set(this.value, this.valueReferName, row.appName)
                     }
                     if (this.valueExpendRefers) {
                         for (const ind in this.valueExpendRefers) {

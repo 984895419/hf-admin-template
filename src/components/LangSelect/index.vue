@@ -12,23 +12,12 @@
     </div>
     <el-dropdown-menu slot="dropdown">
       <el-dropdown-item
-        :disabled="language==='zh'"
-        command="zh"
+        v-for="item in supportLanguage"
+        :key="item"
+        :disabled="language===item"
+        :command="item"
       >
-        中文
-      </el-dropdown-item>
-
-      <el-dropdown-item
-        :disabled="language==='en'"
-        command="en"
-      >
-        English
-      </el-dropdown-item>
-      <el-dropdown-item
-        :disabled="language==='es'"
-        command="es"
-      >
-        Español
+        {{$t('common.' + item)}}
       </el-dropdown-item>
 
     </el-dropdown-menu>
@@ -36,11 +25,13 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   computed: {
-    language() {
-      return this.$store.getters.language
-    }
+    ...mapGetters([
+        'supportLanguage',
+        'language'
+    ])
   },
   methods: {
     handleSetLanguage(lang) {

@@ -2,7 +2,7 @@
   <div v-loading.fullscreen.lock="loading">
     <el-button
       :type="btnType"
-      :size="$store.size"
+      :size="size"
       @click="openDialog"
     >
       {{ label }}
@@ -25,6 +25,7 @@
 <script>
 import { baseApiGetMethod } from '@/components/CURD/baseApi'
 import { getData, getMessage, isSuccessResult } from '@/utils/ajaxResultUtil'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'UpdateBtn',
@@ -36,11 +37,15 @@ export default {
     label: {
       type: String,
       require: true,
-      default: '编辑'
+        default: function() {
+            return this.$t('common.edit')
+        }
     },
     title: {
         type: String,
-        default: '编辑'
+        default: function() {
+            return this.$t('common.edit')
+        }
     },
     /**
      * 附带的查询数据
@@ -57,6 +62,11 @@ export default {
       showDialog: false,
       postData: null
     }
+  },
+  computed: {
+    ...mapGetters([
+      'size'
+    ])
   },
   methods: {
     /**

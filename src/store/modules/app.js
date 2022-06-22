@@ -2,6 +2,8 @@ import Cookies from 'js-cookie'
 import { getLanguage } from '@/lang/index'
 import store from '@/store'
 import { isEmpty } from 'element-ui/src/utils/util'
+import { baseApiGetMethod } from '@/components/CURD/baseApi'
+import { getData, isSuccessResult } from '@/utils/ajaxResultUtil'
 
 const state = {
   sidebar: {
@@ -9,9 +11,22 @@ const state = {
     withoutAnimation: false
   },
   device: 'desktop',
+  // 语言
   language: getLanguage(),
+  // 支持的语言
   supportLanguage: ['zh', 'en', 'es'],
-  size: Cookies.get('size') || 'mini'
+  // 尺寸大小
+  size: Cookies.get('size') || 'mini',
+  // 标题名称
+  title: '',
+  // 设置是否从后端拉取了
+  settingLoader: false,
+  // 分页大小,
+  pageSize: 50,
+  // 默认支持的分页大小
+  pageSizes: [],
+  // 是否是开发环境？
+  isDeveloping: process.env.NODE_ENV === 'development'
 }
 
 const mutations = {
@@ -39,6 +54,24 @@ const mutations = {
   SET_SIZE: (state, size) => {
     state.size = size
     Cookies.set('size', size)
+  },
+  SET_TITLE: (state, title) => {
+    state.title = title
+  },
+  SET_LOADING_FLAG: (state, settingLoader) => {
+    state.settingLoader = settingLoader
+  },
+  SET_SUPPORT_LANGUAGE: (state, supportLanguage) => {
+    state.supportLanguage = supportLanguage
+  },
+  SET_PAGE_SIZE: (state, pageSize) => {
+    state.pageSize = pageSize
+  },
+  SET_PAGE_SIZES: (state, pageSizes) => {
+    state.pageSizes = pageSizes
+  },
+  SET_IS_DEVELOPING: (state, isDeveloping) => {
+    state.isDeveloping = isDeveloping
   }
 }
 
@@ -53,19 +86,41 @@ const actions = {
     commit('TOGGLE_DEVICE', device)
   },
   setLanguage({ commit, state, dispatch }, language) {
-    const token = store.getters.token
-    if (!isEmpty(token)) {
-      const tokenJson = JSON.parse(token)
-      tokenJson['lang'] = language
-      store.dispatch('user/setToken', JSON.stringify(tokenJson)).then(() => {
-        commit('SET_LANGUAGE', language)
-      })
-    } else {
-      commit('SET_LANGUAGE', language)
-    }
+    commit('SET_LANGUAGE', language)
   },
   setSize({ commit }, size) {
     commit('SET_SIZE', size)
+  },
+  loadSettings({ commit }, size) {
+    return new Promise((resolve, reject) => {
+      // 初始从后台加载基础配置
+      baseApiGetMethod('/api/open/settings').then(resp => {
+        commit('SET_LOADING_FLAG', true)
+        if (isSuccessResult(resp)) {
+          const data = getData(resp)
+          // 标题设置
+          commit('SET_TITLE', data['fe.project.name'])
+          // 设置
+          commit('SET_SIZE', data['fe.theme.size'] || 'mini')
+          // 语言设置
+          const language = (navigator.languages ? navigator.languages[0]
+            : navigator.language).split('-')[0]
+          commit('SET_LANGUAGE', language)
+          // 设置支持的语种
+          commit('SET_SUPPORT_LANGUAGE', data['fe.theme.supportLanguage']
+            ? data['fe.theme.supportLanguage'].split(',') : ['zh', 'en', 'es'])
+          // 设置分页
+          commit('SET_PAGE_SIZE', data['fe.setting.pageSize'] ? parseInt(data['fe.setting.pageSize']) : 50)
+          commit('SET_PAGE_SIZES', data['fe.setting.pageSizes']
+            ? data['fe.setting.pageSizes'].split(',').map(t => parseInt(t)) : undefined)
+          // 设置开发功能是否启用
+          commit('SET_IS_DEVELOPING', process.env.NODE_ENV === 'development' && data['fe.setting.develop.helper'] === 'true')
+        }
+        resolve(resp)
+      }).catch(() => {
+        reject()
+      })
+    })
   }
 }
 
