@@ -161,20 +161,6 @@ export function genRoutesFromMenuTree(childMenus) {
   return accessedRouters
 }
 
-// export function genRoutesFromMenuTree1(childMenus) {
-//   baseApiGetMethod('/api/hfBaseRightMenu/route').then(
-//     (resp) => {
-//       if (isSuccessResult(resp)) {
-//         debugger
-//       } else {
-//         if (!isTheRetCode('00003')) {
-//           this.$message.error(getMessage(resp))
-//         }
-//       }
-//     }
-//   ).catch(e => {
-//   })
-// }
 const state = {
   routes: [],
   addRoutes: null
