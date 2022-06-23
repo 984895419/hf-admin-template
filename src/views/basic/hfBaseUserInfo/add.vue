@@ -6,95 +6,95 @@
           <row-span-slot>
             <template v-slot="{ span }">
               <!-- 新增的的字段配置 -->
-                             <form-item-col
+              <form-item-col
                 :value="data"
                 :error="errorMessage('userCode')"
                 :span="span"
                 prop="userCode"
                 :namespace="conf.namespace"
-               />
-               <form-item-col
+              />
+              <form-item-col
                 :value="data"
                 :error="errorMessage('userName')"
                 :span="span"
                 prop="userName"
                 :namespace="conf.namespace"
-               />
-               <form-item-col
+              />
+              <form-item-col
                 :value="data"
                 :error="errorMessage('pkOrg')"
                 :span="span"
                 prop="pkOrg"
                 :namespace="conf.namespace"
-               />
-               <form-item-col
+              />
+              <form-item-col
                 :value="data"
                 :error="errorMessage('pkDept')"
                 :span="span"
                 prop="pkDept"
                 :namespace="conf.namespace"
-               />
-               <form-item-col
+              />
+              <form-item-col
                 :value="data"
                 :error="errorMessage('gender')"
                 :span="span"
                 prop="gender"
                 :namespace="conf.namespace"
-               />
-               <form-item-col
+              />
+              <form-item-col
                 :value="data"
                 :error="errorMessage('mobile')"
                 :span="span"
                 prop="mobile"
                 :namespace="conf.namespace"
-               />
-               <form-item-col
+              />
+              <form-item-col
                 :value="data"
                 :error="errorMessage('email')"
                 :span="span"
                 prop="email"
                 :namespace="conf.namespace"
-               />
-               <form-item-col
+              />
+              <form-item-col
                 :value="data"
                 :error="errorMessage('ncUserId')"
                 :span="span"
                 prop="ncUserId"
                 :namespace="conf.namespace"
-               />
-               <form-item-col
+              />
+              <form-item-col
                 :value="data"
                 :error="errorMessage('userFrom')"
                 :span="span"
                 prop="userFrom"
                 :namespace="conf.namespace"
-               />
+              />
               <form-item-col-enable-state
                 :value="data"
                 :span="span"
                 :namespace="conf.namespace"
               />
-               <form-item-col
+              <form-item-col
                 :value="data"
                 :error="errorMessage('headPic')"
                 :span="span"
                 prop="headPic"
                 :namespace="conf.namespace"
-               />
-               <form-item-col
+              />
+              <form-item-col
                 :value="data"
                 :error="errorMessage('id')"
                 :span="span"
                 prop="id"
                 :namespace="conf.namespace"
-               />
-               <form-item-col
+              />
+              <form-item-col
                 :value="data"
                 :error="errorMessage('effectTime')"
                 :span="span"
                 prop="effectTime"
                 :namespace="conf.namespace"
-               />
+              />
               <!-- 字典字段字段设置方法如下
               <form-item-col-dict
                 :value="data"
@@ -128,7 +128,7 @@
             value: {
                 type: Object,
                 default: function() {
-                    return { enableState: 1}
+                    return { enableState: 1 }
                 }
             },
             actionUrl: String

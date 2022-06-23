@@ -18,7 +18,7 @@
           <simple-search v-model="searchForm" :inline="true" @search="doSearch">
             <template v-slot="{ span }">
               <!-- 新增的的字段配置 -->
-                            <form-item-col
+              <form-item-col
                 :value="searchForm"
                 :span="span"
                 prop="userCode"
