@@ -5,6 +5,7 @@
     </div>
     <div class="container-main">
       <el-tree
+        v-if="openPanel"
         ref="tree"
         :data="menusData"
         show-checkbox
@@ -26,6 +27,7 @@
 <script>
 import { baseApiGetMethod, baseApiPostMethod } from '@/components/CURD/baseApi'
 import { getMessage, isSuccessResult, isTheRetCode } from '@/utils/ajaxResultUtil'
+import { fastLerp } from '_zrender@4.2.0@zrender/lib/tool/color'
 export default {
   props: {
     'dataList': {}
@@ -35,6 +37,7 @@ export default {
       getRightMenusParam: {},
       configOperateRightParam: {},
       menusData: [],
+      openPanel: false,
       defaultProps: {
         children: 'children',
         label: 'label'
@@ -43,10 +46,15 @@ export default {
       menuIds: [],
       newCheckedNodesList: [],
       defaultCheckedKeysList: [],
-      defaultCheckedKeysListFliter: [],
       nextDefaultCheckedKeysList: []
     }
   },
+  watch: {
+    menusData(val, oldval) {
+
+    }
+  },
+
   created() {
     this.init()
   },
@@ -58,14 +66,14 @@ export default {
         'onlyRight': false,
         'roleId': this.dataList.roleId
       }
+      this.openPanel = true
+
       baseApiGetMethod('/api/hfBaseRightMenu/getRightMenus', this.getRightMenusParam).then(
         (resp) => {
           if (isSuccessResult(resp)) {
             this.menusData = resp.data
-            this.menusData.children = this.treeToList(this.menusData.children)
+            resp.data.children = this.treeToList(resp.data.children)
             console.log(this.treeToList(resp.data), '222')
-
-            // debugger
           } else {
             if (!isTheRetCode('00003')) {
               this.$message.error(getMessage(resp))
@@ -128,9 +136,11 @@ export default {
     },
     // 节点选中状态发生变化时的回调
     handleCheckChange(data, checked, indeterminate) {
-      const res1 = this.$refs.tree.getCheckedKeys()
-      // 获取半选的节点
-      const res2 = this.$refs.tree.getHalfCheckedKeys()
+      // const res1 = this.$refs.tree.getCheckedKeys().filter(x => !!x === true || x === 0)
+      // // 获取半选的节点
+      // const res2 = this.$refs.tree.getHalfCheckedKeys()
+      // console.log(res1, 'res1')
+      // console.log(res2, 'res2')
     },
 
     // 选中当前tree节点 获取menuIds \ methodIds
@@ -157,16 +167,15 @@ export default {
           list[i].children = list[i].methods
         }
         if (list[i].checked === true) {
-         this.defaultCheckedKeysList.push(list[i].menuId)
+          this.defaultCheckedKeysList.push(list[i].menuId)
         }
         list[i].children = this.treeToList(list[i].children)
       }
-       this.nextDefaultCheckedKeysList = this.defaultCheckedKeysList.filter(x => !!x === true || x === 0)
-      console.log(this.nextDefaultCheckedKeysList, '33')
-      // console.log(this.defaultCheckedKeysListFliter, 'this.defaultCheckedKeysList')
+      this.nextDefaultCheckedKeysList = this.defaultCheckedKeysList.filter(x => !!x === true || x === 0)
       return list
     }
   }
+
 }
 </script>
 

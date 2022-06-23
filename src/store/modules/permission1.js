@@ -1,7 +1,5 @@
 import { asyncRoutes, constantRoutes } from '@/router'
 import { isEmpty } from 'element-ui/src/utils/util'
-import { baseApiGetMethod, baseApiPostMethod } from '@/components/CURD/baseApi'
-import { getMessage, isSuccessResult, isTheRetCode } from '@/utils/ajaxResultUtil'
 import Vue from 'vue'
 
 /**
@@ -58,9 +56,12 @@ export function genRoutesFromMenuTree(childMenus) {
           breadcrumb: menu.metaBreadcrumb === '1'
         }
       }
+      console.log(menuRoute)
+      debugger
 
       if (menu.parentMenuId === '0') { // 根节点
         menuRoute.component = () => import('@/layout')
+        debugger
       } else {
         const componentPath = menu.component
         if (!isEmpty(componentPath) && componentPath.startsWith('/jmreport/') && componentPath.indexOf('/jmreport/index') < 0) {
@@ -147,6 +148,7 @@ export function genRoutesFromMenuTree(childMenus) {
             src: urlT
           }
         } else if (!isEmpty(componentPath)) {
+          // menuRoute.component = () => import(`@/views${componentPath}`) --旧版本nodejs ..新装版不支持
           menuRoute.component = (resolve) => require([`@/views${componentPath}`], resolve)
         }
       }
@@ -157,24 +159,11 @@ export function genRoutesFromMenuTree(childMenus) {
       accessedRouters.push(menuRoute)
     })
   } else {
+  console.log(childMenus, 'childMenus')
   }
+
   return accessedRouters
 }
-
-// export function genRoutesFromMenuTree1(childMenus) {
-//   baseApiGetMethod('/api/hfBaseRightMenu/route').then(
-//     (resp) => {
-//       if (isSuccessResult(resp)) {
-//         debugger
-//       } else {
-//         if (!isTheRetCode('00003')) {
-//           this.$message.error(getMessage(resp))
-//         }
-//       }
-//     }
-//   ).catch(e => {
-//   })
-// }
 const state = {
   routes: [],
   addRoutes: null
@@ -184,22 +173,24 @@ const mutations = {
   SET_ROUTES: (state, routes) => {
     state.addRoutes = routes
     state.routes = constantRoutes.concat(routes)
-    console.log(state.routes, 'state.routes')
   }
 }
 
 const actions = {
   generateRoutes({ commit }, userPermission) {
+    console.log(userPermission)
     return new Promise(resolve => {
       let accessedRoutes = asyncRoutes
       const menuTree = userPermission.menuTree
       const routesFromMenuTree = genRoutesFromMenuTree(menuTree)
+      console.log(routesFromMenuTree, 'routesFromMenuTree')
       if (userPermission.isAdmin) {
         accessedRoutes = accessedRoutes.concat(routesFromMenuTree)
       } else {
         accessedRoutes = routesFromMenuTree
         // accessedRoutes = filterAsyncRoutes(asyncRoutes, menuList)
       }
+    debugger
 
       commit('SET_ROUTES', accessedRoutes)
       resolve(accessedRoutes)

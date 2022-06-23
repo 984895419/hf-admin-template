@@ -37,6 +37,7 @@ Vue.use(Router)
  * a base page that does not have permission requirements
  * all roles can be accessed
  */
+
 export const constantRoutes = [
   {
     path: '/redirect',
@@ -223,7 +224,6 @@ export const constantRoutes = [
     ],
     meta: { title: 'OA人事', icon: 'dashboard', affix: true }
   },
-
   {
     // 资源管理
     path: '/resource',
