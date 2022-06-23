@@ -6,7 +6,7 @@
           v-if="item.value === 'reqId'"
           prop="reqId"
           :label="$t(conf.namespace + '.reqId')"
-          width="80"
+          min-width="130"
         />
         <el-table-column
           v-if="item.value === 'requestUrl'"
@@ -18,7 +18,7 @@
           v-if="item.value === 'requestMethod'"
           prop="requestMethod"
           :label="$t(conf.namespace + '.requestMethod')"
-          min-width="80"
+          min-width="130"
         />
         <el-table-column
           v-if="item.value === 'requestIp'"
@@ -26,36 +26,24 @@
           :label="$t(conf.namespace + '.requestIp')"
           min-width="130"
         />
-      <default-table-column
-        min-width="200"
-        :copyable="true"
-        v-if="item.value === 'responseHeaders'"
-        prop="responseHeaders"
-        :namespace="conf.namespace"/>
-      <default-table-column
-        min-width="200"
-        :copyable="true"
-        v-if="item.value === 'requestHeaders'"
-        prop="requestHeaders"
-        :namespace="conf.namespace"/>
-        <default-table-column
-          min-width="200"
-          :copyable="true"
+        <el-table-column
           v-if="item.value === 'requestParams'"
           prop="requestParams"
-          :namespace="conf.namespace"/>
-        <default-table-column
-          min-width="200"
-          :copyable="true"
+          :label="$t(conf.namespace + '.requestParams')"
+          min-width="130"
+        />
+        <el-table-column
           v-if="item.value === 'requestBody'"
           prop="requestBody"
-          :namespace="conf.namespace"/>
-        <default-table-column
-          min-width="200"
-          :copyable="true"
+          :label="$t(conf.namespace + '.requestBody')"
+          min-width="130"
+        />
+        <el-table-column
           v-if="item.value === 'responseBody'"
           prop="responseBody"
-          :namespace="conf.namespace"/>
+          :label="$t(conf.namespace + '.responseBody')"
+          min-width="130"
+        />
         <el-table-column
           v-if="item.value === 'responseStatus'"
           prop="responseStatus"
@@ -76,12 +64,10 @@
     import CreateTimeTableColumn from '@/components/CURD/Table/column/CreateTimeTableColumn'
     import ModifierTableColumn from '@/components/CURD/Table/column/ModifierTableColumn'
     import ModifyTimeTableColumn from '@/components/CURD/Table/column/ModifyTimeTableColumn'
-    import DefaultTableColumn from '@/components/CURD/Table/column/DefaultTableColumn'
 
     export default {
         name: 'BaseLogColumns',
-        components: {
-            DefaultTableColumn, EnableStateTableColumn,
+        components: { EnableStateTableColumn,
             CreatorTableColumn, CreateTimeTableColumn,
             ModifierTableColumn, ModifyTimeTableColumn },
         props: {
