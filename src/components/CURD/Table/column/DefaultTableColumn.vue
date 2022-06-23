@@ -6,7 +6,7 @@
       v-bind="$attrs"
     >
       <template slot-scope="scope">
-        <copier-render :copyable="copyable" :prop="prop" :row="scope.row"/>
+        <copier-render :copyable="copyable" :prop="prop" :row="scope.row" :max-words="maxWords"/>
       </template>
     </el-table-column>
   </div>
@@ -27,6 +27,10 @@ export default {
         },
         prop: {
             type: String
+        },
+        maxWords: {
+            type: Number,
+            default: 27
         }
     }
 }

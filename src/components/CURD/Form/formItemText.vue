@@ -4,7 +4,9 @@
       v-bind="$attrs"
       :label="$t(namespace + '.' + prop)"
     >
-      {{ value[prop] }}
+      <slot>
+        {{ value[prop] }}
+      </slot>
     </el-form-item>
   </el-col>
 </template>

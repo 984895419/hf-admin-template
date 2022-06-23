@@ -14,6 +14,13 @@
         :label="$t(conf.namespace + '.appId')"
         min-width="130"
       />
+      <default-table-column
+        min-width="200"
+        :copyable="true"
+        v-if="item.value === 'requestHeaders'"
+        prop="requestHeaders"
+        :max-words="50"
+        :namespace="conf.namespace"/>
       <el-table-column
         v-if="item.value === 'loginIp'"
         prop="loginIp"
@@ -34,10 +41,12 @@
     import CreateTimeTableColumn from '@/components/CURD/Table/column/CreateTimeTableColumn'
     import ModifierTableColumn from '@/components/CURD/Table/column/ModifierTableColumn'
     import ModifyTimeTableColumn from '@/components/CURD/Table/column/ModifyTimeTableColumn'
+    import DefaultTableColumn from "../../../components/CURD/Table/column/DefaultTableColumn";
 
     export default {
         name: 'SsoLoginAppLogColumns',
-        components: { EnableStateTableColumn,
+        components: {
+            DefaultTableColumn, EnableStateTableColumn,
             CreatorTableColumn, CreateTimeTableColumn,
             ModifierTableColumn, ModifyTimeTableColumn },
         props: {

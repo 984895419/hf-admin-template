@@ -1,6 +1,6 @@
 <template>
   <div v-if="copyable" @mouseenter="textHover = true" @mouseleave="textHover = false">
-    {{ row[prop] }}
+    {{ ellipsis(row[prop])}}
     <i
       v-if="textHover"
       v-clipboard:success="successHandler"
@@ -10,7 +10,7 @@
     />
   </div>
   <div v-else>
-    {{ row[prop] }}
+    {{ ellipsis(row[prop]) }}
   </div>
 </template>
 
@@ -27,11 +27,26 @@
             },
             prop: {
                 type: String
+            },
+            maxWords: {
+                type: Number,
+                default: 27
             }
         },
         data() {
             return {
                 textHover: false
+            }
+        },
+        computed: {
+            ellipsis() {
+                return (value) => {
+                    if (!value) return ''
+                    if (value.length > this.maxWords) {
+                        return value.slice(0, this.maxWords) + '...'
+                    }
+                    return value
+                }
             }
         },
         methods: {

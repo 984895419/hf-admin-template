@@ -1,71 +1,71 @@
 <template>
   <div class="app-container">
     <div class="container-title">
-      角色1关联的权限列表
+      {{ dataList.roleName }}关联的权限列表
     </div>
     <div class="container-main">
-      <el-transfer
-        v-model="value"
-        style="text-align: left; display: inline-block"
-        filterable
-        :left-default-checked="[2, 3]"
-        :right-default-checked="[1]"
-        :render-content="renderFunc"
-        :titles="['Source', 'Target']"
-        :button-texts="['到左边', '到右边']"
-        :format="{
-          noChecked: '${total}',
-          hasChecked: '${checked}/${total}'
-        }"
-        :data="data"
-        @change="handleChange"
+      <el-tree
+        ref="tree"
+        :data="menusData"
+        show-checkbox
+        node-key="menuId"
+        :props="defaultProps"
+        :default-checked-keys="nextDefaultCheckedKeysList"
+        @check-change="handleCheckChange"
+        @check="currentChecked"
       />
     </div>
     <div class="container-btn">
-      <el-button class="transfer-footer" size="small">取消</el-button>
-      <el-button class="transfer-footer" type="primary" size="small">确定</el-button>
+      <el-button class="transfer-footer" size="small" @click="closeDialog()">取消</el-button>
+      <el-button class="transfer-footer" type="primary" size="small" @click="saveMenusData()">保存</el-button>
     </div>
 
   </div>
 </template>
 
 <script>
-import { baseApiGetMethod } from '@/components/CURD/baseApi'
-import { getData, getMessage, isSuccessResult, isTheRetCode } from '@/utils/ajaxResultUtil'
+import { baseApiGetMethod, baseApiPostMethod } from '@/components/CURD/baseApi'
+import { getMessage, isSuccessResult, isTheRetCode } from '@/utils/ajaxResultUtil'
 export default {
+  props: {
+    'dataList': {}
+  },
   data() {
-    const generateData = _ => {
-      const data = []
-      for (let i = 1; i <= 15; i++) {
-        data.push({
-          key: i,
-          label: `备选项 ${i}`
-        })
-      }
-      return data
-    }
     return {
-      data: generateData(),
-      value: [1],
-      renderFunc(h, option) {
-        return <span>{option.key} - {option.label}</span>
-      }
+      getRightMenusParam: {},
+      configOperateRightParam: {},
+      menusData: [],
+      defaultProps: {
+        children: 'children',
+        label: 'label'
+      },
+      methodIds: [],
+      menuIds: [],
+      newCheckedNodesList: [],
+      defaultCheckedKeysList: [],
+      defaultCheckedKeysListFliter: [],
+      nextDefaultCheckedKeysList: []
     }
   },
   created() {
     this.init()
   },
   methods: {
-    handleChange(value, direction, movedKeys) {
-      console.log(value, direction, movedKeys)
-    },
+
     init() {
-      console.log(123123)
       // 获取用户拥有的路由权限
-      baseApiGetMethod('/api/hfBaseRightMenu/route').then(
+      this.getRightMenusParam = {
+        'onlyRight': false,
+        'roleId': this.dataList.roleId
+      }
+      baseApiGetMethod('/api/hfBaseRightMenu/getRightMenus', this.getRightMenusParam).then(
         (resp) => {
           if (isSuccessResult(resp)) {
-            console.log(resp)
+            this.menusData = resp.data
+            this.menusData.children = this.treeToList(this.menusData.children)
+            console.log(this.treeToList(resp.data), '222')
+
+            // debugger
           } else {
             if (!isTheRetCode('00003')) {
               this.$message.error(getMessage(resp))
@@ -74,6 +74,97 @@ export default {
         }
       ).catch(e => {
       })
+
+      baseApiGetMethod('/api/hfBaseRightMenu/route').then(
+        (resp) => {
+          if (isSuccessResult(resp)) {
+            // console.log(resp)
+            // debugger
+          } else {
+            if (!isTheRetCode('00003')) {
+              this.$message.error(getMessage(resp))
+            }
+          }
+        }
+      ).catch(e => {
+      })
+    },
+    //  保存权限设置
+    saveMenusData() {
+      if (this.methodIds.length > 0) {
+        this.configOperateRightParam = {
+          'roleId': this.dataList.roleId,
+          'menuIds': this.menuIds,
+          'methodIds': this.methodIds
+        }
+        baseApiPostMethod('/api/hfBaseRightRole/configOperateRight', this.configOperateRightParam).then(
+          (resp) => {
+            if (isSuccessResult(resp)) {
+              this.$message({
+                showClose: true,
+                message: '操作成功',
+                type: 'success'
+              })
+              this.init()
+              this.$emit('closeDialog')
+            } else {
+              if (!isTheRetCode('00003')) {
+                this.$message.error(getMessage(resp))
+              }
+            }
+          }
+        ).catch(e => {
+        })
+      } else {
+        this.$message({
+          showClose: true,
+          message: '你还没有选择权限',
+          type: 'warning'
+        })
+      }
+    },
+    closeDialog() {
+      this.$emit('closeDialog')
+    },
+    // 节点选中状态发生变化时的回调
+    handleCheckChange(data, checked, indeterminate) {
+      const res1 = this.$refs.tree.getCheckedKeys()
+      // 获取半选的节点
+      const res2 = this.$refs.tree.getHalfCheckedKeys()
+    },
+
+    // 选中当前tree节点 获取menuIds \ methodIds
+    currentChecked(nodeObj, SelectedObj) {
+      const dataList = []
+      // 过滤underfine
+      this.menuIds = SelectedObj.checkedKeys.filter(x => !!x === true || x === 0)
+      SelectedObj.checkedNodes.forEach(function(value, index, array) {
+        if (value.methods == null) {
+          dataList.push(value.methodId)
+        } else {
+          console.log(111)
+        }
+      })
+      this.methodIds = dataList.filter(x => !!x === true || x === 0)
+    },
+    // 递归换名称
+    treeToList(list) {
+      if (list == null || list.length <= 0) { return [] }
+      for (var i = 0; i < list.length; i++) {
+        list[i].label = list[i].menuName || list[i].description
+
+        if (list[i].methods != null) {
+          list[i].children = list[i].methods
+        }
+        if (list[i].checked === true) {
+         this.defaultCheckedKeysList.push(list[i].menuId)
+        }
+        list[i].children = this.treeToList(list[i].children)
+      }
+       this.nextDefaultCheckedKeysList = this.defaultCheckedKeysList.filter(x => !!x === true || x === 0)
+      console.log(this.nextDefaultCheckedKeysList, '33')
+      // console.log(this.defaultCheckedKeysListFliter, 'this.defaultCheckedKeysList')
+      return list
     }
   }
 }

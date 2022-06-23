@@ -6,19 +6,19 @@
         v-if="item.value === 'id'"
         prop="id"
         :label="$t(conf.namespace + '.id')"
-        min-width="130"
+        min-width="40"
       />
       <el-table-column
         v-if="item.value === 'userId'"
         prop="creatorUserName"
         :label="$t(conf.namespace + '.userId')"
-        min-width="130"
+        width="80"
       />
       <el-table-column
         v-if="item.value === 'loginType'"
         prop="loginTypeName"
         :label="$t(conf.namespace + '.loginType')"
-        min-width="130"
+        width="120"
       />
       <el-table-column
         v-if="item.value === 'loginTime'"

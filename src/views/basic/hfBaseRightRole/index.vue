@@ -5,18 +5,8 @@
       <simple-search v-model="searchForm" :inline="true" @search="doSearch">
         <template v-slot="{ span }">
           <!-- 新增的的字段配置 -->
-          <form-item-col
-            :value="searchForm"
-            :span="span"
-            prop="roleName"
-            :namespace="conf.namespace"
-          />
-          <form-item-col
-            :value="searchForm"
-            :span="span"
-            prop="roleDesc"
-            :namespace="conf.namespace"
-          />
+          <form-item-col :value="searchForm" :span="span" prop="roleName" :namespace="conf.namespace" />
+          <form-item-col :value="searchForm" :span="span" prop="roleDesc" :namespace="conf.namespace" />
           <!-- 字典字段字段设置方法如下
           <form-item-col-dict
             :value="data"
@@ -67,7 +57,7 @@
       :init-data="tableFields"
       :preference-alias="conf.namespace"
     >
-      <template v-slot="{doSave, preferenceData}">
+      <template v-slot="{ doSave, preferenceData }">
         <hf-table
           v-if="showFields"
           v-loading="loading"
@@ -78,11 +68,7 @@
           <section-table-column />
           <!-- 显示的字段-->
           <hf-base-right-role-columns :show-fields="showFields" :url-methods="conf.urlMethods" @success="doSearch" />
-          <el-table-column
-            fixed="right"
-            :label="$t('common.operate')"
-            width="150"
-          >
+          <el-table-column fixed="right" :label="$t('common.operate')" width="150">
             <template v-slot:header>
               {{ $t('common.operate') }}
               <curd-table-column-select
@@ -111,9 +97,22 @@
                   @success="doSearch"
                 />
                 <!-- 查看 -->
-                <hf-base-right-role-detail
-                  :value="scopeRow.row"
-                />
+                <hf-base-right-role-detail :value="scopeRow.row" />
+                <!-- 绑定用户 -->
+                <dialog-Btn-Page :label="'绑定用户'" :type="'text'">
+                  <template slot-scope="{ closeDialog }">
+                    <user-bind
+                      :data-list="scopeRow.row"
+                      @closeDialog="closeDialog"
+                    />
+                  </template>
+                </dialog-Btn-Page>
+                <!-- 权限设置 -->
+                <dialog-Btn-Page :label="'权限设置'" :type="'text'">
+                  <template slot-scope="{ closeDialog }">
+                    <permission-setting :data-list="scopeRow.row" @closeDialog="closeDialog" />
+                  </template>
+                </dialog-Btn-Page>
               </div>
             </template>
           </el-table-column>
@@ -132,155 +131,168 @@
 </template>
 
 <script>
-    import * as conf from './api'
-    import HfBaseRightRoleAdd from './add'
-    import HfTable from '@/components/CURD/Table/HfTable'
-    import { baseApiGetMethod } from '@/components/CURD/baseApi'
-    import { isSuccessResult } from '@/utils/ajaxResultUtil'
-    import CurdPagination from '@/components/CURD/pagination/Pagination'
-    import HfBaseRightRoleUpdate from './update'
-    import DelBtn from '@/components/CURD/Btns/DelBtn'
-    import CurdMixin from '@/components/CURD/curd.mixin'
-    import CurdTableColumnSelect from '@/components/CURD/Table/select/TableColumnSelect'
-    import HfBaseRightRoleDetail from './detail'
-    import HfBaseRightRoleColumns from './hfBaseRightRoleColumns'
-    import TemplateConfirmBtn from '@/components/CURD/Btns/TemplateConfirmBtn'
-    import FormItemColDict from '@/components/CURD/Form/formItemColDict.vue'
-    import FormItemCol from '@/components/CURD/Form/formItemCol.vue'
-    import SimpleSearch from '@/components/CURD/Query/search'
-    import TableColumnPreferenceSettingApiSlot from '@/views/basic/preferenceSetting/TableColumnPrefenceSettingApiSlot'
-    import SectionTableColumn from '@/components/CURD/Table/column/base/SectionTableColumn'
+import * as conf from './api'
+import HfBaseRightRoleAdd from './add'
+import HfTable from '@/components/CURD/Table/HfTable'
+import { baseApiGetMethod } from '@/components/CURD/baseApi'
+import { isSuccessResult } from '@/utils/ajaxResultUtil'
+import CurdPagination from '@/components/CURD/pagination/Pagination'
+import HfBaseRightRoleUpdate from './update'
+import DelBtn from '@/components/CURD/Btns/DelBtn'
+import CurdMixin from '@/components/CURD/curd.mixin'
+import CurdTableColumnSelect from '@/components/CURD/Table/select/TableColumnSelect'
+import HfBaseRightRoleDetail from './detail'
+import HfBaseRightRoleColumns from './hfBaseRightRoleColumns'
+import TemplateConfirmBtn from '@/components/CURD/Btns/TemplateConfirmBtn'
+import FormItemColDict from '@/components/CURD/Form/formItemColDict.vue'
+import FormItemCol from '@/components/CURD/Form/formItemCol.vue'
+import SimpleSearch from '@/components/CURD/Query/search'
+import TableColumnPreferenceSettingApiSlot from '@/views/basic/preferenceSetting/TableColumnPrefenceSettingApiSlot'
+import SectionTableColumn from '@/components/CURD/Table/column/base/SectionTableColumn'
+import UserBind from '@/views/role/user-bind.vue'
+import RoleSettings from '@/views/role/permission-setting.vue'
+import DialogBtnPage from '@/components/CURD/Btns/DialogBtnPage'
+import PermissionSetting from '@/views/role/permission-setting.vue'
 
-    export default {
-        name: 'HfBaseRightRoleIndexVue',
-        components: {
-          SectionTableColumn,
-          TemplateConfirmBtn,
-          HfBaseRightRoleColumns,
-          HfBaseRightRoleDetail,
-            CurdTableColumnSelect,
-            DelBtn,
-          HfBaseRightRoleUpdate,
-            CurdPagination,
-            HfTable, HfBaseRightRoleAdd,
-          FormItemColDict,
-          FormItemCol,
-          SimpleSearch,
-          TableColumnPreferenceSettingApiSlot
+export default {
+  name: 'HfBaseRightRoleIndexVue',
+  components: {
+    SectionTableColumn,
+    TemplateConfirmBtn,
+    HfBaseRightRoleColumns,
+    HfBaseRightRoleDetail,
+    CurdTableColumnSelect,
+    DelBtn,
+    HfBaseRightRoleUpdate,
+    CurdPagination,
+    HfTable, HfBaseRightRoleAdd,
+    FormItemColDict,
+    FormItemCol,
+    SimpleSearch,
+    TableColumnPreferenceSettingApiSlot,
+    UserBind,
+    RoleSettings,
+    DialogBtnPage,
+    PermissionSetting
+  },
+  mixins: [CurdMixin],
+  data() {
+    return {
+      db: {},
+      showFields: null,
+      loading: false,
+      /**
+       * 查询的表单信息
+       */
+      searchForm: {
+        roleId: null,
+        roleName: null,
+        tenantId: null,
+        roleDesc: null,
+        /**
+         * 分页信息
+         */
+        pageInfo: {
+          pageNo: 1,
+          pageSize: this.$store.getters.pageSize
         },
-        mixins: [CurdMixin],
-        data() {
-            return {
-                db: {},
-                showFields: null,
-                loading: false,
-                /**
-                 * 查询的表单信息
-                 */
-                searchForm: {
-          roleId: null,
-          roleName: null,
-          tenantId: null,
-          roleDesc: null,
-                    /**
-                     * 分页信息
-                     */
-                    pageInfo: {
-                        pageNo: 1,
-                        pageSize: this.$store.getters.pageSize
-                    },
-                    /**
-                     * 排序信息
-                     */
-                    sortInfo: []
-                },
-                conf: conf,
-                jsonData: {
-                    list: [],
-                    total: 0
-                },
-                tableFields: conf.default,
-                toggleRowSelectionArray: []
-            }
-        },
-        created() {
-            this.doSearch()
-        },
-        methods: {
-            reRenderTable(res) {
-                // 扩展显示的字段
-                this.showFields = []
-                // 标记为重新渲染中
-                this.reRending = true
-                setTimeout(() => {
-                    this.showFields = res
-                    // 标记为重新渲染中
-                    this.reRending = false
-                }, 50)
-            },
-            /**
-             * 排序发生变化的时候执行的排序变化
-             * @param column
-             * @param prop
-             * @param order
-             */
-            sortChange({ column, prop, order }) {
-              // 设置排序字段信息
-              if (order) {
-                this.searchForm.sortInfo = [{
-                  sort: order === 'ascending' ? 0 : (1),
-                  fieldName: prop
-                }]
-              } else {
-                this.searchForm.sortInfo = []
-              }
-               // 执行排序
-              this.doSearch()
-            },
-            /**
-             * 查询条件变化
-             */
-            inquiryChangeSearch(query) {
-                this.searchForm.query = query
-                this.doSearch()
-            },
-            /**
-             * 选中后处理的事件
-             * @param section
-             */
-            handleSelectionChange(section) {
-                this.toggleRowSelectionArray = section
-            },
-            /**
-             * 执行查询操作
-             */
-            doSearch() {
-                if (this.conf.urlMethods && this.conf.urlMethods.pageUrl) {
-                    this.loading = true
-                    baseApiGetMethod(this.conf.urlMethods.pageUrl, this.searchForm).then(resp => {
-                        if (isSuccessResult(resp)) {
-                            this.$set(this.jsonData, 'list', resp.data.list)
-                            this.$set(this.jsonData, 'total', resp.data.total)
-                        } else {
-                            this.$message.error(resp.message)
-                        }
-                        this.loading = false
-                    }).catch(e => {
-                        console.log(e)
-                        this.loading = false
-                    })
-                } else {
-                    this.$message.error('请配置分页查询地址参数:{pageUrl: xxxx}')
-                }
-            }
-        }
+        /**
+         * 排序信息
+         */
+        sortInfo: []
+      },
+      conf: conf,
+      jsonData: {
+        list: [],
+        total: 0
+      },
+      tableFields: conf.default,
+      toggleRowSelectionArray: []
     }
+  },
+  created() {
+    this.doSearch()
+  },
+  methods: {
+    reRenderTable(res) {
+      // 扩展显示的字段
+      this.showFields = []
+      // 标记为重新渲染中
+      this.reRending = true
+      setTimeout(() => {
+        this.showFields = res
+        // 标记为重新渲染中
+        this.reRending = false
+      }, 50)
+    },
+    /**
+     * 排序发生变化的时候执行的排序变化
+     * @param column
+     * @param prop
+     * @param order
+     */
+    sortChange({ column, prop, order }) {
+      // 设置排序字段信息
+      if (order) {
+        this.searchForm.sortInfo = [{
+          sort: order === 'ascending' ? 0 : (1),
+          fieldName: prop
+        }]
+      } else {
+        this.searchForm.sortInfo = []
+      }
+      // 执行排序
+      this.doSearch()
+    },
+    /**
+     * 查询条件变化
+     */
+    inquiryChangeSearch(query) {
+      this.searchForm.query = query
+      this.doSearch()
+    },
+    /**
+     * 选中后处理的事件
+     * @param section
+     */
+    handleSelectionChange(section) {
+      this.toggleRowSelectionArray = section
+    },
+    checkboxHasSelect(val) {
+      console.log(val)
+      debugger
+    },
+    /**
+     * 执行查询操作
+     */
+    doSearch() {
+      if (this.conf.urlMethods && this.conf.urlMethods.pageUrl) {
+        this.loading = true
+        baseApiGetMethod(this.conf.urlMethods.pageUrl, this.searchForm).then(resp => {
+          if (isSuccessResult(resp)) {
+            this.$set(this.jsonData, 'list', resp.data.list)
+            this.$set(this.jsonData, 'total', resp.data.total)
+          } else {
+            this.$message.error(resp.message)
+          }
+          this.loading = false
+        }).catch(e => {
+          console.log(e)
+          this.loading = false
+        })
+      } else {
+        this.$message.error('请配置分页查询地址参数:{pageUrl: xxxx}')
+      }
+    }
+
+  }
+}
 </script>
 
 <style scoped>
-  /deep/ .col-btn-display > div,
-  .col-btn-display > .el-button {
-    display: inline-block;
-    margin-right: 10px;
-  }
+/deep/ .col-btn-display>div,
+.col-btn-display>.el-button {
+  display: inline-block;
+  margin-right: 10px;
+}
 </style>

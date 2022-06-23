@@ -36,6 +36,7 @@ export default {
   restart: '重启',
   searchUsed: '复制查询表单配置',
   formUsed: '复制增改表单配置',
+  submit: '提交',
   navbar: {
     dashboard: '首页',
     github: '项目地址',

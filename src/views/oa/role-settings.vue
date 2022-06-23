@@ -50,7 +50,7 @@ export default {
     },
     // 查看角色管理
     viewRoleManagement() {
-      baseApiGetMethod('/api/hfBaseRightRole/list').then(
+      baseApiGetMethod('/api/hfBaseRightRole/list/query').then(
         (resp) => {
           if (resp.retCode === '00001') {
             this.cities = resp.data

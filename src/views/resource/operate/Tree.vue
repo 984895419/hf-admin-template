@@ -12,7 +12,7 @@
     />
     <el-tree
       ref="tree"
-      :data="data"
+      :data="data1"
       accordion
       :filter-node-method="filterNode"
       :props="defaultProps"
@@ -25,14 +25,15 @@
 </template>
 <script>
 import { fetchMenuTree } from '@/api/menu'
+import { baseApiGetMethod } from '@/components/CURD/baseApi'
 export default {
   name: 'MenuTree',
   data() {
     return {
-      data: [],
+      data1: [],
       defaultProps: {
-        children: 'subMenuList',
-        label: 'metaTitle'
+        children: 'children',
+        label: 'menuName'
       },
       filterText: ''
     }
@@ -47,6 +48,7 @@ export default {
   },
   created() {
     this.getMenuTree()
+    this.getMenuTreeList()
   },
   methods: {
     getMenuTree() {
@@ -55,8 +57,18 @@ export default {
       }
       const _this = this
       fetchMenuTree().then((response) => {
-        _this.data = response.obj
+        _this.data1 = response.obj
       })
+    },
+    getMenuTreeList() {
+       const _this = this
+     baseApiGetMethod('/api/hfBaseRightMenu/list/query').then(
+        (resp) => {
+          if (resp.retCode === '00001') {
+            _this.data1 = resp.data
+          }
+        }
+      )
     },
     handleNodeClick(data) {
       this.$emit('tree-node-click', data)

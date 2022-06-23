@@ -8,5 +8,7 @@ export default {
   responseBody: '响应体',
   responseStatus: '响应状态',
   creator: '创建人',
-  createTime: '创建时间'
+  createTime: '创建时间',
+  requestHeaders: '请求头',
+  responseHeaders: '响应头'
 }

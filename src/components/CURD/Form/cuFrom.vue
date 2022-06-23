@@ -11,8 +11,8 @@
     <el-form-item>
       <div style="float: right">
         <slot name="add-btn-before" :data="value" :formValidate="formValidate" />
-        <el-button type="primary" :size="size" icon="el-icon-search" @click="doSubmit">{{$t('common.search')}}</el-button>
-        <el-button icon="el-icon-circle-close" :size="size" @click="doCancel">{{$t('common.cancel')}}</el-button>
+        <el-button type="primary" :size="size" icon="el-icon-search" @click="doSubmit">{{ $t('common.submit') }}</el-button>
+        <el-button icon="el-icon-circle-close" :size="size" @click="doCancel">{{ $t('common.cancel') }}</el-button>
         <slot name="add-btn-after" :data="value" :formValidate="formValidate" />
       </div>
     </el-form-item>
@@ -60,7 +60,6 @@ export default {
     errorMessage() {
       return (field) => {
         if (this.errorInfo) {
-
             if (this.namespace && this.errorInfo[field] && this.errorInfo[field].endsWith('NOT_NULL')) {
               return this.$t(this.namespace + '.' + field) + this.$t('common.notAllowedNull')
             }
@@ -100,7 +99,6 @@ export default {
           // 发送post请求
           this.loading = true
             this.actionMethod(this.value).then(resp => {
-
             if (isSuccessResult(resp)) {
               this.$message.success(getMessage(resp))
               this.$emit('success')
