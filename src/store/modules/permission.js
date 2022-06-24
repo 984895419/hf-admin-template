@@ -1,7 +1,7 @@
 import { asyncRoutes, constantRoutes } from '@/router'
 import { isEmpty } from 'element-ui/src/utils/util'
-import { baseApiGetMethod, baseApiPostMethod } from '@/components/CURD/baseApi'
-import { getMessage, isSuccessResult, isTheRetCode } from '@/utils/ajaxResultUtil'
+import { getUserRoute } from '../../api/getRouteList'
+import Layout from '@/layout'
 import Vue from 'vue'
 
 /**
@@ -22,6 +22,7 @@ function hasPermission(menus, route) {
  * @param routes asyncRoutes
  * @param roles
  */
+
 export function filterAsyncRoutes(routes, menus) {
   // eslint-disable-next-line no-undef
   const accessedRouters = asyncRouterMap.filter(route => {
@@ -46,115 +47,31 @@ export function genRoutesFromMenuTree(childMenus) {
   if (!isEmpty(childMenus)) {
     childMenus.forEach(function(menu, index) {
       const menuRoute = {
-        path: menu.path,
+        path: menu.menuAlias,
         hidden: menu.hidden === '1',
         redirect: menu.redirect,
         alwaysShow: menu.alwaysshow === '1', // will always show the root menu
-        name: menu.name,
+
         meta: {
-          title: menu.metaTitle,
-          icon: menu.metaIcon,
+          title: menu.menuName,
+          icon: menu.icon,
           noCache: menu.metaNocache === '0',
           breadcrumb: menu.metaBreadcrumb === '1'
         }
       }
-
-      if (menu.parentMenuId === '0') { // 根节点
-        menuRoute.component = () => import('@/layout')
+      if (menu.parentId === 0) { // 根节点
+        menuRoute.component = Layout
       } else {
         const componentPath = menu.component
-        if (!isEmpty(componentPath) && componentPath.startsWith('/jmreport/') && componentPath.indexOf('/jmreport/index') < 0) {
-          let urlT = ''
-          const tempstr = componentPath.substr(componentPath.indexOf('/jmreport/') + 10)
-          if (tempstr.indexOf('http') > -1) {
-            urlT = tempstr.substr(tempstr.indexOf('/') + 1)
-          }
-          const temp = {
-            template:
-              '  <div>' +
-              '    <iframe :src="url" style="position: absolute; top: 0; left: 0;width: 100%;height: 100%; " />' +
-              '  </div>',
-            data() {
-              return {
-                url: urlT
-              }
-            },
-            mounted() {
-              if (!isEmpty(this.$route.params.url)) {
-                this.url = this.$route.params.url
-              }
-            }
-          }
-          menuRoute.component = Vue.component(menu.name, temp)
-        } else if (!isEmpty(componentPath) && componentPath.startsWith('/urlRedirect/')) {
-          const urlT = componentPath.substr(componentPath.indexOf('/urlRedirect/') + '/urlRedirect/'.length)
-          const temp = {
-            template:
-              '  <div>' +
-              '    <iframe :src="srcParamsInside" style="position: absolute; top: 5px; left: 5px;width: 100%;height: 100%; " />' +
-              '  </div>',
-            props: {
-              src: String
-            },
-            data() {
-              return {
-                /**
-                 * 暂存map
-                 */
-                storeMap: {}
-              }
-            },
-            computed: {
-              srcParamsInside() {
-                // 进行组合，添加站点
-                const url = this.src
-                const qIndex = url.indexOf('?')
-                if (qIndex > 0) {
-                  const urls = url.substr(qIndex + 1)
-                  let urlParams = ''
-                  const paramsCnts = urls.split('&')
-                  for (const ind in paramsCnts) {
-                    const params = paramsCnts[ind].split('=')
-                    if (params[1].startsWith('$')) {
-                      urlParams += params[0] + '=' + this.storeMap[params[1].substr(1)]
-                    } else {
-                      urlParams += params[0] + '=' + params[1]
-                    }
-
-                    if (ind !== (paramsCnts.length - 1) + '') {
-                      urlParams += '&'
-                    }
-                  }
-
-                  return url.substr(0, qIndex + 1) + urlParams
-                }
-                return url
-              }
-            },
-            created() {
-              this.storeMap['username'] = this.$store.getters.username
-              this.storeMap['userCode'] = this.$store.getters.userCode
-              this.storeMap['userId'] = this.$store.getters.userId
-              this.storeMap['companyId'] = this.$store.getters.companyId
-              this.storeMap['organizationId'] = this.$store.getters.curCompanyId
-              this.storeMap['dept'] = this.$store.getters.dept
-              this.storeMap['deptId'] = this.$store.getters.curDeptId
-              this.storeMap['pageSize'] = 30
-            }
-          }
-          menuRoute.component = Vue.component(menu.name, temp)
-          menuRoute.props = {
-            src: urlT
-          }
-        } else if (!isEmpty(componentPath)) {
-          menuRoute.component = (resolve) => require([`@/views${componentPath}`], resolve)
-        }
+        menuRoute.name = menu.menuAlias
+        menuRoute.component = (resolve) => require([`@/views${componentPath}`], resolve)
       }
-      menuRoute.children = genRoutesFromMenuTree(menu.subMenuList)
+      menuRoute.children = genRoutesFromMenuTree(menu.children)
       if (isEmpty(menuRoute.children)) {
         delete menuRoute.children
       }
       accessedRouters.push(menuRoute)
+      console.log(accessedRouters, 'accessedRouters')
     })
   } else {
   }
@@ -168,6 +85,7 @@ const state = {
 
 const mutations = {
   SET_ROUTES: (state, routes) => {
+    // constantRoutes 默认路由  routes为基本路由
     state.addRoutes = routes
     state.routes = constantRoutes.concat(routes)
     console.log(state.routes, 'state.routes')
@@ -175,20 +93,15 @@ const mutations = {
 }
 
 const actions = {
-  generateRoutes({ commit }, userPermission) {
+  generateRoutes({ commit }) {
     return new Promise(resolve => {
-      let accessedRoutes = asyncRoutes
-      const menuTree = userPermission.menuTree
-      const routesFromMenuTree = genRoutesFromMenuTree(menuTree)
-      if (userPermission.isAdmin) {
+      getUserRoute().then((res) => {
+        let accessedRoutes = asyncRoutes
+        const routesFromMenuTree = genRoutesFromMenuTree(res)
         accessedRoutes = accessedRoutes.concat(routesFromMenuTree)
-      } else {
-        accessedRoutes = routesFromMenuTree
-        // accessedRoutes = filterAsyncRoutes(asyncRoutes, menuList)
-      }
-
-      commit('SET_ROUTES', accessedRoutes)
-      resolve(accessedRoutes)
+        commit('SET_ROUTES', accessedRoutes)
+        resolve(accessedRoutes)
+      })
     })
   }
 }
