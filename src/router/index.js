@@ -253,7 +253,7 @@ export const constantRoutes = [
   //   ],
   //   meta: { title: '资源管理', icon: 'dashboard', affix: true }
   // },
-  // {
+  //   {
   //   // 角色部分
   //   path: '/role',
   //   component: Layout,
@@ -265,21 +265,9 @@ export const constantRoutes = [
   //       name: 'role-list',
   //       meta: { title: '角色列表', icon: 'dashboard', affix: true }
   //     }
-  //     // {
-  //     //   path: 'user-bind',
-  //     //   component: () => import('@/views/role/user-bind'),
-  //     //   name: 'user-bind',
-  //     //   meta: { title: '绑定用户', icon: 'dashboard', affix: true }
-  //     // },
-  //     // {
-  //     //   path: 'permission-setting',
-  //     //   component: () => import('@/views/role/permission-setting'),
-  //     //   name: 'permission-setting',
-  //     //   meta: { title: '权限设置', icon: 'dashboard', affix: true }
-  //     // }
   //   ],
   //   meta: { title: '角色', icon: 'dashboard', affix: true }
-  // },
+  // }
   // {
   //   // 应用管理
   //   path: '/application',

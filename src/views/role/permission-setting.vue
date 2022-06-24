@@ -72,7 +72,7 @@ export default {
         (resp) => {
           if (isSuccessResult(resp)) {
             this.menusData = resp.data
-            resp.data.children = this.treeToList(resp.data.children)
+            this.menusData.children = this.treeToList(this.menusData.children)
             console.log(this.treeToList(resp.data), '222')
           } else {
             if (!isTheRetCode('00003')) {
@@ -86,8 +86,7 @@ export default {
       baseApiGetMethod('/api/hfBaseRightMenu/route').then(
         (resp) => {
           if (isSuccessResult(resp)) {
-            // console.log(resp)
-            // debugger
+            this.$store.dispatch('permission/generateRoutes', resp.data)
           } else {
             if (!isTheRetCode('00003')) {
               this.$message.error(getMessage(resp))
@@ -99,7 +98,7 @@ export default {
     },
     //  保存权限设置
     saveMenusData() {
-      if (this.methodIds.length > 0) {
+      if (this.menuIds.length > 0) {
         this.configOperateRightParam = {
           'roleId': this.dataList.roleId,
           'menuIds': this.menuIds,
@@ -171,7 +170,11 @@ export default {
         }
         list[i].children = this.treeToList(list[i].children)
       }
-      this.nextDefaultCheckedKeysList = this.defaultCheckedKeysList.filter(x => !!x === true || x === 0)
+        this.nextDefaultCheckedKeysList = this.defaultCheckedKeysList.filter(x => !!x === true || x === 0)
+        this.$nextTick(() => {
+          console.log(this.menusData, 'menusData')
+          this.$refs.tree.setCheckedKeys(this.nextDefaultCheckedKeysList)
+        })
       return list
     }
   }
