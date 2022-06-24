@@ -196,7 +196,7 @@
                     /**
                      * 排序信息
                      */
-                    sortInfo: []
+                    sortInfo: [{ fieldName: 'valueId', sort: 1 }]
                 },
                 conf: conf,
                 jsonData: {

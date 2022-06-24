@@ -21,6 +21,16 @@
                   prop="roleDesc"
                   :namespace="conf.namespace"
                 />
+                <form-item-col
+                  v-if="tenantId === 0"
+                  :value="data"
+                  :error="errorMessage('tenantId')"
+                  :span="span"
+                  prop="tenantId"
+                  :namespace="conf.namespace"
+                >
+                  <base-tenant-input-refer :value="data" value-refer-id="tenantId" value-refer-name="tenantName"/>
+                </form-item-col>
                 <!-- 字段字段设置方法如下
                 <form-item-col-dict
                   :value="data"
@@ -40,6 +50,7 @@
 </template>
 
 <script>
+    import { mapGetters } from 'vuex'
     import * as conf from './api'
     import UpdateBtn from '@/components/CURD/Btns/UpdateBtn'
     import CuForm from '@/components/CURD/Form/cuFrom'
@@ -49,9 +60,10 @@
     import { baseApiPutMethod } from '@/components/CURD/baseApi'
     import FormItemColDict from '@/components/CURD/Form/formItemColDict'
     import FormItemColEnableState from '@/components/CURD/Form/formItemColEnableState'
+    import BaseTenantInputRefer from "../baseTenant/inputRefer";
     export default {
         name: 'HfBaseRightRoleUpdate',
-        components: { FormItemColDict, FormItemCol, RowSpanSlot, CuForm, UpdateBtn, FormItemColEnableState },
+        components: {BaseTenantInputRefer, FormItemColDict, FormItemCol, RowSpanSlot, CuForm, UpdateBtn, FormItemColEnableState },
         mixins: [CurdMixin],
         props: {
             value: {
@@ -70,6 +82,9 @@
             }
         },
         computed: {
+            ...mapGetters([
+                'tenantId'
+            ]),
             updateMethod() {
                 return (data) => {
                     return baseApiPutMethod(this.templateUrl(this.updateUrl, data), data)

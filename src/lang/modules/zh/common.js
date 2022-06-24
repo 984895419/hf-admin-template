@@ -44,7 +44,7 @@ export default {
     profile: '个人中心',
     theme: '换肤',
     size: '布局大小',
-    changeCampany: '切换站点'
+    changeTenant: '切换租户'
   },
   login: {
     title: '系统登录',

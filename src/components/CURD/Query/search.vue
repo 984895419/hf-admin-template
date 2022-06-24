@@ -53,8 +53,14 @@
         },
         computed: {
             ...mapGetters([
-                'size'
+                'size',
+                'tenantId'
             ])
+        },
+        watch: {
+            tenantId() {
+                this.doSearch()
+            }
         },
         methods: {
             /**

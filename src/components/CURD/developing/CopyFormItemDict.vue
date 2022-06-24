@@ -15,6 +15,7 @@
 /**
  * 开发时候的按钮
  */
+import { mapGetters } from 'vuex'
 export default {
   name: 'CopyFormItemDict',
   props: {
@@ -33,6 +34,11 @@ export default {
           default: 0
       }
   },
+    computed: {
+        ...mapGetters([
+            'size'
+        ])
+    },
     methods: {
         copyData() {
             return '<form-item-col-dict\n' +

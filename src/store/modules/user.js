@@ -1,4 +1,4 @@
-import { login, logout, getInfo } from '@/api/user'
+import { login, logout, getInfo, switchTenant } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/connect/auth'
 import { resetRouter } from '@/router'
 import store from '@/store'
@@ -13,12 +13,11 @@ const state = {
   username: '',
   userCode: '',
   userId: '',
-  deptName: '',
-  dept: '',
   companyName: '',
-  curCompanyName: '',
   companyId: '',
-  curCompanyId: '',
+  tenantId: '',
+  tenantName: '',
+  tenantIds: [],
   menuList: [],
   operateList: []
 }
@@ -45,22 +44,11 @@ const mutations = {
     state.dept = userInfo.dept
     state.companyName = userInfo.companyName
     state.companyId = userInfo.companyId
-    state.curCompanyName = userInfo.curCompanyName
-    state.curCompanyId = userInfo.curCompanyId
-    state.curDeptId = userInfo.curDeptId
-    state.curDeptName = userInfo.curDeptName
+    state.tenantId = userInfo.tenantId
+    state.tenantIds = userInfo.tenantIds
+    state.tenantName = userInfo.tenantName
     state.menuList = userInfo.menuList
     state.operateList = userInfo.operateList
-  },
-  RESET_USER: (state) => {
-    state.isAdmin = null
-    state.username = ''
-    state.userCode = ''
-    state.userId = ''
-    state.companyName = ''
-    state.companyId = ''
-    state.menuList = []
-    state.operateList = []
   }
 }
 
@@ -104,9 +92,9 @@ const actions = {
     })
   },
 
-  changeCampany({ commit, state, dispatch }, param) {
+  changeTenant({ commit, state, dispatch }, param) {
     return new Promise((resolve, reject) => {
-      getInfo(param).then(response => {
+      switchTenant(param).then(response => {
         const data = response
         // 储存用户信息
         commit('SET_USER', getData(data))

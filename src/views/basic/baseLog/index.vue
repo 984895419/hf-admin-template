@@ -150,7 +150,7 @@
                     /**
                      * 排序信息
                      */
-                    sortInfo: []
+                    sortInfo: [{ fieldName: 'reqId', sort: 1 }]
                 },
                 conf: conf,
                 jsonData: {

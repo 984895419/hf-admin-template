@@ -16,7 +16,7 @@
       />
       <el-table-column
         v-if="item.value === 'tenantId'"
-        prop="tenantId"
+        prop="tenantName"
         :label="$t(conf.namespace + '.tenantId')"
         min-width="130"
       />

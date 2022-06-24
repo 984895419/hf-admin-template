@@ -93,9 +93,20 @@ service.interceptors.response.use(
     }
   },
   error => {
-    console.log('err' + error) // for debug
+    debugger
+    const status = error.response.status;
+    let message = error.message
+    if (status === 401) {
+      debugger
+      message = '请求未授权:' + error.request.responseURL.substring(error.request.responseURL.indexOf('/api'),
+        error.request.responseURL.indexOf('?') > 0 ? error.request.responseURL.indexOf('?') : error.request.responseURL.length)
+    } else if (status === 500) {
+      message = '接口保存/服务器正在启动，请稍候再试'
+    } else if (status === 502) {
+      message = '服务器没有启动'
+    }
     Message({
-      message: error.message,
+      message: message,
       type: 'error',
       duration: 5 * 1000
     })

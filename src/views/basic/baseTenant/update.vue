@@ -28,14 +28,14 @@
                   prop="tenantDescription"
                   :namespace="conf.namespace"
                 />
-                <form-item-col-dict
-                  :value="data"
-                  :error="errorMessage('tenantInit')"
-                  :span="span"
-                  prop="tenantInit"
-                  :dict-code="'YES_OR_NO'"
-                  :namespace="conf.namespace"
-                />
+<!--                <form-item-col-dict-->
+<!--                  :value="data"-->
+<!--                  :error="errorMessage('tenantInit')"-->
+<!--                  :span="span"-->
+<!--                  prop="tenantInit"-->
+<!--                  :dict-code="'YES_OR_NO'"-->
+<!--                  :namespace="conf.namespace"-->
+<!--                />-->
                 <form-item-col-enable-state
                   :value="data"
                   :span="span"
@@ -55,7 +55,9 @@
                   :span="span"
                   prop="parentId"
                   :namespace="conf.namespace"
-                />
+                >
+                  <base-tenant-input-refer :value="data" value-refer-id="parentId" value-refer-name="parentName"/>
+                </form-item-col>
                 <form-item-col
                   :value="data"
                   :error="errorMessage('sort')"
@@ -91,9 +93,10 @@
     import { baseApiPutMethod } from '@/components/CURD/baseApi'
     import FormItemColDict from '@/components/CURD/Form/formItemColDict'
     import FormItemColEnableState from '@/components/CURD/Form/formItemColEnableState'
+    import BaseTenantInputRefer from "./inputRefer";
     export default {
         name: 'BaseTenantUpdate',
-        components: { FormItemColDict, FormItemCol, RowSpanSlot, CuForm, UpdateBtn, FormItemColEnableState },
+        components: {BaseTenantInputRefer, FormItemColDict, FormItemCol, RowSpanSlot, CuForm, UpdateBtn, FormItemColEnableState },
         mixins: [CurdMixin],
         props: {
             value: {

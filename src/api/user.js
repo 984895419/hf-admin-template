@@ -15,6 +15,14 @@ export function getInfo(query) {
     params: query
   })
 }
+
+export function switchTenant(id) {
+  return request({
+    url: '/api/switch/' + id,
+    method: 'post'
+  })
+}
+
 export function logout() {
   return request({
     url: '/api/logout',

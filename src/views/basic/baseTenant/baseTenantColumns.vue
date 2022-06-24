@@ -21,7 +21,7 @@
         min-width="130"
       />
       <el-table-column
-        v-if="item.value === 'tenantDescription'"
+        v-if="item.value === 'tenantDescr iption'"
         prop="tenantDescription"
         :label="$t(conf.namespace + '.tenantDescription')"
         min-width="130"
@@ -37,10 +37,11 @@
       <modifier-table-column v-if="item.value === 'modifier'" />
       <modify-time-table-column v-if="item.value === 'modifyTime'" />
       <enable-state-table-column
+        :width="150"
         v-if="item.value === 'enableState'"
-        :operate="true"
         :enable-url="urlMethods.enableUrl"
         :disable-url="urlMethods.disableUrl"
+        :operate-function="(row) => row.initData + '' !== '1'"
         v-on="$listeners"
       />
       <el-table-column

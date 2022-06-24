@@ -27,14 +27,14 @@
                 prop="tenantDescription"
                 :namespace="conf.namespace"
                />
-              <form-item-col-dict
-                :value="data"
-                :error="errorMessage('tenantInit')"
-                :span="span"
-                prop="tenantInit"
-                :dict-code="'YES_OR_NO'"
-                :namespace="conf.namespace"
-              />
+<!--              <form-item-col-dict-->
+<!--                :value="data"-->
+<!--                :error="errorMessage('tenantInit')"-->
+<!--                :span="span"-->
+<!--                prop="tenantInit"-->
+<!--                :dict-code="'YES_OR_NO'"-->
+<!--                :namespace="conf.namespace"-->
+<!--              />-->
               <form-item-col-enable-state
                 :value="data"
                 :span="span"
@@ -48,13 +48,15 @@
                 :dict-code="'YES_OR_NO'"
                 :namespace="conf.namespace"
               />
-               <form-item-col
+              <form-item-col
                 :value="data"
                 :error="errorMessage('parentId')"
                 :span="span"
                 prop="parentId"
                 :namespace="conf.namespace"
-               />
+              >
+                <base-tenant-input-refer :value="data" value-refer-id="parentId" value-refer-name="parentName"/>
+              </form-item-col>
                <form-item-col
                 :value="data"
                 :error="errorMessage('sort')"
@@ -88,9 +90,10 @@
     import FormItemColDict from '@/components/CURD/Form/formItemColDict'
     import { baseApiPostMethod } from '@/components/CURD/baseApi'
     import FormItemColEnableState from '@/components/CURD/Form/formItemColEnableState'
+    import BaseTenantInputRefer from "./inputRefer";
     export default {
         name: 'BaseTenantAdd',
-        components: { FormItemColDict, FormItemCol, RowSpanSlot, CuForm, AddBtn, FormItemColEnableState },
+        components: {BaseTenantInputRefer, FormItemColDict, FormItemCol, RowSpanSlot, CuForm, AddBtn, FormItemColEnableState },
         props: {
             value: {
                 type: Object,

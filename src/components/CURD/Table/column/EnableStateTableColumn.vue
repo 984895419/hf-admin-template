@@ -3,12 +3,13 @@
     prop="enableState"
     :label="$t('common.state')"
     v-bind="$attrs"
-    :width="operate ? 150 : 55"
+    :width="width ? width : (operate ? 150 : 55)"
     v-on="$listeners"
   >
     <template slot-scope="scope">
-      <div v-if="operate">
+      <div v-if="operate === true || (operateFunction && operateFunction(scope.row))">
         <el-switch
+          :size="size"
           v-model="scope.row.enableState"
           :active-value="1"
           :inactive-value="0"
@@ -29,6 +30,7 @@
 
 <script>
     import { baseApiPutMethod } from '../../baseApi'
+    import { mapGetters } from 'vuex'
     import CurdMixin from '@/components/CURD/curd.mixin'
     import { getMessage, isSuccessResult } from '../../../../utils/ajaxResultUtil'
 
@@ -47,7 +49,16 @@
             disableUrl: {
                 type: String,
                 default: null
+            },
+            operateFunction: Function,
+            width: {
+                type: Number
             }
+        },
+        computed: {
+            ...mapGetters([
+                'size'
+            ])
         },
         methods: {
           doSwitchState(row) {

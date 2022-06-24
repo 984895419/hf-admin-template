@@ -16,7 +16,15 @@
       <template v-if="device!=='mobile'">
         <div class="right-menu-item">
           <div style="font-size: 1vh; height: 30%">{{ $store.getters.username }}</div>
-          <div style="font-size: 1vh">{{ storeCompanyName }}<span>({{ storeCurDeptName }})</span></div>
+          <div style="font-size: 1vh">
+            <change-company
+              ref="changePannel"
+              @submitSuccess="submitSuccess"
+              @cancel="cancel"
+            >
+              {{tenantName}}
+            </change-company>
+          </div>
         </div>
 
         <search
@@ -71,12 +79,12 @@
               {{ $t('common.navbar.dashboard') }}
             </el-dropdown-item>
           </router-link>
-          <el-dropdown-item
-            divided
-            @click.native="change"
-          >
-            <span style="display:block;">{{ $t('common.navbar.changeCampany') }}</span>
-          </el-dropdown-item>
+<!--          <el-dropdown-item-->
+<!--            divided-->
+<!--            @click.native="change"-->
+<!--          >-->
+<!--            <span style="display:block;">{{ $t('common.navbar.changeTenant') }}</span>-->
+<!--          </el-dropdown-item>-->
           <el-dropdown-item
             divided
             @click.native="logout"
@@ -87,19 +95,15 @@
       </el-dropdown>
     </div>
 
-    <el-dialog
-      v-el-drag-dialog
-      :visible.sync="dialogFormVisible"
-      :title="$t('common.navbar.changeCampany')"
-      width="67vw"
-      :close-on-click-modal="false"
-    >
-      <change-company
-        ref="changePannel"
-        @submitSuccess="submitSuccess"
-        @cancel="cancel"
-      />
-    </el-dialog>
+<!--    <el-dialog-->
+<!--      v-el-drag-dialog-->
+<!--      :visible.sync="dialogFormVisible"-->
+<!--      :title="$t('common.navbar.changeTenant')"-->
+<!--      width="67vw"-->
+<!--      :close-on-click-modal="false"-->
+<!--    >-->
+<!--      -->
+<!--    </el-dialog>-->
   </div>
 </template>
 
@@ -143,13 +147,8 @@ export default {
       'sidebar',
       'avatar',
       'device',
-      'curCompanyName',
-      'curDeptName',
-      'curDeptId'
+      'tenantName'
     ]),
-    storeCompanyName() {
-      return this.dataObj.curCompanyName || this.$store.getters.curCompanyName
-    },
     storeCurDeptName() {
       return this.dataObj.curDeptName || this.$store.getters.curDeptName
     },

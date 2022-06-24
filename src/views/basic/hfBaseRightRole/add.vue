@@ -20,6 +20,16 @@
                 prop="roleDesc"
                 :namespace="conf.namespace"
               />
+              <form-item-col
+                v-if="tenantId === 0"
+                :value="data"
+                :error="errorMessage('tenantId')"
+                :span="span"
+                prop="tenantId"
+                :namespace="conf.namespace"
+              >
+                <base-tenant-input-refer :value="data" value-refer-id="tenantId" value-refer-name="tenantName" />
+              </form-item-col>
               <!-- 字典字段字段设置方法如下
               <form-item-col-dict
                 :value="data"
@@ -38,6 +48,7 @@
 </template>
 
 <script>
+    import { mapGetters } from 'vuex'
     import * as conf from './api'
     import AddBtn from '@/components/CURD/Btns/AddBtn'
     import CuForm from '@/components/CURD/Form/cuFrom'
@@ -46,9 +57,10 @@
     import FormItemColDict from '@/components/CURD/Form/formItemColDict'
     import { baseApiPostMethod } from '@/components/CURD/baseApi'
     import FormItemColEnableState from '@/components/CURD/Form/formItemColEnableState'
+    import BaseTenantInputRefer from '../baseTenant/inputRefer'
     export default {
         name: 'HfBaseRightRoleAdd',
-        components: { FormItemColDict, FormItemCol, RowSpanSlot, CuForm, AddBtn, FormItemColEnableState },
+        components: { BaseTenantInputRefer, FormItemColDict, FormItemCol, RowSpanSlot, CuForm, AddBtn, FormItemColEnableState },
         props: {
             value: {
                 type: Object,
@@ -65,6 +77,9 @@
             }
         },
         computed: {
+            ...mapGetters([
+                'tenantId'
+            ]),
             addUrl() {
               return (data) => {
                   return baseApiPostMethod(this.actionUrl, data)

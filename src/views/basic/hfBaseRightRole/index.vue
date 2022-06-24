@@ -84,6 +84,7 @@
               <div class="col-btn-display">
                 <!-- 更新 -->
                 <hf-base-right-role-update
+                  v-if="scopeRow.row.initData !== 1"
                   :value="scopeRow.row"
                   :query-url="conf.urlMethods.queryUrl"
                   :update-url="conf.urlMethods.updateUrl"
@@ -91,6 +92,7 @@
                 />
                 <!-- 删除-->
                 <del-btn
+                  v-if="scopeRow.row.initData !== 1"
                   :url="templateUrl(conf.urlMethods.deleteUrl, scopeRow.row)"
                   :btn-type="'text'"
                   :value="scopeRow.row"
@@ -99,7 +101,11 @@
                 <!-- 查看 -->
                 <hf-base-right-role-detail :value="scopeRow.row" />
                 <!-- 绑定用户 -->
-                <dialog-Btn-Page :label="'绑定用户'" :type="'text'">
+                <dialog-Btn-Page
+                  v-if="scopeRow.row.initData !== 1"
+                  :label="'绑定用户'"
+                  :type="'text'"
+                >
                   <template slot-scope="{ closeDialog }">
                     <user-bind
                       :data-list="scopeRow.row"
@@ -108,7 +114,11 @@
                   </template>
                 </dialog-Btn-Page>
                 <!-- 权限设置 -->
-                <dialog-Btn-Page :label="'权限设置'" :type="'text'">
+                <dialog-Btn-Page
+                  v-if="scopeRow.row.initData !== 1"
+                  :label="'权限设置'"
+                  :type="'text'"
+                >
                   <template slot-scope="{ closeDialog }">
                     <permission-setting :data-list="scopeRow.row" @closeDialog="closeDialog" />
                   </template>

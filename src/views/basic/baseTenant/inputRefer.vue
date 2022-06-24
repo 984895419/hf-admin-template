@@ -18,7 +18,7 @@
           <simple-search v-model="searchForm" :inline="true" @search="doSearch">
             <template v-slot="{ span }">
               <!-- 新增的的字段配置 -->
-                            <form-item-col
+              <form-item-col
                 :value="searchForm"
                 :span="span"
                 prop="tenantKey"
@@ -28,42 +28,6 @@
                 :value="searchForm"
                 :span="span"
                 prop="tenantName"
-                :namespace="conf.namespace"
-              />
-              <form-item-col
-                :value="searchForm"
-                :span="span"
-                prop="tenantDescription"
-                :namespace="conf.namespace"
-              />
-              <form-item-col
-                :value="searchForm"
-                :span="span"
-                prop="tenantInit"
-                :namespace="conf.namespace"
-              />
-              <form-item-col
-                :value="searchForm"
-                :span="span"
-                prop="enableState"
-                :namespace="conf.namespace"
-              />
-              <form-item-col
-                :value="searchForm"
-                :span="span"
-                prop="initData"
-                :namespace="conf.namespace"
-              />
-              <form-item-col
-                :value="searchForm"
-                :span="span"
-                prop="parentId"
-                :namespace="conf.namespace"
-              />
-              <form-item-col
-                :value="searchForm"
-                :span="span"
-                prop="sort"
                 :namespace="conf.namespace"
               />
               <!-- 字典字段字段设置方法如下
@@ -236,10 +200,10 @@
             rowDbClick(row, column, event) {
                 if (this.value) {
                     if (this.valueReferId) {
-                        this.$set(this.value, this.valueReferId, row.clientId)
+                        this.$set(this.value, this.valueReferId, row.id)
                     }
                     if (this.valueReferName) {
-                        this.$set(this.value, this.valueReferName, row.clientId)
+                        this.$set(this.value, this.valueReferName, row.tenantName)
                     }
                     if (this.valueExpendRefers) {
                         for (const ind in this.valueExpendRefers) {

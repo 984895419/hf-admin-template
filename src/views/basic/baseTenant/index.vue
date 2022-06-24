@@ -5,7 +5,7 @@
       <simple-search v-model="searchForm" :inline="true" @search="doSearch">
         <template v-slot="{ span }">
           <!-- 新增的的字段配置 -->
-                    <form-item-col
+          <form-item-col
             :value="searchForm"
             :span="span"
             prop="tenantKey"
@@ -30,7 +30,7 @@
     </div>
     <!-- 操作栏-->
     <div style="margin-bottom: 10px" class="col-btn-display">
-      <base-tenant-add :action-url="conf.urlMethods.addUrl"  @success="doSearch" />
+      <base-tenant-add :action-url="conf.urlMethods.addUrl" @success="doSearch" />
       <div style="float: right" class="col-btn-display">
         <del-btn
           v-if="conf.urlMethods.deleteUrl
@@ -62,9 +62,10 @@
     </div>
     <!-- 列表-->
     <table-column-preference-setting-api-slot
-            :init-data="tableFields"
-            v-model="showFields"
-            :preference-alias="conf.namespace">
+      v-model="showFields"
+      :init-data="tableFields"
+      :preference-alias="conf.namespace"
+    >
       <template v-slot="{doSave, preferenceData}">
         <hf-table
           v-if="showFields"
@@ -73,7 +74,7 @@
           @selection-change="handleSelectionChange"
           @sort-change="sortChange"
         >
-          <section-table-column/>
+          <section-table-column />
           <!-- 显示的字段-->
           <base-tenant-columns :show-fields="showFields" :url-methods="conf.urlMethods" @success="doSearch" />
           <el-table-column
@@ -82,7 +83,7 @@
             width="150"
           >
             <template v-slot:header>
-              {{$t('common.operate')}}
+              {{ $t('common.operate') }}
               <curd-table-column-select
                 v-model="showFields"
                 :preference-alias="conf.namespace"
@@ -96,6 +97,7 @@
               <div class="col-btn-display">
                 <!-- 更新 -->
                 <base-tenant-update
+                  v-if="scopeRow.row.initData + '' !== '1' && scopeRow.row.id !== 0"
                   :value="scopeRow.row"
                   :query-url="conf.urlMethods.queryUrl"
                   :update-url="conf.urlMethods.updateUrl"
@@ -103,7 +105,7 @@
                 />
                 <!-- 删除-->
                 <del-btn
-                  v-if="scopeRow.row.initData !== '1'"
+                  v-if="scopeRow.row.initData + '' !== '1'"
                   :url="templateUrl(conf.urlMethods.deleteUrl, scopeRow.row)"
                   :btn-type="'text'"
                   :value="scopeRow.row"
@@ -267,6 +269,8 @@
                             this.$set(this.jsonData, 'total', resp.data.total)
                         } else {
                             this.$message.error(resp.message)
+                            this.jsonData.list = []
+                            this.jsonData.total = 0
                         }
                         this.loading = false
                     }).catch(e => {
