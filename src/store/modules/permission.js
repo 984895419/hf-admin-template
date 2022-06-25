@@ -71,7 +71,6 @@ export function genRoutesFromMenuTree(childMenus) {
         delete menuRoute.children
       }
       accessedRouters.push(menuRoute)
-      console.log(accessedRouters, 'accessedRouters')
     })
   } else {
   }

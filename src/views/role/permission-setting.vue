@@ -98,6 +98,9 @@ export default {
     },
     //  保存权限设置
     saveMenusData() {
+       console.log(this.dataList.roleId, 'roleId')
+       console.log(this.menuIds, 'menuIds')
+       console.log(this.methodIds, 'methodIds')
       if (this.menuIds.length > 0) {
         this.configOperateRightParam = {
           'roleId': this.dataList.roleId,
@@ -135,11 +138,11 @@ export default {
     },
     // 节点选中状态发生变化时的回调
     handleCheckChange(data, checked, indeterminate) {
-      // const res1 = this.$refs.tree.getCheckedKeys().filter(x => !!x === true || x === 0)
-      // // 获取半选的节点
-      // const res2 = this.$refs.tree.getHalfCheckedKeys()
-      // console.log(res1, 'res1')
-      // console.log(res2, 'res2')
+      const res1 = this.$refs.tree.getCheckedKeys().filter(x => !!x === true || x === 0)
+      // 获取半选的节点
+      const res2 = this.$refs.tree.getHalfCheckedKeys()
+      console.log(res1, 'res1')
+      console.log(res2, 'res2')
     },
 
     // 选中当前tree节点 获取menuIds \ methodIds
@@ -172,7 +175,6 @@ export default {
       }
         this.nextDefaultCheckedKeysList = this.defaultCheckedKeysList.filter(x => !!x === true || x === 0)
         this.$nextTick(() => {
-          console.log(this.menusData, 'menusData')
           this.$refs.tree.setCheckedKeys(this.nextDefaultCheckedKeysList)
         })
       return list
