@@ -9,7 +9,8 @@ export const baseUrl = '/api/hfBaseUserInfo'
  * @type {{pageUrl: string}}
  */
 export const urlMethods = defaultUrlMethod(baseUrl, 'userId', {
-  pageUrl: baseUrl + '/pageQuery'
+  pageUrl: baseUrl + '/pageQuery',
+  syncUrl: baseUrl + '/sync'
 })
 /**
  * 定义模块的命名空间

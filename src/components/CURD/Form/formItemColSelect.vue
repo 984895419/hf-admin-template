@@ -27,9 +27,9 @@
           >
             <el-option
               v-for="option in list"
-              :key="selectOptionValue(option.dictValue)"
-              :value="selectOptionValue(option.dictValue)"
-              :label="option.dictKey"
+              :key="selectOptionValue(option.value)"
+              :value="selectOptionValue(option.value)"
+              :label="option.label"
             />
           </el-select>
           <el-select
@@ -44,9 +44,9 @@
           >
             <el-option
               v-for="option in list"
-              :key="option.dictValue"
-              :value="option.dictValue"
-              :label="option.dictKey"
+              :key="option.value"
+              :value="option.value"
+              :label="option.label"
             />
           </el-select>
         </el-tooltip>
@@ -62,9 +62,9 @@
           >
             <el-option
               v-for="option in list"
-              :key="selectOptionValue(option.dictValue)"
-              :value="selectOptionValue(option.dictValue)"
-              :label="option.dictKey"
+              :key="selectOptionValue(option.value)"
+              :value="selectOptionValue(option.value)"
+              :label="option.label"
             />
           </el-select>
           <el-select
@@ -79,9 +79,9 @@
           >
             <el-option
               v-for="option in list"
-              :key="option.dictValue"
-              :value="option.dictValue"
-              :label="option.dictKey"
+              :key="option.value"
+              :value="option.value"
+              :label="option.label"
             />
           </el-select>
         </div>
@@ -92,13 +92,10 @@
 <script>/**
  * 数据字典的方式; 数据字典的url
  */
-
-import { baseApiGetMethod } from '../baseApi'
-import { getData, getMessage, isSuccessResult } from '../../../utils/ajaxResultUtil'
 import FormItemMixin from './formItem.mixin'
 
 export default {
-  name: 'FormItemColDict',
+  name: 'FormItemColSelect',
   props: {
     span: {
           type: Number,
@@ -131,13 +128,14 @@ export default {
     dictCode: {
       type: String,
       default: null
+    },
+    list: {
+      type: Array
     }
   },
   mixins: [FormItemMixin],
   data() {
       return {
-          dictListUrl: '/api/baseDictValue/list/query',
-          list: null,
           multipleSelect: (this.$attrs['multiple'] === undefined || this.$attrs['multiple'] === false)
               ? [] : (this.value[this.prop] ? this.value[this.prop].split(',') : [])
       }
@@ -157,22 +155,7 @@ export default {
           }
       }
   },
-  created() {
-    this.loadDict()
-  },
   methods: {
-      /**
-       * 加载字典信息
-       */
-    loadDict() {
-        baseApiGetMethod(this.dictListUrl, { typeCode: this.dictCode, enableState: 1 }).then(resp => {
-            if (isSuccessResult(resp)) {
-              this.list = getData(resp)
-            } else {
-                this.$message.error(getMessage(resp))
-            }
-        })
-    },
     multipleChange() {
       this.value[this.prop] = this.multipleSelect.join(',')
     }

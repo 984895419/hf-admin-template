@@ -82,6 +82,9 @@
                             type: 'success'
                         })
                         this.$emit('input', data)
+                        if (cb) {
+                            cb()
+                        }
                     } else {
                         this.$message({
                             message: getMessage(resp),

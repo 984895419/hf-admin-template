@@ -4,11 +4,13 @@ import { defaultUrlMethod } from '@/components/CURD/defaultUrl'
  * @type {string}
  */
 export const baseUrl = '/api/hfBaseRightMenu'
+
+export const primaryKeyField = 'menuId'
 /**
  * 基础查询地址
  * @type {{pageUrl: string}}
  */
-export const urlMethods = defaultUrlMethod(baseUrl, 'menuId', {
+export const urlMethods = defaultUrlMethod(baseUrl, primaryKeyField, {
   pageUrl: baseUrl + '/pageQuery',
   importFromControllerUrl: baseUrl + '/importFromController'
 })

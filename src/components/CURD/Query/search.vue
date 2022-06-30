@@ -5,13 +5,14 @@
       :size="size"
       :model="value"
       v-bind="$attrs"
+      @submit.native.prevent
     >
       <row-span-slot>
         <template v-slot="{ span }">
           <slot :span="span" />
           <el-col :span="span">
             <el-form-item>
-              <el-button type="primary" :size="size" icon="el-icon-search" @click="doSearch">{{ $t('common.search') }}</el-button>
+              <el-button type="primary" :size="size" native-type="submit" icon="el-icon-search" @click="doSearch">{{ $t('common.search') }}</el-button>
               <el-button icon="el-icon-circle-close" :size="size"  @click="doReset">{{ $t('common.reset') }}</el-button>
               <slot name="btns" />
               <el-button

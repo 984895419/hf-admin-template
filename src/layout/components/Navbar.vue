@@ -74,11 +74,14 @@
               {{ $t('common.navbar.profile') }}
             </el-dropdown-item>
           </router-link>
-          <router-link to="/">
-            <el-dropdown-item>
-              {{ $t('common.navbar.dashboard') }}
-            </el-dropdown-item>
-          </router-link>
+<!--          <router-link to="/">-->
+<!--            <el-dropdown-item>-->
+<!--              {{ $t('common.navbar.dashboard') }}-->
+<!--            </el-dropdown-item>-->
+<!--          </router-link>-->
+          <el-dropdown-item>
+            <user-setting/>
+          </el-dropdown-item>
 <!--          <el-dropdown-item-->
 <!--            divided-->
 <!--            @click.native="change"-->
@@ -118,12 +121,13 @@ import LangSelect from '@/components/LangSelect'
 import Search from '@/components/HeaderSearch'
 import elDragDialog from '@/directive/el-drag-dialog'
 import ChangeCompany from './ChangeCompany'
-import { loadAllArticle } from '@/api/hfBaseArticle'
 import md5 from 'js-md5'
+import UserSetting from '../../views/basic/preferenceSetting/UserSetting'
 
 export default {
   directives: { elDragDialog },
   components: {
+      UserSetting,
     Breadcrumb,
     Hamburger,
     ErrorLog,
@@ -161,19 +165,7 @@ export default {
       }
     }
   },
-  created() {
-    // this.toLoadAllArticle()
-  },
   methods: {
-    // toLoadAllArticle() {
-    //   loadAllArticle({ articleType: '1', pageSize: 10 }).then(resp => {
-    //     if (resp.res === '1') {
-    //       this.docs = resp.obj
-    //     } else {
-    //       this.docs = []
-    //     }
-    //   })
-    // },
     openUrl(url) {
       window.open(url, '_blank')
     },

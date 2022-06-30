@@ -49,6 +49,14 @@
           :label="$t('common.batchDisable')"
           @success="doSearch"
         />
+        <template-confirm-btn
+          :httpMethod="'post'"
+          v-if="conf.urlMethods.syncUrl"
+          :url="conf.urlMethods.syncUrl"
+          :btn-type="'primary'"
+          :label="$t('common.sync')"
+          @success="doSearch"
+        />
       </div>
     </div>
     <!-- 列表-->

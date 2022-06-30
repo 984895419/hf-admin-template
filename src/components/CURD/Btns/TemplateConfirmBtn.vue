@@ -77,10 +77,10 @@ export default {
        * 确定显示确认框
        */
       if (this.showConfirm) {
-        if (this.value == null || this.value.length <= 0) {
-          this.$message.warning('请选择1至少一条记录')
-          return
-        }
+        // if (this.value == null || this.value.length <= 0) {
+        //   this.$message.warning('请选择1至少一条记录')
+        //   return
+        // }
         this.$confirm(this.confirmLabel, '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',

@@ -9,18 +9,19 @@
       <template v-slot="{ data }">
         <el-dropdown
           trigger="click"
-          @command="changeTenant">
+          @command="changeTenant"
+        >
           <span class="el-dropdown-link">
-            <slot></slot><i class="el-icon-arrow-down el-icon--right"></i>
+            <slot /><i v-if="data && data.length > 1" class="el-icon-arrow-down el-icon--right" />
           </span>
-          <el-dropdown-menu slot="dropdown">
+          <el-dropdown-menu v-if="data && data.length > 1" slot="dropdown">
             <el-dropdown-item
               v-for="item in data"
-                              :key="item.id"
-                              :command="item.id"
-                              :disabled="item.id === tenantId"
+              :key="item.id"
+              :command="item.id"
+              :disabled="item.id === tenantId"
             >
-              {{item.tenantName}}
+              {{ item.tenantName }}
             </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -35,7 +36,7 @@ import BaseTenantIdSlot from '@/views/basic/baseTenant/baseTenantApiSlot'
 
 export default {
   name: 'MenuAdd',
-    components: {BaseTenantIdSlot},
+    components: { BaseTenantIdSlot },
     data() {
     return {
       companyList: [],

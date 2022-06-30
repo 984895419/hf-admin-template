@@ -25,7 +25,7 @@
 </template>
 <script>
 import {getData, getMessage, isSuccessResult } from '@/utils/ajaxResultUtil'
-
+import FormItemMixin from './formItem.mixin'
 export default {
   name: 'FormItemColUploadImage',
   props: {
@@ -35,10 +35,6 @@ export default {
     },
     value: {
       type: Object,
-      default: undefined
-    },
-    prop: {
-      type: String,
       default: undefined
     },
     rules: {
@@ -61,10 +57,6 @@ export default {
       type: String,
       default: undefined
     },
-    namespace: {
-      type: String,
-      default: undefined
-    },
     /**
      * 完整的路径名称
      */
@@ -81,14 +73,6 @@ export default {
     uploadUrl: {
         type: String,
         default: '/api/upload/image'
-    }
-  },
-  computed: {
-    computeLabel() {
-        return this.label ? this.label : (this.namespace ? this.$t(this.namespace + '.' + this.prop) : '')
-    },
-    computedPlaceholder() {
-        return this.$attrs['placeholder'] ? this.$attrs['placeholder'] : this.$t('common.pleaseInput') + this.computeLabel
     }
   },
   methods: {
@@ -112,7 +96,8 @@ export default {
       }
       return isJPG && isLt2M
     }
-  }
+  },
+  mixins: [FormItemMixin]
 }
 </script>
 <style>

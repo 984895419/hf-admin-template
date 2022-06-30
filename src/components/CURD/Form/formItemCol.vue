@@ -11,12 +11,28 @@
     >
       <slot>
         <!--        <el-input v-if="$attrs.type === 'number'"  v-model.number="value[prop]" v-bind="$attrs" :placeholer="computedPlaceholder"></el-input>-->
-        <el-input v-model="value[prop]" v-bind="$attrs" :placeholer="computedPlaceholder" />
+        <el-tooltip
+          v-if="existComputedSuffix('Helper')"
+          class="item"
+          effect="dark"
+          :content="computedSuffixContent('Helper')"
+          placement="right">
+          <el-input
+            v-model="value[prop]"
+            v-bind="$attrs"
+            :placeholder="computedPlaceholder" />
+        </el-tooltip>
+        <el-input
+          v-else
+          v-model="value[prop]"
+          v-bind="$attrs"
+          :placeholder="computedPlaceholder" />
       </slot>
     </el-form-item>
   </el-col>
 </template>
 <script>
+import FormItemMixin from './formItem.mixin'
 export default {
   name: 'FormItemCol',
   props: {
@@ -26,10 +42,6 @@ export default {
         },
     value: {
           type: Object,
-          default: undefined
-        },
-    prop: {
-          type: String,
           default: undefined
         },
     rules: {
@@ -51,19 +63,8 @@ export default {
     labelWidth: {
           type: String,
           default: undefined
-        },
-    namespace: {
-          type: String,
-          default: undefined
         }
   },
-    computed: {
-      computeLabel() {
-          return this.label ? this.label : (this.namespace ? this.$t(this.namespace + '.' + this.prop) : '')
-      },
-      computedPlaceholder() {
-          return this.$attrs['placeholder'] ? this.$attrs['placeholder'] : this.$t('common.pleaseInput') + this.computeLabel
-      }
-    }
+  mixins: [FormItemMixin]
 }
 </script>

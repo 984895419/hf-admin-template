@@ -1,5 +1,5 @@
 <template>
-  <add-btn :init-data="value">
+  <add-btn :init-data="value" :label="btnLabel" :type="btnType" :show-icon="showIcon">
     <template v-slot="{ closeDialog, data }">
       <cu-form :namespace="conf.namespace" :value="data" :action-method="addUrl" :form-rules="formRules" v-on="$listeners" @closeDialog="closeDialog">
         <template v-slot="{ errorMessage }">
@@ -120,7 +120,16 @@
                     return { enableState: 1 }
                 }
             },
-            actionUrl: String
+            actionUrl: String,
+            /**
+             * 按钮名称
+             */
+            btnLabel: String,
+            btnType: String,
+            showIcon: {
+                type: Boolean,
+                default: true
+            }
         },
         data() {
             return {

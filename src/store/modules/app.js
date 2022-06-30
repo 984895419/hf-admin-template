@@ -26,7 +26,9 @@ const state = {
   // 默认支持的分页大小
   pageSizes: [],
   // 是否是开发环境？
-  isDeveloping: process.env.NODE_ENV === 'development'
+  isDeveloping: process.env.NODE_ENV === 'development',
+  // 前端的提示是否开启，影响范围为国际化文件中以“Helper”结尾的用户帮助
+  helper: true
 }
 
 const mutations = {
@@ -72,6 +74,9 @@ const mutations = {
   },
   SET_IS_DEVELOPING: (state, isDeveloping) => {
     state.isDeveloping = isDeveloping
+  },
+  SET_HELPER: (state, helper) => {
+    state.helper = helper
   }
 }
 
@@ -115,6 +120,8 @@ const actions = {
             ? data['fe.setting.pageSizes'].split(',').map(t => parseInt(t)) : undefined)
           // 设置开发功能是否启用
           commit('SET_IS_DEVELOPING', process.env.NODE_ENV === 'development' && data['fe.setting.develop.helper'] === 'true')
+          // 设置功能是否开启
+          commit('SET_HELPER', data['fe.setting.tooltip'] ? data['fe.setting.tooltip'] : true)
         }
         resolve(resp)
       }).catch(() => {

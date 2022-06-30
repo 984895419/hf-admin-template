@@ -4,6 +4,7 @@ const getters = {
   supportLanguage: state => state.app.supportLanguage,
   size: state => state.app.size,
   title: state => state.app.title,
+  helper: state => state.app.helper,
   settingLoader: state => state.app.settingLoader,
   device: state => state.app.device,
   pageSize: state => state.app.pageSize,

@@ -122,6 +122,14 @@
                   :menu-id="scopeRow.row.menuId"
                   @success="doSearch"/>
                 <look-for-method v-if="scopeRow.row.controllerId" :controller-id="scopeRow.row.controllerId" />
+                <!-- 复制新增 -->
+                <hf-base-right-menu-add
+                  :value="copierValue(scopeRow.row)"
+                  :show-icon="false"
+                  btn-type="text"
+                  :btn-label="$t('common.copyToAdd')"
+                  :action-url="conf.urlMethods.addUrl"
+                  @success="doSearch" />
               </div>
             </template>
           </el-table-column>
@@ -160,6 +168,7 @@
     import SectionTableColumn from '@/components/CURD/Table/column/base/SectionTableColumn'
     import ImportFromController from './ImportFromController'
     import LookForMethod from "./LookForMethod";
+    import {deepClone} from "../../../utils";
 
     export default {
         name: 'HfBaseRightMenuIndexVue',
@@ -227,6 +236,15 @@
                 tableFields: conf.default,
                 toggleRowSelectionArray: []
             }
+        },
+        computed: {
+          copierValue() {
+              return (data) => {
+                  const res = deepClone(data)
+                  res[conf.primaryKeyField] = undefined
+                  return res
+              }
+          }
         },
         created() {
             this.doSearch()

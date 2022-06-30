@@ -2,7 +2,7 @@
   <div>
     <el-button
       :type="type"
-      :icon="icon"
+      :icon="showIcon ? icon : undefined"
       :size="size"
       @click="openDialog"
     >
@@ -40,6 +40,10 @@ export default {
     icon: {
       type: String,
       default: 'el-icon-circle-plus-outline'
+    },
+    showIcon: {
+      type: Boolean,
+        default: true
     },
     title: {
         type: String,

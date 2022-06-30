@@ -143,7 +143,7 @@ export const constantRoutes = [
   //   redirect: '/base/systemConfig',
   //   children: [
   //     {
-  //       path: 'systemConfig',
+    //       path: 'systemConfig',
   //       component: () => import('@/views/basic/baseSystemConfig/index'),
   //       name: 'systemConfig',
   //       meta: { title: '系统设置管理', icon: 'dashboard', affix: true }

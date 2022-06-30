@@ -11,5 +11,14 @@ export default {
   deleted: '删除状态',
   initData: '是否属于系统(系统的不可删除)',
   tenantId: '所属的租户ID',
-  terminal: '所属端点'
+  terminal: '所属端点',
+  /**
+   * 配置placeholder
+   */
+  configKeyPlaceholder: '配置的key必须为字母',
+  /**
+   * 配置用户帮助文案
+   */
+  configKeyHelper: '如：“fe.config.name”',
+  terminalHelper: '“前端”：在管理后台页面加载时候下发\r\n“后端”：后端使用的参数配置'
 }

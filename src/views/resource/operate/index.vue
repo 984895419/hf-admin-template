@@ -168,11 +168,6 @@ export default {
     this.textMap.edit = this.$t('common.table.edit')
     this.textMap.add = this.$t('common.table.add')
     this.textMap.detail = this.$t('common.table.detail')
-    const _this = this
-    getCodeMap({ codeKinds: 'OPERAT_TYPE,OPERAT_WAY' }).then(response => {
-      _this.operatTypeMap = response.OPERAT_TYPE
-      _this.operatWayMap = response.OPERAT_WAY
-    })
     this.getList()
   },
   /**
