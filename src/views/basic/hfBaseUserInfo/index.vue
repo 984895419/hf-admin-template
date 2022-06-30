@@ -163,7 +163,10 @@ export default {
     CommonDialogBtn
   },
   mixins: [CurdMixin],
-  props: { 'binduserlist': Array },
+  props: {
+    'binduserlist': Array,
+     'postBaseUserInfoParam': {}
+  },
   data() {
     return {
       db: {},
@@ -199,11 +202,17 @@ export default {
       roleBindList: []
     }
   },
+  watch: {
+    postBaseUserInfoParam(val, oldval) {
+       this.searchForm.pkOrg = val.pkCorp
+       this.doSearch()
+    }
+  },
   created() {
     this.doSearch()
   },
   mounted() {
-
+    console.log(this.postBaseUserInfoParam, 'postBaseUserInfoParam')
   },
   methods: {
     reRenderTable(res) {
