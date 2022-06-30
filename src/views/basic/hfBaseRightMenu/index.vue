@@ -120,7 +120,8 @@
                   v-if="scopeRow.row.menuType == 'PATH_MENU'"
                   type="text"
                   :menu-id="scopeRow.row.menuId"
-                  @success="doSearch"/>
+                  @success="doSearch"
+                />
                 <look-for-method v-if="scopeRow.row.controllerId" :controller-id="scopeRow.row.controllerId" />
                 <!-- 复制新增 -->
                 <hf-base-right-menu-add
@@ -169,6 +170,7 @@
     import ImportFromController from './ImportFromController'
     import LookForMethod from "./LookForMethod";
     import {deepClone} from "../../../utils";
+    import LookForMethod from './LookForMethod'
 
     export default {
         name: 'HfBaseRightMenuIndexVue',
@@ -190,6 +192,9 @@
           TableColumnPreferenceSettingApiSlot
         },
         mixins: [CurdMixin],
+         props: {
+            treeSelected: {}
+          },
         data() {
             return {
                 db: {},
@@ -236,6 +241,12 @@
                 tableFields: conf.default,
                 toggleRowSelectionArray: []
             }
+        },
+        watch: {
+          treeSelected(val, oldval) {
+            this.searchForm.menuId = val.menuId
+            this.doSearch()
+          }
         },
         computed: {
           copierValue() {

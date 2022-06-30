@@ -39,6 +39,7 @@ export default {
       this.$refs.treesearch.filter(this.filterText)
     },
     handleNodeClick(val) {
+      console.log(val, 'val')
       this.$emit('treeNodeval', val)
     }
   }

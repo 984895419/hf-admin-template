@@ -12,7 +12,7 @@
         <tree-search :data="companydepartsdata" @treeNodeval="treeNodeval" />
       </el-col>
       <el-col :span="21">
-        <hfBaseUserInfo :binduserlist="hasSelectList" @userbindlist="userbind($event)" />
+        <hfBaseUserInfo :binduserlist="hasSelectList" :post-base-user-info-param="postBaseUserInfoParam" @userbindlist="userbind($event)" />
       </el-col>
     </el-row>
     <div class="btn-rt">
@@ -70,7 +70,8 @@ export default {
       fullscreenLoading: false,
       userIds: [],
       alreadyBindUserList: [],
-      hasSelectList: []
+      hasSelectList: [],
+      postBaseUserInfoParam: []
     }
   },
   watch: {
@@ -94,7 +95,7 @@ export default {
       console.log(row)
     },
     treeNodeval(data) {
-      console.log(data, 'treedata')
+      this.postBaseUserInfoParam = data
       let param = {}
       param = Object.assign(this.searchForm, this.pageData)
 

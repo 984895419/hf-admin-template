@@ -11,7 +11,7 @@
         <tree-search :data="companydepartsdata" @treeNodeval="treeNodeval" />
       </el-col>
       <el-col :span="21">
-        <HfBaseUserInfoIndexVue />
+        <HfBaseUserInfoIndexVue :post-base-user-info-param="postBaseUserInfoParam" />
       </el-col>
     </el-row>
   </div>
@@ -59,12 +59,38 @@ export default {
         pageNum: 1,
         pageSize: 10
       },
-      fullscreenLoading: false
+      fullscreenLoading: false,
+      postBaseUserInfoParam: [],
+      departInfoDOS: []
     }
   },
   watch: {
     filterText(val) {
       this.$refs.tree.filter(val)
+    },
+    companydepartsdata(val, oldval) {
+      // val.foreach((item) => {
+
+      // })
+  //  treeToList(list) {
+  //     if (list == null || list.length <= 0) { return [] }
+  //     for (var i = 0; i < list.length; i++) {
+  //       list[i].label = list[i].menuName || list[i].description
+
+  //       if (list[i].methods != null) {
+  //         list[i].children = list[i].methods
+  //       }
+  //       if (list[i].checked === true) {
+  //         this.defaultCheckedKeysList.push(list[i].menuId)
+  //       }
+  //       list[i].children = this.treeToList(list[i].children)
+  //     }
+  //       this.nextDefaultCheckedKeysList = this.defaultCheckedKeysList.filter(x => !!x === true || x === 0)
+  //       this.$nextTick(() => {
+  //         this.$refs.tree.setCheckedKeys(this.nextDefaultCheckedKeysList)
+  //       })
+  //     return list
+  //   }
     }
   },
   mounted() {
@@ -82,18 +108,9 @@ export default {
       console.log(row)
     },
     treeNodeval(data) {
-      console.log(data, 'treedata')
+      this.postBaseUserInfoParam = data
       let param = {}
-      // this.searchForm.companyName=data
       param = Object.assign(this.searchForm, this.pageData)
-      if (!isEmpty(data)) {
-        // Object.assign(param, { pkDept: data.id })
-        // if (data.level === '1') {
-        //   Object.assign(param, { companyId: data.id })
-        // } else {
-        //   Object.assign(param, { deptId: data.id })
-        // }
-      }
       baseApiGetMethod('/api/hfBaseUserInfo/nameQuery', param).then(
         (resp) => {
           if (resp.retCode === '00001') {
@@ -116,24 +133,25 @@ export default {
       this.init()
     },
     // 通用
-    getBaseUserInfo(val) {
-      this.listLoading = true
-      baseApiGetMethod('/api/hfBaseUserInfo/nameQuery', val).then(
-        (resp) => {
-          if (resp.retCode === '00001') {
-            this.listLoading = false
-            this.data.list = resp.data.list
-            this.data.total = resp.data.total
-          }
-        }
-      )
-    },
+    // getBaseUserInfo(val) {
+    //   this.listLoading = true
+    //   baseApiGetMethod('/api/hfBaseUserInfo/nameQuery', val).then(
+    //     (resp) => {
+    //       if (resp.retCode === '00001') {
+    //         this.listLoading = false
+    //         this.data.list = resp.data.list
+    //         this.data.total = resp.data.total
+    //       }
+    //     }
+    //   )
+    // },
     // 获取公司与部门
     getCompanyDeparts() {
       companyDeparts().then((resp) => {
         this.fullscreenLoading = true
         if (resp.retCode === '00001') {
           this.companydepartsdata = resp.data.companyInfos
+          this.departInfoDOS = resp.data.departInfoDOS
           this.fullscreenLoading = false
         }
       })
@@ -158,7 +176,7 @@ export default {
         }
       }
       param = Object.assign(pageInfos)
-      this.getBaseUserInfo(param)
+      // this.getBaseUserInfo(param)
     },
     handleSelectionChange() {
       alert('未选择')
