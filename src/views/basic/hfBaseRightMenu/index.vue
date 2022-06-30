@@ -120,7 +120,8 @@
                   v-if="scopeRow.row.menuType == 'PATH_MENU'"
                   type="text"
                   :menu-id="scopeRow.row.menuId"
-                  @success="doSearch"/>
+                  @success="doSearch"
+                />
                 <look-for-method v-if="scopeRow.row.controllerId" :controller-id="scopeRow.row.controllerId" />
               </div>
             </template>
@@ -159,7 +160,7 @@
     import TableColumnPreferenceSettingApiSlot from '@/views/basic/preferenceSetting/TableColumnPrefenceSettingApiSlot'
     import SectionTableColumn from '@/components/CURD/Table/column/base/SectionTableColumn'
     import ImportFromController from './ImportFromController'
-    import LookForMethod from "./LookForMethod";
+    import LookForMethod from './LookForMethod'
 
     export default {
         name: 'HfBaseRightMenuIndexVue',
@@ -181,6 +182,9 @@
           TableColumnPreferenceSettingApiSlot
         },
         mixins: [CurdMixin],
+         props: {
+            treeSelected: {}
+          },
         data() {
             return {
                 db: {},
@@ -227,6 +231,12 @@
                 tableFields: conf.default,
                 toggleRowSelectionArray: []
             }
+        },
+        watch: {
+          treeSelected(val, oldval) {
+            this.searchForm.menuId = val.menuId
+            this.doSearch()
+          }
         },
         created() {
             this.doSearch()

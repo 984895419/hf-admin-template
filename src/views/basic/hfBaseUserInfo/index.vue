@@ -50,6 +50,9 @@
           @success="doSearch"
         />
       </div>
+      <div style="float: right">
+        <el-button type="primary" size="mini" @click="syncNcData()">同步</el-button>
+      </div>
     </div>
     <!-- 列表-->
     <table-column-preference-setting-api-slot
@@ -165,7 +168,7 @@ export default {
   mixins: [CurdMixin],
   props: {
     'binduserlist': Array,
-     'postBaseUserInfoParam': {}
+    'postBaseUserInfoParam': {}
   },
   data() {
     return {
@@ -204,8 +207,8 @@ export default {
   },
   watch: {
     postBaseUserInfoParam(val, oldval) {
-       this.searchForm.pkOrg = val.pkCorp
-       this.doSearch()
+      this.searchForm.pkOrg = val.pkCorp
+      this.doSearch()
     }
   },
   created() {
@@ -293,6 +296,18 @@ export default {
       } else {
         this.$message.error('请配置分页查询地址参数:{pageUrl: xxxx}')
       }
+    },
+    // 从NC同步用户信息
+    syncNcData() {
+        this.listLoading = true
+      baseApiGetMethod('/api//hfBaseUserInfo/sync').then(
+        (resp) => {
+          if (resp.retCode === '00001') {
+            this.listLoading = false
+            this.$message({ message: resp.message, type: 'success' })
+          }
+        }
+      )
     }
   }
 }

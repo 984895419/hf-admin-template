@@ -69,9 +69,9 @@ export default {
       this.$refs.tree.filter(val)
     },
     companydepartsdata(val, oldval) {
-      val.foreach((item) => {
+      // val.foreach((item) => {
 
-      })
+      // })
   //  treeToList(list) {
   //     if (list == null || list.length <= 0) { return [] }
   //     for (var i = 0; i < list.length; i++) {
