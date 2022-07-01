@@ -130,7 +130,8 @@
                   btn-type="text"
                   :btn-label="$t('common.copyToAdd')"
                   :action-url="conf.urlMethods.addUrl"
-                  @success="doSearch" />
+                  @success="doSearch"
+                />
               </div>
             </template>
           </el-table-column>
@@ -168,9 +169,8 @@
     import TableColumnPreferenceSettingApiSlot from '@/views/basic/preferenceSetting/TableColumnPrefenceSettingApiSlot'
     import SectionTableColumn from '@/components/CURD/Table/column/base/SectionTableColumn'
     import ImportFromController from './ImportFromController'
-    import LookForMethod from "./LookForMethod";
-    import {deepClone} from "../../../utils";
     import LookForMethod from './LookForMethod'
+    import { deepClone } from '../../../utils'
 
     export default {
         name: 'HfBaseRightMenuIndexVue',
@@ -242,12 +242,6 @@
                 toggleRowSelectionArray: []
             }
         },
-        watch: {
-          treeSelected(val, oldval) {
-            this.searchForm.menuId = val.menuId
-            this.doSearch()
-          }
-        },
         computed: {
           copierValue() {
               return (data) => {
@@ -255,6 +249,12 @@
                   res[conf.primaryKeyField] = undefined
                   return res
               }
+          }
+        },
+        watch: {
+          treeSelected(val, oldval) {
+            this.searchForm.menuId = val.menuId
+            this.doSearch()
           }
         },
         created() {
