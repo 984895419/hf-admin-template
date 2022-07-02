@@ -168,8 +168,7 @@
     import TableColumnPreferenceSettingApiSlot from '@/views/basic/preferenceSetting/TableColumnPrefenceSettingApiSlot'
     import SectionTableColumn from '@/components/CURD/Table/column/base/SectionTableColumn'
     import ImportFromController from './ImportFromController'
-    import LookForMethod from "./LookForMethod";
-    import {deepClone} from "../../../utils";
+    import {deepClone} from "@/utils"
     import LookForMethod from './LookForMethod'
 
     export default {
