@@ -28,6 +28,9 @@ import { baseApiGetMethod } from '@/components/CURD/baseApi'
 import { isEmpty } from 'element-ui/src/utils/util'
 export default {
   components: { HfBaseUserInfoIndexVue, TreeSearch },
+  props: [
+      'description', 'value', 'methods'
+  ],
   data() {
     return {
       filterText: '',
@@ -96,6 +99,10 @@ export default {
   mounted() {
     this.getCompanyDeparts()
     this.init()
+       console.log(this.description, 'description')
+    console.log(this.value, 'value')
+    console.log(this.methods, 'methods')
+    debugger
   },
   methods: {
     filterNode(value, data) {

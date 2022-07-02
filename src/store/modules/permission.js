@@ -44,8 +44,11 @@ export function filterAsyncRoutes(routes, menus) {
 export function genRoutesFromMenuTree(childMenus) {
   // eslint-disable-next-line
   let accessedRouters = []
+
+  // debugger
   if (!isEmpty(childMenus)) {
     childMenus.forEach(function(menu, index) {
+      // debugger
       const menuRoute = {
         path: menu.menuAlias,
         hidden: menu.hidden === '1',
@@ -70,10 +73,12 @@ export function genRoutesFromMenuTree(childMenus) {
       if (isEmpty(menuRoute.children)) {
         delete menuRoute.children
       }
+
       accessedRouters.push(menuRoute)
     })
   } else {
   }
+  console.log(accessedRouters, 'accessedRouters')
   return accessedRouters
 }
 
@@ -96,7 +101,7 @@ const actions = {
     return new Promise(resolve => {
       getUserRoute().then((res) => {
         let accessedRoutes = asyncRoutes
-        const routesFromMenuTree = genRoutesFromMenuTree(res)
+        const routesFromMenuTree = genRoutesFromMenuTree(res.menus)
         accessedRoutes = accessedRoutes.concat(routesFromMenuTree)
         commit('SET_ROUTES', accessedRoutes)
         resolve(accessedRoutes)

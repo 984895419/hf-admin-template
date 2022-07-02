@@ -146,18 +146,24 @@ export default {
     },
 
     // 选中当前tree节点 获取menuIds \ methodIds
-    currentChecked(nodeObj, SelectedObj) {
+   currentChecked(nodeObj, SelectedObj) {
       const dataList = []
       // 过滤underfine
-      this.menuIds = SelectedObj.checkedKeys.filter(x => !!x === true || x === 0)
-      SelectedObj.checkedNodes.forEach(function(value, index, array) {
-        if (value.methods == null) {
-          dataList.push(value.methodId)
-        } else {
-          console.log(111)
-        }
+      console.log(nodeObj, 'nodeObj')
+      console.log(SelectedObj, 'SelectedObj')
+      SelectedObj.checkedNodes.forEach(el => {
+         if (el.methodId !== null) {
+            dataList.push(el.methodId)
+         }
       })
-      this.methodIds = dataList.filter(x => !!x === true || x === 0)
+      this.menuIds = SelectedObj.checkedKeys.filter(x => !!x === true || x === 0)
+      const newArr = dataList.filter(x => !!x === true || x === 0)
+      this.methodIds = this.newArrFn(newArr)
+      console.log(this.methodIds, 'this.methodIds')
+    },
+    // 去重
+    newArrFn(arr) {
+      return ([...new Set(arr)])
     },
     // 递归换名称
     treeToList(list) {
