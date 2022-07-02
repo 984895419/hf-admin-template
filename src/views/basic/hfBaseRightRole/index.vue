@@ -175,9 +175,7 @@ export default {
     PermissionSetting
   },
   mixins: [CurdMixin],
-  props: [
-    'value'
-  ],
+
   data() {
     return {
       db: {},
@@ -212,15 +210,8 @@ export default {
       toggleRowSelectionArray: []
     }
   },
-  watch: {
-    description(val, oldval) {
-      console.log(val)
-           debugger
-    }
-  },
+
   mounted() {
-    console.log(this.value, 'value')
-    debugger
   },
   created() {
     this.doSearch()
@@ -272,7 +263,6 @@ export default {
     },
     checkboxHasSelect(val) {
       console.log(val)
-      debugger
     },
     /**
      * 执行查询操作

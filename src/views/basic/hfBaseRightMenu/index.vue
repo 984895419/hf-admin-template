@@ -193,7 +193,9 @@
         },
         mixins: [CurdMixin],
          props: {
-            treeSelected: {}
+            treeSelected: {
+              String
+            }
           },
         data() {
             return {

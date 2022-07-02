@@ -45,10 +45,8 @@ export function genRoutesFromMenuTree(childMenus) {
   // eslint-disable-next-line
   let accessedRouters = []
 
-  // debugger
   if (!isEmpty(childMenus)) {
     childMenus.forEach(function(menu, index) {
-      // debugger
       const menuRoute = {
         path: menu.menuAlias,
         hidden: menu.hidden === '1',
@@ -93,6 +91,10 @@ const mutations = {
     state.addRoutes = routes
     state.routes = constantRoutes.concat(routes)
     console.log(state.routes, 'state.routes')
+  },
+  // 当前权限方法集合
+  SET_ROUTES_METHODS: (state, methods) => {
+    state.routesMethods = methods
   }
 }
 
@@ -103,6 +105,7 @@ const actions = {
         let accessedRoutes = asyncRoutes
         const routesFromMenuTree = genRoutesFromMenuTree(res.menus)
         accessedRoutes = accessedRoutes.concat(routesFromMenuTree)
+        commit('SET_ROUTES_METHODS', res.methods)
         commit('SET_ROUTES', accessedRoutes)
         resolve(accessedRoutes)
       })

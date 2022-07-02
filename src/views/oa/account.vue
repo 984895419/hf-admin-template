@@ -99,10 +99,6 @@ export default {
   mounted() {
     this.getCompanyDeparts()
     this.init()
-       console.log(this.description, 'description')
-    console.log(this.value, 'value')
-    console.log(this.methods, 'methods')
-    debugger
   },
   methods: {
     filterNode(value, data) {

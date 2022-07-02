@@ -52,7 +52,6 @@ export default {
     },
   methods: {
     changeTenant(id) {
-        debugger
         const loading = this.$loading({
           lock: true,
           text: 'Loading',
