@@ -50,17 +50,15 @@
           @success="doSearch"
         />
         <template-confirm-btn
-          :httpMethod="'post'"
           v-if="conf.urlMethods.syncUrl"
+          :http-method="'post'"
           :url="conf.urlMethods.syncUrl"
           :btn-type="'primary'"
           :label="$t('common.sync')"
           @success="doSearch"
         />
       </div>
-      <div style="float: right">
-        <el-button type="primary" size="mini" @click="syncNcData()">同步</el-button>
-      </div>
+
     </div>
     <!-- 列表-->
     <table-column-preference-setting-api-slot
@@ -97,6 +95,7 @@
               <div class="col-btn-display">
                 <!-- 更新 -->
                 <hf-base-user-info-update
+                  v-permission="['hfBaseUserInfo:update']"
                   :value="scopeRow.row"
                   :query-url="conf.urlMethods.queryUrl"
                   :update-url="conf.urlMethods.updateUrl"
@@ -104,6 +103,7 @@
                 />
                 <!-- 删除-->
                 <del-btn
+                  v-permission="['hfBaseUserInfo:delete']"
                   :url="templateUrl(conf.urlMethods.deleteUrl, scopeRow.row)"
                   :btn-type="'text'"
                   :value="scopeRow.row"
@@ -112,7 +112,13 @@
                 <!-- 查看 -->
                 <hf-base-user-info-detail :value="scopeRow.row" />
                 <!-- 设置角色 -->
-                <common-dialog-btn v-show="$route.path === '/oa/account'" :label="'设置角色'" :type="'text'">
+                <!-- {{ $store.state.permission.routesMethods }} -->
+                <common-dialog-btn
+                  v-show="$route.path === '/oa/account'"
+                  v-permission="['hfBaseUserInfo:getBindRoles']"
+                  :label="'设置角色'"
+                  :type="'text'"
+                >
                   <template slot-scope="{ closeDialog }">
                     <role-settings :data="scopeRow.row" @closeDialog="closeDialog" />
                   </template>
@@ -154,7 +160,7 @@ import SimpleSearch from '@/components/CURD/Query/search'
 import TableColumnPreferenceSettingApiSlot from '@/views/basic/preferenceSetting/TableColumnPrefenceSettingApiSlot'
 import RoleSettings from '@/views/oa/role-settings.vue'
 import CommonDialogBtn from '@/components/CURD/Btns/CommonDialogBtn'
-
+import store from '@/store'
 export default {
   name: 'HfBaseUserInfoIndexVue',
   components: {
@@ -173,6 +179,28 @@ export default {
     RoleSettings,
     CommonDialogBtn
   },
+  // directives: {
+  //   permission: {
+  //     inserted(el, binding, vnode) {
+  //       const { value } = binding
+  //       const roles = store.state.permission.routesMethods
+  //       if (value && value instanceof Array && value.length > 0) {
+  //         const permissionRoles = value
+
+  //         const hasPermission = roles.some(role => {
+  //           return permissionRoles.includes(role)
+  //         })
+
+  //         if (!hasPermission) {
+  //           el.parentNode && el.parentNode.removeChild(el)
+  //         }
+  //       } else {
+  //         throw new Error(`need roles! Like v-permission="['admin','editor']"`)
+  //       }
+  //     }
+  //   }
+  // },
+
   mixins: [CurdMixin],
   props: {
     'binduserlist': Array,
@@ -307,7 +335,7 @@ export default {
     },
     // 从NC同步用户信息
     syncNcData() {
-        this.listLoading = true
+      this.listLoading = true
       baseApiGetMethod('/api//hfBaseUserInfo/sync').then(
         (resp) => {
           if (resp.retCode === '00001') {

@@ -48,7 +48,6 @@ export function genRoutesFromMenuTree(childMenus) {
   if (!isEmpty(childMenus)) {
     childMenus.forEach(function(menu, index) {
       const menuRoute = {
-        path: menu.menuAlias,
         hidden: menu.hidden === '1',
         redirect: menu.redirect,
         alwaysShow: menu.alwaysshow === '1', // will always show the root menu
@@ -62,9 +61,11 @@ export function genRoutesFromMenuTree(childMenus) {
       }
       if (menu.parentId === 0) { // 根节点
         menuRoute.component = Layout
+        menuRoute.path = `/${menu.menuAlias}`
       } else {
         const componentPath = menu.component
         menuRoute.name = menu.menuAlias
+        menuRoute.path = menu.menuAlias
         menuRoute.component = (resolve) => require([`@/views${componentPath}`], resolve)
       }
       menuRoute.children = genRoutesFromMenuTree(menu.children)

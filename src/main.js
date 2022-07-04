@@ -23,6 +23,7 @@ import Print from '@/utils/print'
 import SuperFlow from 'vue-super-flow'
 import 'vue-super-flow/lib/index.css'
 import Clipboard from 'v-clipboard'
+import permission from './permission'
 
 Vue.use(Clipboard)
 
@@ -43,6 +44,7 @@ Vue.use(Element, {
   size: Cookies.get('size') || 'medium', // set element-ui default size
   i18n: (key, value) => i18n.t(key, value)
 })
+Vue.directive('permission', permission)
 Vue.component(ExTableColumn.name, ExTableColumn)
 // register global utility filters
 Object.keys(filters).forEach(key => {

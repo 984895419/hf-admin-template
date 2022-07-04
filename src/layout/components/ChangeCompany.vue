@@ -7,10 +7,7 @@
   >
     <base-tenant-id-slot :ids="tenantIds">
       <template v-slot="{ data }">
-        <el-dropdown
-          trigger="click"
-          @command="changeTenant"
-        >
+        <el-dropdown trigger="click" @command="changeTenant">
           <span class="el-dropdown-link">
             <slot /><i v-if="data && data.length > 1" class="el-icon-arrow-down el-icon--right" />
           </span>
@@ -20,6 +17,7 @@
               :key="item.id"
               :command="item.id"
               :disabled="item.id === tenantId"
+              @click="changeUserRoute(item)"
             >
               {{ item.tenantName }}
             </el-dropdown-item>
@@ -31,46 +29,57 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
+import { getUserRoute } from '../../api/getRouteList'
+
 import { resetRouter } from '@/router'
 import BaseTenantIdSlot from '@/views/basic/baseTenant/baseTenantApiSlot'
 
 export default {
   name: 'MenuAdd',
-    components: { BaseTenantIdSlot },
-    data() {
+  components: { BaseTenantIdSlot },
+  data() {
     return {
       companyList: [],
       fullscreenLoading: false,
       currentDataObject: {}
     }
   },
-    computed: {
-        ...mapGetters([
-            'tenantIds',
-            'tenantId'
-        ])
-    },
+  computed: {
+    ...mapGetters([
+      'tenantIds',
+      'tenantId'
+    ])
+  },
   methods: {
     changeTenant(id) {
-        const loading = this.$loading({
-          lock: true,
-          text: 'Loading',
-          spinner: 'el-icon-loading',
-          background: 'rgba(0, 0, 0, 0.7)'
+      const loading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      })
+      setTimeout(() => {
+        loading.close()
+      }, 2000)
+
+      this.$store.dispatch('user/changeTenant', id).then((data) => {
+        getUserRoute().then((res) => {
+          if (res.data.length > 0) {
+            loading.close()
+          } else {
+            alert('暂无数据')
+            return
+          }
         })
-        setTimeout(() => {
-          loading.close()
-        }, 2000)
-        this.$store.dispatch('user/changeTenant', id).then((data) => {
-          loading.close()
-        })
+      })
     }
+
   }
 }
 </script>
 <style>
-  table tr td:hover {
-    color: #ff4949;
-    cursor: pointer
-  }
+table tr td:hover {
+  color: #ff4949;
+  cursor: pointer
+}
 </style>

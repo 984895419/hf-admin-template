@@ -9,7 +9,13 @@
       default-expand-all
       :filter-node-method="filterNode"
       @node-click="handleNodeClick"
-    />
+    >
+      <span slot-scope="{ node, data }" class="custom-tree-node">
+        <el-tooltip class="item" effect="dark" :content="node.label" placement="top-start">
+          <span> {{ node.label }} </span>
+        </el-tooltip>
+      </span>
+    </el-tree>
   </div>
 </template>
 
