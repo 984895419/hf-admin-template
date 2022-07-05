@@ -5,8 +5,8 @@
       <simple-search v-model="searchForm" :inline="true" @search="doSearch">
         <template v-slot="{ span }">
           <!-- 新增的的字段配置 -->
-          <form-item-col :value="searchForm" :span="span" prop="userCode" :namespace="conf.namespace" />
-          <form-item-col :value="searchForm" :span="span" prop="userName" :namespace="conf.namespace" />
+          <form-item-col :value="searchForm" style="width:auto" :span="span" prop="userCode" :namespace="conf.namespace" />
+          <form-item-col :value="searchForm" style="width:auto" :span="span" prop="userName" :namespace="conf.namespace" />
           <!-- 字典字段字段设置方法如下
           <form-item-col-dict
             :value="data"
@@ -21,7 +21,7 @@
     </div>
     <!-- 操作栏-->
     <div style="margin-bottom: 10px" class="col-btn-display">
-      <hf-base-user-info-add :action-url="conf.urlMethods.addUrl" @success="doSearch" />
+      <hf-base-user-info-add v-permission="['hfBaseUserInfo:save']" :action-url="conf.urlMethods.addUrl" @success="doSearch" />
       <div style="float: right" class="col-btn-display">
         <del-btn
           v-if="conf.urlMethods.deleteUrl
@@ -71,6 +71,7 @@
           v-if="showFields"
           ref="hfMainTable"
           v-loading="loading"
+          max-height="600px"
           :table-data="jsonData.list"
           row-key="id"
           @selection-change="handleSelectionChange"
@@ -179,28 +180,6 @@ export default {
     RoleSettings,
     CommonDialogBtn
   },
-  // directives: {
-  //   permission: {
-  //     inserted(el, binding, vnode) {
-  //       const { value } = binding
-  //       const roles = store.state.permission.routesMethods
-  //       if (value && value instanceof Array && value.length > 0) {
-  //         const permissionRoles = value
-
-  //         const hasPermission = roles.some(role => {
-  //           return permissionRoles.includes(role)
-  //         })
-
-  //         if (!hasPermission) {
-  //           el.parentNode && el.parentNode.removeChild(el)
-  //         }
-  //       } else {
-  //         throw new Error(`need roles! Like v-permission="['admin','editor']"`)
-  //       }
-  //     }
-  //   }
-  // },
-
   mixins: [CurdMixin],
   props: {
     'binduserlist': Array,

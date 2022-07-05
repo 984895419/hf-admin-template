@@ -51,7 +51,7 @@ export default {
   background-color: #93c6fa !important;
 }
 .el-dialog{
-  max-height: 90vh;
+  max-height: 92vh;
   overflow-x: hidden;
   overflow-y: scroll;
 }

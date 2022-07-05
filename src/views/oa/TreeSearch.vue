@@ -56,5 +56,16 @@ export default {
 .content-lf {
   padding: 20px 0 0 0;
   box-sizing: border-box;
+
 }
+/deep/ .filter-tree{
+ overflow-y: scroll;
+  height: calc(100vh - 180px);
+
+ &::-webkit-scrollbar{
+  display: none;
+ }
+}
+
 </style>
+
