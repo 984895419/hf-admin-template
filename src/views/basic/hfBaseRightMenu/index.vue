@@ -5,12 +5,7 @@
       <simple-search v-model="searchForm" :inline="true" @search="doSearch">
         <template v-slot="{ span }">
           <!-- 新增的的字段配置 -->
-          <form-item-col
-            :value="searchForm"
-            :span="span"
-            prop="menuName"
-            :namespace="conf.namespace"
-          />
+          <form-item-col :value="searchForm" :span="span" prop="menuName" :namespace="conf.namespace" />
           <form-item-col-dict
             :value="searchForm"
             :span="span"
@@ -68,7 +63,7 @@
       :init-data="tableFields"
       :preference-alias="conf.namespace"
     >
-      <template v-slot="{doSave, preferenceData}">
+      <template v-slot="{ doSave, preferenceData }">
         <hf-table
           v-if="showFields"
           v-loading="loading"
@@ -79,11 +74,7 @@
           <section-table-column />
           <!-- 显示的字段-->
           <hf-base-right-menu-columns :show-fields="showFields" :url-methods="conf.urlMethods" @success="doSearch" />
-          <el-table-column
-            fixed="right"
-            :label="$t('common.operate')"
-            width="150"
-          >
+          <el-table-column fixed="right" :label="$t('common.operate')" width="150">
             <template v-slot:header>
               {{ $t('common.operate') }}
               <curd-table-column-select
@@ -112,9 +103,7 @@
                   @success="doSearch"
                 />
                 <!-- 查看 -->
-                <hf-base-right-menu-detail
-                  :value="scopeRow.row"
-                />
+                <hf-base-right-menu-detail :value="scopeRow.row" />
                 <!-- 导入 -->
                 <import-from-controller
                   v-if="scopeRow.row.menuType == 'PATH_MENU'"
@@ -150,193 +139,193 @@
 </template>
 
 <script>
-    import * as conf from './api'
-    import HfBaseRightMenuAdd from './add'
-    import HfTable from '@/components/CURD/Table/HfTable'
-    import { baseApiGetMethod } from '@/components/CURD/baseApi'
-    import { isSuccessResult } from '@/utils/ajaxResultUtil'
-    import CurdPagination from '@/components/CURD/pagination/Pagination'
-    import HfBaseRightMenuUpdate from './update'
-    import DelBtn from '@/components/CURD/Btns/DelBtn'
-    import CurdMixin from '@/components/CURD/curd.mixin'
-    import CurdTableColumnSelect from '@/components/CURD/Table/select/TableColumnSelect'
-    import HfBaseRightMenuDetail from './detail'
-    import HfBaseRightMenuColumns from './hfBaseRightMenuColumns'
-    import TemplateConfirmBtn from '@/components/CURD/Btns/TemplateConfirmBtn'
-    import FormItemColDict from '@/components/CURD/Form/formItemColDict.vue'
-    import FormItemCol from '@/components/CURD/Form/formItemCol.vue'
-    import SimpleSearch from '@/components/CURD/Query/search'
-    import TableColumnPreferenceSettingApiSlot from '@/views/basic/preferenceSetting/TableColumnPrefenceSettingApiSlot'
-    import SectionTableColumn from '@/components/CURD/Table/column/base/SectionTableColumn'
-    import ImportFromController from './ImportFromController'
-    import LookForMethod from './LookForMethod'
-    import { deepClone } from '../../../utils'
+import * as conf from './api'
+import HfBaseRightMenuAdd from './add'
+import HfTable from '@/components/CURD/Table/HfTable'
+import { baseApiGetMethod } from '@/components/CURD/baseApi'
+import { isSuccessResult } from '@/utils/ajaxResultUtil'
+import CurdPagination from '@/components/CURD/pagination/Pagination'
+import HfBaseRightMenuUpdate from './update'
+import DelBtn from '@/components/CURD/Btns/DelBtn'
+import CurdMixin from '@/components/CURD/curd.mixin'
+import CurdTableColumnSelect from '@/components/CURD/Table/select/TableColumnSelect'
+import HfBaseRightMenuDetail from './detail'
+import HfBaseRightMenuColumns from './hfBaseRightMenuColumns'
+import TemplateConfirmBtn from '@/components/CURD/Btns/TemplateConfirmBtn'
+import FormItemColDict from '@/components/CURD/Form/formItemColDict.vue'
+import FormItemCol from '@/components/CURD/Form/formItemCol.vue'
+import SimpleSearch from '@/components/CURD/Query/search'
+import TableColumnPreferenceSettingApiSlot from '@/views/basic/preferenceSetting/TableColumnPrefenceSettingApiSlot'
+import SectionTableColumn from '@/components/CURD/Table/column/base/SectionTableColumn'
+import ImportFromController from './ImportFromController'
+import LookForMethod from './LookForMethod'
+import { deepClone } from '../../../utils'
 
-    export default {
-        name: 'HfBaseRightMenuIndexVue',
-        components: {
-            LookForMethod,
-            ImportFromController,
-          SectionTableColumn,
-          TemplateConfirmBtn,
-          HfBaseRightMenuColumns,
-          HfBaseRightMenuDetail,
-            CurdTableColumnSelect,
-            DelBtn,
-          HfBaseRightMenuUpdate,
-            CurdPagination,
-            HfTable, HfBaseRightMenuAdd,
-          FormItemColDict,
-          FormItemCol,
-          SimpleSearch,
-          TableColumnPreferenceSettingApiSlot
-        },
-        mixins: [CurdMixin],
-         props: {
-            treeSelected: {
-              String
-            }
-          },
-        data() {
-            return {
-                db: {},
-                showFields: null,
-                loading: false,
-                /**
-                 * 查询的表单信息
-                 */
-                searchForm: {
-          menuId: null,
-          menuName: null,
-          menuType: null,
-          i18nMenuName: null,
-          controllerId: null,
-          icon: null,
-          redirect: null,
-          creator: null,
-          createTime: null,
-          modifier: null,
-          modifyTime: null,
-          enableState: null,
-          parentId: null,
-          level: null,
-          levelStr: null,
-          sort: null,
-          deleted: null,
-                    /**
-                     * 分页信息
-                     */
-                    pageInfo: {
-                        pageNo: 1,
-                        pageSize: this.$store.getters.pageSize
-                    },
-                    /**
-                     * 排序信息
-                     */
-                    sortInfo: []
-                },
-                conf: conf,
-                jsonData: {
-                    list: [],
-                    total: 0
-                },
-                tableFields: conf.default,
-                toggleRowSelectionArray: []
-            }
-        },
-        computed: {
-          copierValue() {
-              return (data) => {
-                  const res = deepClone(data)
-                  res[conf.primaryKeyField] = undefined
-                  return res
-              }
-          }
-        },
-        watch: {
-          treeSelected(val, oldval) {
-            this.searchForm.menuId = val.menuId
-            this.doSearch()
-          }
-        },
-        created() {
-            this.doSearch()
-        },
-        methods: {
-            reRenderTable(res) {
-                // 扩展显示的字段
-                this.showFields = []
-                // 标记为重新渲染中
-                this.reRending = true
-                setTimeout(() => {
-                    this.showFields = res
-                    // 标记为重新渲染中
-                    this.reRending = false
-                }, 50)
-            },
-            /**
-             * 排序发生变化的时候执行的排序变化
-             * @param column
-             * @param prop
-             * @param order
-             */
-            sortChange({ column, prop, order }) {
-              // 设置排序字段信息
-              if (order) {
-                this.searchForm.sortInfo = [{
-                  sort: order === 'ascending' ? 0 : (1),
-                  fieldName: prop
-                }]
-              } else {
-                this.searchForm.sortInfo = []
-              }
-               // 执行排序
-              this.doSearch()
-            },
-            /**
-             * 查询条件变化
-             */
-            inquiryChangeSearch(query) {
-                this.searchForm.query = query
-                this.doSearch()
-            },
-            /**
-             * 选中后处理的事件
-             * @param section
-             */
-            handleSelectionChange(section) {
-                this.toggleRowSelectionArray = section
-            },
-            /**
-             * 执行查询操作
-             */
-            doSearch() {
-                if (this.conf.urlMethods && this.conf.urlMethods.pageUrl) {
-                    this.loading = true
-                    baseApiGetMethod(this.conf.urlMethods.pageUrl, this.searchForm).then(resp => {
-                        if (isSuccessResult(resp)) {
-                            this.$set(this.jsonData, 'list', resp.data.list)
-                            this.$set(this.jsonData, 'total', resp.data.total)
-                        } else {
-                            this.$message.error(resp.message)
-                        }
-                        this.loading = false
-                    }).catch(e => {
-                        console.log(e)
-                        this.loading = false
-                    })
-                } else {
-                    this.$message.error('请配置分页查询地址参数:{pageUrl: xxxx}')
-                }
-            }
-        }
+export default {
+  name: 'HfBaseRightMenuIndexVue',
+  components: {
+    LookForMethod,
+    ImportFromController,
+    SectionTableColumn,
+    TemplateConfirmBtn,
+    HfBaseRightMenuColumns,
+    HfBaseRightMenuDetail,
+    CurdTableColumnSelect,
+    DelBtn,
+    HfBaseRightMenuUpdate,
+    CurdPagination,
+    HfTable, HfBaseRightMenuAdd,
+    FormItemColDict,
+    FormItemCol,
+    SimpleSearch,
+    TableColumnPreferenceSettingApiSlot
+  },
+  mixins: [CurdMixin],
+  props: {
+    treeSelected: {
+      String
     }
+  },
+  data() {
+    return {
+      db: {},
+      showFields: null,
+      loading: false,
+      /**
+       * 查询的表单信息
+       */
+      searchForm: {
+        menuId: null,
+        menuName: null,
+        menuType: null,
+        i18nMenuName: null,
+        controllerId: null,
+        icon: null,
+        redirect: null,
+        creator: null,
+        createTime: null,
+        modifier: null,
+        modifyTime: null,
+        enableState: null,
+        parentId: null,
+        level: null,
+        levelStr: null,
+        sort: null,
+        deleted: null,
+        /**
+         * 分页信息
+         */
+        pageInfo: {
+          pageNo: 1,
+          pageSize: this.$store.getters.pageSize
+        },
+        /**
+         * 排序信息
+         */
+        sortInfo: []
+      },
+      conf: conf,
+      jsonData: {
+        list: [],
+        total: 0
+      },
+      tableFields: conf.default,
+      toggleRowSelectionArray: []
+    }
+  },
+  computed: {
+    copierValue() {
+      return (data) => {
+        const res = deepClone(data)
+        res[conf.primaryKeyField] = undefined
+        return res
+      }
+    }
+  },
+  watch: {
+    treeSelected(val, oldval) {
+      this.searchForm.menuId = val.parentId === 0 ? '' : val.menuId
+      this.doSearch()
+    }
+  },
+  created() {
+    this.doSearch()
+  },
+  methods: {
+    reRenderTable(res) {
+      // 扩展显示的字段
+      this.showFields = []
+      // 标记为重新渲染中
+      this.reRending = true
+      setTimeout(() => {
+        this.showFields = res
+        // 标记为重新渲染中
+        this.reRending = false
+      }, 50)
+    },
+    /**
+     * 排序发生变化的时候执行的排序变化
+     * @param column
+     * @param prop
+     * @param order
+     */
+    sortChange({ column, prop, order }) {
+      // 设置排序字段信息
+      if (order) {
+        this.searchForm.sortInfo = [{
+          sort: order === 'ascending' ? 0 : (1),
+          fieldName: prop
+        }]
+      } else {
+        this.searchForm.sortInfo = []
+      }
+      // 执行排序
+      this.doSearch()
+    },
+    /**
+     * 查询条件变化
+     */
+    inquiryChangeSearch(query) {
+      this.searchForm.query = query
+      this.doSearch()
+    },
+    /**
+     * 选中后处理的事件
+     * @param section
+     */
+    handleSelectionChange(section) {
+      this.toggleRowSelectionArray = section
+    },
+    /**
+     * 执行查询操作
+     */
+    doSearch() {
+      if (this.conf.urlMethods && this.conf.urlMethods.pageUrl) {
+        this.loading = true
+        baseApiGetMethod(this.conf.urlMethods.pageUrl, this.searchForm).then(resp => {
+          if (isSuccessResult(resp)) {
+            this.$set(this.jsonData, 'list', resp.data.list)
+            this.$set(this.jsonData, 'total', resp.data.total)
+          } else {
+            this.$message.error(resp.message)
+          }
+          this.loading = false
+        }).catch(e => {
+          console.log(e)
+          this.loading = false
+        })
+      } else {
+        this.$message.error('请配置分页查询地址参数:{pageUrl: xxxx}')
+      }
+    }
+  }
+}
 </script>
 
 <style scoped>
-  /deep/ .col-btn-display > div,
-  .col-btn-display > .el-button {
-    display: inline-block;
-    margin-right: 10px;
-  }
+/deep/ .col-btn-display>div,
+.col-btn-display>.el-button {
+  display: inline-block;
+  margin-right: 10px;
+}
 </style>
