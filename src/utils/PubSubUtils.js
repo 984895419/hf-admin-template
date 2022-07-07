@@ -1,8 +1,5 @@
 import PubSub from 'pubsub-js'
 
-
-
-
 export default {
     /**
      * 发布

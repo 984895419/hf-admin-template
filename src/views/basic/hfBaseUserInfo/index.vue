@@ -59,7 +59,7 @@
         />
       </div>
       <div style="float: right">
-        <el-button type="primary" size="mini" @click="syncNcData()">同步</el-button>
+<!--        <el-button type="pri  mary" size="mini" @click="syncNcData()">同步</el-button>-->
       </div>
     </div>
     <!-- 列表-->
