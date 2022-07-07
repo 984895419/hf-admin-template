@@ -9,7 +9,13 @@
       default-expand-all
       :filter-node-method="filterNode"
       @node-click="handleNodeClick"
-    />
+    >
+      <span slot-scope="{ node, data }" class="custom-tree-node">
+        <el-tooltip class="item" effect="dark" :content="node.label" placement="top-start">
+          <span> {{ node.label }} </span>
+        </el-tooltip>
+      </span>
+    </el-tree>
   </div>
 </template>
 
@@ -50,5 +56,16 @@ export default {
 .content-lf {
   padding: 20px 0 0 0;
   box-sizing: border-box;
+
 }
+/deep/ .filter-tree{
+ overflow-y: scroll;
+  height: calc(100vh - 180px);
+
+ &::-webkit-scrollbar{
+  display: none;
+ }
+}
+
 </style>
+

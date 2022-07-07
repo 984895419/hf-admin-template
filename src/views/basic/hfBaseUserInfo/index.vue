@@ -5,8 +5,8 @@
       <simple-search v-model="searchForm" :inline="true" @search="doSearch">
         <template v-slot="{ span }">
           <!-- 新增的的字段配置 -->
-          <form-item-col :value="searchForm" :span="span" prop="userCode" :namespace="conf.namespace" />
-          <form-item-col :value="searchForm" :span="span" prop="userName" :namespace="conf.namespace" />
+          <form-item-col :value="searchForm" style="width:auto" :span="span" prop="userCode" :namespace="conf.namespace" />
+          <form-item-col :value="searchForm" style="width:auto" :span="span" prop="userName" :namespace="conf.namespace" />
           <!-- 字典字段字段设置方法如下
           <form-item-col-dict
             :value="data"
@@ -20,8 +20,8 @@
       </simple-search>
     </div>
     <!-- 操作栏-->
-    <div style="margin-bottom: 10px" class="col-btn-display">
-      <hf-base-user-info-add :action-url="conf.urlMethods.addUrl" @success="doSearch" />
+    <div style="margin-bottom: 10px" class="col-btn-display ">
+      <hf-base-user-info-add v-permission="['hfBaseUserInfo:save']" :action-url="conf.urlMethods.addUrl" @success="doSearch" />
       <div style="float: right" class="col-btn-display">
         <del-btn
           v-if="conf.urlMethods.deleteUrl
@@ -50,17 +50,15 @@
           @success="doSearch"
         />
         <template-confirm-btn
-          :httpMethod="'post'"
           v-if="conf.urlMethods.syncUrl"
+          :http-method="'post'"
           :url="conf.urlMethods.syncUrl"
           :btn-type="'primary'"
           :label="$t('common.sync')"
           @success="doSearch"
         />
       </div>
-      <div style="float: right">
-<!--        <el-button type="pri  mary" size="mini" @click="syncNcData()">同步</el-button>-->
-      </div>
+
     </div>
     <!-- 列表-->
     <table-column-preference-setting-api-slot
@@ -73,6 +71,7 @@
           v-if="showFields"
           ref="hfMainTable"
           v-loading="loading"
+          max-height="600px"
           :table-data="jsonData.list"
           row-key="id"
           @selection-change="handleSelectionChange"
@@ -97,6 +96,7 @@
               <div class="col-btn-display">
                 <!-- 更新 -->
                 <hf-base-user-info-update
+                  v-permission="['hfBaseUserInfo:update']"
                   :value="scopeRow.row"
                   :query-url="conf.urlMethods.queryUrl"
                   :update-url="conf.urlMethods.updateUrl"
@@ -104,6 +104,7 @@
                 />
                 <!-- 删除-->
                 <del-btn
+                  v-permission="['hfBaseUserInfo:delete']"
                   :url="templateUrl(conf.urlMethods.deleteUrl, scopeRow.row)"
                   :btn-type="'text'"
                   :value="scopeRow.row"
@@ -112,7 +113,13 @@
                 <!-- 查看 -->
                 <hf-base-user-info-detail :value="scopeRow.row" />
                 <!-- 设置角色 -->
-                <common-dialog-btn v-show="$route.path === '/oa/account'" :label="'设置角色'" :type="'text'">
+                <!-- {{ $store.state.permission.routesMethods }} -->
+                <common-dialog-btn
+                  v-show="$route.path === '/oa/account'"
+                  v-permission="['hfBaseUserInfo:getBindRoles']"
+                  :label="'设置角色'"
+                  :type="'text'"
+                >
                   <template slot-scope="{ closeDialog }">
                     <role-settings :data="scopeRow.row" @closeDialog="closeDialog" />
                   </template>
@@ -154,7 +161,7 @@ import SimpleSearch from '@/components/CURD/Query/search'
 import TableColumnPreferenceSettingApiSlot from '@/views/basic/preferenceSetting/TableColumnPrefenceSettingApiSlot'
 import RoleSettings from '@/views/oa/role-settings.vue'
 import CommonDialogBtn from '@/components/CURD/Btns/CommonDialogBtn'
-
+import store from '@/store'
 export default {
   name: 'HfBaseUserInfoIndexVue',
   components: {
@@ -307,7 +314,7 @@ export default {
     },
     // 从NC同步用户信息
     syncNcData() {
-        this.listLoading = true
+      this.listLoading = true
       baseApiGetMethod('/api//hfBaseUserInfo/sync').then(
         (resp) => {
           if (resp.retCode === '00001') {

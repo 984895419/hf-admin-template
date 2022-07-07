@@ -95,7 +95,7 @@ service.interceptors.response.use(
   },
   error => {
     debugger
-    const status = error.response.status;
+    const status = error.response.status
     let message = error.message
     if (status === 401) {
       debugger

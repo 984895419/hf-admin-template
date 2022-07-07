@@ -101,24 +101,13 @@
                 <!-- 查看 -->
                 <hf-base-right-role-detail :value="scopeRow.row" />
                 <!-- 绑定用户 -->
-                <dialog-Btn-Page
-                  v-if="scopeRow.row.initData !== 1"
-                  :label="'绑定用户'"
-                  :type="'text'"
-                >
+                <dialog-Btn-Page v-if="scopeRow.row.initData !== 1" :label="'绑定用户'" :type="'text'">
                   <template slot-scope="{ closeDialog }">
-                    <user-bind
-                      :data-list="scopeRow.row"
-                      @closeDialog="closeDialog"
-                    />
+                    <user-bind :data-list="scopeRow.row" @closeDialog="closeDialog" />
                   </template>
                 </dialog-Btn-Page>
                 <!-- 权限设置 -->
-                <dialog-Btn-Page
-                  v-if="scopeRow.row.initData !== 1"
-                  :label="'权限设置'"
-                  :type="'text'"
-                >
+                <dialog-Btn-Page v-if="scopeRow.row.initData !== 1" :label="'权限设置'" :type="'text'">
                   <template slot-scope="{ closeDialog }">
                     <permission-setting :data-list="scopeRow.row" @closeDialog="closeDialog" />
                   </template>
@@ -186,6 +175,7 @@ export default {
     PermissionSetting
   },
   mixins: [CurdMixin],
+
   data() {
     return {
       db: {},
@@ -219,6 +209,9 @@ export default {
       tableFields: conf.default,
       toggleRowSelectionArray: []
     }
+  },
+
+  mounted() {
   },
   created() {
     this.doSearch()
@@ -270,7 +263,6 @@ export default {
     },
     checkboxHasSelect(val) {
       console.log(val)
-      debugger
     },
     /**
      * 执行查询操作

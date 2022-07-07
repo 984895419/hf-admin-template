@@ -6,8 +6,8 @@
     element-loading-background="rgba(0, 0, 0, 0.1)"
     class="app-container"
   >
-    <div class="">{{ dataList.roleName }}绑定用户</div>
-    <el-row>
+    <div class="userbind">{{ dataList.roleName }}绑定用户</div>
+    <el-row style="margin-bottom:none">
       <el-col :span="3">
         <tree-search :data="companydepartsdata" @treeNodeval="treeNodeval" />
       </el-col>
@@ -221,6 +221,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.userbind{
+  margin-top: -20px;
+}
 .el-row {
   margin-bottom: 20px;
 
@@ -251,6 +254,7 @@ export default {
   .btn-rt {
     display: flex;
     justify-content: flex-end;
+    margin-top: -40px;
   }
 
   .accout-nav {

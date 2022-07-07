@@ -36,7 +36,7 @@
       />
     </el-col>
     <el-col :span="21">
-      <baseHandlerMappingMethod />
+      <baseHandlerMappingMethod :tree-selected="treeSelected" />
     </el-col>
 
   </div>

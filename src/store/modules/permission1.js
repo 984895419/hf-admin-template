@@ -57,11 +57,9 @@ export function genRoutesFromMenuTree(childMenus) {
         }
       }
       console.log(menuRoute)
-      debugger
 
       if (menu.parentMenuId === '0') { // 根节点
         menuRoute.component = () => import('@/layout')
-        debugger
       } else {
         const componentPath = menu.component
         if (!isEmpty(componentPath) && componentPath.startsWith('/jmreport/') && componentPath.indexOf('/jmreport/index') < 0) {
@@ -190,7 +188,6 @@ const actions = {
         accessedRoutes = routesFromMenuTree
         // accessedRoutes = filterAsyncRoutes(asyncRoutes, menuList)
       }
-    debugger
 
       commit('SET_ROUTES', accessedRoutes)
       resolve(accessedRoutes)

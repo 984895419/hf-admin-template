@@ -44,10 +44,10 @@ export function filterAsyncRoutes(routes, menus) {
 export function genRoutesFromMenuTree(childMenus) {
   // eslint-disable-next-line
   let accessedRouters = []
+
   if (!isEmpty(childMenus)) {
     childMenus.forEach(function(menu, index) {
       const menuRoute = {
-        path: menu.menuAlias,
         hidden: menu.hidden === '1',
         redirect: menu.redirect,
         alwaysShow: menu.alwaysshow === '1', // will always show the root menu
@@ -61,19 +61,23 @@ export function genRoutesFromMenuTree(childMenus) {
       }
       if (menu.parentId === 0) { // 根节点
         menuRoute.component = Layout
+        menuRoute.path = `/${menu.menuAlias}`
       } else {
         const componentPath = menu.component
         menuRoute.name = menu.menuAlias
+        menuRoute.path = menu.menuAlias
         menuRoute.component = (resolve) => require([`@/views${componentPath}`], resolve)
       }
       menuRoute.children = genRoutesFromMenuTree(menu.children)
       if (isEmpty(menuRoute.children)) {
         delete menuRoute.children
       }
+
       accessedRouters.push(menuRoute)
     })
   } else {
   }
+  console.log(accessedRouters, 'accessedRouters')
   return accessedRouters
 }
 
@@ -88,6 +92,10 @@ const mutations = {
     state.addRoutes = routes
     state.routes = constantRoutes.concat(routes)
     console.log(state.routes, 'state.routes')
+  },
+  // 当前权限方法集合
+  SET_ROUTES_METHODS: (state, methods) => {
+    state.routesMethods = methods
   }
 }
 
@@ -96,8 +104,9 @@ const actions = {
     return new Promise(resolve => {
       getUserRoute().then((res) => {
         let accessedRoutes = asyncRoutes
-        const routesFromMenuTree = res ? genRoutesFromMenuTree(res.menus) : []
+        const routesFromMenuTree = genRoutesFromMenuTree(res.menus)
         accessedRoutes = accessedRoutes.concat(routesFromMenuTree)
+        commit('SET_ROUTES_METHODS', res.methods)
         commit('SET_ROUTES', accessedRoutes)
         resolve(accessedRoutes)
       })

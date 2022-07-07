@@ -28,6 +28,9 @@ import { baseApiGetMethod } from '@/components/CURD/baseApi'
 import { isEmpty } from 'element-ui/src/utils/util'
 export default {
   components: { HfBaseUserInfoIndexVue, TreeSearch },
+  props: [
+      'description', 'value', 'methods'
+  ],
   data() {
     return {
       filterText: '',
