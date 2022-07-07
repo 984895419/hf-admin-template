@@ -3,6 +3,7 @@ import { Message, MessageBox } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/connect/auth'
 import { getMessage, isSuccessResult, isTheRetCode } from '@/utils/ajaxResultUtil'
+var fileDownload = require('js-file-download')
 
 import { isEmpty } from 'element-ui/src/utils/util'
 import qs from 'qs' // internationalization
@@ -56,7 +57,7 @@ service.interceptors.response.use(
       if (!isEmpty(filename)) {
         try {
           filename = filename.split(';')[1].split('filename=')[1]
-          res.filename = filename
+          fileDownload(response.data, decodeURI(filename, 'UTF-8'))
         } catch (e) {
           console.log(3)
         }

@@ -50,6 +50,7 @@
     "element-ui": "2.13.0",
     "fuse.js": "3.6.1",
     "js-cookie": "2.2.1",
+    "js-file-download": "^0.4.12",
     "js-md5": "^0.7.3",
     "jsonlint": "1.6.3",
     "normalize.css": "8.0.1",

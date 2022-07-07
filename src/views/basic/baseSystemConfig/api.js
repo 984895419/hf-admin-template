@@ -9,7 +9,8 @@ export const baseUrl = '/api/baseSystemConfig'
  * @type {{pageUrl: string}}
  */
 export const urlMethods = defaultUrlMethod(baseUrl, 'configId', {
-  pageUrl: baseUrl + '/pageQuery'
+  pageUrl: baseUrl + '/pageQuery',
+  exportDataUrl: baseUrl + '/excel/export'
 })
 /**
  * 定义模块的命名空间

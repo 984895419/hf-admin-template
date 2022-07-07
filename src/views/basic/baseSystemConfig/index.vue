@@ -58,6 +58,14 @@
           :label="$t('common.batchDisable')"
           @success="doSearch"
         />
+        <export-btn
+          v-model="searchForm"
+          v-if="conf.urlMethods.exportDataUrl"
+          :url="conf.urlMethods.exportDataUrl"
+          http-method="post"
+          :btn-type="'primary'"
+          :label="$t('导出')"
+        />
       </div>
     </div>
     <!-- 列表-->
@@ -149,10 +157,12 @@
     import SimpleSearch from '@/components/CURD/Query/search'
     import TableColumnPreferenceSettingApiSlot from '@/views/basic/preferenceSetting/TableColumnPrefenceSettingApiSlot'
     import SectionTableColumn from '@/components/CURD/Table/column/base/SectionTableColumn'
+    import ExportBtn from "../../../components/CURD/Btns/ExportBtn";
 
     export default {
         name: 'BaseSystemConfigIndexVue',
         components: {
+            ExportBtn,
           SectionTableColumn,
           TemplateConfirmBtn,
           BaseSystemConfigColumns,
