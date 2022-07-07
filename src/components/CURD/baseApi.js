@@ -26,6 +26,19 @@ export function baseApiPostMethod(url, data) {
 }
 
 /**
+ * post请求  导出专用
+ * @param data
+ */
+ export function baseApiPostMethodExp(url, data) {
+  return request({
+    url: url,
+    method: 'post',
+    data,
+    responseType: 'blob'
+  })
+}
+
+/**
  * put请求
  * @param data
  */

@@ -13,7 +13,7 @@
 
 <script>
 import { getMessage, isSuccessResult } from '@/utils/ajaxResultUtil'
-import { baseApiDeleteMethod, baseApiPostMethod, baseApiPutMethod } from '@/components/CURD/baseApi'
+import { baseApiDeleteMethod, baseApiPostMethod, baseApiPutMethod, baseApiPostMethodExp } from '@/components/CURD/baseApi'
 import { mapGetters } from 'vuex'
 export default {
     name: 'ExportBtn',
@@ -97,7 +97,7 @@ export default {
             if (this.httpMethod.toLowerCase() === 'delete') {
                 promis = baseApiDeleteMethod(this.url, this.value)
             } else if (this.httpMethod.toLowerCase() === 'post') {
-                promis = baseApiPostMethod(this.url, this.value)
+                promis = baseApiPostMethodExp(this.url, this.value)
             } else if (this.httpMethod.toLowerCase() === 'put') {
                 promis = baseApiPutMethod(this.url, this.value)
             }
