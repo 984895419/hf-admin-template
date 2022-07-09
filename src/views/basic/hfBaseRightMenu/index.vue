@@ -90,6 +90,7 @@
               <div class="col-btn-display">
                 <!-- 更新 -->
                 <hf-base-right-menu-update
+                  v-permission="['hfBaseRightMenu:update']"
                   :value="scopeRow.row"
                   :query-url="conf.urlMethods.queryUrl"
                   :update-url="conf.urlMethods.updateUrl"
@@ -97,6 +98,7 @@
                 />
                 <!-- 删除-->
                 <del-btn
+                  v-permission="['hfBaseRightMenu:delete']"
                   :url="templateUrl(conf.urlMethods.deleteUrl, scopeRow.row)"
                   :btn-type="'text'"
                   :value="scopeRow.row"
@@ -115,6 +117,7 @@
                 <!-- 复制新增 -->
                 <hf-base-right-menu-add
                   v-if="scopeRow.row.menuType == 'PATH_MENU'"
+                  v-permission="['hfBaseRightMenu:save']"
                   :value="copierValue(scopeRow.row)"
                   :show-icon="false"
                   btn-type="text"

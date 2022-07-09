@@ -4,7 +4,8 @@
       <user-setting-prefence-setting
         v-model="formData"
         :preference-alias="'FOR_USER'"
-        :init-data="formData" >
+        :init-data="formData"
+      >
         <template v-slot="{ preferenceData, doSave }">
           <el-form
             ref="form"
@@ -21,7 +22,8 @@
                   :value="preferenceData"
                   :prop="'fe.setting.tooltip'"
                   :list="[{ label: '是', value: true }, { label: '否', value: false }]"
-                  label="是否显示用户帮助"/>
+                  label="是否显示用户帮助"
+                />
               </template>
             </row-span-slot>
             <el-form-item>
@@ -41,11 +43,11 @@
     import { mapGetters } from 'vuex'
     import FormItemColDict from '../../../components/CURD/Form/formItemColDict'
     import CommonDialogBtn from '../../../components/CURD/Btns/CommonDialogBtn'
-    import RowSpanSlot from "../../../components/CURD/Slot/RowSpanSlot";
-    import FormItemColSelect from "../../../components/CURD/Form/formItemColSelect";
+    import RowSpanSlot from '../../../components/CURD/Slot/RowSpanSlot'
+    import FormItemColSelect from '../../../components/CURD/Form/formItemColSelect'
     export default {
         name: 'UserSetting',
-        components: {FormItemColSelect, RowSpanSlot, CommonDialogBtn, FormItemColDict, UserSettingPrefenceSetting },
+        components: { FormItemColSelect, RowSpanSlot, CommonDialogBtn, FormItemColDict, UserSettingPrefenceSetting },
         data() {
             return {
                 formData: {

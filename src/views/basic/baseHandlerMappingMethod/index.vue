@@ -31,7 +31,7 @@
     </div>
     <!-- 操作栏-->
     <div style="margin-bottom: 10px" class="col-btn-display">
-      <base-handler-mapping-method-add :value="{ controllerId: controllerId, enableState : 1}" :action-url="conf.urlMethods.addUrl"  @success="doSearch" />
+      <base-handler-mapping-method-add :value="{ controllerId: controllerId, enableState : 1}" :action-url="conf.urlMethods.addUrl" @success="doSearch" />
       <div style="float: right" class="col-btn-display">
         <del-btn
           v-if="conf.urlMethods.deleteUrl
@@ -63,9 +63,10 @@
     </div>
     <!-- 列表-->
     <table-column-preference-setting-api-slot
-            :init-data="tableFields"
-            v-model="showFields"
-            :preference-alias="conf.namespace">
+      v-model="showFields"
+      :init-data="tableFields"
+      :preference-alias="conf.namespace"
+    >
       <template v-slot="{doSave, preferenceData}">
         <hf-table
           v-if="showFields"
@@ -74,7 +75,7 @@
           @selection-change="handleSelectionChange"
           @sort-change="sortChange"
         >
-          <section-table-column/>
+          <section-table-column />
           <!-- 显示的字段-->
           <base-handler-mapping-method-columns :show-fields="showFields" :url-methods="conf.urlMethods" @success="doSearch" />
           <el-table-column
@@ -83,7 +84,7 @@
             width="150"
           >
             <template v-slot:header>
-              {{$t('common.operate')}}
+              {{ $t('common.operate') }}
               <curd-table-column-select
                 v-model="showFields"
                 :preference-alias="conf.namespace"
@@ -97,6 +98,7 @@
               <div class="col-btn-display">
                 <!-- 更新 -->
                 <base-handler-mapping-method-update
+                  v-permission="['baseHandlerMappingMethod:update']"
                   :value="scopeRow.row"
                   :query-url="conf.urlMethods.queryUrl"
                   :update-url="conf.urlMethods.updateUrl"
@@ -104,6 +106,7 @@
                 />
                 <!-- 删除-->
                 <del-btn
+                  v-permission="['baseHandlerMappingMethod:delete']"
                   :url="templateUrl(conf.urlMethods.deleteUrl, scopeRow.row)"
                   :btn-type="'text'"
                   :value="scopeRow.row"
@@ -171,12 +174,6 @@
         props: {
         controllerId: Number
     },
-        watch: {
-            controllerId() {
-                this.searchForm.controllerId = this.controllerId
-                this.doSearch()
-            }
-        },
         data() {
             return {
                 db: {},
@@ -208,6 +205,12 @@
                 },
                 tableFields: conf.default,
                 toggleRowSelectionArray: []
+            }
+        },
+        watch: {
+            controllerId() {
+                this.searchForm.controllerId = this.controllerId
+                this.doSearch()
             }
         },
         created() {

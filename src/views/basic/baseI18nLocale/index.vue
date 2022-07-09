@@ -5,7 +5,7 @@
       <simple-search v-model="searchForm" :inline="true" @search="doSearch">
         <template v-slot="{ span }">
           <!-- 新增的的字段配置 -->
-                    <form-item-col
+          <form-item-col
             :value="searchForm"
             :span="12"
             prop="locale"
@@ -30,7 +30,7 @@
     </div>
     <!-- 操作栏-->
     <div style="margin-bottom: 10px" class="col-btn-display">
-      <base-i18n-locale-add v-if="groupId" :value="{ groupId: groupId, groupName: groupName, enableState: 1 }" :action-url="conf.urlMethods.addUrl"  @success="doSearch" />
+      <base-i18n-locale-add v-if="groupId" :value="{ groupId: groupId, groupName: groupName, enableState: 1 }" :action-url="conf.urlMethods.addUrl" @success="doSearch" />
       <div style="float: right" class="col-btn-display">
         <del-btn
           v-if="conf.urlMethods.deleteUrl
@@ -62,9 +62,10 @@
     </div>
     <!-- 列表-->
     <table-column-preference-setting-api-slot
-            :init-data="tableFields"
-            v-model="showFields"
-            :preference-alias="conf.namespace">
+      v-model="showFields"
+      :init-data="tableFields"
+      :preference-alias="conf.namespace"
+    >
       <template v-slot="{doSave, preferenceData}">
         <hf-table
           v-if="showFields"
@@ -73,7 +74,7 @@
           @selection-change="handleSelectionChange"
           @sort-change="sortChange"
         >
-          <section-table-column/>
+          <section-table-column />
           <!-- 显示的字段-->
           <base-i18n-locale-columns :show-fields="showFields" :url-methods="conf.urlMethods" @success="doSearch" />
           <el-table-column
@@ -82,7 +83,7 @@
             width="150"
           >
             <template v-slot:header>
-              {{$t('common.operate')}}
+              {{ $t('common.operate') }}
               <curd-table-column-select
                 v-model="showFields"
                 :preference-alias="conf.namespace"
@@ -96,6 +97,7 @@
               <div class="col-btn-display">
                 <!-- 更新 -->
                 <base-i18n-locale-update
+                  v-permission="['baseI18nLocale:update']"
                   :value="scopeRow.row"
                   :query-url="conf.urlMethods.queryUrl"
                   :update-url="conf.urlMethods.updateUrl"
@@ -103,6 +105,7 @@
                 />
                 <!-- 删除-->
                 <del-btn
+                  v-permission="['baseI18nLocale:delete']"
                   :url="templateUrl(conf.urlMethods.deleteUrl, scopeRow.row)"
                   :btn-type="'text'"
                   :value="scopeRow.row"
@@ -175,12 +178,6 @@
                 type: String
             }
         },
-        watch: {
-            groupId() {
-                this.searchForm.groupId = this.groupId
-                this.doSearch()
-            }
-        },
         data() {
             return {
                 db: {},
@@ -212,6 +209,12 @@
                 },
                 tableFields: conf.default,
                 toggleRowSelectionArray: []
+            }
+        },
+        watch: {
+            groupId() {
+                this.searchForm.groupId = this.groupId
+                this.doSearch()
             }
         },
         created() {

@@ -98,6 +98,7 @@
                 <!-- 更新 -->
                 <base-tenant-update
                   v-if="scopeRow.row.initData + '' !== '1' && scopeRow.row.id !== 0"
+                  v-permission="['baseTenant:update']"
                   :value="scopeRow.row"
                   :query-url="conf.urlMethods.queryUrl"
                   :update-url="conf.urlMethods.updateUrl"
@@ -106,6 +107,7 @@
                 <!-- 删除-->
                 <del-btn
                   v-if="scopeRow.row.initData + '' !== '1'"
+                  v-permission="['baseTenant:delete']"
                   :url="templateUrl(conf.urlMethods.deleteUrl, scopeRow.row)"
                   :btn-type="'text'"
                   :value="scopeRow.row"

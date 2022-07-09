@@ -47,11 +47,6 @@ export default {
       nextDefaultCheckedKeysList: []
     }
   },
-  watch: {
-    menusData(val, oldval) {
-
-    }
-  },
   computed: {
     treeData() {
         const res = []
@@ -66,6 +61,11 @@ export default {
             return this.iteratorMenuIds(this.menusData)
         }
         return res
+    }
+  },
+  watch: {
+    menusData(val, oldval) {
+
     }
   },
   created() {
@@ -95,7 +95,7 @@ export default {
                 if (s.menuId) {
                     const tb = Object.assign({ cid: 'MENU_' + s.menuId, label: s.menuName }, s)
                     if (s.menuName === 'OA人事') {
-                        debugger
+                        // debugger
                     }
                     if (s.children) {
                         tb.children = this.iteratorMenus(s.children)

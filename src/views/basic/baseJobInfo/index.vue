@@ -5,7 +5,7 @@
       <simple-search v-model="searchForm" :inline="true" @search="doSearch">
         <template v-slot="{ span }">
           <!-- 新增的的字段配置 -->
-                    <form-item-col
+          <form-item-col
             :value="searchForm"
             :span="span"
             prop="jobName"
@@ -44,7 +44,7 @@
     </div>
     <!-- 操作栏-->
     <div style="margin-bottom: 10px" class="col-btn-display">
-      <base-job-info-add :action-url="conf.urlMethods.addUrl"  @success="doSearch" />
+      <base-job-info-add :action-url="conf.urlMethods.addUrl" @success="doSearch" />
       <div style="float: right" class="col-btn-display">
         <del-btn
           v-if="conf.urlMethods.deleteUrl
@@ -76,9 +76,10 @@
     </div>
     <!-- 列表-->
     <table-column-preference-setting-api-slot
-            :init-data="tableFields"
-            v-model="showFields"
-            :preference-alias="conf.namespace">
+      v-model="showFields"
+      :init-data="tableFields"
+      :preference-alias="conf.namespace"
+    >
       <template v-slot="{doSave, preferenceData}">
         <hf-table
           v-if="showFields"
@@ -87,7 +88,7 @@
           @selection-change="handleSelectionChange"
           @sort-change="sortChange"
         >
-          <section-table-column/>
+          <section-table-column />
           <!-- 显示的字段-->
           <base-job-info-columns :show-fields="showFields" :url-methods="conf.urlMethods" @success="doSearch" />
           <el-table-column
@@ -96,7 +97,7 @@
             width="150"
           >
             <template v-slot:header>
-              {{$t('common.operate')}}
+              {{ $t('common.operate') }}
               <curd-table-column-select
                 v-model="showFields"
                 :preference-alias="conf.namespace"
@@ -110,6 +111,7 @@
               <div class="col-btn-display">
                 <!-- 更新 -->
                 <base-job-info-update
+                  v-permission="['baseJobInfo:update']"
                   :value="scopeRow.row"
                   :query-url="conf.urlMethods.queryUrl"
                   :update-url="conf.urlMethods.updateUrl"
@@ -117,6 +119,7 @@
                 />
                 <!-- 删除-->
                 <del-btn
+                  v-permission="['baseJobInfo:delete']"
                   :url="templateUrl(conf.urlMethods.deleteUrl, scopeRow.row)"
                   :btn-type="'text'"
                   :value="scopeRow.row"
@@ -128,32 +131,35 @@
                 />
                 <!-- 启动 -->
                 <template-confirm-btn
+                  v-permission="['baseJobInfo:enable']"
                   :url="templateUrl(conf.urlMethods.startUrl, scopeRow.row)"
                   :label="$t('common.start')"
                   :value="scopeRow.row"
-                  btnType="text"
-                  httpMethod="post"
-                  :confirmLabel="'启动该任务？'"
+                  btn-type="text"
+                  http-method="post"
+                  :confirm-label="'启动该任务？'"
                   @success="doSearch"
                 />
                 <!-- 停止 -->
                 <template-confirm-btn
+                  v-permission="['baseJobInfo:disable']"
                   :url="templateUrl(conf.urlMethods.stopUrl, scopeRow.row)"
                   :label="$t('common.stop')"
                   :value="scopeRow.row"
-                  btnType="text"
-                  httpMethod="post"
-                  :confirmLabel="'停止任务？'"
+                  btn-type="text"
+                  http-method="post"
+                  :confirm-label="'停止任务？'"
                   @success="doSearch"
                 />
                 <!-- 重启 -->
                 <template-confirm-btn
+                  v-permission="['baseJobInfo:restart']"
                   :url="templateUrl(conf.urlMethods.restartUrl, scopeRow.row)"
                   :label="$t('common.restart')"
                   :value="scopeRow.row"
-                  btnType="text"
-                  httpMethod="post"
-                  :confirmLabel="'重启任务？'"
+                  btn-type="text"
+                  http-method="post"
+                  :confirm-label="'重启任务？'"
                   @success="doSearch"
                 />
               </div>
