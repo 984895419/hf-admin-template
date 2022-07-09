@@ -98,9 +98,6 @@ export default {
     },
     //  保存权限设置
     saveMenusData() {
-       console.log(this.dataList.roleId, 'roleId')
-       console.log(this.menuIds, 'menuIds')
-       console.log(this.methodIds, 'methodIds')
       if (this.menuIds.length > 0) {
         this.configOperateRightParam = {
           'roleId': this.dataList.roleId,
@@ -143,23 +140,26 @@ export default {
       const res2 = this.$refs.tree.getHalfCheckedKeys()
       console.log(res1, 'res1')
       console.log(res2, 'res2')
+      console.log(this.dataList.roleId, 'roleId')
+      console.log(this.menuIds, 'menuIds')
+      console.log(this.methodIds, 'methodIds')
     },
 
     // 选中当前tree节点 获取menuIds \ methodIds
-   currentChecked(nodeObj, SelectedObj) {
+    currentChecked(nodeObj, SelectedObj) {
       const dataList = []
       // 过滤underfine
-      console.log(nodeObj, 'nodeObj')
-      console.log(SelectedObj, 'SelectedObj')
+      // console.log(nodeObj, 'nodeObj')
+      // console.log(SelectedObj, 'SelectedObj')
       SelectedObj.checkedNodes.forEach(el => {
-         if (el.methodId !== null) {
-            dataList.push(el.methodId)
-         }
+        if (el.methodId !== null) {
+          dataList.push(el.methodId)
+        }
       })
       this.menuIds = SelectedObj.checkedKeys.filter(x => !!x === true || x === 0)
       const newArr = dataList.filter(x => !!x === true || x === 0)
       this.methodIds = this.newArrFn(newArr)
-      console.log(this.methodIds, 'this.methodIds')
+      // console.log(this.methodIds, 'this.methodIds')
     },
     // 去重
     newArrFn(arr) {
@@ -179,10 +179,12 @@ export default {
         }
         list[i].children = this.treeToList(list[i].children)
       }
-        this.nextDefaultCheckedKeysList = this.defaultCheckedKeysList.filter(x => !!x === true || x === 0)
-        this.$nextTick(() => {
-          this.$refs.tree.setCheckedKeys(this.nextDefaultCheckedKeysList)
-        })
+      this.nextDefaultCheckedKeysList = this.newArrFn(this.defaultCheckedKeysList.filter(x => !!x === true || x === 0))
+      console.log(this.nextDefaultCheckedKeysList, 'this.nextDefaultCheckedKeysList')
+
+      this.$nextTick(() => {
+        this.$refs.tree.setCheckedKeys(this.nextDefaultCheckedKeysList)
+      })
       return list
     }
   }

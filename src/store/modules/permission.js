@@ -77,7 +77,7 @@ export function genRoutesFromMenuTree(childMenus) {
     })
   } else {
   }
-  console.log(accessedRouters, 'accessedRouters')
+  // console.log(accessedRouters, 'accessedRouters')
   return accessedRouters
 }
 
@@ -91,7 +91,7 @@ const mutations = {
     // constantRoutes 默认路由  routes为基本路由
     state.addRoutes = routes
     state.routes = constantRoutes.concat(routes)
-    console.log(state.routes, 'state.routes')
+    // console.log(state.routes, 'state.routes')
   },
   // 当前权限方法集合
   SET_ROUTES_METHODS: (state, methods) => {

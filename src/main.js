@@ -23,7 +23,7 @@ import Print from '@/utils/print'
 import SuperFlow from 'vue-super-flow'
 import 'vue-super-flow/lib/index.css'
 import Clipboard from 'v-clipboard'
-import permission from './permission'
+import permission from './directive/permission/permission'
 
 Vue.use(Clipboard)
 
