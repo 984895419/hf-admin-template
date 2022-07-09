@@ -114,7 +114,6 @@
                 <look-for-method v-if="scopeRow.row.controllerId" :controller-id="scopeRow.row.controllerId" />
                 <!-- 复制新增 -->
                 <hf-base-right-menu-add
-                  v-if="scopeRow.row.menuType == 'PATH_MENU'"
                   :value="copierValue(scopeRow.row)"
                   :show-icon="false"
                   btn-type="text"
@@ -245,7 +244,7 @@ export default {
   },
   watch: {
     treeSelected(val, oldval) {
-      this.searchForm.parentId = val.menuId
+      this.searchForm.menuId = val.parentId === 0 ? '' : val.menuId
       this.doSearch()
     }
   },
