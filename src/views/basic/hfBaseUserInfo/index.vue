@@ -116,7 +116,7 @@
                 <!-- {{ $store.state.permission.routesMethods }} -->
                 <common-dialog-btn
                   v-show="$route.path === '/oa/account'"
-                  v-permission="['hfBaseUserInfo:getBindRoles']"
+                  v-permission="['hfBaseUserInfo:bindRoles']"
                   :label="'设置角色'"
                   :type="'text'"
                 >
