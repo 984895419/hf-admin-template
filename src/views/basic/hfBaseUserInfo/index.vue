@@ -161,7 +161,6 @@ import SimpleSearch from '@/components/CURD/Query/search'
 import TableColumnPreferenceSettingApiSlot from '@/views/basic/preferenceSetting/TableColumnPrefenceSettingApiSlot'
 import RoleSettings from '@/views/oa/role-settings.vue'
 import CommonDialogBtn from '@/components/CURD/Btns/CommonDialogBtn'
-import store from '@/store'
 export default {
   name: 'HfBaseUserInfoIndexVue',
   components: {
