@@ -6,8 +6,12 @@
                     <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="userId" />
           <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="userCode" />
           <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="userName" />
-          <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="pkOrg" />
-          <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="pkDept" />
+          <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="pkOrg" >
+            {{value.pkOrgName}}
+          </form-item-text>
+          <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="pkDept">
+            {{value.pkDeptName}}
+          </form-item-text>
           <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="gender" />
           <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="mobile" />
           <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="email" />

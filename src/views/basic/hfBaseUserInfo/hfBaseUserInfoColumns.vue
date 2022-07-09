@@ -68,7 +68,7 @@
       <modify-time-table-column v-if="item.value === 'modifyTime'" />
       <enable-state-table-column
         v-if="item.value === 'enableState'"
-        :operate="true"
+        :operate="false"
         :enable-url="urlMethods.enableUrl"
         :disable-url="urlMethods.disableUrl"
         v-on="$listeners"

@@ -21,7 +21,7 @@
     </div>
     <!-- 操作栏-->
     <div style="margin-bottom: 10px" class="col-btn-display ">
-      <hf-base-user-info-add v-permission="['hfBaseUserInfo:save']" :action-url="conf.urlMethods.addUrl" @success="doSearch" />
+<!--      <hf-base-user-info-add v-permission="['hfBaseUserInfo:save']" :action-url="conf.urlMethods.addUrl" @success="doSearch" />-->
       <div style="float: right" class="col-btn-display">
         <del-btn
           v-if="conf.urlMethods.deleteUrl
@@ -95,21 +95,21 @@
             <template slot-scope="scopeRow">
               <div class="col-btn-display">
                 <!-- 更新 -->
-                <hf-base-user-info-update
-                  v-permission="['hfBaseUserInfo:update']"
-                  :value="scopeRow.row"
-                  :query-url="conf.urlMethods.queryUrl"
-                  :update-url="conf.urlMethods.updateUrl"
-                  @success="doSearch"
-                />
+<!--                <hf-base-user-info-update-->
+<!--                  v-permission="['hfBaseUserInfo:update']"-->
+<!--                  :value="scopeRow.row"-->
+<!--                  :query-url="conf.urlMethods.queryUrl"-->
+<!--                  :update-url="conf.urlMethods.updateUrl"-->
+<!--                  @success="doSearch"-->
+<!--                />-->
                 <!-- 删除-->
-                <del-btn
-                  v-permission="['hfBaseUserInfo:delete']"
-                  :url="templateUrl(conf.urlMethods.deleteUrl, scopeRow.row)"
-                  :btn-type="'text'"
-                  :value="scopeRow.row"
-                  @success="doSearch"
-                />
+<!--                <del-btn-->
+<!--                  v-permission="['hfBaseUserInfo:delete']"-->
+<!--                  :url="templateUrl(conf.urlMethods.deleteUrl, scopeRow.row)"-->
+<!--                  :btn-type="'text'"-->
+<!--                  :value="scopeRow.row"-->
+<!--                  @success="doSearch"-->
+<!--                />-->
                 <!-- 查看 -->
                 <hf-base-user-info-detail :value="scopeRow.row" />
                 <!-- 设置角色 -->
