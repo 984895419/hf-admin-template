@@ -36,7 +36,7 @@
       />
     </el-col>
     <el-col :span="21">
-      <baseHandlerMappingMethod :tree-selected="treeSelected" />
+      <baseHandlerMappingMethod :tree-selected="treeSelected" :controller-id="treeSelected ? treeSelected.controllerId : undefined"/>
     </el-col>
 
   </div>

@@ -104,9 +104,9 @@ const actions = {
     return new Promise(resolve => {
       getUserRoute().then((res) => {
         let accessedRoutes = asyncRoutes
-        const routesFromMenuTree = genRoutesFromMenuTree(res.menus)
+        const routesFromMenuTree = genRoutesFromMenuTree(res == null ? [] : res.menus )
         accessedRoutes = accessedRoutes.concat(routesFromMenuTree)
-        commit('SET_ROUTES_METHODS', res.methods)
+        commit('SET_ROUTES_METHODS', res == null ? [] : res.methods)
         commit('SET_ROUTES', accessedRoutes)
         resolve(accessedRoutes)
       })

@@ -171,6 +171,12 @@
         props: {
         controllerId: Number
     },
+        watch: {
+            controllerId() {
+                this.searchForm.controllerId = this.controllerId
+                this.doSearch()
+            }
+        },
         data() {
             return {
                 db: {},

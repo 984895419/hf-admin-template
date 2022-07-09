@@ -13,7 +13,7 @@
       />
     </el-col>
     <el-col :span="21">
-      <hfBaseRightMenu :tree-selected="treeSelected" />
+      <hfBaseRightMenu :tree-selected="treeSelected"/>
     </el-col>
 
   </div>
