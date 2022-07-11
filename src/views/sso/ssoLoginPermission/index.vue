@@ -65,14 +65,16 @@
     </div>
     <!-- 列表-->
     <table-column-preference-setting-api-slot
-      :init-data="tableFields"
       v-model="showFields"
-      :preference-alias="conf.namespace">
+      :init-data="tableFields"
+      :preference-alias="conf.namespace"
+    >
       <template v-slot="{doSave, preferenceData}">
         <hf-table
           v-if="showFields"
           v-loading="loading"
           :table-data="jsonData.list"
+          max-height="600"
           @selection-change="handleSelectionChange"
           @sort-change="sortChange"
         >
@@ -122,7 +124,7 @@
                 <!-- 绑定应用 -->
                 <common-dialog-btn type="text" :label="$t(conf.getI18nName('bindApps'))" :title="$t(conf.getI18nName('bindApps'))">
                   <template v-slot="{closeDialog}">
-                    <app-permission :permission-id="scopeRow.row.permissionId" @success="bindSuccessHandler(closeDialog)()"/>
+                    <app-permission :permission-id="scopeRow.row.permissionId" @success="bindSuccessHandler(closeDialog)()" />
                   </template>
                 </common-dialog-btn>
               </div>
@@ -294,7 +296,6 @@
             },
             bindSuccessHandler(cb) {
                 return () => {
-
                     if (cb) {
                         cb()
                     }
