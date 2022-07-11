@@ -25,7 +25,6 @@
 <script>
 import { baseApiGetMethod, baseApiPostMethod } from '@/components/CURD/baseApi'
 import { getMessage, isSuccessResult, isTheRetCode } from '@/utils/ajaxResultUtil'
-import { fastLerp } from '_zrender@4.2.0@zrender/lib/tool/color'
 export default {
   props: {
     'dataList': {}
@@ -47,11 +46,6 @@ export default {
       nextDefaultCheckedKeysList: []
     }
   },
-  watch: {
-    menusData(val, oldval) {
-
-    }
-  },
   computed: {
     treeData() {
         const res = []
@@ -66,6 +60,11 @@ export default {
             return this.iteratorMenuIds(this.menusData)
         }
         return res
+    }
+  },
+  watch: {
+    menusData(val, oldval) {
+
     }
   },
   created() {

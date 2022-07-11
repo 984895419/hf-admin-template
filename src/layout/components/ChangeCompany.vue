@@ -58,18 +58,10 @@ export default {
         spinner: 'el-icon-loading',
         background: 'rgba(0, 0, 0, 0.7)'
       })
-      setTimeout(() => {
-        loading.close()
-      }, 2000)
 
       this.$store.dispatch('user/changeTenant', id).then((data) => {
-        getUserRoute().then((res) => {
-          if (res.data.length > 0) {
+        this.$store.dispatch('permission/generateRoutes').then((res) => {
             loading.close()
-          } else {
-            alert('暂无数据')
-            return
-          }
         })
       })
     }

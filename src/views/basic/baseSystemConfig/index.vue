@@ -5,7 +5,7 @@
       <simple-search v-model="searchForm" :inline="true" @search="doSearch">
         <template v-slot="{ span }">
           <!-- 新增的的字段配置 -->
-                    <form-item-col
+          <form-item-col
             :value="searchForm"
             :span="span"
             prop="configKey"
@@ -30,7 +30,7 @@
     </div>
     <!-- 操作栏-->
     <div style="margin-bottom: 10px" class="col-btn-display">
-      <base-system-config-add :action-url="conf.urlMethods.addUrl"  @success="doSearch" />
+      <base-system-config-add :action-url="conf.urlMethods.addUrl" @success="doSearch" />
       <div style="float: right" class="col-btn-display">
         <del-btn
           v-if="conf.urlMethods.deleteUrl
@@ -59,8 +59,8 @@
           @success="doSearch"
         />
         <export-btn
-          v-model="searchForm"
           v-if="conf.urlMethods.exportDataUrl"
+          v-model="searchForm"
           :url="conf.urlMethods.exportDataUrl"
           http-method="post"
           :btn-type="'primary'"
@@ -70,18 +70,20 @@
     </div>
     <!-- 列表-->
     <table-column-preference-setting-api-slot
-            :init-data="tableFields"
-            v-model="showFields"
-            :preference-alias="conf.namespace">
+      v-model="showFields"
+      :init-data="tableFields"
+      :preference-alias="conf.namespace"
+    >
       <template v-slot="{doSave, preferenceData}">
         <hf-table
           v-if="showFields"
           v-loading="loading"
           :table-data="jsonData.list"
+          max-height="600"
           @selection-change="handleSelectionChange"
           @sort-change="sortChange"
         >
-          <section-table-column/>
+          <section-table-column />
           <!-- 显示的字段-->
           <base-system-config-columns :show-fields="showFields" :url-methods="conf.urlMethods" @success="doSearch" />
           <el-table-column
@@ -90,7 +92,7 @@
             width="150"
           >
             <template v-slot:header>
-              {{$t('common.operate')}}
+              {{ $t('common.operate') }}
               <curd-table-column-select
                 v-model="showFields"
                 :preference-alias="conf.namespace"
@@ -104,6 +106,7 @@
               <div class="col-btn-display">
                 <!-- 更新 -->
                 <base-system-config-update
+                  v-permission="['baseSystemConfig:update']"
                   :value="scopeRow.row"
                   :query-url="conf.urlMethods.queryUrl"
                   :update-url="conf.urlMethods.updateUrl"
@@ -112,6 +115,7 @@
                 <!-- 删除-->
                 <del-btn
                   v-if="scopeRow.row.initData !== '1'"
+                  v-permission="['baseSystemConfig:delete']"
                   :url="templateUrl(conf.urlMethods.deleteUrl, scopeRow.row)"
                   :btn-type="'text'"
                   :value="scopeRow.row"
@@ -157,7 +161,7 @@
     import SimpleSearch from '@/components/CURD/Query/search'
     import TableColumnPreferenceSettingApiSlot from '@/views/basic/preferenceSetting/TableColumnPrefenceSettingApiSlot'
     import SectionTableColumn from '@/components/CURD/Table/column/base/SectionTableColumn'
-    import ExportBtn from "../../../components/CURD/Btns/ExportBtn";
+    import ExportBtn from '../../../components/CURD/Btns/ExportBtn'
 
     export default {
         name: 'BaseSystemConfigIndexVue',

@@ -78,6 +78,7 @@
           v-if="showFields"
           v-loading="loading"
           :table-data="jsonData.list"
+          max-height="600"
           @selection-change="handleSelectionChange"
           @sort-change="sortChange"
         >
@@ -104,6 +105,7 @@
               <div class="col-btn-display">
                 <!-- 更新 -->
                 <hf-base-right-role-operate-update
+                  v-permission="['hfBaseRightRoleOperate:update']"
                   :value="scopeRow.row"
                   :query-url="conf.urlMethods.queryUrl"
                   :update-url="conf.urlMethods.updateUrl"
@@ -111,6 +113,7 @@
                 />
                 <!-- 删除-->
                 <del-btn
+                  v-permission="['hfBaseRightRoleOperate:delete']"
                   :url="templateUrl(conf.urlMethods.deleteUrl, scopeRow.row)"
                   :btn-type="'text'"
                   :value="scopeRow.row"

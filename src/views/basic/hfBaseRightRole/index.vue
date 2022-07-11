@@ -85,14 +85,17 @@
                 <!-- 更新 -->
                 <hf-base-right-role-update
                   v-if="scopeRow.row.initData !== 1"
+                  v-permission="['hfBaseRightRole:update']"
                   :value="scopeRow.row"
                   :query-url="conf.urlMethods.queryUrl"
                   :update-url="conf.urlMethods.updateUrl"
+
                   @success="doSearch"
                 />
                 <!-- 删除-->
                 <del-btn
                   v-if="scopeRow.row.initData !== 1"
+                  v-permission="['hfBaseRightRole:delete']"
                   :url="templateUrl(conf.urlMethods.deleteUrl, scopeRow.row)"
                   :btn-type="'text'"
                   :value="scopeRow.row"

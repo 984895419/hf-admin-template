@@ -11,7 +11,7 @@
             prop="appId"
             :namespace="conf.namespace"
           >
-            <sso-login-app-input-refer :value="searchForm" value-refer-id="appId" value-refer-name="appName"/>
+            <sso-login-app-input-refer :value="searchForm" value-refer-id="appId" value-refer-name="appName" />
           </form-item-col>
           <form-item-col
             :value="searchForm"
@@ -43,6 +43,7 @@
           v-if="showFields"
           v-loading="loading"
           :table-data="jsonData.list"
+          max-height="600"
           @selection-change="handleSelectionChange"
           @sort-change="sortChange"
         >
@@ -107,7 +108,7 @@
     import SimpleSearch from '@/components/CURD/Query/search'
     import TableColumnPreferenceSettingApiSlot from '@/views/basic/preferenceSetting/TableColumnPrefenceSettingApiSlot'
     import SectionTableColumn from '@/components/CURD/Table/column/base/SectionTableColumn'
-    import SsoLoginAppInputRefer from "../ssoLoginApp/inputRefer";
+    import SsoLoginAppInputRefer from '../ssoLoginApp/inputRefer'
 
     export default {
         name: 'SsoLoginAppLogIndexVue',

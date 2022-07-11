@@ -30,7 +30,7 @@
     </div>
     <!-- 操作栏-->
     <div style="margin-bottom: 10px" class="col-btn-display">
-      <sso-client-add @success="doSearch" :action-url="conf.urlMethods.addUrl" />
+      <sso-client-add :action-url="conf.urlMethods.addUrl" @success="doSearch" />
       <div style="float: right" class="col-btn-display">
         <del-btn
           v-if="conf.urlMethods.deleteUrl
@@ -61,15 +61,17 @@
       </div>
     </div>
     <table-column-preference-setting-api-slot
-      :init-data="tableFields"
       v-model="showFields"
-      :preference-alias="conf.namespace">
+      :init-data="tableFields"
+      :preference-alias="conf.namespace"
+    >
       <template v-slot="{doSave, preferenceData}">
         <!-- 列表-->
         <hf-table
           v-if="showFields"
           v-loading="loading"
           :table-data="jsonData.list"
+          max-height="600"
           @selection-change="handleSelectionChange"
           @sort-change="sortChange"
         >
@@ -150,7 +152,7 @@
     import FormItemColDict from '@/components/CURD/Form/formItemColDict.vue'
     import FormItemCol from '@/components/CURD/Form/formItemCol.vue'
     import SimpleSearch from '@/components/CURD/Query/search'
-    import TableColumnPreferenceSettingApiSlot from '@/views/basic/preferenceSetting/TableColumnPrefenceSettingApiSlot';
+    import TableColumnPreferenceSettingApiSlot from '@/views/basic/preferenceSetting/TableColumnPrefenceSettingApiSlot'
 
     export default {
         name: 'SsoAuthClientIndexVue',

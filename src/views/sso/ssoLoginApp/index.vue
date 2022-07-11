@@ -70,18 +70,20 @@
     </div>
     <!-- 列表-->
     <table-column-preference-setting-api-slot
-      :init-data="tableFields"
       v-model="showFields"
-      :preference-alias="conf.namespace">
+      :init-data="tableFields"
+      :preference-alias="conf.namespace"
+    >
       <template v-slot="{doSave, preferenceData}">
         <hf-table
           v-if="showFields"
           v-loading="loading"
           :table-data="jsonData.list"
+          max-height="600"
           @selection-change="handleSelectionChange"
           @sort-change="sortChange"
         >
-          <section-table-column/>
+          <section-table-column />
           <!-- 显示的字段-->
           <sso-login-app-columns :show-fields="showFields" :url-methods="conf.urlMethods" @success="doSearch" />
           <el-table-column
@@ -156,7 +158,7 @@
     import FormItemColDict from '@/components/CURD/Form/formItemColDict.vue'
     import FormItemCol from '@/components/CURD/Form/formItemCol.vue'
     import SimpleSearch from '@/components/CURD/Query/search'
-    import {getData, getMessage} from '@/utils/ajaxResultUtil'
+    import { getData, getMessage } from '@/utils/ajaxResultUtil'
     import TableColumnPreferenceSettingApiSlot from '@/views/basic/preferenceSetting/TableColumnPrefenceSettingApiSlot'
     import SectionTableColumn from '@/components/CURD/Table/column/base/SectionTableColumn'
 
@@ -297,7 +299,7 @@
                 if (row.noLoginType === 'FANRUAN') {
                     baseApiGetMethod('/api/proxy/' + row.appId).then(resp => {
                         if (isSuccessResult(resp)) {
-                            const { authUri , successUri } = getData(resp)
+                            const { authUri, successUri } = getData(resp)
                             this.doSubmit(authUri, successUri)
                         } else {
                            this.$message.error(getMessage(resp))
