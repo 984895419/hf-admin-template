@@ -58,7 +58,7 @@
       />
       <el-table-column
         v-if="item.value === 'parentId'"
-        prop="parentId"
+        prop="parentName"
         :label="$t(conf.namespace + '.parentId')"
         min-width="130"
       />

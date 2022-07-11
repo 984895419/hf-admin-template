@@ -291,7 +291,7 @@ export default {
             this.$set(this.jsonData, 'list', resp.data.list)
             this.$set(this.jsonData, 'total', resp.data.total)
             setTimeout(() => {
-              if (this.binduserlist.length > 0) {
+              if (this.binduserlist && this.binduserlist.length > 0) {
                 this.$nextTick(() => {
                   this.$refs.hfMainTable.toggleRowSelection(this.jsonData.list.filter(row => this.binduserlist.indexOf(row.id) >= 0), true)
                 })

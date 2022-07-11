@@ -15,7 +15,9 @@
           <enable-state-form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="enableState" />
           <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="deleted" />
           <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="initData" />
-          <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="parentId" />
+          <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="parentId" >
+            {{value.parentName}}
+          </form-item-text>
           <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="level" />
           <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="levelStr" />
           <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="sort" />

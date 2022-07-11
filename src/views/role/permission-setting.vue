@@ -74,18 +74,14 @@ export default {
   methods: {
     iteratorMenuIds(menus) {
         let items = []
-        menus.forEach(s => {
-            if (s.children) {
-                items = items.concat(this.iteratorMenuIds(s.children))
-            } else {
-                if (s.methods) {
-                    items = items.concat(this.iteratorMenuIds(s.methods))
+        if (menus && menus.length > 0) {
+            menus.forEach(s => {
+                items = items.concat(this.iteratorMenuIds(s.children || s.methods))
+                if (s.checked === true && s.methodId) {
+                    items.push('METHOD_' + s.methodId)
                 }
-            }
-            if (s.checked === true && s.methodId) {
-                items.push('METHOD_' + s.methodId)
-            }
-        })
+            })
+        }
         return items
     },
     iteratorMenus(menus) {
@@ -94,9 +90,6 @@ export default {
             menus.forEach(s => {
                 if (s.menuId) {
                     const tb = Object.assign({ cid: 'MENU_' + s.menuId, label: s.menuName }, s)
-                    if (s.menuName === 'OA人事') {
-                        debugger
-                    }
                     if (s.children) {
                         tb.children = this.iteratorMenus(s.children)
                     } else {
