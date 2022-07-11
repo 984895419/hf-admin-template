@@ -5,11 +5,12 @@
       :size="size"
       :data="tableData"
       border
-      :rowKey="rowKey"
+      :row-key="rowKey"
       v-bind="$attrs"
+      max-height="600px"
       v-on="$listeners"
     >
-      <slot></slot>
+      <slot />
     </el-table>
   </div>
 </template>

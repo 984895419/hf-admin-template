@@ -72,7 +72,6 @@
           v-loading="loading"
           :table-data="jsonData.list"
           v-bind="$attrs"
-          max-height="600"
           @selection-change="handleSelectionChange"
           @sort-change="sortChange"
           v-on="$listeners"

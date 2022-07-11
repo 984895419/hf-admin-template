@@ -15,8 +15,8 @@
       :toggle-row-selection="myToggleRowSelection"
       v-bind="$attrs"
       highlight-current-row
+      max-height="600px"
       v-on="$listeners"
-      :max-height="600"
       @sort-change="sortChange"
       @selection-change="handleSelectionChange"
       @colSelectedChange="triggerSelection"
