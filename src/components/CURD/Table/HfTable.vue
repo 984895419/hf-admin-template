@@ -7,7 +7,7 @@
       border
       :row-key="rowKey"
       v-bind="$attrs"
-      max-height="600"
+      max-height="600px"
       v-on="$listeners"
     >
       <slot />
