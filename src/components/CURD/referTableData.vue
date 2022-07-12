@@ -18,6 +18,7 @@
       max-height="600px"
       v-on="$listeners"
       @sort-change="sortChange"
+          @header-dragend="headerDragend"
       @selection-change="handleSelectionChange"
       @colSelectedChange="triggerSelection"
     >

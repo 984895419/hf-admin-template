@@ -42,8 +42,8 @@ const exportTableFields = (fields) => {
  */
 const tableFields = ['jobId', 'jobName', 'triggerType',
   'triggerTime', 'jobDescription', 'jobData',
-  'jobTypeId', 'jobTypeName', 'creator', 'createTime',
-  'modifier', 'modifyTime', 'enableState', 'deleted',
+  'jobTypeId', 'jobTypeName', 'creatorUserName', 'createTime',
+  'modifierUserName', 'modifyTime', 'enableState', 'deleted',
   'tenantId', 'runState', 'finishTime', 'startTime', 'endTime',
   'nextFireTime', 'previousFireTime', 'executeState']
 

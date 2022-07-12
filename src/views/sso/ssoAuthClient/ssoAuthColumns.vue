@@ -5,18 +5,20 @@
       <el-table-column
         v-if="item.value === 'clientId'"
         prop="clientId"
+        :width="item.width||130"
         :label="$t(conf.namespace + '.clientId')"
-        width="130"
       />
       <el-table-column
         v-if="item.value === 'clientSecret'"
         prop="clientSecret"
+        :width="item.width"
         :label="$t(conf.namespace + '.clientSecret')"
         min-width="180"
       />
       <el-table-column
         v-if="item.value === 'redirectUri'"
         prop="redirectUri"
+        :width="item.width"
         :label="$t(conf.namespace + '.redirectUri')"
         min-width="180"
       />
@@ -30,25 +32,28 @@
       <tag-table-column
         v-if="item.value === 'clientMethodName'"
         prop="clientMethodName"
+        :width="item.width"
         :label="$t(conf.namespace + '.clientMethodName')"
         width="160"
       />
       <tag-table-column
         v-if="item.value === 'authorizationGrantTypesNames'"
         prop="authorizationGrantTypesNames"
+        :width="item.width"
         :label="$t(conf.namespace + '.authorizationGrantTypesNames')"
         width="180"
       />
       <el-table-column
         v-if="item.value === 'description'"
         prop="description"
+        :width="item.width"
         :label="$t(conf.namespace + '.description')"
         min-width="100"
       />
-      <creator-table-column v-if="item.value === 'creator'" />
-      <create-time-table-column v-if="item.value === 'createTime'" />
-      <modifier-table-column v-if="item.value === 'modifier'" />
-      <modify-time-table-column v-if="item.value === 'modifyTime'" />
+      <creator-table-column :width="item.width" v-if="item.value === 'creatorUserName'" />
+      <create-time-table-column :width="item.width" v-if="item.value === 'createTime'" />
+      <modifier-table-column :width="item.width" v-if="item.value === 'modifierUserName'" />
+      <modify-time-table-column :width="item.width" v-if="item.value === 'modifyTime'" />
     </div>
   </div>
 </template>

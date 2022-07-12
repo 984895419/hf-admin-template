@@ -5,31 +5,35 @@
       <el-table-column
         v-if="item.value === 'pkDept'"
         prop="pkDept"
+        :width="item.width"
         :label="$t(conf.namespace + '.pkDept')"
         min-width="130"
       />
       <el-table-column
         v-if="item.value === 'name'"
         prop="name"
+        :width="item.width"
         :label="$t(conf.namespace + '.name')"
         min-width="130"
       />
       <el-table-column
         v-if="item.value === 'pkFatherorg'"
         prop="pkFatherorg"
+        :width="item.width"
         :label="$t(conf.namespace + '.pkFatherorg')"
         min-width="130"
       />
       <el-table-column
         v-if="item.value === 'pkOrg'"
         prop="pkOrg"
+        :width="item.width"
         :label="$t(conf.namespace + '.pkOrg')"
         min-width="130"
       />
-      <creator-table-column v-if="item.value === 'creator'" />
-      <create-time-table-column v-if="item.value === 'createTime'" />
-      <modifier-table-column v-if="item.value === 'modifier'" />
-      <modify-time-table-column v-if="item.value === 'modifyTime'" />
+      <creator-table-column :width="item.width" v-if="item.value === 'creatorUserName'" />
+      <create-time-table-column :width="item.width" v-if="item.value === 'createTime'" />
+      <modifier-table-column :width="item.width" v-if="item.value === 'modifierUserName'" />
+      <modify-time-table-column :width="item.width" v-if="item.value === 'modifyTime'" />
       <enable-state-table-column
         v-if="item.value === 'enableState'"
         :operate="true"
@@ -40,6 +44,7 @@
       <el-table-column
         v-if="item.value === 'parentId'"
         prop="parentId"
+        :width="item.width"
         :label="$t(conf.namespace + '.parentId')"
         min-width="130"
       />

@@ -30,6 +30,7 @@
       :element-loading-text="'正在加载中...'"
       v-on="$listeners"
       @sort-change="sortChange"
+          @header-dragend="headerDragend"
       @expand-change="expandChange"
     >
       <template v-slot:expand-area="{data}">

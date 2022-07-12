@@ -66,7 +66,7 @@
       :init-data="tableFields"
       :preference-alias="conf.namespace"
     >
-      <template v-slot="{doSave, preferenceData}">
+      <template v-slot="{doSave, preferenceData, headerDragend}">
         <hf-table
           v-if="showFields"
           v-loading="loading"
@@ -74,6 +74,7 @@
           v-bind="$attrs"
           @selection-change="handleSelectionChange"
           @sort-change="sortChange"
+          @header-dragend="headerDragend"
           v-on="$listeners"
         >
           <section-table-column />

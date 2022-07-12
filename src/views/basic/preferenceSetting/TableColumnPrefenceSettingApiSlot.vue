@@ -7,7 +7,9 @@
       <template v-slot="{ preferenceData, doSave }">
         <slot
           :preferenceData="preferenceDataComputed(preferenceData)"
-          :doSave="saveHandler(doSave)"></slot>
+          :doSave="saveHandler(doSave)"
+          :headerDragend="headerDragend">
+        </slot>
       </template>
     </preference-setting-api-slot>
 </template>
@@ -47,13 +49,20 @@
         data() {
             return {
                 preferenceType: 'TABLE_COLUMN_SHOW',
-                stringData: null
+                stringData: null,
+                widths: {}
             }
         },
         methods: {
             saveHandler(doSave) {
               return (data, cb) => {
-                  doSave(JSON.stringify(data), cb)
+                  // 只显示有效的字段
+                  const effectedFields = this.initData.map(s => s.value)
+                  for (const ind in data) {
+                      data[ind].width = this.widths[data[ind].value] || data[ind].width
+                  }
+                  // 保存操作
+                  doSave(JSON.stringify(data.filter(t => effectedFields.indexOf(t.value) >= 0)), cb)
                 }
             },
             loadAfter() {
@@ -62,6 +71,10 @@
                 } else {
                     this.$emit('input', this.initData)
                 }
+            },
+            headerDragend(newWidth, oldWidth, column, event) {
+                debugger
+                this.widths[column.property] = newWidth
             }
         }
     }

@@ -39,7 +39,7 @@ const exportTableFields = (fields) => {
  */
 const tableFields = ['clientId', 'clientSecret', 'redirectUri',
   'clientMethodName', 'authorizationGrantTypesNames', 'description', 'enableState',
-  'modifier', 'modifyTime', 'creator', 'createTime']
+  'modifierUserName', 'modifyTime', 'creatorUserName', 'createTime']
 
 export default exportTableFields(tableFields)
 

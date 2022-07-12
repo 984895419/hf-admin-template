@@ -5,6 +5,7 @@
       <default-table-column
         v-if="item.value === 'id'"
         prop="id"
+        :width="item.width"
         :label="$t(conf.namespace + '.id')"
         :namespace="conf.namespace"
         min-width="130"
@@ -18,26 +19,27 @@
       <!--        <el-table-column-->
       <!--          v-if="item.value === 'appId'"-->
       <!--          prop="appId"-->
-      <!--          :label="$t(conf.namespace + '.appId')"-->
+      <!--          :width="item.width"
+        :label="$t(conf.namespace + '.appId')"-->
       <!--          width="100"-->
       <!--        />-->
       <default-table-column
         v-if="item.value === 'appName'"
         prop="appName"
+        :width="item.width || 150"
         :label="$t(conf.namespace + '.appName')"
         :namespace="conf.namespace"
-        width="150"
       />
       <tag-table-column
         v-if="item.value === 'noLoginType'"
         prop="noLoginTypeName"
+        :width="item.width || 100"
         :label="$t(conf.namespace + '.noLoginType')"
-        width="100"
       />
-      <creator-table-column v-if="item.value === 'creator'" />
-      <create-time-table-column v-if="item.value === 'createTime'" />
-      <modifier-table-column v-if="item.value === 'modifier'" />
-      <modify-time-table-column v-if="item.value === 'modifyTime'" />
+      <creator-table-column :width="item.width" v-if="item.value === 'creatorUserName'" />
+      <create-time-table-column :width="item.width" v-if="item.value === 'createTime'" />
+      <modifier-table-column :width="item.width" v-if="item.value === 'modifierUserName'" />
+      <modify-time-table-column :width="item.width" v-if="item.value === 'modifyTime'" />
       <enable-state-table-column
         v-if="item.value === 'enableState'"
         :operate="true"
@@ -48,6 +50,7 @@
       <default-table-column
         v-if="item.value === 'deleted'"
         prop="deleted"
+        :width="item.width"
         :label="$t(conf.namespace + '.deleted')"
         :namespace="conf.namespace"
         min-width="130"
@@ -56,6 +59,7 @@
         v-if="item.value === 'sort'"
         prop="sort"
         sortable
+        :width="item.width"
         :label="$t(conf.namespace + '.sort')"
         :namespace="conf.namespace"
         min-width="70"
@@ -63,6 +67,7 @@
       <default-table-column
         v-if="item.value === 'homeUri'"
         prop="homeUri"
+        :width="item.width"
         :label="$t(conf.namespace + '.homeUri')"
         :namespace="conf.namespace"
         :copyable="true"
@@ -71,6 +76,7 @@
       <default-table-column
         v-if="item.value === 'internetHomeUri'"
         prop="internetHomeUri"
+        :width="item.width"
         :label="$t(conf.namespace + '.internetHomeUri')"
         :namespace="conf.namespace"
         :copyable="true"
@@ -80,6 +86,7 @@
         v-if="item.value === 'tokenUri'"
         prop="tokenUri"
         :copyable="true"
+        :width="item.width"
         :label="$t(conf.namespace + '.tokenUri')"
         :namespace="conf.namespace"
         min-width="130"
@@ -87,15 +94,16 @@
       <image-table-column
         v-if="item.value === 'icon'"
         prop="iconPath"
+        :width="item.width||110"
         :label="$t(conf.namespace + '.icon')"
         :namespace="conf.namespace"
-        width="110"
       />
       <default-table-column
         v-if="item.value === 'protectUri'"
         :copyable="true"
         prop="protectUri"
         :namespace="conf.namespace"
+        :width="item.width"
         :label="$t(conf.namespace + '.protectUri')"
         min-width="130"
       />

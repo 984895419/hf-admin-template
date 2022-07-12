@@ -1,7 +1,9 @@
 export default {
-  modifier: '修改人',
+ modifier: '修改人',
+  modifierUserName: '修改人',
   modifyTime: '修改时间',
   creator: '创建人',
+  creatorUserName: '创建人',
   createTime: '创建时间',
   enableState: '状态',
   zh: '中文',

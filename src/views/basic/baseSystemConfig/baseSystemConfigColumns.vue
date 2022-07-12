@@ -5,33 +5,34 @@
       <el-table-column
         v-if="item.value === 'configId'"
         prop="configId"
+        :width="item.width||80"
         :label="$t(conf.namespace + '.configId')"
-        width="80"
       />
       <default-table-column
         v-if="item.value === 'configKey'"
         prop="configKey"
+        :width="item.width||200"
         :label="$t(conf.namespace + '.configKey')"
-        width="200"
         :namespace="conf.namespace"
         :copyable="true"
       />
       <el-table-column
         v-if="item.value === 'configValue'"
         prop="configValue"
+        :width="item.width||130"
         :label="$t(conf.namespace + '.configValue')"
-        width="130"
       />
       <el-table-column
         v-if="item.value === 'configDescription'"
         prop="configDescription"
+        :width="item.width"
         :label="$t(conf.namespace + '.configDescription')"
         min-width="130"
       />
-      <creator-table-column v-if="item.value === 'creator'" />
-      <create-time-table-column v-if="item.value === 'createTime'" />
-      <modifier-table-column v-if="item.value === 'modifier'" />
-      <modify-time-table-column v-if="item.value === 'modifyTime'" />
+      <creator-table-column :width="item.width" v-if="item.value === 'creatorUserName'" />
+      <create-time-table-column :width="item.width" v-if="item.value === 'createTime'" />
+      <modifier-table-column :width="item.width" v-if="item.value === 'modifierUserName'" />
+      <modify-time-table-column :width="item.width" v-if="item.value === 'modifyTime'" />
       <enable-state-table-column
         v-if="item.value === 'enableState'"
         :operate="true"
@@ -42,24 +43,27 @@
       <el-table-column
         v-if="item.value === 'deleted'"
         prop="deleted"
+        :width="item.width||100"
         :label="$t(conf.namespace + '.deleted')"
-        width="100"
       />
       <el-table-column
         v-if="item.value === 'initData'"
         prop="initDataName"
+        :width="item.width"
         :label="$t(conf.namespace + '.initData')"
         min-width="130"
       />
       <el-table-column
         v-if="item.value === 'tenantId'"
         prop="tenantId"
+        :width="item.width"
         :label="$t(conf.namespace + '.tenantId')"
         min-width="130"
       />
       <el-table-column
         v-if="item.value === 'terminal'"
         prop="terminalName"
+        :width="item.width"
         :label="$t(conf.namespace + '.terminal')"
         min-width="130"
       />

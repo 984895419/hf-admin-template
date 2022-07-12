@@ -27,8 +27,8 @@
         :label="$t(conf.namespace + '.loginIp')"
         min-width="130"
       />
-      <creator-table-column v-if="item.value === 'creator'" />
-      <create-time-table-column v-if="item.value === 'createTime'" />
+      <creator-table-column :width="item.width" v-if="item.value === 'creatorUserName'" />
+      <create-time-table-column :width="item.width" v-if="item.value === 'createTime'" />
     </div>
   </div>
 </template>

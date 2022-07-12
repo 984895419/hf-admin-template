@@ -4,7 +4,7 @@
     :init-data="tableFields"
     :preference-alias="conf.namespace"
   >
-    <template v-slot="{doSave, preferenceData}">
+    <template v-slot="{doSave, preferenceData, headerDragend}">
       <!-- 列表-->
       <common-dialog-btn :label="$t('common.import')" style="margin-bottom: 10px" @success="openSuccess">
         <template v-slot="{ closeDialog }">
@@ -31,6 +31,7 @@
             :table-data="jsonData.list"
             @selection-change="handleSelectionChange"
             @sort-change="sortChange"
+          @header-dragend="headerDragend"
           >
             <el-table-column
               fixed="left"

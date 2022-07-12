@@ -66,7 +66,7 @@
       :init-data="tableFields"
       :preference-alias="conf.namespace"
     >
-      <template v-slot="{ doSave, preferenceData }">
+      <template v-slot="{ doSave, preferenceData, headerDragend }">
         <hf-table
           v-if="showFields"
           ref="hfMainTable"
@@ -76,6 +76,7 @@
           row-key="id"
           @selection-change="handleSelectionChange"
           @sort-change="sortChange"
+          @header-dragend="headerDragend"
         >
           <el-table-column fixed="left" type="selection" width="40" />
           <!-- 显示的字段-->

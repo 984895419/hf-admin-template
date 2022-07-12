@@ -9,9 +9,11 @@ export default {
   refreshTokenLive: 'refreshToken存活时间（秒）',
   accessTokenLive: 'accessToken存活时间（秒）',
   description: '描述',
-  modifier: '修改人',
+ modifier: '修改人',
+  modifierUserName: '修改人',
   modifyTime: '修改时间',
   creator: '创建人',
+  creatorUserName: '创建人',
   createTime: '创建时间',
   enableState: '状态'
 }

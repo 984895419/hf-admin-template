@@ -69,13 +69,14 @@
       :init-data="tableFields"
       :preference-alias="conf.namespace"
     >
-      <template v-slot="{doSave, preferenceData}">
+      <template v-slot="{doSave, preferenceData, headerDragend}">
         <hf-table
           v-if="showFields"
           v-loading="loading"
           :table-data="jsonData.list"
           @selection-change="handleSelectionChange"
           @sort-change="sortChange"
+          @header-dragend="headerDragend"
         >
           <el-table-column
             fixed="left"

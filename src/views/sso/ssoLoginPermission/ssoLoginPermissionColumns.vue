@@ -5,31 +5,36 @@
               <el-table-column
           v-if="item.value === 'permissionId'"
           prop="permissionId"
-          :label="$t(conf.namespace + '.permissionId')"
+          :width="item.width"
+        :label="$t(conf.namespace + '.permissionId')"
           min-width="130"
         />
         <el-table-column
           v-if="item.value === 'permissionName'"
           prop="permissionName"
-          :label="$t(conf.namespace + '.permissionName')"
+          :width="item.width"
+        :label="$t(conf.namespace + '.permissionName')"
           min-width="130"
         />
         <el-table-column
           v-if="item.value === 'appCnt'"
           prop="appCnt"
-          :label="$t(conf.namespace + '.appCnt')"
+          :width="item.width"
+        :label="$t(conf.namespace + '.appCnt')"
           min-width="140"
         />
         <el-table-column
           v-if="item.value === 'permissionType'"
           prop="permissionTypeName"
-          :label="$t(conf.namespace + '.permissionType')"
+          :width="item.width"
+        :label="$t(conf.namespace + '.permissionType')"
           min-width="130"
         />
         <el-table-column
           v-if="item.value === 'permissionCnt'"
           prop="permissionCnt"
-          :label="$t(conf.namespace + '.userType')"
+          :width="item.width"
+        :label="$t(conf.namespace + '.userType')"
           min-width="120"
         >
           <template slot-scope="scopeRow">
@@ -44,6 +49,7 @@
       <el-table-column
         v-if="item.value === 'permissionCnt'"
         prop="permissionCnt"
+        :width="item.width"
         :label="$t(conf.namespace + '.userInfo')"
         min-width="100"
       >
@@ -59,6 +65,7 @@
       <el-table-column
         v-if="item.value === 'permissionCnt'"
         prop="permissionCnt"
+        :width="item.width"
         :label="$t(conf.namespace + '.companyInfo')"
         min-width="100"
       >
@@ -74,6 +81,7 @@
       <el-table-column
         v-if="item.value === 'permissionCnt'"
         prop="permissionCnt"
+        :width="item.width"
         :label="$t(conf.namespace + '.deptInfo')"
         min-width="100"
       >
@@ -86,10 +94,10 @@
             </span>
         </template>
       </el-table-column>
-        <creator-table-column v-if="item.value === 'creator'" />
-        <create-time-table-column v-if="item.value === 'createTime'" />
-        <modifier-table-column v-if="item.value === 'modifier'" />
-        <modify-time-table-column v-if="item.value === 'modifyTime'" />
+        <creator-table-column :width="item.width" v-if="item.value === 'creatorUserName'" />
+        <create-time-table-column :width="item.width" v-if="item.value === 'createTime'" />
+        <modifier-table-column :width="item.width" v-if="item.value === 'modifierUserName'" />
+        <modify-time-table-column :width="item.width" v-if="item.value === 'modifyTime'" />
         <enable-state-table-column
           v-if="item.value === 'enableState'"
           :operate="true"
@@ -100,7 +108,8 @@
         <el-table-column
           v-if="item.value === 'deleted'"
           prop="deleted"
-          :label="$t(conf.namespace + '.deleted')"
+          :width="item.width"
+        :label="$t(conf.namespace + '.deleted')"
           min-width="130"
         />
     </div>
