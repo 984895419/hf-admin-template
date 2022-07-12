@@ -83,8 +83,21 @@ export const constantRoutes = [
         meta: { title: 'dashboard', icon: 'dashboard', affix: true }
       }
     ]
+  },
+  {
+    path: '/generator',
+    component: Layout,
+    redirect: '/generator/code',
+    children: [
+      {
+        path: 'code',
+        component: () => import('@/views/basic/generator/index'),
+          name: 'code',
+        meta: { title: '代码生成器', icon: 'dashboard', affix: true }
+      }
+    ],
+    meta: { title: '生成器管理', icon: 'dashboard', affix: true }
   }
-
   // {
   //   path: '/example',
   //   component: Layout,
