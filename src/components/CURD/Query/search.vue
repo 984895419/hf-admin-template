@@ -12,6 +12,7 @@
           <slot :span="span" />
           <el-col :span="span " style="width:auto">
             <el-form-item>
+              <slot name="btns-before" />
               <el-button type="primary" :size="size" native-type="submit" icon="el-icon-search" @click="doSearch">{{ $t('common.search') }}</el-button>
               <el-button icon="el-icon-circle-close" :size="size" @click="doReset">{{ $t('common.reset') }}</el-button>
               <slot name="btns" />

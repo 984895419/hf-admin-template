@@ -22,6 +22,8 @@ export default {
   permission: '是否做权限控制',
   isRefer: '是否参照字段',
   supportSearch: '是否支持搜索',
+  supportKeywordSearch: '是否支持关键字搜索',
+  supportFuzzySearch: '是否支持模糊搜索',
   supportAdd: '是否支持添加',
   supportUpdate: '是否支持修改',
   supportDelete: '是否支持删除',
@@ -31,5 +33,7 @@ export default {
   referType: '字段引用类型',
   codeReferKey: '编码引用类型',
   dictReferType: '数据字典引用类型',
-  regexReferType: '正则引用类型'
+  regexReferType: '正则引用类型',
+  tableReferType: '表引用类型',
+  tableReferColumnName: '表引用联动字段'
 }

@@ -56,8 +56,7 @@
             loadAfter() {
                 if (this.stringData) {
                     if (!this.preferenceData) {
-                        const ary = JSON.parse(this.stringData)
-                        this.preferenceData = ary && ary.length > 0 ? ary[0] : {}
+                        this.preferenceData = JSON.parse(this.stringData)
                     }
                     this.$emit('input', this.preferenceData)
                 } else {

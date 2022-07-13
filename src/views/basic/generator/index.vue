@@ -13,17 +13,16 @@
           <!-- 字典字段字段设置方法如下 -->
         </template>
         <template v-slot:btns>
-          <el-button type="primary" @click="mergerFields">查询合并字段</el-button>
+          <el-button type="primary" @click="mergerFields">查询并合并字段</el-button>
           <el-button type="primary" @click="loadFromHistory">从历史记录查询</el-button>
+          <el-button type="primary" @click="toSave">保存成记录</el-button>
         </template>
       </simple-search>
     </div>
     <div>
       <generator-prefence-setting-api-solt ref="generatorSetting" v-model="tableInfo" :preference-alias="searchForm.tableName">
         <template v-slot="{ preferenceData, doSave }">
-          <div>
-            <el-button style="float:right" @click="doSave(tableInfo)">保存</el-button>
-          </div>
+          <el-button v-show="false" ref="saveBtn" type="primary" @click="saveSetting(doSave)"></el-button>
           <el-tabs v-model="activeName">
             <el-tab-pane label="表信息" name="first">
               <first-setting :value="tableInfo" />
@@ -32,181 +31,277 @@
               <function-setting :value="tableInfo" />
             </el-tab-pane>
             <el-tab-pane label="字段信息" name="second">
-              <hf-table
-                v-loading="loading"
-                :table-data="tableInfo.fields"
-                row-key="columnName"
+              <table-column-preference-setting-api-slot
+                v-model="showFields"
+                :init-data="tableFields"
+                :preference-alias="conf.namespace"
               >
-                <el-table-column
-                  prop="columnName"
-                  fixed="left"
-                  :label="$t(conf.namespace + '.columnName')"
-                  min-width="130"
-                />
-                <el-table-column
-                  prop="columnType"
-                  :label="$t(conf.namespace + '.columnType')"
-                  min-width="130"
-                />
-                <el-table-column
-                  prop="comment"
-                  :label="$t(conf.namespace + '.comment')"
-                  min-width="130"
-                />
-                <el-table-column
-                  prop="propertyType"
-                  :label="$t(conf.namespace + '.propertyType')"
-                  min-width="130"
-                />
-                <el-table-column
-                  prop="type"
-                  :label="$t(conf.namespace + '.type')"
-                  fixed="left"
-                  min-width="130"
-                />
-                <el-table-column
-                  prop="keyFlag"
-                  :label="$t(conf.namespace + '.keyFlag')"
-                  min-width="130"
-                >
-                  <template slot-scope="scopeRow">
-                    <div v-if="scopeRow.row.keyFlag === true">是</div>
-                    <div v-else>否</div>
-                  </template>
-                </el-table-column>
-                <el-table-column
-                  prop="keyIdentityFlag"
-                  :label="$t(conf.namespace + '.keyIdentityFlag')"
-                  min-width="130"
-                >
-                  <template slot-scope="scopeRow">
-                    <div v-if="scopeRow.row.keyIdentityFlag === true">是</div>
-                    <div v-else>否</div>
-                  </template>
-                </el-table-column>
-                <el-table-column
-                  prop="keyWords"
-                  :label="$t(conf.namespace + '.keyWords')"
-                  min-width="130"
-                >
-                  <template slot-scope="scopeRow">
-                    <div v-if="scopeRow.row.keyWords === true">是</div>
-                    <div v-else>否</div>
-                  </template>
-                </el-table-column>
-                <el-table-column
-                  prop="supportSearch"
-                  :label="$t(conf.namespace + '.supportSearch')"
-                  min-width="130"
-                >
-                  <template slot-scope="scopeRow">
-                    <el-checkbox v-model="scopeRow.row.supportSearch" />
-                  </template>
-                </el-table-column>
-                <el-table-column
-                  prop="supportAdd"
-                  :label="$t(conf.namespace + '.supportAdd')"
-                  min-width="130"
-                >
-                  <template slot-scope="scopeRow">
-                    <el-checkbox v-model="scopeRow.row.supportAdd" />
-                  </template>
-                </el-table-column>
-                <el-table-column
-                  prop="supportUpdate"
-                  :label="$t(conf.namespace + '.supportUpdate')"
-                  min-width="130"
-                >
-                  <template slot-scope="scopeRow">
-                    <el-checkbox v-model="scopeRow.row.supportUpdate" />
-                  </template>
-                </el-table-column>
-                <el-table-column
-                  prop="supportExport"
-                  :label="$t(conf.namespace + '.supportExport')"
-                  min-width="130"
-                >
-                  <template slot-scope="scopeRow">
-                    <el-checkbox v-model="scopeRow.row.supportExport" />
-                  </template>
-                </el-table-column>
-                <el-table-column
-                  prop="supportImport"
-                  :label="$t(conf.namespace + '.supportImport')"
-                  min-width="130"
-                >
-                  <template slot-scope="scopeRow">
-                    <el-checkbox v-model="scopeRow.row.supportImport" />
-                  </template>
-                </el-table-column>
-                <el-table-column
-                  prop="supportEmpty"
-                  :label="$t(conf.namespace + '.supportEmpty')"
-                  min-width="130"
-                >
-                  <template slot-scope="scopeRow">
-                    <el-checkbox v-model="scopeRow.row.supportEmpty" />
-                  </template>
-                </el-table-column>
-                <el-table-column
-                  prop="isRefer"
-                  :label="$t(conf.namespace + '.referType')"
-                  min-width="130"
-                >
-                  <template slot-scope="scopeRow">
-                    <el-select v-model="scopeRow.row.referType">
-                      <el-option
-                        v-for="item in referTypes"
-                        :key="item.value"
-                        :value="item.value"
-                        :label="item.label"
+                <template v-slot="{doSave, preferenceData, headerDragend}">
+                  <hf-table
+                    v-if="showFields"
+                    v-model="showFields"
+                    v-loading="loading"
+                    :table-data="tableInfo.fields"
+                    row-key="columnName"
+                  >
+                    <el-table-column
+                      prop="columnName"
+                      fixed="left"
+                      :label="$t(conf.namespace + '.columnName')"
+                      width="130"
+                    >
+                      <template v-slot:header>
+                        {{ $t(conf.namespace + '.columnName') }}
+                        <curd-table-column-select
+                          v-model="showFields"
+                          :preference-alias="conf.namespace"
+                          :table-fields="preferenceData"
+                          style="float: right"
+                          @selectedChange="reRenderTable"
+                          @doSave="doSave"
+                        />
+                      </template>
+                    </el-table-column>
+                    <div v-for="item in showFields" :key="item.value">
+                      <el-table-column
+                        v-if="item.value === 'columnType'"
+                        prop="columnType"
+                        :label="$t(conf.namespace + '.columnType')"
+                        min-width="130"
                       />
-                    </el-select>
-                  </template>
-                </el-table-column>
-                <el-table-column
-                  prop="codeReferKey"
-                  :label="$t(conf.namespace + '.codeReferKey')"
-                  min-width="130"
-                >
-                  <template slot-scope="scopeRow">
-                    <base-business-code-input-refer
-                      v-if="scopeRow.row.referType === 'code'"
-                      v-model="scopeRow.row"
-                      value-refer-id="businessKey"
-                      value-refer-name="businessName"
-                    />
-                  </template>
-                </el-table-column>
-                <el-table-column
-                  prop="dictReferType"
-                  :label="$t(conf.namespace + '.dictReferType')"
-                  min-width="130"
-                >
-                  <template slot-scope="scopeRow">
-                    <base-dict-type-input-refer
-                      v-if="scopeRow.row.referType === 'dict'"
-                      v-model="scopeRow.row"
-                      value-refer-id="dictReferType"
-                      value-refer-name="dictReferTypeName"
-                    />
-                  </template>
-                </el-table-column>
-                <el-table-column
-                  prop="regexReferType"
-                  :label="$t(conf.namespace + '.regexReferType')"
-                  min-width="130"
-                >
-                  <template slot-scope="scopeRow">
-                    <base-regex-rule-input-refer
-                      v-if="scopeRow.row.referType === 'regex'"
-                      v-model="scopeRow.row"
-                      value-refer-id="regexReferType"
-                      value-refer-name="regexReferTypeName"
-                    />
-                  </template>
-                </el-table-column>
-              </hf-table>
+                      <el-table-column
+                        v-if="item.value === 'comment'"
+                        prop="comment"
+                        :label="$t(conf.namespace + '.comment')"
+                        width="130"
+                      />
+                      <el-table-column
+                        v-if="item.value === 'propertyType'"
+                        prop="propertyType"
+                        :label="$t(conf.namespace + '.propertyType')"
+                        min-width="130"
+                      />
+                      <el-table-column
+                        v-if="item.value === 'type'"
+                        prop="type"
+                        :label="$t(conf.namespace + '.type')"
+                        min-width="130"
+                      />
+                      <el-table-column
+                        v-if="item.value === 'keyFlag'"
+                        prop="keyFlag"
+                        :label="$t(conf.namespace + '.keyFlag')"
+                        min-width="130"
+                      >
+                        <template slot-scope="scopeRow">
+                          <div v-if="scopeRow.row.keyFlag === true">是</div>
+                          <div v-else>否</div>
+                        </template>
+                      </el-table-column>
+                      <el-table-column
+                        v-if="item.value === 'keyIdentityFlag'"
+                        prop="keyIdentityFlag"
+                        :label="$t(conf.namespace + '.keyIdentityFlag')"
+                        min-width="130"
+                      >
+                        <template slot-scope="scopeRow">
+                          <div v-if="scopeRow.row.keyIdentityFlag === true">是</div>
+                          <div v-else>否</div>
+                        </template>
+                      </el-table-column>
+                      <el-table-column
+                        v-if="item.value === 'keyWords'"
+                        prop="keyWords"
+                        :label="$t(conf.namespace + '.keyWords')"
+                        min-width="130"
+                      >
+                        <template slot-scope="scopeRow">
+                          <div v-if="scopeRow.row.keyWords === true">是</div>
+                          <div v-else>否</div>
+                        </template>
+                      </el-table-column>
+                      <el-table-column
+                        v-if="item.value === 'supportFuzzySearch'"
+                        prop="supportFuzzySearch"
+                        :label="$t(conf.namespace + '.supportFuzzySearch')"
+                        min-width="130"
+                      >
+                        <template slot-scope="scopeRow">
+                          <el-checkbox v-if="scopeRow.row.propertyType === 'String'" v-model="scopeRow.row.supportFuzzySearch" />
+                        </template>
+                      </el-table-column>
+                      <el-table-column
+                        v-if="item.value === 'supportKeywordSearch'"
+                        prop="supportKeywordSearch"
+                        :label="$t(conf.namespace + '.supportKeywordSearch')"
+                        min-width="130"
+                      >
+                        <template slot-scope="scopeRow">
+                          <el-checkbox v-model="scopeRow.row.supportKeywordSearch" />
+                        </template>
+                      </el-table-column>
+                      <el-table-column
+                        v-if="item.value === 'supportSearch'"
+                        prop="supportSearch"
+                        :label="$t(conf.namespace + '.supportSearch')"
+                        min-width="130"
+                      >
+                        <template slot-scope="scopeRow">
+                          <el-checkbox v-model="scopeRow.row.supportSearch" />
+                        </template>
+                      </el-table-column>
+                      <el-table-column
+                        v-if="item.value === 'supportAdd'"
+                        prop="supportAdd"
+                        :label="$t(conf.namespace + '.supportAdd')"
+                        min-width="130"
+                      >
+                        <template slot-scope="scopeRow">
+                          <el-checkbox v-model="scopeRow.row.supportAdd" />
+                        </template>
+                      </el-table-column>
+                      <el-table-column
+                        v-if="item.value === 'supportUpdate'"
+                        prop="supportUpdate"
+                        :label="$t(conf.namespace + '.supportUpdate')"
+                        min-width="130"
+                      >
+                        <template slot-scope="scopeRow">
+                          <el-checkbox v-model="scopeRow.row.supportUpdate" />
+                        </template>
+                      </el-table-column>
+                      <el-table-column
+                        v-if="item.value === 'supportExport'"
+                        prop="supportExport"
+                        :label="$t(conf.namespace + '.supportExport')"
+                        min-width="130"
+                      >
+                        <template slot-scope="scopeRow">
+                          <el-checkbox v-model="scopeRow.row.supportExport" />
+                        </template>
+                      </el-table-column>
+                      <el-table-column
+                        v-if="item.value === 'supportImport'"
+                        prop="supportImport"
+                        :label="$t(conf.namespace + '.supportImport')"
+                        min-width="130"
+                      >
+                        <template slot-scope="scopeRow">
+                          <el-checkbox v-model="scopeRow.row.supportImport" />
+                        </template>
+                      </el-table-column>
+                      <el-table-column
+                        v-if="item.value === 'supportEmpty'"
+                        prop="supportEmpty"
+                        :label="$t(conf.namespace + '.supportEmpty')"
+                        min-width="130"
+                      >
+                        <template slot-scope="scopeRow">
+                          <el-checkbox v-model="scopeRow.row.supportEmpty" />
+                        </template>
+                      </el-table-column>
+                      <el-table-column
+                        v-if="item.value === 'referType'"
+                        prop="isRefer"
+                        :label="$t(conf.namespace + '.referType')"
+                        min-width="130"
+                      >
+                        <template slot-scope="scopeRow">
+                          <el-select v-model="scopeRow.row.referType">
+                            <el-option
+                              v-for="item in referTypes"
+                              :key="item.value"
+                              :value="item.value"
+                              :label="item.label"
+                            />
+                          </el-select>
+                        </template>
+                      </el-table-column>
+                      <el-table-column
+                        v-if="item.value === 'codeReferKey'"
+                        prop="codeReferKey"
+                        :label="$t(conf.namespace + '.codeReferKey')"
+                        min-width="130"
+                      >
+                        <template slot-scope="scopeRow">
+                          <base-business-code-input-refer
+                            v-if="scopeRow.row.referType === 'code'"
+                            v-model="scopeRow.row"
+                            value-refer-id="businessKey"
+                            value-refer-name="businessName"
+                          />
+                        </template>
+                      </el-table-column>
+                      <el-table-column
+                        v-if="item.value === 'dictReferType'"
+                        prop="dictReferType"
+                        :label="$t(conf.namespace + '.dictReferType')"
+                        min-width="130"
+                      >
+                        <template slot-scope="scopeRow">
+                          <base-dict-type-input-refer
+                            v-if="scopeRow.row.referType === 'dict'"
+                            v-model="scopeRow.row"
+                            value-refer-id="dictReferType"
+                            value-refer-name="dictReferTypeName"
+                          />
+                        </template>
+                      </el-table-column>
+                      <el-table-column
+                        v-if="item.value === 'regexReferType'"
+                        prop="regexReferType"
+                        :label="$t(conf.namespace + '.regexReferType')"
+                        min-width="130"
+                      >
+                        <template slot-scope="scopeRow">
+                          <base-regex-rule-input-refer
+                            v-if="scopeRow.row.referType === 'regex'"
+                            v-model="scopeRow.row"
+                            value-refer-id="regexReferType"
+                            value-refer-name="regexReferTypeName"
+                          />
+                        </template>
+                      </el-table-column>
+                      <el-table-column
+                          v-if="item.value === 'tableReferType'"
+                          prop="tableReferType"
+                        :label="$t(conf.namespace + '.tableReferType')"
+                        min-width="130"
+                      >
+                        <template slot-scope="scopeRow">
+                          <el-input
+                            clearable
+                            v-if="scopeRow.row.referType === 'table'"
+                            v-model="scopeRow.row.tableReferType"
+                            placeholder="表名"/>
+                        </template>
+                      </el-table-column>
+
+                      <el-table-column
+                        v-if="item.value === 'tableReferColumnName'"
+                        prop="tableReferColumnName"
+                        :label="$t(conf.namespace + '.tableReferColumnName')"
+                        min-width="130"
+                      >
+                        <template slot-scope="scopeRow">
+                          <el-select
+                            v-if="scopeRow.row.referType === 'table'"
+                            v-model="scopeRow.row.tableReferColumnName"
+                            clearable>
+                            <el-option
+                              v-for="fd in tableInfo.fields"
+                              :key="fd.propertyName"
+                              :label="fd.comment"
+                              :value="fd.propertyName"
+                              :disabled="fd.propertyName === scopeRow.row.propertyName"
+                              ></el-option>
+                          </el-select>
+                        </template>
+                      </el-table-column>
+                    </div>
+                  </hf-table>
+                </template>
+              </table-column-preference-setting-api-slot>
             </el-tab-pane>
           </el-tabs>
         </template>
@@ -228,12 +323,16 @@ import BaseBusinessCodeInputRefer from '../baseBusinessCode/inputRefer'
 import BaseDictTypeInputRefer from '../baseDictType/inputRefer'
 import BaseRegexRuleInputRefer from '../baseRegexRule/inputRefer'
 import GeneratorPrefenceSettingApiSolt from '../preferenceSetting/GeneratorPrefenceSettingApiSolt.vue'
+import TableColumnPreferenceSettingApiSlot from "../preferenceSetting/TableColumnPrefenceSettingApiSlot";
+import CurdTableColumnSelect from "../../../components/CURD/Table/select/TableColumnSelect";
 /**
  * 代码生成器
  */
 export default {
     name: 'Generator',
     components: {
+        CurdTableColumnSelect,
+        TableColumnPreferenceSettingApiSlot,
     BaseDictTypeInputRefer,
     BaseBusinessCodeInputRefer,
     BaseRegexRuleInputRefer,
@@ -266,14 +365,30 @@ export default {
                 {
                     label: '正则',
                     value: 'regex'
+                },
+                {
+                    label: '其他表',
+                    value: 'table'
                 }
-            ]
+            ],
+            tableFields: conf.default
         }
     },
     created() {
       this.doSearch()
     },
     methods: {
+        reRenderTable(res) {
+            // 扩展显示的字段
+            this.showFields = []
+            // 标记为重新渲染中
+            this.reRending = true
+            setTimeout(() => {
+                this.showFields = res
+                // 标记为重新渲染中
+                this.reRending = false
+            }, 50)
+        },
         doSearch() {
             this.readyDoSearch((val) => {
               this.tableInfo = val
@@ -304,6 +419,14 @@ export default {
         },
         loadFromHistory() {
           this.$refs.generatorSetting.doQuery()
+        },
+        saveSetting(doSave) {
+            doSave(this.tableInfo)
+        },
+        toSave() {
+            if (this.$refs.saveBtn) {
+                this.$refs.saveBtn.handleClick()
+            }
         }
     }
 }

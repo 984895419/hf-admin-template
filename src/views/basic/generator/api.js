@@ -30,6 +30,24 @@ export function getI18nName(name) {
   return modelName + '.' + name
 }
 
+const exportTableFields = (fields) => {
+  return fields.map(t => {
+    return { value: t }
+  })
+}
+
+/**
+ * 字段的配置，用在国际化及列表选择显示字段的时候
+ * @type {*[]}
+ */
+const tableFields = ['columnName', 'columnType', 'comment', 'propertyType', 'type',
+  'keyFlag', 'keyIdentityFlag', 'keyWords', 'supportSearch', 'supportKeywordSearch',
+  'supportFuzzySearch', 'supportAdd',
+  'supportUpdate', 'supportDelete', 'supportExport', 'supportImport', 'supportEmpty',
+  'referType', 'codeReferKey', 'dictReferType', 'regexReferType', 'tableReferType', 'tableReferColumnName']
+
+export default exportTableFields(tableFields)
+
 /**
  * 字段的验证规则
  * @param vm
