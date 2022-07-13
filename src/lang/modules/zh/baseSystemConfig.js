@@ -14,6 +14,7 @@ export default {
   initData: '是否属于系统(系统的不可删除)',
   tenantId: '所属的租户ID',
   terminal: '所属端点',
+  terminalName: '所属端点名称',
   /**
    * 配置placeholder
    */

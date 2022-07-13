@@ -18,7 +18,7 @@
           <simple-search v-model="searchForm" :inline="true" @search="doSearch">
             <template v-slot="{ span }">
               <!-- 新增的的字段配置 -->
-                            <form-item-col
+              <form-item-col
                 :value="searchForm"
                 :span="span"
                 prop="regexKey"
@@ -206,10 +206,10 @@
             rowDbClick(row, column, event) {
                 if (this.value) {
                     if (this.valueReferId) {
-                        this.$set(this.value, this.valueReferId, row.clientId)
+                        this.$set(this.value, this.valueReferId, row.regexKey)
                     }
                     if (this.valueReferName) {
-                        this.$set(this.value, this.valueReferName, row.clientId)
+                        this.$set(this.value, this.valueReferName, row.regexValue)
                     }
                     if (this.valueExpendRefers) {
                         for (const ind in this.valueExpendRefers) {

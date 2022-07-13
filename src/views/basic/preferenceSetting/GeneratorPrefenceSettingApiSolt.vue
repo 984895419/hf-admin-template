@@ -1,8 +1,10 @@
 <template>
   <preference-setting-api-slot
+    ref="apiSlot"
     v-model="stringData"
     :preference-type="preferenceType"
     :preference-alias="preferenceAlias"
+    :immediate="false"
     @loadAfter="loadAfter"
   >
     <template v-slot="{ preferenceData, doSave }">
@@ -15,25 +17,24 @@
 </template>
 
 <script>
+/**
+ * 代码生成器设置
+ */
     import PreferenceSettingApiSlot from './PreferenceSettingApiSlot'
     export default {
-        name: 'UserSettingPrefenceSetting',
+        name: 'GeneratorPrefenceSetting',
         components: { PreferenceSettingApiSlot },
         props: {
             /**
              * 偏好别名
              */
             preferenceAlias: {
-                type: String,
-                default: 'FOR_USER'
-            },
-            initData: {
-                type: [Object, Boolean, String]
+                type: String
             }
         },
         data() {
             return {
-                preferenceType: 'SYSTEM_SETTINGS',
+                preferenceType: 'CODE_GENERATOR',
                 stringData: null,
                 preferenceData: null
             }
@@ -44,7 +45,10 @@
             }
         },
         methods: {
-            saveHandler(doSave) {
+          doQuery() {
+            this.$refs.apiSlot.loadPreferenceSettings()
+          },
+          saveHandler(doSave) {
                 return (data, cb) => {
                     doSave(JSON.stringify(data), cb)
                 }
@@ -52,11 +56,12 @@
             loadAfter() {
                 if (this.stringData) {
                     if (!this.preferenceData) {
-                        this.preferenceData = JSON.parse(this.stringData)
+                        const ary = JSON.parse(this.stringData)
+                        this.preferenceData = ary && ary.length > 0 ? ary[0] : {}
                     }
                     this.$emit('input', this.preferenceData)
                 } else {
-                    this.$emit('input', this.initData)
+                    this.$emit('input', this.initData || {})
                 }
             }
         }

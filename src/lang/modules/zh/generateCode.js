@@ -30,5 +30,6 @@ export default {
   supportEmpty: '是否可为空',
   referType: '字段引用类型',
   codeReferKey: '编码引用类型',
-  dictReferType: '数据字典引用类型'
+  dictReferType: '数据字典引用类型',
+  regexReferType: '正则引用类型'
 }

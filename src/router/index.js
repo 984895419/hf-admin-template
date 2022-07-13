@@ -125,32 +125,6 @@ export const constantRoutes = [
   //   meta: { title: '规范示例', icon: 'dashboard', affix: true }
   // },
   // {
-  //   path: '/generator',
-  //   component: Layout,
-  //   redirect: '/generator/datasource',
-  //   children: [
-  //     {
-  //       path: 'datasource',
-  //       component: () => import('@/views/generator/datasource/index'),
-  //       name: 'datasource',
-  //       meta: { title: '数据源管理', icon: 'dashboard', affix: true }
-  //     },
-  //     {
-  //       path: 'generateTableInfo',
-  //       component: () => import('@/views/generator/generateTableInfo/index'),
-  //       name: 'generateTableInfo',
-  //       meta: { title: '表管理管理', icon: 'dashboard', affix: true }
-  //     },
-  //     {
-  //       path: 'runColumn',
-  //       component: () => import('@/views/generator/generateRunColumn/index'),
-  //       name: 'runColumn',
-  //       meta: { title: '运行字段配置', icon: 'dashboard', affix: true }
-  //     }
-  //   ],
-  //   meta: { title: '代码生成器', icon: 'dashboard', affix: true }
-  // },
-  // {
   //   path: '/base',
   //   component: Layout,
   //   redirect: '/base/systemConfig',

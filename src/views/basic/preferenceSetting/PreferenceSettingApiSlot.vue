@@ -1,7 +1,7 @@
 <template>
-    <div>
-      <slot :preferenceData="preferenceData" :doSave="doSave"></slot>
-    </div>
+  <div>
+    <slot :preferenceData="preferenceData" :doSave="doSave" />
+  </div>
 </template>
 
 <script>
@@ -23,6 +23,10 @@
           preferenceAlias: {
               type: String,
               default: undefined
+          },
+          immediate: {
+            type: Boolean,
+            default: true
           }
         },
         data() {
@@ -39,7 +43,9 @@
             }
         },
         created() {
+          if (this.immediate === true) {
             this.loadPreferenceSettings()
+          }
         },
         methods: {
             /**
