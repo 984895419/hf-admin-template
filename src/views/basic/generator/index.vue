@@ -20,6 +20,7 @@
       </simple-search>
     </div>
     <div>
+      {{functionSupport('add')}}
       <generator-prefence-setting-api-solt ref="generatorSetting" v-model="tableInfo" :preference-alias="searchForm.tableName">
         <template v-slot="{ preferenceData, doSave }">
           <el-button v-show="false" ref="saveBtn" type="primary" @click="saveSetting(doSave)"></el-button>
@@ -121,7 +122,7 @@
                         </template>
                       </el-table-column>
                       <el-table-column
-                        v-if="item.value === 'supportFuzzySearch'"
+                        v-if="item.value === 'supportFuzzySearch' && functionSupport('search')"
                         prop="supportFuzzySearch"
                         :label="$t(conf.namespace + '.supportFuzzySearch')"
                         min-width="130"
@@ -131,17 +132,17 @@
                         </template>
                       </el-table-column>
                       <el-table-column
-                        v-if="item.value === 'supportKeywordSearch'"
+                        v-if="item.value === 'supportKeywordSearch' && functionSupport('search')"
                         prop="supportKeywordSearch"
                         :label="$t(conf.namespace + '.supportKeywordSearch')"
                         min-width="130"
                       >
                         <template slot-scope="scopeRow">
-                          <el-checkbox v-model="scopeRow.row.supportKeywordSearch" />
+                          <el-checkbox v-if="scopeRow.row.propertyType === 'String'" v-model="scopeRow.row.supportKeywordSearch" />
                         </template>
                       </el-table-column>
                       <el-table-column
-                        v-if="item.value === 'supportSearch'"
+                        v-if="item.value === 'supportSearch' && functionSupport('search')"
                         prop="supportSearch"
                         :label="$t(conf.namespace + '.supportSearch')"
                         min-width="130"
@@ -151,7 +152,7 @@
                         </template>
                       </el-table-column>
                       <el-table-column
-                        v-if="item.value === 'supportAdd'"
+                        v-if="item.value === 'supportAdd' && functionSupport('add')"
                         prop="supportAdd"
                         :label="$t(conf.namespace + '.supportAdd')"
                         min-width="130"
@@ -161,7 +162,7 @@
                         </template>
                       </el-table-column>
                       <el-table-column
-                        v-if="item.value === 'supportUpdate'"
+                        v-if="item.value === 'supportUpdate' && functionSupport('update')"
                         prop="supportUpdate"
                         :label="$t(conf.namespace + '.supportUpdate')"
                         min-width="130"
@@ -171,7 +172,7 @@
                         </template>
                       </el-table-column>
                       <el-table-column
-                        v-if="item.value === 'supportExport'"
+                        v-if="item.value === 'supportExport' && functionSupport('export')"
                         prop="supportExport"
                         :label="$t(conf.namespace + '.supportExport')"
                         min-width="130"
@@ -181,7 +182,7 @@
                         </template>
                       </el-table-column>
                       <el-table-column
-                        v-if="item.value === 'supportImport'"
+                        v-if="item.value === 'supportImport' && functionSupport('import')"
                         prop="supportImport"
                         :label="$t(conf.namespace + '.supportImport')"
                         min-width="130"
@@ -372,6 +373,15 @@ export default {
                 }
             ],
             tableFields: conf.default
+        }
+    },
+    computed: {
+        functionSupport() {
+            return (name) => {
+                return this.tableInfo.functionList ? this.tableInfo.functionList.filter(s => {
+                        return s.functionKey === name && s.support === true
+                    }).length > 0 : false
+            }
         }
     },
     created() {
