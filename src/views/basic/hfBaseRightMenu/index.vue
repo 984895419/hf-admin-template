@@ -6,13 +6,8 @@
         <template v-slot="{ span }">
           <!-- 新增的的字段配置 -->
           <form-item-col :value="searchForm" :span="span" prop="menuName" :namespace="conf.namespace" />
-          <form-item-col-dict
-            :value="searchForm"
-            :span="span"
-            prop="menuType"
-            :dict-code="'MENU_TYPE'"
-            :namespace="conf.namespace"
-          />
+          <form-item-col-dict :value="searchForm" :span="span" prop="menuType" :dict-code="'MENU_TYPE'"
+            :namespace="conf.namespace" />
           <!-- 字典字段字段设置方法如下
           <form-item-col-dict
             :value="data"
@@ -29,103 +24,54 @@
     <div style="margin-bottom: 10px" class="col-btn-display">
       <hf-base-right-menu-add :action-url="conf.urlMethods.addUrl" @success="doSearch" />
       <div style="float: right" class="col-btn-display">
-        <del-btn
-          v-if="conf.urlMethods.deleteUrl
-            && toggleRowSelectionArray.length > 0"
-          :url="templateUrl(conf.urlMethods.deleteUrl, toggleRowSelectionArray)"
-          :value="toggleRowSelectionArray"
-          :label="$t('common.batchDelete')"
-          @success="doSearch"
-        />
-        <template-confirm-btn
-          v-if="conf.urlMethods.enableUrl
-            && toggleRowSelectionArray.length > 0"
-          :url="templateUrl(conf.urlMethods.enableUrl, toggleRowSelectionArray)"
-          :btn-type="'primary'"
-          :label="$t('common.batchEnable')"
-          :value="toggleRowSelectionArray"
-          @success="doSearch"
-        />
-        <template-confirm-btn
-          v-if="conf.urlMethods.disableUrl
-            && toggleRowSelectionArray.length > 0"
-          :url="templateUrl(conf.urlMethods.disableUrl, toggleRowSelectionArray)"
-          :btn-type="'primary'"
-          :value="toggleRowSelectionArray"
-          :label="$t('common.batchDisable')"
-          @success="doSearch"
-        />
+        <del-btn v-if="conf.urlMethods.deleteUrl
+        && toggleRowSelectionArray.length > 0" :url="templateUrl(conf.urlMethods.deleteUrl, toggleRowSelectionArray)"
+          :value="toggleRowSelectionArray" :label="$t('common.batchDelete')" @success="doSearch" />
+        <template-confirm-btn v-if="conf.urlMethods.enableUrl
+        && toggleRowSelectionArray.length > 0" :url="templateUrl(conf.urlMethods.enableUrl, toggleRowSelectionArray)"
+          :btn-type="'primary'" :label="$t('common.batchEnable')" :value="toggleRowSelectionArray"
+          @success="doSearch" />
+        <template-confirm-btn v-if="conf.urlMethods.disableUrl
+        && toggleRowSelectionArray.length > 0" :url="templateUrl(conf.urlMethods.disableUrl, toggleRowSelectionArray)"
+          :btn-type="'primary'" :value="toggleRowSelectionArray" :label="$t('common.batchDisable')"
+          @success="doSearch" />
       </div>
     </div>
     <!-- 列表-->
-    <table-column-preference-setting-api-slot
-      v-model="showFields"
-      :init-data="tableFields"
-      :preference-alias="conf.namespace"
-    >
+    <table-column-preference-setting-api-slot v-model="showFields" :init-data="tableFields"
+      :preference-alias="conf.namespace">
       <template v-slot="{ doSave, preferenceData, headerDragend }">
-        <hf-table
-          v-if="showFields"
-          v-loading="loading"
-          :table-data="jsonData.list"
-          @selection-change="handleSelectionChange"
-          @sort-change="sortChange"
-          @header-dragend="headerDragend"
-        >
+        <hf-table v-if="showFields" v-loading="loading" :table-data="jsonData.list"
+          @selection-change="handleSelectionChange" @sort-change="sortChange" @header-dragend="headerDragend">
           <section-table-column />
           <!-- 显示的字段-->
           <hf-base-right-menu-columns :show-fields="showFields" :url-methods="conf.urlMethods" @success="doSearch" />
           <el-table-column fixed="right" :label="$t('common.operate')" width="150">
             <template v-slot:header>
               {{ $t('common.operate') }}
-              <curd-table-column-select
-                v-model="showFields"
-                :preference-alias="conf.namespace"
-                :table-fields="preferenceData"
-                style="float: right"
-                @selectedChange="reRenderTable"
-                @doSave="doSave"
-              />
+              <curd-table-column-select v-model="showFields" :preference-alias="conf.namespace"
+                :table-fields="preferenceData" style="float: right" @selectedChange="reRenderTable" @doSave="doSave" />
             </template>
             <template slot-scope="scopeRow">
               <div class="col-btn-display">
                 <!-- 更新 -->
-                <hf-base-right-menu-update
-                  v-permission="['hfBaseRightMenu:update']"
-                  :value="scopeRow.row"
-                  :query-url="conf.urlMethods.queryUrl"
-                  :update-url="conf.urlMethods.updateUrl"
-                  @success="doSearch"
-                />
+                <hf-base-right-menu-update v-permission="['hfBaseRightMenu:update']" :value="scopeRow.row"
+                  :query-url="conf.urlMethods.queryUrl" :update-url="conf.urlMethods.updateUrl" @success="doSearch" />
                 <!-- 删除-->
-                <del-btn
-                  v-permission="['hfBaseRightMenu:delete']"
-                  :url="templateUrl(conf.urlMethods.deleteUrl, scopeRow.row)"
-                  :btn-type="'text'"
-                  :value="scopeRow.row"
-                  @success="doSearch"
-                />
+                <del-btn v-permission="['hfBaseRightMenu:delete']"
+                  :url="templateUrl(conf.urlMethods.deleteUrl, scopeRow.row)" :btn-type="'text'" :value="scopeRow.row"
+                  @success="doSearch" />
                 <!-- 查看 -->
                 <hf-base-right-menu-detail :value="scopeRow.row" />
                 <!-- 导入 -->
-                <import-from-controller
-                  v-if="scopeRow.row.menuType == 'PATH_MENU'"
-                  type="text"
-                  :menu-id="scopeRow.row.menuId"
-                  @success="doSearch"
-                />
+                <import-from-controller v-if="scopeRow.row.menuType == 'PATH_MENU'" type="text"
+                  :menu-id="scopeRow.row.menuId" @success="doSearch" />
                 <look-for-method v-if="scopeRow.row.controllerId" :controller-id="scopeRow.row.controllerId" />
                 <!-- 复制新增 -->
-                <hf-base-right-menu-add
-                  v-if="scopeRow.row.menuType == 'PATH_MENU'"
-                  v-permission="['hfBaseRightMenu:save']"
-                  :value="copierValue(scopeRow.row)"
-                  :show-icon="false"
-                  btn-type="text"
-                  :btn-label="$t('common.copyToAdd')"
-                  :action-url="conf.urlMethods.addUrl"
-                  @success="doSearch"
-                />
+                <hf-base-right-menu-add v-if="scopeRow.row.menuType == 'PATH_MENU'"
+                  v-permission="['hfBaseRightMenu:save']" :value="copierValue(scopeRow.row)" :show-icon="false"
+                  btn-type="text" :btn-label="$t('common.copyToAdd')" :action-url="conf.urlMethods.addUrl"
+                  @success="doSearch" />
               </div>
             </template>
           </el-table-column>
@@ -133,13 +79,8 @@
       </template>
     </table-column-preference-setting-api-slot>
     <!-- 分页信息 -->
-    <curd-pagination
-      :current-page.sync="searchForm.pageInfo.pageNo"
-      :page-size.sync="searchForm.pageInfo.pageSize"
-      :total="jsonData.total"
-      @size-change="doSearch"
-      @current-change="doSearch"
-    />
+    <curd-pagination :current-page.sync="searchForm.pageInfo.pageNo" :page-size.sync="searchForm.pageInfo.pageSize"
+      :total="jsonData.total" @size-change="doSearch" @current-change="doSearch" />
   </el-card>
 </template>
 
@@ -249,7 +190,12 @@ export default {
   },
   watch: {
     treeSelected(val, oldval) {
-      this.searchForm.parentId = val.menuId
+      if (val.parentId === 0) {
+        this.searchForm.parentId = val.menuId
+        this.searchForm.menuId = null
+      } else {
+        this.searchForm.menuId = val.menuId
+      }
       this.doSearch()
     }
   },
