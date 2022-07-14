@@ -2,7 +2,7 @@
   <div>
     <hf-table
       v-loading="loading"
-      :table-data="functionList"
+      :table-data="value.functionList"
       rowKey="columnName"
     >
       <el-table-column

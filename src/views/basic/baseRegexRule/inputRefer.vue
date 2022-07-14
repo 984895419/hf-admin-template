@@ -206,10 +206,10 @@
             rowDbClick(row, column, event) {
                 if (this.value) {
                     if (this.valueReferId) {
-                        this.$set(this.value, this.valueReferId, row.regexValue)
+                        this.$set(this.value, this.valueReferId, row.regexKey)
                     }
                     if (this.valueReferName) {
-                        this.$set(this.value, this.valueReferName, row.regexKey)
+                        this.$set(this.value, this.valueReferName, row.description)
                     }
                     if (this.valueExpendRefers) {
                         for (const ind in this.valueExpendRefers) {
