@@ -11,7 +11,8 @@ export const baseUrl = '/api/baseTenant'
 export const urlMethods = defaultUrlMethod(baseUrl, 'id', {
   pageUrl: baseUrl + '/pageQuery',
   // 从原生url中查询表信息
-  originUrl: '/api/plus/queryTableInfo/'
+  originUrl: '/api/plus/queryTableInfo/',
+  submitUrl: '/api/plus/generate/'
 })
 /**
  * 定义模块的命名空间
@@ -55,8 +56,17 @@ export default exportTableFields(tableFields)
  */
 export function formRules(vm) {
   return {
-    typeId: [
-      { required: true, message: vm.$t(getI18nName('typeId')) + vm.$t('common.notAllowedNull'), trigger: 'blur' }
+    moduleName: [
+      { required: true, message: vm.$t(getI18nName('moduleName')) + vm.$t('common.notAllowedNull'), trigger: 'blur' }
+    ],
+    packageName: [
+      { required: true, message: vm.$t(getI18nName('packageName')) + vm.$t('common.notAllowedNull'), trigger: 'blur' }
+    ],
+    vuePath: [
+      { required: true, message: vm.$t(getI18nName('vuePath')) + vm.$t('common.notAllowedNull'), trigger: 'blur' }
+    ],
+    javaPath: [
+      { required: true, message: vm.$t(getI18nName('javaPath')) + vm.$t('common.notAllowedNull'), trigger: 'blur' }
     ]
   }
 }

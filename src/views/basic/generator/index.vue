@@ -16,11 +16,11 @@
           <el-button type="primary" @click="mergerFields">查询并合并字段</el-button>
           <el-button type="primary" @click="loadFromHistory">从历史记录查询</el-button>
           <el-button type="primary" @click="toSave">保存成记录</el-button>
+          <el-button type="primary" @click="submitData">生成代码</el-button>
         </template>
       </simple-search>
     </div>
-    <div>
-      {{functionSupport('add')}}
+    <el-form :model="tableInfo" :rules="formRules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
       <generator-prefence-setting-api-solt ref="generatorSetting" v-model="tableInfo" :preference-alias="searchForm.tableName">
         <template v-slot="{ preferenceData, doSave }">
           <el-button v-show="false" ref="saveBtn" type="primary" @click="saveSetting(doSave)"></el-button>
@@ -208,7 +208,7 @@
                         min-width="130"
                       >
                         <template slot-scope="scopeRow">
-                          <el-select v-model="scopeRow.row.referType">
+                          <el-select v-model="scopeRow.row.referType" clearable>
                             <el-option
                               v-for="item in referTypes"
                               :key="item.value"
@@ -307,7 +307,7 @@
           </el-tabs>
         </template>
       </generator-prefence-setting-api-solt>
-    </div>
+    </el-form>
   </el-card>
 </template>
 
@@ -324,8 +324,8 @@ import BaseBusinessCodeInputRefer from '../baseBusinessCode/inputRefer'
 import BaseDictTypeInputRefer from '../baseDictType/inputRefer'
 import BaseRegexRuleInputRefer from '../baseRegexRule/inputRefer'
 import GeneratorPrefenceSettingApiSolt from '../preferenceSetting/GeneratorPrefenceSettingApiSolt.vue'
-import TableColumnPreferenceSettingApiSlot from "../preferenceSetting/TableColumnPrefenceSettingApiSlot";
-import CurdTableColumnSelect from "../../../components/CURD/Table/select/TableColumnSelect";
+import TableColumnPreferenceSettingApiSlot from '../preferenceSetting/TableColumnPrefenceSettingApiSlot'
+import CurdTableColumnSelect from '../../../components/CURD/Table/select/TableColumnSelect'
 /**
  * 代码生成器
  */
@@ -372,7 +372,8 @@ export default {
                     value: 'table'
                 }
             ],
-            tableFields: conf.default
+            tableFields: conf.default,
+            formRules: null
         }
     },
     computed: {
@@ -386,6 +387,7 @@ export default {
     },
     created() {
       this.doSearch()
+      this.formRules = conf.formRules(this)
     },
     methods: {
         reRenderTable(res) {
@@ -437,6 +439,22 @@ export default {
             if (this.$refs.saveBtn) {
                 this.$refs.saveBtn.handleClick()
             }
+        },
+        submitData() {
+            this.$refs.ruleForm.validate((valid) => {
+                if (valid) {
+                    baseApiPostMethod(this.conf.urlMethods.submitUrl + this.searchForm.tableName, this.tableInfo).then(resp => {
+                        if (isSuccessResult(resp)) {
+                            this.$message.success(getMessage(resp))
+                        } else {
+                            this.$message.error(getMessage(resp))
+                        }
+                    })
+                } else {
+                    console.log('error submit!!')
+                    return false
+                }
+            });
         }
     }
 }

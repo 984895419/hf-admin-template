@@ -1,5 +1,5 @@
 <template>
-  <el-form :model="value" :rules="formRules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+  <div>
     <form-item-text
       :value="value"
       :span="12"
@@ -54,7 +54,7 @@
       prop="javaPath"
       :namespace="conf.namespace">
     </form-item-col>
-  </el-form>
+  </div>
 </template>
 
 <script>
@@ -71,13 +71,8 @@ export default {
     },
     data() {
         return {
-            conf: conf,
-            formRules: null
+            conf: conf
         }
-    },
-
-    created() {
-        this.formRules = conf.formRules(this)
     }
 
 }
