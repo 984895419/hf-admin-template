@@ -51,11 +51,23 @@
                 :namespace="conf.namespace"
               />
               <form-item-col
-                v-if="data.menuType !== 'ENDING_MENU'"
+                v-if="data.menuType === 'ENDING_MENU'"
                 :value="data"
-                :error="errorMessage('redirect')"
+                :error="errorMessage('controllerId')"
                 :span="span"
-                prop="redirect"
+                prop="controllerId"
+                :namespace="conf.namespace"
+              >
+                <base-handler-mapping-controller-input-refer
+                  :value="data"
+                  value-refer-id="controllerId"
+                  value-refer-name="controllerName"/>
+              </form-item-col>
+              <form-item-col
+                :value="data"
+                :error="errorMessage('sort')"
+                :span="span"
+                prop="sort"
                 :namespace="conf.namespace"
               />
               <form-item-col-enable-state
@@ -110,9 +122,10 @@
     import { baseApiPostMethod } from '@/components/CURD/baseApi'
     import FormItemColEnableState from '@/components/CURD/Form/formItemColEnableState'
     import HfBaseRightMenuInputRefer from './inputRefer'
+    import BaseHandlerMappingControllerInputRefer from "../baseHandlerMappingController/inputRefer";
     export default {
         name: 'HfBaseRightMenuAdd',
-        components: { FormItemColDict, FormItemCol, RowSpanSlot, CuForm, AddBtn, FormItemColEnableState, HfBaseRightMenuInputRefer },
+        components: {BaseHandlerMappingControllerInputRefer, FormItemColDict, FormItemCol, RowSpanSlot, CuForm, AddBtn, FormItemColEnableState, HfBaseRightMenuInputRefer },
         props: {
             value: {
                 type: Object,

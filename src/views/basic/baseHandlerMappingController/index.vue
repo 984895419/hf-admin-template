@@ -17,30 +17,6 @@
             prop="description"
             :namespace="conf.namespace"
           />
-          <form-item-col
-            :value="searchForm"
-            :span="span"
-            prop="menu"
-            :namespace="conf.namespace"
-          />
-          <form-item-col
-            :value="searchForm"
-            :span="span"
-            prop="menuName"
-            :namespace="conf.namespace"
-          />
-          <form-item-col
-            :value="searchForm"
-            :span="span"
-            prop="controllerName"
-            :namespace="conf.namespace"
-          />
-          <form-item-col
-            :value="searchForm"
-            :span="span"
-            prop="enableState"
-            :namespace="conf.namespace"
-          />
           <!-- 字典字段字段设置方法如下
           <form-item-col-dict
             :value="data"

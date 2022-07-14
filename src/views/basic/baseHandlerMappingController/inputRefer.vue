@@ -30,30 +30,6 @@
                 prop="description"
                 :namespace="conf.namespace"
               />
-              <form-item-col
-                :value="searchForm"
-                :span="span"
-                prop="menu"
-                :namespace="conf.namespace"
-              />
-              <form-item-col
-                :value="searchForm"
-                :span="span"
-                prop="menuName"
-                :namespace="conf.namespace"
-              />
-              <form-item-col
-                :value="searchForm"
-                :span="span"
-                prop="controllerName"
-                :namespace="conf.namespace"
-              />
-              <form-item-col
-                :value="searchForm"
-                :span="span"
-                prop="enableState"
-                :namespace="conf.namespace"
-              />
               <!-- 字典字段字段设置方法如下
               <form-item-col-dict
                 :value="data"
@@ -146,30 +122,20 @@
                  * 查询的表单信息
                  */
                 searchForm: {
-                  controllerId: null,
                   value: null,
                   description: null,
-                  menu: null,
-                  menuName: null,
-                  controllerName: null,
-                  creator: null,
-                  createTime: null,
-                  modifier: null,
-                  modifyTime: null,
-                  enableState: null,
                   deleted: null,
-                    enableState: 1,
-                    /**
-                     * 分页信息
-                     */
-                    pageInfo: {
-                        pageNo: 1,
-                        pageSize: this.$store.getters.pageSize
-                    },
-                    /**
-                     * 排序信息
-                     */
-                    sortInfo: []
+                  /**
+                   * 分页信息
+                   */
+                  pageInfo: {
+                      pageNo: 1,
+                      pageSize: this.$store.getters.pageSize
+                  },
+                  /**
+                   * 排序信息
+                   */
+                  sortInfo: []
                 },
                 conf: conf,
                 jsonData: {

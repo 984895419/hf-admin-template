@@ -59,6 +59,19 @@
                   prop="redirect"
                   :namespace="conf.namespace"
                 />
+                <form-item-col
+                  v-if="data.menuType === 'ENDING_MENU'"
+                  :value="data"
+                  :error="errorMessage('controllerId')"
+                  :span="span"
+                  prop="controllerId"
+                  :namespace="conf.namespace"
+                >
+                  <base-handler-mapping-controller-input-refer
+                    :value="data"
+                    value-refer-id="controllerId"
+                    value-refer-name="controllerName"/>
+                </form-item-col>
                 <form-item-col-enable-state
                   :value="data"
                   :span="span"
