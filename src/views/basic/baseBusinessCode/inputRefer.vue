@@ -30,66 +30,6 @@
                 prop="businessName"
                 :namespace="conf.namespace"
               />
-              <form-item-col
-                :value="searchForm"
-                :span="span"
-                prop="businessDescription"
-                :namespace="conf.namespace"
-              />
-              <form-item-col
-                :value="searchForm"
-                :span="span"
-                prop="prefix"
-                :namespace="conf.namespace"
-              />
-              <form-item-col
-                :value="searchForm"
-                :span="span"
-                prop="suffix"
-                :namespace="conf.namespace"
-              />
-              <form-item-col
-                :value="searchForm"
-                :span="span"
-                prop="useDate"
-                :namespace="conf.namespace"
-              />
-              <form-item-col
-                :value="searchForm"
-                :span="span"
-                prop="dateFormat"
-                :namespace="conf.namespace"
-              />
-              <form-item-col
-                :value="searchForm"
-                :span="span"
-                prop="seqStart"
-                :namespace="conf.namespace"
-              />
-              <form-item-col
-                :value="searchForm"
-                :span="span"
-                prop="seqStep"
-                :namespace="conf.namespace"
-              />
-              <form-item-col
-                :value="searchForm"
-                :span="span"
-                prop="seqLength"
-                :namespace="conf.namespace"
-              />
-              <form-item-col
-                :value="searchForm"
-                :span="span"
-                prop="seqCurrent"
-                :namespace="conf.namespace"
-              />
-              <form-item-col
-                :value="searchForm"
-                :span="span"
-                prop="enableState"
-                :namespace="conf.namespace"
-              />
               <!-- 字典字段字段设置方法如下
               <form-item-col-dict
                 :value="data"
