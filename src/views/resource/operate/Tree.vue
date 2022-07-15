@@ -3,24 +3,10 @@
     <!--
       树节点过滤条件
     -->
-    <el-input
-      v-model="filterText"
-      :placeholder="$t('common.menu.metaTitle')"
-      style="width: 80%"
-      clearable
-      prefix-icon="el-icon-search"
-    />
-    <el-tree
-      ref="tree"
-      :data="data1"
-      accordion
-      :filter-node-method="filterNode"
-      :props="defaultProps"
-      :check-on-click-node="true"
-      :highlight-current="true"
-      node-key="menuId"
-      @check="handleNodeClick"
-    />
+    <el-input v-model="filterText" :placeholder="$t('common.menu.metaTitle')" style="width: 80%" clearable
+      prefix-icon="el-icon-search" />
+    <el-tree ref="tree"  class="filter-tree" :data="data1" accordion :filter-node-method="filterNode" :props="defaultProps"
+      :check-on-click-node="true" :highlight-current="true" node-key="menuId" @check="handleNodeClick" />
   </div>
 </template>
 <script>
@@ -61,8 +47,8 @@ export default {
       })
     },
     getMenuTreeList() {
-       const _this = this
-     baseApiGetMethod('/api/hfBaseRightMenu/list/query').then(
+      const _this = this
+      baseApiGetMethod('/api/hfBaseRightMenu/list/query').then(
         (resp) => {
           if (resp.retCode === '00001') {
             _this.data1 = resp.data
@@ -81,11 +67,21 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .el-select {
   width: 100%;
 }
+
 .edit-button-item {
   direction: rtl;
+}
+
+/deep/ .filter-tree {
+  overflow-y: scroll;
+  height: calc(100vh - 180px);
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 </style>
