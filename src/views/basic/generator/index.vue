@@ -18,7 +18,7 @@
           <el-popconfirm
             style="margin-right: 10px; margin-left: 10px"
             v-if="searchForm.tableName"
-            @confirm="toSave"
+            @onConfirm="toSave"
             title="确定保存成记录，如果已经有记录，将进行覆盖"
           >
           <el-button slot="reference" type="primary">保存成记录</el-button>
@@ -447,6 +447,7 @@ export default {
             doSave(this.tableInfo)
         },
         toSave() {
+            debugger
             if (this.$refs.saveBtn) {
                 this.$refs.saveBtn.handleClick()
             }
