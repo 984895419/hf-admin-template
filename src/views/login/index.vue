@@ -87,7 +87,7 @@
         </el-button>
       </div>-->
     </el-form>
-    <div :class="{ 'is-active': isLoginPage === 1 }" class="codepage">
+    <div v-if="qywxScan !== 'false'" :class="{ 'is-active': isLoginPage === 1 }" class="codepage">
       <!-- <div id="qr_login" /> -->
       <!-- <iframe v-if="isLoginPage === 1" src="/api/oauth/qywx" frameborder="0" /> -->
       <qywx-scan-login :is-login-page="isLoginPage" />
@@ -115,6 +115,7 @@
 
 <script>
 import LangSelect from '@/components/LangSelect'
+import { mapGetters } from 'vuex'
 import { specificationRegExp } from '@/utils/validate'
 import { messageErrorHandle, messageSuccesHandle } from '@/utils/message-handle'
 import SocialSign from './components/SocialSignin'
@@ -153,9 +154,16 @@ export default {
       redirect: undefined,
       otherQuery: {},
       isLoginPage: 0,
-      pageList: ['系统登录', '扫码'],
       timer: {}
     }
+  },
+  computed: {
+      ...mapGetters([
+          'qywxScan'
+      ]),
+      pageList() {
+          return this.qywxScan === 'false' ? ['系统登录'] : ['系统登录', '扫码'];
+      }
   },
   watch: {
     $route: {

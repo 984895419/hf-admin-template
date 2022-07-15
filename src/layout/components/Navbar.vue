@@ -16,7 +16,7 @@
       <template v-if="device!=='mobile'">
         <div class="right-menu-item">
           <div style="font-size: 1vh; height: 30%">{{ $store.getters.username }}</div>
-          <div style="font-size: 1vh">
+          <div v-if="$store.getters.tenantOpen !== false && $store.getters.tenantOpen !== 'false'" style="font-size: 1vh">
             <change-company
               ref="changePannel"
               @submitSuccess="submitSuccess"

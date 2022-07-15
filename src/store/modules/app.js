@@ -28,7 +28,10 @@ const state = {
   // 是否是开发环境？
   isDeveloping: process.env.NODE_ENV === 'development',
   // 前端的提示是否开启，影响范围为国际化文件中以“Helper”结尾的用户帮助
-  helper: true
+  helper: true,
+  // 企业微信扫码
+  qywxScan: false,
+  tenantOpen: false
 }
 
 const mutations = {
@@ -77,6 +80,12 @@ const mutations = {
   },
   SET_HELPER: (state, helper) => {
     state.helper = helper
+  },
+  SET_QYWX_SCAN: (state, qywxScan) => {
+    state.qywxScan = qywxScan
+  },
+  SET_OPEN_TENANT: (state, open) => {
+    state.tenantOpen = open
   }
 }
 
@@ -122,6 +131,10 @@ const actions = {
           commit('SET_IS_DEVELOPING', process.env.NODE_ENV === 'development' && data['fe.setting.develop.helper'] === 'true')
           // 设置功能是否开启
           commit('SET_HELPER', data['fe.setting.tooltip'] ? data['fe.setting.tooltip'] : true)
+          // 设置是否可以开启微信扫码
+          commit('SET_QYWX_SCAN', data['hf.login.qywxscan'] ? data['hf.login.qywxscan'] : true)
+          // 设置是否开启租户
+          commit('SET_OPEN_TENANT', data['hf.setting.tenant'] ? data['hf.setting.tenant'] : true)
         }
         resolve(resp)
       }).catch(() => {
