@@ -112,17 +112,6 @@ export default {
     },
     treeNodeval(data) {
       this.postBaseUserInfoParam = data
-      let param = {}
-      param = Object.assign(this.searchForm, this.pageData)
-      baseApiGetMethod('/api/hfBaseUserInfo/nameQuery', param).then(
-        (resp) => {
-          if (resp.retCode === '00001') {
-            this.data.list = resp.data.list
-            this.data.total = resp.data.total
-            console.log(resp.data, 111)
-          }
-        }
-      )
     },
 
     // 一页多个
