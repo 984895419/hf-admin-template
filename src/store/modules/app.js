@@ -132,9 +132,9 @@ const actions = {
           // 设置功能是否开启
           commit('SET_HELPER', data['fe.setting.tooltip'] ? data['fe.setting.tooltip'] : true)
           // 设置是否可以开启微信扫码
-          commit('SET_QYWX_SCAN', data['hf.login.qywxscan'] ? data['hf.login.qywxscan'] : true)
+          commit('SET_QYWX_SCAN', data['fe.login.qywxscan'] ? data['fe.login.qywxscan'] : true)
           // 设置是否开启租户
-          commit('SET_OPEN_TENANT', data['hf.setting.tenant'] ? data['hf.setting.tenant'] : true)
+          commit('SET_OPEN_TENANT', data['fe.setting.tenant'] ? data['fe.setting.tenant'] : true)
         }
         resolve(resp)
       }).catch(() => {
