@@ -122,7 +122,7 @@
     import { baseApiPostMethod } from '@/components/CURD/baseApi'
     import FormItemColEnableState from '@/components/CURD/Form/formItemColEnableState'
     import HfBaseRightMenuInputRefer from './inputRefer'
-    import BaseHandlerMappingControllerInputRefer from "../baseHandlerMappingController/inputRefer";
+    import BaseHandlerMappingControllerInputRefer from '@/views/basic/baseHandlerMappingController/inputRefer'
     export default {
         name: 'HfBaseRightMenuAdd',
         components: {BaseHandlerMappingControllerInputRefer, FormItemColDict, FormItemCol, RowSpanSlot, CuForm, AddBtn, FormItemColEnableState, HfBaseRightMenuInputRefer },

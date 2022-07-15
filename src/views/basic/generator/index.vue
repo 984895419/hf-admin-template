@@ -13,10 +13,17 @@
           <!-- 字典字段字段设置方法如下 -->
         </template>
         <template v-slot:btns>
-          <el-button type="primary" @click="mergerFields">查询并合并字段</el-button>
-          <el-button type="primary" @click="loadFromHistory">从历史记录查询</el-button>
-          <el-button type="primary" @click="toSave">保存成记录</el-button>
-          <el-button type="primary" @click="submitData">生成代码</el-button>
+          <el-button type="primary" v-if="searchForm.tableName" @click="mergerFields">查询并合并字段</el-button>
+          <el-button type="primary" v-if="searchForm.tableName" @click="loadFromHistory">从历史记录查询</el-button>
+          <el-popconfirm
+            style="margin-right: 10px; margin-left: 10px"
+            v-if="searchForm.tableName"
+            @confirm="toSave"
+            title="确定保存成记录，如果已经有记录，将进行覆盖"
+          >
+          <el-button slot="reference" type="primary">保存成记录</el-button>
+          </el-popconfirm>
+          <el-button type="primary" v-if="searchForm.tableName" @click="submitData">生成代码</el-button>
         </template>
       </simple-search>
     </div>
@@ -348,7 +355,7 @@ export default {
         return {
             showFields: null,
             searchForm: {
-                tableName: 'base_business_code'
+                tableName: null
             },
             conf: conf,
             tableInfo: {},
@@ -386,7 +393,7 @@ export default {
         }
     },
     created() {
-      this.doSearch()
+      // this.doSearch()
       this.formRules = conf.formRules(this)
     },
     methods: {
@@ -408,6 +415,10 @@ export default {
         },
         readyDoSearch(cb) {
             this.loading = true
+            if (!this.searchForm.tableName) {
+                this.$message.error('请输入查询的表名')
+                return
+            }
             baseApiPostMethod(this.conf.urlMethods.originUrl + this.searchForm.tableName).then(resp => {
                 this.loading = false
                 if (isSuccessResult(resp)) {
@@ -443,7 +454,7 @@ export default {
         submitData() {
             this.$refs.ruleForm.validate((valid) => {
                 if (valid) {
-                    baseApiPostMethod(this.conf.urlMethods.submitUrl + this.searchForm.tableName, this.tableInfo).then(resp => {
+                      baseApiPostMethod(this.conf.urlMethods.submitUrl + this.searchForm.tableName, this.tableInfo).then(resp => {
                         if (isSuccessResult(resp)) {
                             this.$message.success(getMessage(resp))
                         } else {
