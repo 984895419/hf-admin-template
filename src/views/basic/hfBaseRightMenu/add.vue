@@ -88,13 +88,6 @@
                   :value-refer-name="'parentName'"
                 />
               </form-item-col>
-              <form-item-col
-                :value="data"
-                :error="errorMessage('sort')"
-                :span="span"
-                prop="sort"
-                :namespace="conf.namespace"
-              />
               <!-- 字典字段字段设置方法如下
               <form-item-col-dict
                 :value="data"

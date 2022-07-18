@@ -68,7 +68,7 @@
                   :menu-id="scopeRow.row.menuId" @success="doSearch" />
                 <look-for-method v-if="scopeRow.row.controllerId" :controller-id="scopeRow.row.controllerId" />
                 <!-- 复制新增 -->
-                <hf-base-right-menu-add v-if="scopeRow.row.menuType == 'PATH_MENU'"
+                <hf-base-right-menu-add
                   v-permission="['hfBaseRightMenu:save']" :value="copierValue(scopeRow.row)" :show-icon="false"
                   btn-type="text" :btn-label="$t('common.copyToAdd')" :action-url="conf.urlMethods.addUrl"
                   @success="doSearch" />
