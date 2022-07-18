@@ -99,32 +99,6 @@ export const constantRoutes = [
     meta: { title: '生成器管理', icon: 'dashboard', affix: true }
   }
   // {
-  //   path: '/example',
-  //   component: Layout,
-  //   redirect: '/example/simpleCurd',
-  //   children: [
-  //     {
-  //       path: 'simpleQuery',
-  //       component: () => import('@/views/example/query/index'),
-  //         name: 'simpleQuery',
-  //       meta: { title: '简单查询表单', icon: 'dashboard', affix: true }
-  //     },
-  //     {
-  //       path: 'simpleCurd',
-  //       component: () => import('@/views/example/simpleCurd/index'),
-  //       name: 'SimpleCurd',
-  //       meta: { title: '单表简单查询', icon: 'dashboard', affix: true }
-  //     },
-  //     {
-  //       path: 'simpleRefer',
-  //       component: () => import('@/views/example/refer/index'),
-  //       name: 'simpleRefer',
-  //       meta: { title: '简单参照', icon: 'dashboard', affix: true }
-  //     }
-  //   ],
-  //   meta: { title: '规范示例', icon: 'dashboard', affix: true }
-  // },
-  // {
   //   path: '/base',
   //   component: Layout,
   //   redirect: '/base/systemConfig',

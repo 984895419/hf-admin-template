@@ -1,7 +1,13 @@
 <template>
   <div>
-    <el-popconfirm confirm-button-text='确定' @onConfirm="confirmDel(value, url)" cancel-button-text='取消'
-      @onCancel="onCancel" icon="el-icon-info" icon-color="red" title="此操作将永久删除该记录, 是否继续?">
+    <el-popconfirm
+      confirm-button-text='确定'
+      @onConfirm="confirmDel(value, url)"
+      cancel-button-text='取消'
+      @onCancel="onCancel"
+      icon="el-icon-info"
+      icon-color="red"
+      title="此操作将永久删除该记录, 是否继续?">
       <el-button :type="btnType" :size="size" :style="{ color: btnType !== 'text' ? '' : 'red' }" slot="reference">删除
       </el-button>
     </el-popconfirm>

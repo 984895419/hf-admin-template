@@ -186,10 +186,10 @@
             rowDbClick(row, column, event) {
                 if (this.value) {
                     if (this.valueReferId) {
-                        this.$set(this.value, this.valueReferId, row.clientId)
+                        this.$set(this.value, this.valueReferId, row.controllerId)
                     }
                     if (this.valueReferName) {
-                        this.$set(this.value, this.valueReferName, row.clientId)
+                        this.$set(this.value, this.valueReferName, row.menuName)
                     }
                     if (this.valueExpendRefers) {
                         for (const ind in this.valueExpendRefers) {
