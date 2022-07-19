@@ -20,6 +20,7 @@
         >{{ generateTitle(item.meta.title) }}</a>
       </el-breadcrumb-item>
     </transition-group>
+    <i class="el-icon-question"/>
   </el-breadcrumb>
 </template>
 
