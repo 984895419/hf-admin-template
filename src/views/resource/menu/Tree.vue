@@ -16,6 +16,7 @@
       :check-on-click-node="true"
       :highlight-current="true"
       node-key="menuId"
+      class="filter-tree"
       @check="handleNodeClick"
     />
   </div>
@@ -51,7 +52,7 @@ export default {
     getMenuTree(treeSelected) {
       if (!this.hasPerm('/menu/queryMenus')) {
         return
-      }
+      } 
       const _this = this
       fetchMenuTree().then((response) => {
         _this.data = response.obj
@@ -84,11 +85,19 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .el-select {
   width: 100%;
 }
 .edit-button-item {
   direction: rtl;
+}
+/deep/ .filter-tree {
+  overflow-y: scroll;
+  height: calc(100vh - 180px);
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 </style>
