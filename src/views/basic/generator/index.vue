@@ -199,16 +199,6 @@
                         </template>
                       </el-table-column>
                       <el-table-column
-                        v-if="item.value === 'valueReferColumn'"
-                        prop="valueReferColumn"
-                        :label="$t(conf.namespace + '.valueReferColumn')"
-                        min-width="130"
-                      >
-                        <template slot-scope="scopeRow">
-                          <el-checkbox v-model="scopeRow.row.valueReferColumn" />
-                        </template>
-                      </el-table-column>
-                      <el-table-column
                         v-if="item.value === 'supportEmpty'"
                         prop="supportEmpty"
                         :label="$t(conf.namespace + '.supportEmpty')"

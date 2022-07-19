@@ -45,8 +45,7 @@ const tableFields = ['columnName', 'columnType', 'comment', 'propertyType', 'typ
   'keyFlag', 'keyIdentityFlag', 'keyWords', 'supportSearch', 'supportKeywordSearch',
   'supportFuzzySearch', 'supportAdd',
   'supportUpdate', 'supportDelete', 'supportExport', 'supportImport', 'supportEmpty',
-  'referType', 'codeReferKey', 'dictReferType', 'regexReferType', 'tableReferType', 'tableReferColumnName',
-  'valueReferColumn']
+  'referType', 'codeReferKey', 'dictReferType', 'regexReferType', 'tableReferType', 'tableReferColumnName']
 
 export default exportTableFields(tableFields)
 
