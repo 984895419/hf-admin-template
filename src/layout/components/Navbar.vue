@@ -11,7 +11,6 @@
       id="breadcrumb-container"
       class="breadcrumb-container"
     />
-
     <div class="right-menu">
       <template v-if="device!=='mobile'">
         <div class="right-menu-item">

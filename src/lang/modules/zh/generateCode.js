@@ -35,5 +35,6 @@ export default {
   dictReferType: '数据字典引用类型',
   regexReferType: '正则引用类型',
   tableReferType: '表引用类型',
-  tableReferColumnName: '表引用联动字段'
+  tableReferColumnName: '表引用联动字段',
+  valueReferColumn: '是否参照显示字段'
 }
