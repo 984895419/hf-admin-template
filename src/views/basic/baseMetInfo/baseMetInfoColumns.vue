@@ -23,13 +23,20 @@
           :width="item.width"
           min-width="130"
         />
-        <el-table-column
+<!--        <el-table-column-->
+<!--          v-if="item.value === 'metTime'"-->
+<!--          prop="metTime"-->
+<!--          :label="$t(conf.namespace + '.metTime')"-->
+<!--          :width="item.width"-->
+<!--          min-width="130"-->
+<!--        />-->
+        <date-time-format-table-column
+          format-str="{y}-{m}-{d} {h}:{i}"
           v-if="item.value === 'metTime'"
           prop="metTime"
           :label="$t(conf.namespace + '.metTime')"
           :width="item.width"
-          min-width="130"
-        />
+          min-width="130"/>
         <creator-table-column :width="item.width" v-if="item.value === 'creator'" />
         <create-time-table-column :width="item.width" v-if="item.value === 'createTime'" />
         <modifier-table-column :width="item.width" v-if="item.value === 'modifier'" />
@@ -53,10 +60,12 @@
     import CreateTimeTableColumn from '@/components/CURD/Table/column/CreateTimeTableColumn'
     import ModifierTableColumn from '@/components/CURD/Table/column/ModifierTableColumn'
     import ModifyTimeTableColumn from '@/components/CURD/Table/column/ModifyTimeTableColumn'
+    import DateTimeFormatTableColumn from "../../../components/CURD/Table/column/base/DateTimeFormatTableColumn";
 
     export default {
         name: 'BaseMetInfoColumns',
-        components: { EnableStateTableColumn,
+        components: {
+            DateTimeFormatTableColumn, EnableStateTableColumn,
             CreatorTableColumn, CreateTimeTableColumn,
             ModifierTableColumn, ModifyTimeTableColumn },
         props: {
