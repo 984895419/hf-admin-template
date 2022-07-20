@@ -19,6 +19,10 @@
         </template>
       </simple-search>
     </div>
+    <!-- 说明tip -->
+    <div>
+        <explain-tip />
+    </div>
     <!-- 操作栏-->
     <div style="margin-bottom: 10px" class="col-btn-display ">
 <!--      <hf-base-user-info-add v-permission="['hfBaseUserInfo:save']" :action-url="conf.urlMethods.addUrl" @success="doSearch" />-->
@@ -162,6 +166,8 @@ import SimpleSearch from '@/components/CURD/Query/search'
 import TableColumnPreferenceSettingApiSlot from '@/views/basic/preferenceSetting/TableColumnPrefenceSettingApiSlot'
 import RoleSettings from '@/views/oa/role-settings.vue'
 import CommonDialogBtn from '@/components/CURD/Btns/CommonDialogBtn'
+import ExplainTip from '@/components/ExplainTip'
+
 export default {
   name: 'HfBaseUserInfoIndexVue',
   components: {
@@ -178,7 +184,8 @@ export default {
     SimpleSearch,
     TableColumnPreferenceSettingApiSlot,
     RoleSettings,
-    CommonDialogBtn
+    CommonDialogBtn,
+    ExplainTip
   },
   mixins: [CurdMixin],
   props: {
