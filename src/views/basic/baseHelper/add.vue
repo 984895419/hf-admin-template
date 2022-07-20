@@ -40,6 +40,7 @@
                  :namespace="conf.namespace" >
                  <hf-base-right-menu-input-refer
                    :value="data"
+                   :menu-type="'ENDING_MENU'"
                    value-refer-id="menuId"
                    value-refer-name="menuIdName"/>
                </form-item-col>

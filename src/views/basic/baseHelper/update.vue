@@ -33,10 +33,18 @@
                   :span="span"
                   :namespace="conf.namespace"
                 />
+                <form-item-col
+                  :value="data"
+                  :error="errorMessage('menuIdName')"
+                  :span="span"
+                  prop="menuIdName"
+                  :namespace="conf.namespace" >
                   <hf-base-right-menu-input-refer
                   :value="data"
+                  :menu-type="'ENDING_MENU'"
                   value-refer-id="menuId"
                   value-refer-name="menuIdName"/>
+                </form-item-col>
                 <!-- 字段字段设置方法如下
                 <form-item-col-dict
                   :value="data"
@@ -68,7 +76,7 @@
     import HfBaseRightMenuInputRefer from '@/views/basic/hfBaseRightMenu/inputRefer'
     export default {
         name: 'BaseHelperUpdate',
-        components: { 
+        components: {
       HfBaseRightMenuInputRefer,
       FormItemColDict, FormItemCol, RowSpanSlot, CuForm, UpdateBtn, FormItemColEnableState },
         mixins: [CurdMixin],
