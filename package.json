@@ -13,7 +13,9 @@
     "test:unit": "jest --clearCache && vue-cli-service test:unit",
     "test:ci": "npm run lint && npm run test:unit",
     "svgo": "svgo -f src/icons/svg --config=src/icons/svgo.yml",
-    "new": "plop"
+    "new": "plop",
+    "hfui": "vue-cli-service build --target lib ./src/components/CURD/index.js --name hf-ui --dest hf-ui",
+    "hf-basic-ui": "vue-cli-service build --target lib ./src/views/basic/index.js --name hf-basic-ui --dest hf-basic-ui"
   },
   "husky": {
     "hooks": {
@@ -49,6 +51,7 @@
     "echarts": "4.6.0",
     "element-ui": "2.13.0",
     "fuse.js": "3.6.1",
+    "hf-ui": "~0.1.17",
     "js-cookie": "2.2.1",
     "js-file-download": "^0.4.12",
     "js-md5": "^0.7.3",
@@ -93,7 +96,7 @@
     "connect": "3.7.0",
     "eslint": "^6.8.0",
     "eslint-plugin-vue": "^6.2.2",
-    "html-webpack-plugin": "3.2.0",
+    "html-webpack-plugin": "~4.4.1",
     "husky": "4.2.3",
     "less": "^4.1.1",
     "less-loader": "^7.0.0",
