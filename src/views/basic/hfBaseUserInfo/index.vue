@@ -27,32 +27,32 @@
     <div style="margin-bottom: 10px" class="col-btn-display ">
 <!--      <hf-base-user-info-add v-permission="['hfBaseUserInfo:save']" :action-url="conf.urlMethods.addUrl" @success="doSearch" />-->
       <div style="float: right" class="col-btn-display">
-        <del-btn
-          v-if="conf.urlMethods.deleteUrl
-            && toggleRowSelectionArray.length > 0"
-          :url="templateUrl(conf.urlMethods.deleteUrl, toggleRowSelectionArray)"
-          :value="toggleRowSelectionArray"
-          :label="$t('common.batchDelete')"
-          @success="doSearch"
-        />
-        <template-confirm-btn
-          v-if="conf.urlMethods.enableUrl
-            && toggleRowSelectionArray.length > 0"
-          :url="templateUrl(conf.urlMethods.enableUrl, toggleRowSelectionArray)"
-          :btn-type="'primary'"
-          :label="$t('common.batchEnable')"
-          :value="toggleRowSelectionArray"
-          @success="doSearch"
-        />
-        <template-confirm-btn
-          v-if="conf.urlMethods.disableUrl
-            && toggleRowSelectionArray.length > 0"
-          :url="templateUrl(conf.urlMethods.disableUrl, toggleRowSelectionArray)"
-          :btn-type="'primary'"
-          :value="toggleRowSelectionArray"
-          :label="$t('common.batchDisable')"
-          @success="doSearch"
-        />
+<!--        <del-btn-->
+<!--          v-if="conf.urlMethods.deleteUrl-->
+<!--            && toggleRowSelectionArray.length > 0"-->
+<!--          :url="templateUrl(conf.urlMethods.deleteUrl, toggleRowSelectionArray)"-->
+<!--          :value="toggleRowSelectionArray"-->
+<!--          :label="$t('common.batchDelete')"-->
+<!--          @success="doSearch"-->
+<!--        />-->
+<!--        <template-confirm-btn-->
+<!--          v-if="conf.urlMethods.enableUrl-->
+<!--            && toggleRowSelectionArray.length > 0"-->
+<!--          :url="templateUrl(conf.urlMethods.enableUrl, toggleRowSelectionArray)"-->
+<!--          :btn-type="'primary'"-->
+<!--          :label="$t('common.batchEnable')"-->
+<!--          :value="toggleRowSelectionArray"-->
+<!--          @success="doSearch"-->
+<!--        />-->
+<!--        <template-confirm-btn-->
+<!--          v-if="conf.urlMethods.disableUrl-->
+<!--            && toggleRowSelectionArray.length > 0"-->
+<!--          :url="templateUrl(conf.urlMethods.disableUrl, toggleRowSelectionArray)"-->
+<!--          :btn-type="'primary'"-->
+<!--          :value="toggleRowSelectionArray"-->
+<!--          :label="$t('common.batchDisable')"-->
+<!--          @success="doSearch"-->
+<!--        />-->
         <template-confirm-btn
           v-if="conf.urlMethods.syncUrl"
           :http-method="'post'"
