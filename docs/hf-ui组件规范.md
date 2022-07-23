@@ -1,53 +1,117 @@
 # 开发指南
 
+## npm 安装
+
+在npm淘宝镜像下  package.json 依次安装相对应所需npm包
+
+(可以先复制 粘贴到package.json对比 ,没有的就留下  ,然后执行以下命令)
+
+```
+npm  i 
+```
+
+```package.json
+ "dependencies": {
+    "axios": "~0.27.2",
+    "core-js": "^3.8.3",
+    "element-ui": "~2.15.9",
+    "hf-ui": "~1.0.31",
+    "js-cookie": "~3.0.1",
+    "js-file-download": "~0.4.12",
+    "sortablejs": "~1.15.0",
+    "vue": "^2.6.14",
+    "vue-json-editor": "~1.4.3",
+    "vue-router": "^3.5.1",
+    "vuex": "^3.6.2",
+    "vue-i18n": "7.3.2",
+    "node-sass": "^4.13.1",
+    "sass-loader": "^8.0.2",
+    "normalize.css": "8.0.1"
+  },
+```
+
+npm安装hf-ui之前先切换内网镜像
+
+```
+npm config set registry http://10.106.88.89:8081/nexus/content/groups/npm-group/
+```
+
+再安装hf-ui
+
+```
+npm  i  hf-ui
+```
+
+
+
+## 引入 hf-ui
+
+#### 完整引入
+
+在 main.js 中写入以下内容：
+
+```vue
+import Vue from 'vue'
+import store from './store'
+import App from './App.vue'
+
+
+import Cookies from 'js-cookie'
+import Element from 'element-ui'
+import router from './router'
+import i18n from 'hf-ui/lang' // internationalization
+import hfui from 'hf-ui'
+import 'hf-ui/hf-ui.css'
+
+Vue.config.productionTip = false
+Vue.use(Element, {
+  size: Cookies.get('size') || 'medium', // set element-ui default size
+  i18n: (key, value) => i18n.t(key, value)
+})
+Vue.use(hfui)
+
+new Vue({
+  router,
+  store,
+  i18n,
+  render: h => h(App)
+}).$mount('#app')
+```
+
 ## 快速上手
 
 本节将介绍如何在项目中使用 组件。
+
+
 
 ## 如何引用
 
 组件引用跟自身写模块    引用组件的思路是一样的 , 在当前模块引用组件:
 
-1. *template标签下引入组件名  *
-2. *script标签下引用组件路径 ,*
-3. export default里面抛出组件,
-4. 根据文档所包含的函数,属性等自定义添加
+
 
 #### 实例列举:
 
+```vue
 <template>
-  <div>
-    <AdvanceSearch />
+  <div id="app">
+    <add-btn :init-data="{ 'age': 1 }">
+      <div>123</div>
+    </add-btn>
+    <router-view />
   </div>
 </template>
-
-<script>
-import AdvanceSearch from '@/components/AdvanceSearch'
-export default {
-  components: {
-    AdvanceSearch
-  },
-  data() {
-    return {}
-  }
-}
-</script>
-
-
+```
 
 
 
 ## 基础组件(未完待续)
 
-### AdvanceSearch
+以下是组件API
 
-![img](组件.assets/image-20220713135700329.png)
 
-### BackToTop
 
-![image-20220714093505239](组件.assets/image-20220714093505239.png)
-
-### CURD
+### 
 
 #### ADD
 
