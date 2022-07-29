@@ -21,7 +21,7 @@ import hfBaseRightMenu from './hfBaseRightMenu' // 引入封装好的组件
 import hfBaseRightRole from './hfBaseRightRole' // 引入封装好的组件
 import hfBaseRightRoleOperate from './hfBaseRightRoleOperate' // 引入封装好的组件
 import hfBaseRightRoleUser from './hfBaseRightRoleUser' // 引入封装好的组件
-import hfBaseUserInfo from './hfBaseUserInfo' // 引入封装好的组件
+import hfBaseUserInfo from './hfBaseUserInfo/index.vue' // 引入封装好的组件
 import hfBaseUserLoginInfo from './hfBaseUserLoginInfo' // 引入封装好的组件
 import hfBaseUserLoginLog from './hfBaseUserLoginLog' // 引入封装好的组件
 import preferenceSetting from './preferenceSetting' // 引入封装好的组件
