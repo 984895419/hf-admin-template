@@ -5,6 +5,7 @@
       v-bind="$attrs"
       @focus="openDialog"
       v-on="$listeners"
+      clearable
     />
     <el-dialog
       :visible.sync="showDialog"
@@ -109,7 +110,7 @@
              * 扩展的参照集合
              */
             valueExpendRefers: {
-                type: Object
+                type: Array
             }
         },
         data() {
@@ -193,7 +194,7 @@
                     }
                     if (this.valueExpendRefers) {
                         for (const ind in this.valueExpendRefers) {
-                            this.$set(this.value, ind, row[this.valueExpendRefers[ind]])
+                            this.$set(this.value, this.valueExpendRefers[ind], row[this.valueExpendRefers[ind]])
                         }
                     }
                     // 已经选完后要调用的事件

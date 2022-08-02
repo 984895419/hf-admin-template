@@ -40,7 +40,7 @@ import HfTable from '../../../components/CURD/Table/HfTable'
  */
 export default {
     name: 'FunctionSetting',
-    components: {HfTable},
+    components: { HfTable },
     props: {
         value: {
             type: Object

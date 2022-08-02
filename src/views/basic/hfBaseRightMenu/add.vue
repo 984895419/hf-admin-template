@@ -43,6 +43,14 @@
                 :namespace="conf.namespace"
               />
               <form-item-col
+                v-if="data.menuType !== 'ENDING_MENU'"
+                :value="data"
+                :error="errorMessage('redirect')"
+                :span="span"
+                prop="redirect"
+                :namespace="conf.namespace"
+              />
+              <form-item-col
                 v-if="data.menuType === 'ENDING_MENU'"
                 :value="data"
                 :error="errorMessage('component')"
@@ -118,7 +126,7 @@
     import BaseHandlerMappingControllerInputRefer from '@/views/basic/baseHandlerMappingController/inputRefer'
     export default {
         name: 'HfBaseRightMenuAdd',
-        components: {BaseHandlerMappingControllerInputRefer, FormItemColDict, FormItemCol, RowSpanSlot, CuForm, AddBtn, FormItemColEnableState, HfBaseRightMenuInputRefer },
+        components: { BaseHandlerMappingControllerInputRefer, FormItemColDict, FormItemCol, RowSpanSlot, CuForm, AddBtn, FormItemColEnableState, HfBaseRightMenuInputRefer },
         props: {
             value: {
                 type: Object,

@@ -44,6 +44,11 @@ export default {
   searchUsed: '复制查询表单配置',
   formUsed: '复制增改表单配置',
   submit: '提交',
+  publish: '发布',
+  rePublish: '重新发布',
+  audit: '审核',
+  auditPass: '审核通过',
+  auditReject: '审核不通过',
   navbar: {
     dashboard: '首页',
     github: '项目地址',
