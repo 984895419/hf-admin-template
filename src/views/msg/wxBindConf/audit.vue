@@ -1,6 +1,6 @@
 <template>
   <div>
-    <update-btn btn-type="text" :label="$t('common.audit')" :title="$t('common.audit')" :url="templateUrl(queryUrl, value)">
+    <update-btn btn-type="text" :label="$t('common.audit')" :title="$t('common.audit')" :url="templateUrl(queryUrl, value)" @loadSuccess="postInit">
       <template v-slot="{ closeDialog, data }">
         <cu-form :label-width="'120'" :form-rules="formRules" :value="data" :action-method="updateMethod"  @success="actionSuccess" @closeDialog="closeDialog">
           <template v-slot="{ errorMessage }">
@@ -138,6 +138,9 @@
         methods: {
             actionSuccess() {
                 this.$emit('success')
+            },
+            postInit(postData) {
+                postData.auditState = 'pass'
             }
         }
     }

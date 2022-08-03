@@ -78,6 +78,7 @@ export default {
       baseApiGetMethod(this.url, this.queryData).then(resp => {
         if (isSuccessResult(resp)) {
           this.postData = getData(resp)
+          this.$emit('loadSuccess', this.postData)
           this.showDialog = true
         } else {
           this.$message.error(getMessage(resp))

@@ -118,6 +118,10 @@
                 <wx-notify-template-mapping-detail
                   :value="scopeRow.row"
                 />
+                <!-- 参数映射 -->
+                <common-dialog-btn label="配置映射" type="text">
+                  <butterfly-example/>
+                </common-dialog-btn>
               </div>
             </template>
           </el-table-column>
@@ -155,10 +159,14 @@
     import TableColumnPreferenceSettingApiSlot from '@/views/basic/preferenceSetting/TableColumnPrefenceSettingApiSlot'
     import SectionTableColumn from '@/components/CURD/Table/column/base/SectionTableColumn'
     import WxServerConfInputRefer from '@/views/msg/wxServerConf/inputRefer'
+    import CommonDialogBtn from "../../../components/CURD/Btns/CommonDialogBtn";
+    import ButterflyExample from "./butterfly/ButterflyExample";
 
     export default {
         name: 'WxNotifyTemplateMappingIndexVue',
         components: {
+            ButterflyExample,
+            CommonDialogBtn,
           WxServerConfInputRefer,
           SectionTableColumn,
           TemplateConfirmBtn,
