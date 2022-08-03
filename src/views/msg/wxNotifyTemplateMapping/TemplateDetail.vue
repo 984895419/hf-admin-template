@@ -1,7 +1,7 @@
 <template>
     <div>
       <el-row :gutter="10">
-        <el-col :span="8">
+        <el-col :span="6">
           <div>
             示例数据：<json-views copyable :expand-depth="0" :data="JSON.parse(templateData)"/>
           </div>
@@ -10,7 +10,7 @@
             <el-button type="primary" @click="doSave">保存</el-button>
           </div>
         </el-col>
-        <el-col :span="16">
+        <el-col :span="18">
           <tinymce
             :id="value.notifyId + '-' +  (Math.random() * 1000).toFixed(0)"
             v-model="value[prop]"
