@@ -11,7 +11,7 @@
       v-on="$listeners"
     >
       <div style="margin-top: 10px">
-        <slot :closeDialog="closeDialog" />
+        <slot :closeDialog="closeDialog" :showState="showImportDialog"/>
       </div>
     </el-dialog>
   </div>

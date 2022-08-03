@@ -9,6 +9,7 @@ export default {
   zh: '中文',
   en: '英文',
   saveAsNormal: '保存为常用',
+  save: '保存',
   search: '查询',
   reset: '重置',
   show: '显示',

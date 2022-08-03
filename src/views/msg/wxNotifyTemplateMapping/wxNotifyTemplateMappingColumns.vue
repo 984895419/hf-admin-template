@@ -32,14 +32,16 @@
           :width="item.width"
           min-width="130"
         />
-        <el-table-column
+        <default-table-column
+          :namespace="conf.namespace"
           v-if="item.value === 'exampleData'"
           prop="exampleData"
           :label="$t(conf.namespace + '.exampleData')"
           :width="item.width"
           min-width="130"
         />
-        <el-table-column
+        <default-table-column
+          :namespace="conf.namespace"
           v-if="item.value === 'templateContent'"
           prop="templateContent"
           :label="$t(conf.namespace + '.templateContent')"
@@ -53,7 +55,8 @@
           :width="item.width"
           min-width="130"
         />
-        <el-table-column
+        <default-table-column
+          :namespace="conf.namespace"
           v-if="item.value === 'mapping'"
           prop="mapping"
           :label="$t(conf.namespace + '.mapping')"

@@ -6,6 +6,32 @@
           <row-span-slot>
             <template v-slot="{ span }">
               <!-- 新增的的字段配置 -->
+                              <form-item-col
+                    :value="data"
+                    :error="errorMessage('notifyId')"
+                    :span="span"
+                    prop="notifyId"
+                    :namespace="conf.namespace"
+                >
+                   <wx-notify-template-mapping-input-refer
+                   :value="data"
+                   value-refer-id="notifyId"
+                   value-refer-name="notifyIdName"/>
+                </form-item-col>
+               <form-item-col
+                :value="data"
+                :error="errorMessage('data')"
+                :span="span"
+                prop="data"
+                :namespace="conf.namespace"
+               />
+               <form-item-col
+                :value="data"
+                :error="errorMessage('mapping')"
+                :span="span"
+                prop="mapping"
+                :namespace="conf.namespace"
+               />
                 <form-item-col
                     :value="data"
                     :error="errorMessage('wxId')"
@@ -16,53 +42,34 @@
                    <wx-server-conf-input-refer
                    :value="data"
                    value-refer-id="wxId"
-                   value-refer-name="wxIdName"
-                   :value-expend-refers="['appId']"
-                   />
+                   value-refer-name="wxIdName"/>
                 </form-item-col>
-              <template-list
-                v-if="data.appId"
+                <form-item-col
+                    :value="data"
+                    :error="errorMessage('bindId')"
+                    :span="span"
+                    prop="bindId"
+                    :namespace="conf.namespace"
+                >
+                   <wx-bind-conf-input-refer
+                   :value="data"
+                   value-refer-id="bindId"
+                   value-refer-name="bindIdName"/>
+                </form-item-col>
+               <form-item-col
                 :value="data"
-                :error="errorMessage('templateId')"
+                :error="errorMessage('sendState')"
                 :span="span"
-                prop="templateId"
-                :namespace="conf.namespace"
-                @change="selectHandler"
-                :app-id="data.appId"/>
-               <form-item-col-text-area
-                :value="data"
-                :error="errorMessage('exampleData')"
-                :span="span"
-                prop="exampleData"
+                prop="sendState"
                 :namespace="conf.namespace"
                />
-<!--               <form-item-col-->
-<!--                :value="data"-->
-<!--                :error="errorMessage('mapping')"-->
-<!--                :span="span"-->
-<!--                prop="mapping"-->
-<!--                :namespace="conf.namespace"-->
-<!--               />-->
-              <form-item-col-enable-state
+               <form-item-col
                 :value="data"
+                :error="errorMessage('reason')"
                 :span="span"
+                prop="reason"
                 :namespace="conf.namespace"
-              />
-
-              <form-item-text
-                :value="data"
-                :error="errorMessage('templateTitle')"
-                :span="span"
-                prop="templateTitle"
-                :namespace="conf.namespace"
-              />
-              <form-item-text
-                :value="data"
-                :error="errorMessage('templateContent')"
-                :span="span"
-                prop="templateContent"
-                :namespace="conf.namespace"
-              />
+               />
             </template>
           </row-span-slot>
         </template>
@@ -80,17 +87,15 @@
     import FormItemColDict from '@/components/CURD/Form/formItemColDict'
     import { baseApiPostMethod } from '@/components/CURD/baseApi'
     import FormItemColEnableState from '@/components/CURD/Form/formItemColEnableState'
+    import WxNotifyTemplateMappingInputRefer from '@/views/msg/wxNotifyTemplateMapping/inputRefer'
     import WxServerConfInputRefer from '@/views/msg/wxServerConf/inputRefer'
-    import TemplateList from "./TemplateList";
-    import FormItemText from "../../../components/CURD/Form/formItemText";
-    import FormItemColTextArea from "../../../components/CURD/Form/formItemColTextarea";
+    import WxBindConfInputRefer from '@/views/msg/wxBindConf/inputRefer'
     export default {
-        name: 'WxNotifyTemplateMappingAdd',
+        name: 'WxNotifyMessageAdd',
         components: {
-            FormItemColTextArea,
-            FormItemText,
-            TemplateList,
+        WxNotifyTemplateMappingInputRefer,
         WxServerConfInputRefer,
+        WxBindConfInputRefer,
         FormItemColDict, FormItemCol, RowSpanSlot, CuForm, AddBtn, FormItemColEnableState },
         props: {
             value: {
@@ -116,12 +121,6 @@
         },
         created() {
           this.formRules = conf.formRules(this)
-        },
-        methods: {
-            selectHandler(data, obj) {
-                this.$set(data, 'templateTitle', obj.title)
-                this.$set(data, 'templateContent', obj.content)
-            }
         }
     }
 </script>

@@ -5,21 +5,43 @@
       <simple-search v-model="searchForm" :inline="true" @search="doSearch">
         <template v-slot="{ span }">
           <!-- 新增的的字段配置 -->
-          <form-item-col
-            :value="searchForm"
-            :span="span"
-            prop="wxId"
-            :namespace="conf.namespace"
-          >
-          <wx-server-conf-input-refer
+                      <form-item-col
+                    :value="searchForm"
+                    :span="span"
+                    prop="notifyId"
+                    :namespace="conf.namespace"
+            >
+              <wx-notify-template-mapping-input-refer
+              :value="searchForm"
+              value-refer-id="notifyId"
+              value-refer-name="notifyIdName"/>
+            </form-item-col>
+            <form-item-col
+                    :value="searchForm"
+                    :span="span"
+                    prop="wxId"
+                    :namespace="conf.namespace"
+            >
+              <wx-server-conf-input-refer
               :value="searchForm"
               value-refer-id="wxId"
               value-refer-name="wxIdName"/>
-          </form-item-col>
+            </form-item-col>
+            <form-item-col
+                    :value="searchForm"
+                    :span="span"
+                    prop="bindId"
+                    :namespace="conf.namespace"
+            >
+              <wx-bind-conf-input-refer
+              :value="searchForm"
+              value-refer-id="bindId"
+              value-refer-name="bindIdName"/>
+            </form-item-col>
           <form-item-col
             :value="searchForm"
             :span="span"
-            prop="templateTitle"
+            prop="sendState"
             :namespace="conf.namespace"
           />
           <!-- 字典字段字段设置方法如下
@@ -35,34 +57,7 @@
     </div>
     <!-- 操作栏-->
     <div style="margin-bottom: 10px" class="col-btn-display">
-      <wx-notify-template-mapping-add :action-url="conf.urlMethods.addUrl"  @success="doSearch" />
       <div style="float: right" class="col-btn-display">
-        <del-btn
-          v-if="conf.urlMethods.deleteUrl
-            && toggleRowSelectionArray.length > 0"
-          :url="templateUrl(conf.urlMethods.deleteUrl, toggleRowSelectionArray)"
-          :value="toggleRowSelectionArray"
-          :label="$t('common.batchDelete')"
-          @success="doSearch"
-        />
-        <template-confirm-btn
-          v-if="conf.urlMethods.enableUrl
-            && toggleRowSelectionArray.length > 0"
-          :url="templateUrl(conf.urlMethods.enableUrl, toggleRowSelectionArray)"
-          :btn-type="'primary'"
-          :label="$t('common.batchEnable')"
-          :value="toggleRowSelectionArray"
-          @success="doSearch"
-        />
-        <template-confirm-btn
-          v-if="conf.urlMethods.disableUrl
-            && toggleRowSelectionArray.length > 0"
-          :url="templateUrl(conf.urlMethods.disableUrl, toggleRowSelectionArray)"
-          :btn-type="'primary'"
-          :value="toggleRowSelectionArray"
-          :label="$t('common.batchDisable')"
-          @success="doSearch"
-        />
       </div>
     </div>
     <!-- 列表-->
@@ -81,7 +76,7 @@
         >
           <section-table-column/>
           <!-- 显示的字段-->
-          <wx-notify-template-mapping-columns :show-fields="showFields" :url-methods="conf.urlMethods" @success="doSearch" />
+          <wx-notify-message-columns :show-fields="showFields" :url-methods="conf.urlMethods" @success="doSearch" />
           <el-table-column
             fixed="right"
             :label="$t('common.operate')"
@@ -100,51 +95,10 @@
             </template>
             <template slot-scope="scopeRow">
               <div class="col-btn-display">
-                <!-- 更新 -->
-                <wx-notify-template-mapping-update
-                  :value="scopeRow.row"
-                  :query-url="conf.urlMethods.queryUrl"
-                  :update-url="conf.urlMethods.updateUrl"
-                  @success="doSearch"
-                />
-                <!-- 删除-->
-                <del-btn
-                  :url="templateUrl(conf.urlMethods.deleteUrl, scopeRow.row)"
-                  :btn-type="'text'"
-                  :value="scopeRow.row"
-                  @success="doSearch"
-                />
                 <!-- 查看 -->
-                <wx-notify-template-mapping-detail
+                <wx-notify-message-detail
                   :value="scopeRow.row"
                 />
-                <!-- 参数映射 -->
-                <common-dialog-btn label="配置映射" type="text" v-if="scopeRow.row.exampleData">
-                  <template v-slot="{closeDialog}">
-                    <data-mapping
-                      @save="SaveMapping"
-                      @success="doSearch"
-                      @closeDialog="closeDialog"
-                      :row="scopeRow.row"
-                      v-model="scopeRow.row.mapping"
-                      :example-data="scopeRow.row.exampleData"
-                      :template-content="scopeRow.row.templateContent"/>
-                  </template>
-                </common-dialog-btn>
-
-                <!-- 参数映射 -->
-                <common-dialog-btn label="明细配置" type="text" v-if="scopeRow.row.exampleData">
-                  <template v-slot="{closeDialog, showState}">
-                    <template-detail
-                      v-if="showState"
-                      @save="SaveMapping"
-                      @success="doSearch"
-                      @closeDialog="closeDialog"
-                      v-model="scopeRow.row"
-                      :prop="'templateDetail'"
-                      :template-data="scopeRow.row.exampleData"/>
-                  </template>
-                </common-dialog-btn>
               </div>
             </template>
           </el-table-column>
@@ -164,47 +118,42 @@
 
 <script>
     import * as conf from './api'
-    import WxNotifyTemplateMappingAdd from './add'
+    import WxNotifyMessageAdd from './add'
     import HfTable from '@/components/CURD/Table/HfTable'
     import { baseApiGetMethod } from '@/components/CURD/baseApi'
     import { isSuccessResult } from '@/utils/ajaxResultUtil'
     import CurdPagination from '@/components/CURD/pagination/Pagination'
-    import WxNotifyTemplateMappingUpdate from './update'
+    import WxNotifyMessageUpdate from './update'
     import DelBtn from '@/components/CURD/Btns/DelBtn'
     import CurdMixin from '@/components/CURD/curd.mixin'
     import CurdTableColumnSelect from '@/components/CURD/Table/select/TableColumnSelect'
-    import WxNotifyTemplateMappingDetail from './detail'
-    import WxNotifyTemplateMappingColumns from './wxNotifyTemplateMappingColumns'
+    import WxNotifyMessageDetail from './detail'
+    import WxNotifyMessageColumns from './wxNotifyMessageColumns'
     import TemplateConfirmBtn from '@/components/CURD/Btns/TemplateConfirmBtn'
     import FormItemColDict from '@/components/CURD/Form/formItemColDict.vue'
     import FormItemCol from '@/components/CURD/Form/formItemCol.vue'
     import SimpleSearch from '@/components/CURD/Query/search'
     import TableColumnPreferenceSettingApiSlot from '@/views/basic/preferenceSetting/TableColumnPrefenceSettingApiSlot'
     import SectionTableColumn from '@/components/CURD/Table/column/base/SectionTableColumn'
+    import WxNotifyTemplateMappingInputRefer from '@/views/msg/wxNotifyTemplateMapping/inputRefer'
     import WxServerConfInputRefer from '@/views/msg/wxServerConf/inputRefer'
-    import CommonDialogBtn from "../../../components/CURD/Btns/CommonDialogBtn";
-    import DataMapping from "./DataMapping";
-    import {baseApiPutMethod} from "../../../components/CURD/baseApi";
-    import {getMessage} from "../../../utils/ajaxResultUtil";
-    import data from "../../../mock/menulist";
-    import TemplateDetail from "./TemplateDetail";
+    import WxBindConfInputRefer from '@/views/msg/wxBindConf/inputRefer'
 
     export default {
-        name: 'WxNotifyTemplateMappingIndexVue',
+        name: 'WxNotifyMessageIndexVue',
         components: {
-            TemplateDetail,
-            DataMapping,
-            CommonDialogBtn,
+          WxNotifyTemplateMappingInputRefer,
           WxServerConfInputRefer,
+          WxBindConfInputRefer,
           SectionTableColumn,
           TemplateConfirmBtn,
-          WxNotifyTemplateMappingColumns,
-          WxNotifyTemplateMappingDetail,
+          WxNotifyMessageColumns,
+          WxNotifyMessageDetail,
             CurdTableColumnSelect,
             DelBtn,
-          WxNotifyTemplateMappingUpdate,
+          WxNotifyMessageUpdate,
             CurdPagination,
-            HfTable, WxNotifyTemplateMappingAdd,
+            HfTable, WxNotifyMessageAdd,
           FormItemColDict,
           FormItemCol,
           SimpleSearch,
@@ -220,15 +169,14 @@
                  * 查询的表单信息
                  */
                 searchForm: {
+                    msgId: null,
                     notifyId: null,
-                    notifyKey: null,
-                    wxId: null,
-                    templateId: null,
-                    exampleData: null,
-                    templateContent: null,
-                    templateTitle: null,
+                    data: null,
                     mapping: null,
-                    enableState: null,
+                    wxId: null,
+                    bindId: null,
+                    sendState: null,
+                    reason: null,
                     /**
                      * 分页信息
                      */
@@ -319,16 +267,6 @@
                 } else {
                     this.$message.error('请配置分页查询地址参数:{pageUrl: xxxx}')
                 }
-            },
-            SaveMapping(row, cb) {
-               baseApiPutMethod(this.templateUrl(this.conf.urlMethods.updateUrl, row), row).then(resp => {
-                   if (isSuccessResult(resp)) {
-                       this.$message.success(getMessage(resp))
-                       cb()
-                   } else {
-                       this.$message.error(getMessage(resp))
-                   }
-               })
             }
         }
     }
