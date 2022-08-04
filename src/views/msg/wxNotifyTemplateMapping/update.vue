@@ -6,27 +6,21 @@
           <template v-slot="{ errorMessage }">
             <row-span-slot>
               <template v-slot="{ span }">
-                <!-- 修改的字段配置 -->
-                                <form-item-col
+                <!-- 新增的的字段配置 -->
+                <form-item-col
                   :value="data"
-                  :error="errorMessage('notifyKey')"
+                  :error="errorMessage('wxId')"
                   :span="span"
-                  prop="notifyKey"
+                  prop="wxId"
                   :namespace="conf.namespace"
-                />
-                  <form-item-col
-                    :value="data"
-                    :error="errorMessage('wxId')"
-                    :span="span"
-                    prop="wxId"
-                    :namespace="conf.namespace"
-                  >
-                    <wx-server-conf-input-refer
+                >
+                  <wx-server-conf-input-refer
                     :value="data"
                     value-refer-id="wxId"
-                    value-refer-name="wxIdName"/>
-                  </form-item-col>
-
+                    value-refer-name="wxIdName"
+                    :value-expend-refers="['appId']"
+                  />
+                </form-item-col>
                 <template-list
                   v-if="data.appId"
                   :value="data"
@@ -36,48 +30,40 @@
                   :namespace="conf.namespace"
                   @change="selectHandler"
                   :app-id="data.appId"/>
-                <form-item-col-text-area
-                  :value="data"
-                  :error="errorMessage('exampleData')"
-                  :span="span"
-                  prop="exampleData"
-                  :namespace="conf.namespace"
-                />
-                <form-item-col
-                  :value="data"
-                  :error="errorMessage('templateContent')"
-                  :span="span"
-                  prop="templateContent"
-                  :namespace="conf.namespace"
-                />
-                <form-item-col
+                <form-item-text
                   :value="data"
                   :error="errorMessage('templateTitle')"
                   :span="span"
                   prop="templateTitle"
                   :namespace="conf.namespace"
                 />
-<!--                <form-item-col-->
-<!--                  :value="data"-->
-<!--                  :error="errorMessage('mapping')"-->
-<!--                  :span="span"-->
-<!--                  prop="mapping"-->
-<!--                  :namespace="conf.namespace"-->
-<!--                />-->
+                <!--               <form-item-col-->
+                <!--                :value="data"-->
+                <!--                :error="errorMessage('mapping')"-->
+                <!--                :span="span"-->
+                <!--                prop="mapping"-->
+                <!--                :namespace="conf.namespace"-->
+                <!--               />-->
                 <form-item-col-enable-state
                   :value="data"
                   :span="span"
                   :namespace="conf.namespace"
                 />
-                <!-- 字段字段设置方法如下
-                <form-item-col-dict
+                <form-item-text
                   :value="data"
-                  :error="errorMessage('clientMethod')"
-                  :span="span"
-                  prop="clientMethod"
-                  :dict-code="'CLIENT_METHOD_TYPES'"
+                  :error="errorMessage('templateContent')"
+                  :span="24"
+                  prop="templateContent"
                   :namespace="conf.namespace"
-                /> -->
+                />
+                <form-item-col-text-area
+                  :value="data"
+                  :rows="8"
+                  :error="errorMessage('exampleData')"
+                  :span="24"
+                  prop="exampleData"
+                  :namespace="conf.namespace"
+                />
               </template>
             </row-span-slot>
           </template>
@@ -100,9 +86,11 @@
     import WxServerConfInputRefer from '@/views/msg/wxServerConf/inputRefer'
     import TemplateList from "./TemplateList";
     import FormItemColTextArea from "../../../components/CURD/Form/formItemColTextarea";
+    import FormItemText from "../../../components/CURD/Form/formItemText";
     export default {
         name: 'WxNotifyTemplateMappingUpdate',
         components: {
+            FormItemText,
             FormItemColTextArea,
             TemplateList,
       WxServerConfInputRefer,

@@ -17,9 +17,9 @@
           effect="dark"
           :content="computedSuffixContent('Helper')"
           placement="right">
-          <el-input type="textarea" :row="5" v-model="value[prop]" v-bind="$attrs" :placeholer="computedPlaceholder" />
+          <el-input type="textarea" :rows="$attrs['rows'] || 5" v-model="value[prop]" v-bind="$attrs" :placeholer="computedPlaceholder" />
         </el-tooltip>
-        <el-input v-else type="textarea" :row="5" v-model="value[prop]" v-bind="$attrs" :placeholer="computedPlaceholder" />
+        <el-input v-else type="textarea" :rows="$attrs['row'] || 5" v-model="value[prop]" v-bind="$attrs" :placeholer="computedPlaceholder" />
       </slot>
     </el-form-item>
   </el-col>
@@ -56,7 +56,7 @@ export default {
     labelWidth: {
           type: String,
           default: undefined
-        }
+        },
   },
     mixins: [FormItemMixin]
 }

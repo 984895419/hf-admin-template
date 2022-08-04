@@ -29,13 +29,6 @@
                 :namespace="conf.namespace"
                 @change="selectHandler"
                 :app-id="data.appId"/>
-               <form-item-col-text-area
-                :value="data"
-                :error="errorMessage('exampleData')"
-                :span="span"
-                prop="exampleData"
-                :namespace="conf.namespace"
-               />
 <!--               <form-item-col-->
 <!--                :value="data"-->
 <!--                :error="errorMessage('mapping')"-->
@@ -43,11 +36,6 @@
 <!--                prop="mapping"-->
 <!--                :namespace="conf.namespace"-->
 <!--               />-->
-              <form-item-col-enable-state
-                :value="data"
-                :span="span"
-                :namespace="conf.namespace"
-              />
 
               <form-item-text
                 :value="data"
@@ -56,11 +44,24 @@
                 prop="templateTitle"
                 :namespace="conf.namespace"
               />
+              <form-item-col-enable-state
+                :value="data"
+                :span="span"
+                :namespace="conf.namespace"
+              />
+
               <form-item-text
                 :value="data"
                 :error="errorMessage('templateContent')"
-                :span="span"
+                :span="24"
                 prop="templateContent"
+                :namespace="conf.namespace"
+              />
+              <form-item-col-text-area
+                :value="data"
+                :error="errorMessage('exampleData')"
+                :span="24"
+                prop="exampleData"
                 :namespace="conf.namespace"
               />
             </template>

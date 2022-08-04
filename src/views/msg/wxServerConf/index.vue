@@ -58,6 +58,13 @@
           :label="$t('common.batchDisable')"
           @success="doSearch"
         />
+        <template-confirm-btn
+          v-if="conf.urlMethods.effectUrl"
+          :url="templateUrl(conf.urlMethods.effectUrl, toggleRowSelectionArray)"
+          :btn-type="'primary'"
+          :value="toggleRowSelectionArray"
+          :label="$t('common.effect')"
+        />
       </div>
     </div>
     <!-- 列表-->

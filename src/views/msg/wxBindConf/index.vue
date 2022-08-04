@@ -5,6 +5,18 @@
       <simple-search v-model="searchForm" :inline="true" @search="doSearch">
         <template v-slot="{ span }">
           <!-- 新增的的字段配置 -->
+          <form-item-col
+            :value="searchForm"
+            :span="span"
+            prop="wxId"
+            :namespace="conf.namespace"
+          >
+            <wx-server-conf-input-refer
+              :value="searchForm"
+              value-refer-id="wxId"
+              value-refer-name="wxIdName"/>
+          </form-item-col>
+          <!-- 新增的的字段配置 -->
                     <form-item-col
             :value="searchForm"
             :span="span"
@@ -103,7 +115,7 @@
               <div class="col-btn-display">
                 <!-- 更新 -->
                 <wx-bind-conf-update
-                  v-permission="[conf.namespace + ':update']"
+                  v-if="scopeRow.row.auditState === 'pass'"
                   :value="scopeRow.row"
                   :query-url="conf.urlMethods.queryUrl"
                   :update-url="conf.urlMethods.updateUrl"

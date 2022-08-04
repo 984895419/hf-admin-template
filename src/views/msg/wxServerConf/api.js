@@ -9,7 +9,8 @@ export const baseUrl = '/api/wx/wxServerConf'
  * @type {{pageUrl: string}}
  */
 export const urlMethods = defaultUrlMethod(baseUrl, 'wxId', {
-  pageUrl: baseUrl + '/pageQuery'
+  pageUrl: baseUrl + '/pageQuery',
+  effectUrl: baseUrl + '/conf/effect'
 })
 /**
  * 定义模块的命名空间

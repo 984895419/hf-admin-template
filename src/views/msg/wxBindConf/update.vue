@@ -7,13 +7,52 @@
             <row-span-slot>
               <template v-slot="{ span }">
                 <!-- 修改的字段配置 -->
-                                <form-item-col
+                <!-- 修改的字段配置 -->
+                <form-item-text
                   :value="data"
-                  :error="errorMessage('bindCompany')"
-                  :span="span"
-                  prop="bindCompany"
+                  :error="errorMessage('bindHeadpic')"
+                  :span="8"
+                  prop="bindHeadpic"
                   :namespace="conf.namespace"
-                />
+                >
+                  <el-image :src="data.bindHeadpic" style="max-width: 150px"></el-image>
+                </form-item-text>
+                <el-col :span="16">
+                  <el-row>
+                    <!-- 修改的字段配置 -->
+                    <form-item-text
+                      :value="data"
+                      :error="errorMessage('bindMobile')"
+                      :span="24"
+                      prop="bindMobile"
+                      :namespace="conf.namespace"
+                    />
+                    <!-- 修改的字段配置 -->
+                    <form-item-col
+                      :value="data"
+                      :error="errorMessage('bindCompany')"
+                      :span="24"
+                      prop="bindCompany"
+                      :namespace="conf.namespace"
+                    />
+                    <!-- 修改的字段配置 -->
+                    <form-item-text
+                      :value="data"
+                      :error="errorMessage('bindNickName')"
+                      :span="24"
+                      prop="bindNickName"
+                      :namespace="conf.namespace"
+                    />
+                    <!-- 修改的字段配置 -->
+                    <form-item-text
+                      :value="data"
+                      :error="errorMessage('wxIdName')"
+                      :span="24"
+                      prop="wxIdName"
+                      :namespace="conf.namespace"
+                    />
+                  </el-row>
+                </el-col>
                 <!-- 字段字段设置方法如下
                 <form-item-col-dict
                   :value="data"
@@ -43,9 +82,11 @@
     import FormItemColDict from '@/components/CURD/Form/formItemColDict'
     import FormItemColEnableState from '@/components/CURD/Form/formItemColEnableState'
     import WxServerConfInputRefer from '@/views/msg/wxServerConf/inputRefer'
+    import FormItemText from "../../../components/CURD/Form/formItemText";
     export default {
         name: 'WxBindConfUpdate',
         components: {
+            FormItemText,
       WxServerConfInputRefer,
       FormItemColDict, FormItemCol, RowSpanSlot, CuForm, UpdateBtn, FormItemColEnableState },
         mixins: [CurdMixin],

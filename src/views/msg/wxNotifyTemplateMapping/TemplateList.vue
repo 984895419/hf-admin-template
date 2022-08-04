@@ -32,6 +32,7 @@ export default {
         }
     },
     created() {
+        debugger
       this.loadTemplates()
     },
     computed: {

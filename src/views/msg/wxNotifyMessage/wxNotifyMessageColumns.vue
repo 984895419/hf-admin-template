@@ -6,59 +6,66 @@
           v-if="item.value === 'msgId'"
           prop="msgId"
           :label="$t(conf.namespace + '.msgId')"
-          :width="item.width || 130"
+          :width="item.width"
           min-width="130"
         />
         <el-table-column
-            v-if="item.value === 'notifyId'"
+            v-if="item.value === 'notifyIdName'"
             prop="notifyIdName"
             :label="$t(conf.namespace + '.notifyIdName')"
-            :width="item.width || 130"
-            min-width="130"
+            :width="item.width"
         />
         <default-table-column
           :namespace="conf.namespace"
           v-if="item.value === 'data'"
           prop="data"
           :label="$t(conf.namespace + '.data')"
-          :width="item.width|| 130"
-          min-width="130"
+          :width="item.width"
         />
         <default-table-column
           :namespace="conf.namespace"
           v-if="item.value === 'mapping'"
           prop="mapping"
           :label="$t(conf.namespace + '.mapping')"
-          :width="item.width|| 130"
+          :width="item.width"
           min-width="130"
         />
         <create-time-table-column :width="item.width" v-if="item.value === 'createTime'" />
         <el-table-column
-                v-if="item.value === 'wxId'"
+                v-if="item.value === 'wxIdName'"
                 prop="wxIdName"
                 :label="$t(conf.namespace + '.wxIdName')"
                 :width="item.width|| 130"
                 min-width="130"
         />
         <el-table-column
-                v-if="item.value === 'bindId'"
+                v-if="item.value === 'bindIdName'"
                 prop="bindIdName"
                 :label="$t(conf.namespace + '.bindIdName')"
-                :width="item.width|| 130"
+                :width="item.width"
                 min-width="130"
         />
         <el-table-column
           v-if="item.value === 'sendState'"
           prop="sendState"
           :label="$t(conf.namespace + '.sendState')"
-          :width="item.width|| 130"
+          :width="item.width"
           min-width="130"
-        />
+        >
+          <template slot-scope="scopeRow">
+            <span v-if="scopeRow.row.sendState === 1">
+              已发送
+            </span>
+            <span v-else>
+              发送失败
+            </span>
+          </template>
+        </el-table-column>
         <el-table-column
           v-if="item.value === 'reason'"
           prop="reason"
           :label="$t(conf.namespace + '.reason')"
-          :width="item.width|| 130"
+          :width="item.width"
           min-width="130"
         />
     </div>

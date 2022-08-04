@@ -18,6 +18,7 @@ export default {
   look: '查看',
   operate: '操作',
   sync: '同步',
+  effect: '生效',
   pleaseInput: '请输入',
   pleaseSelect: '请选择',
   notAllowedNull: '不能为空',
