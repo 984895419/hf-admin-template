@@ -187,11 +187,24 @@ new Vue({
 
 #####     AddBtn(添加按钮)
 
+| 参数     | 说明         | 类型                                            | 可选值                                             | 默认值 |
+| -------- | ------------ | ----------------------------------------------- | -------------------------------------------------- | ------ |
+| type     | 类型         | string                                          | primary / success / warning / danger / info / text | —      |
+| icon     | 图标类名     | string                                          | —                                                  | —      |
+| showIcon | 是否显示icon | string                                          | —                                                  | —      |
+| title    | title        | Dialog 的标题，也可通过具名 slot （见下表）传入 | string                                             | —      |
+| label    | 名称         | String                                          | —                                                  | —      |
+| initData | 数据源       | string                                          |                                                    |        |
+
 #####     CommonDialogBtn(遮罩层按钮)
 
-#####     DelBtn(删除按钮)
+| 参数  | 说明  | 类型                                            | 可选值                                             | 默认值 |
+| ----- | ----- | ----------------------------------------------- | -------------------------------------------------- | ------ |
+| type  | 类型  | string                                          | primary / success / warning / danger / info / text | —      |
+| title | title | Dialog 的标题，也可通过具名 slot （见下表）传入 | string                                             | —      |
+| label | 名称  | String                                          | —                                                  | —      |
 
-######   	Attributes(属性)
+#####     DelBtn(删除按钮)
 
 | 参数          | 说明       | 类型     | 可选值 | 默认值 |
 | ------------- | ---------- | -------- | ------ | ------ |
@@ -200,7 +213,15 @@ new Vue({
 
 ##### 	DialogBtnPage(弹窗按钮)
 
+| 参数  | 说明  | 类型                                            | 可选值                                             | 默认值 |
+| ----- | ----- | ----------------------------------------------- | -------------------------------------------------- | ------ |
+| type  | 类型  | string                                          | primary / success / warning / danger / info / text | —      |
+| title | title | Dialog 的标题，也可通过具名 slot （见下表）传入 | string                                             | —      |
+| label | 名称  | String                                          | —                                                  | —      |
+
 ##### 	DropdownBtn(下拉菜单按钮)
+
+
 
 ##### 	ExportBtn(导出按钮)
 
