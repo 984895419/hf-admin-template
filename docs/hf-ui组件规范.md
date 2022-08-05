@@ -1,5 +1,15 @@
 # 开发指南
 
+## 安装前须知
+
+先确认vue-cli版本,可以通过下面这个命令行:
+
+```
+vue -V  
+```
+
+默认 vue-cli 为4  安装以下版本
+
 ## npm 安装
 
 在npm淘宝镜像下  package.json 依次安装相对应所需npm包
@@ -36,10 +46,16 @@ npm安装hf-ui之前先切换内网镜像
 npm config set registry http://10.106.88.89:8081/nexus/content/groups/npm-group/
 ```
 
-再安装hf-ui
+安装hf-ui (这个是基础组件库)
 
 ```
 npm  i  hf-ui
+```
+
+安装hf-ui-basic(这个是模块化的组件库)
+
+```
+npm  i  hf-ui-basic
 ```
 
 
@@ -50,7 +66,7 @@ npm  i  hf-ui
 
 在 main.js 中写入以下内容：
 
-```vue
+```js
 import Vue from 'vue'
 import store from './store'
 import App from './App.vue'
@@ -59,9 +75,12 @@ import App from './App.vue'
 import Cookies from 'js-cookie'
 import Element from 'element-ui'
 import router from './router'
-import i18n from 'hf-ui/lang' // internationalization
+import i18n from './lang' // internationalization
+
 import hfui from 'hf-ui'
+import hfuibasic from 'hf-ui-basic'
 import 'hf-ui/hf-ui.css'
+import 'hf-ui-basic/hf-ui-basic.css'
 
 Vue.config.productionTip = false
 Vue.use(Element, {

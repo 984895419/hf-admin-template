@@ -1,8 +1,13 @@
-import { asyncRoutes, constantRoutes } from '@/router'
-import { isEmpty } from 'element-ui/src/utils/util'
-import { getUserRoute } from '../../api/getRouteList'
+import { asyncRoutes, constantRoutes
+} from '@/router'
+import {
+  isEmpty
+} from 'element-ui/src/utils/util'
+import {
+  getUserRoute
+} from '../../api/getRouteList'
 import Layout from '@/layout'
-import Vue from 'vue'
+// import Vue from 'vue'
 
 /**
  * Use meta.role to determine if the current user has permission
@@ -49,7 +54,6 @@ export function genRoutesFromMenuTree(childMenus) {
     childMenus.forEach(function(menu, index) {
       const menuRoute = {
         hidden: menu.hidden === '1',
-        redirect: menu.redirect,
         alwaysShow: menu.alwaysshow === '1', // will always show the root menu
 
         meta: {
@@ -62,11 +66,21 @@ export function genRoutesFromMenuTree(childMenus) {
       if (menu.parentId === 0) { // 根节点
         menuRoute.component = Layout
         menuRoute.path = `/${menu.menuAlias}`
+        menuRoute.redirect = menu.redirect
       } else {
-        const componentPath = menu.component
         menuRoute.name = menu.menuAlias
-        menuRoute.path = menu.menuAlias
-        menuRoute.component = (resolve) => require([`@/views${componentPath}`], resolve)
+        if (menu.menuName === '外设菜单') {
+          menuRoute.component = (resolve) => require(['@/views/basic/basePeripheral'], resolve)
+          menuRoute.path = 'outer'
+          menuRoute.props = {
+            urlredirect: menu.redirect
+          }
+        } else {
+          menuRoute.redirect = menu.redirect
+          menuRoute.path = menu.menuAlias
+          const componentPath = menu.component
+          menuRoute.component = (resolve) => require([`@/views${componentPath}`], resolve)
+        }
       }
       menuRoute.children = genRoutesFromMenuTree(menu.children)
       if (isEmpty(menuRoute.children)) {
@@ -76,8 +90,9 @@ export function genRoutesFromMenuTree(childMenus) {
       accessedRouters.push(menuRoute)
     })
   } else {
+    console.log('')
   }
-  // console.log(accessedRouters, 'accessedRouters')
+  console.log(accessedRouters, 'accessedRouters1')
   return accessedRouters
 }
 
@@ -100,7 +115,9 @@ const mutations = {
 }
 
 const actions = {
-  generateRoutes({ commit }) {
+  generateRoutes({
+    commit
+  }) {
     return new Promise(resolve => {
       getUserRoute().then((res) => {
         let accessedRoutes = asyncRoutes
