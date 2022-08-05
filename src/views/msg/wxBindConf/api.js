@@ -9,7 +9,8 @@ export const baseUrl = '/api/wx/wxBindConf'
  * @type {{pageUrl: string}}
  */
 export const urlMethods = defaultUrlMethod(baseUrl, 'bindId', {
-  pageUrl: baseUrl + '/pageQuery'
+  pageUrl: baseUrl + '/pageQuery',
+  auditUrl: baseUrl + '/audit/{bindId}'
 })
 /**
  * 定义模块的命名空间

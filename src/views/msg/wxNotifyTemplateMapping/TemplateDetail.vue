@@ -11,16 +11,37 @@
           </div>
         </el-col>
         <el-col :span="18">
-          <tinymce
-            :id="value.notifyId + '-' +  (Math.random() * 1000).toFixed(0)"
-            v-model="value[prop]"
-          />
+          <div>
+            类型：
+            <el-radio
+              v-model="value.templateDetailType"
+              v-for="item in conf.templateDetailTypes"
+              :key="item.value"
+              :label="item.value"
+              border>{{item.label}}
+            </el-radio>
+          </div>
+          <div>
+            <tinymce
+              v-if="value.templateDetailType !== 'html'"
+              :id="value.notifyId + '-' +  (Math.random() * 1000).toFixed(0)"
+              v-model="value[prop]"
+            />
+            <el-input
+              v-else
+              type="textarea"
+              :rows="30"
+              placeholder="请把h5内容黏贴进来"
+              v-model="value[prop]">
+            </el-input>
+          </div>
         </el-col>
       </el-row>
     </div>
 </template>
 
 <script>
+    import * as conf from './api'
     import Tinymce from '../../../components/Tinymce/index'
     import JsonViews from 'vue-json-views'
     export default {
@@ -36,6 +57,11 @@
             prop: {
                 type: String
             }
+        },
+        data() {
+          return {
+              conf: conf
+          }
         },
         methods: {
             doSave() {

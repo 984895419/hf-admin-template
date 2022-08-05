@@ -9,9 +9,14 @@ export default {
   templateTitle: '模板的名称',
   mapping: '字段映射',
   creator: '创建人',
+  CreatorUserName: '创建人',
   createTime: '创建时间',
   modifier: '修改人',
+  ModifierUserName: '修改人',
   modifyTime: '修改时间',
   enableState: '启用/禁用',
-  deleted: '删除状态'
+  deleted: '删除状态',
+  notifyType: '通知类型',
+  templateDetailTypeName: '明细模板类型',
+  notifyTypeName: '通知类型名称'
 }

@@ -125,7 +125,7 @@
                   v-if="scopeRow.row.auditState === 'wait'"
                   :value="scopeRow.row"
                   :query-url="conf.urlMethods.queryUrl"
-                  :update-url="conf.urlMethods.updateUrl"
+                  :update-url="conf.urlMethods.auditUrl"
                   @success="doSearch"/>
                 <!-- 查看 -->
                 <wx-bind-conf-detail

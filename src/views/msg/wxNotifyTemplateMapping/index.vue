@@ -35,7 +35,7 @@
     </div>
     <!-- 操作栏-->
     <div style="margin-bottom: 10px" class="col-btn-display">
-      <wx-notify-template-mapping-add :action-url="conf.urlMethods.addUrl"  @success="doSearch" />
+      <wx-notify-template-mapping-add :action-url="conf.urlMethods.addUrl"  @success="doSearch"/>
       <div style="float: right" class="col-btn-display">
         <del-btn
           v-if="conf.urlMethods.deleteUrl
@@ -133,7 +133,7 @@
                 </common-dialog-btn>
 
                 <!-- 参数映射 -->
-                <common-dialog-btn label="明细配置" type="text" v-if="scopeRow.row.exampleData">
+                <common-dialog-btn label="明细配置" type="text" v-if="scopeRow.row.exampleData && scopeRow.row.notifyType === 'another'">
                   <template v-slot="{closeDialog, showState}">
                     <template-detail
                       v-if="showState"

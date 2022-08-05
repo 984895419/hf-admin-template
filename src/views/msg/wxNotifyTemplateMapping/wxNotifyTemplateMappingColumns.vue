@@ -82,6 +82,22 @@
           :width="item.width"
           min-width="130"
         />
+
+      <el-table-column
+        v-if="item.value === 'templateDetailTypeName'"
+        prop="templateDetailTypeName"
+        :label="$t(conf.namespace + '.templateDetailTypeName')"
+        :width="item.width"
+        min-width="130"
+      />
+
+      <el-table-column
+        v-if="item.value === 'notifyTypeName'"
+        prop="notifyTypeName"
+        :label="$t(conf.namespace + '.notifyTypeName')"
+        :width="item.width"
+        min-width="130"
+      />
     </div>
   </div>
 </template>

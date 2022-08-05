@@ -38,7 +38,7 @@ const exportTableFields = (fields) => {
  * 字段的配置，用在国际化及列表选择显示字段的时候
  * @type {*[]}
  */
-const tableFields = ['notifyId', 'notifyKey', 'wxId', 'wxIdName', 'templateId', 'exampleData', 'templateContent', 'templateTitle', 'mapping', 'creator', 'createTime', 'modifier', 'modifyTime', 'enableState', 'CreatorUserName', 'ModifierUserName', 'templateDetail']
+const tableFields = ['notifyId', 'notifyKey', 'wxId', 'wxIdName', 'templateId', 'exampleData', 'templateContent', 'templateTitle', 'mapping', 'creator', 'createTime', 'modifier', 'modifyTime', 'enableState', 'CreatorUserName', 'ModifierUserName', 'templateDetailTypeName', 'notifyTypeName']
 
 export default exportTableFields(tableFields)
 
@@ -72,3 +72,25 @@ export function formRules(vm) {
         ],
   }
 }
+
+export const templateDetailTypes = [
+  {
+    label: '富文本',
+    value: 'rich'
+  },
+  {
+    label: '纯HTML',
+    value: 'html'
+  }
+]
+
+export const notifyTypes = [
+  {
+    label: '绑定审核通知',
+    value: 'bindAudit'
+  },
+  {
+    label: '其他',
+    value: 'another'
+  }
+]

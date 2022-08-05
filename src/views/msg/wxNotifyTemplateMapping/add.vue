@@ -6,20 +6,27 @@
           <row-span-slot>
             <template v-slot="{ span }">
               <!-- 新增的的字段配置 -->
-                <form-item-col
-                    :value="data"
-                    :error="errorMessage('wxId')"
-                    :span="span"
-                    prop="wxId"
-                    :namespace="conf.namespace"
-                >
-                   <wx-server-conf-input-refer
-                   :value="data"
-                   value-refer-id="wxId"
-                   value-refer-name="wxIdName"
-                   :value-expend-refers="['appId']"
-                   />
-                </form-item-col>
+              <form-item-col
+                :value="data"
+                :error="errorMessage('wxId')"
+                :span="span"
+                prop="wxId"
+                :namespace="conf.namespace"
+              >
+                <wx-server-conf-input-refer
+                  :value="data"
+                  value-refer-id="wxId"
+                  value-refer-name="wxIdName"
+                  :value-expend-refers="['appId']"
+                />
+              </form-item-col>
+              <form-item-col-select
+                :list="conf.notifyTypes"
+                :value="data"
+                :span="span"
+                prop="notifyType"
+                :namespace="conf.namespace"
+              />
               <template-list
                 v-if="data.appId"
                 :value="data"
@@ -29,13 +36,13 @@
                 :namespace="conf.namespace"
                 @change="selectHandler"
                 :app-id="data.appId"/>
-<!--               <form-item-col-->
-<!--                :value="data"-->
-<!--                :error="errorMessage('mapping')"-->
-<!--                :span="span"-->
-<!--                prop="mapping"-->
-<!--                :namespace="conf.namespace"-->
-<!--               />-->
+              <!--               <form-item-col-->
+              <!--                :value="data"-->
+              <!--                :error="errorMessage('mapping')"-->
+              <!--                :span="span"-->
+              <!--                prop="mapping"-->
+              <!--                :namespace="conf.namespace"-->
+              <!--               />-->
 
               <form-item-text
                 :value="data"
@@ -85,9 +92,11 @@
     import TemplateList from "./TemplateList";
     import FormItemText from "../../../components/CURD/Form/formItemText";
     import FormItemColTextArea from "../../../components/CURD/Form/formItemColTextarea";
+    import FormItemColSelect from "../../../components/CURD/Form/formItemColSelect";
     export default {
         name: 'WxNotifyTemplateMappingAdd',
         components: {
+            FormItemColSelect,
             FormItemColTextArea,
             FormItemText,
             TemplateList,
@@ -97,7 +106,7 @@
             value: {
                 type: Object,
                 default: function() {
-                    return { enableState: 1}
+                    return { enableState: 1, templateDetailType: 'rich', notifyType: 'another' }
                 }
             },
             actionUrl: String

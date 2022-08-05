@@ -21,6 +21,13 @@
                     :value-expend-refers="['appId']"
                   />
                 </form-item-col>
+                <form-item-col-select
+                  :list="conf.notifyTypes"
+                  :value="data"
+                  :span="span"
+                  prop="notifyType"
+                  :namespace="conf.namespace"
+                />
                 <template-list
                   v-if="data.appId"
                   :value="data"
@@ -87,9 +94,11 @@
     import TemplateList from "./TemplateList";
     import FormItemColTextArea from "../../../components/CURD/Form/formItemColTextarea";
     import FormItemText from "../../../components/CURD/Form/formItemText";
+    import FormItemColSelect from "../../../components/CURD/Form/formItemColSelect";
     export default {
         name: 'WxNotifyTemplateMappingUpdate',
         components: {
+            FormItemColSelect,
             FormItemText,
             FormItemColTextArea,
             TemplateList,
