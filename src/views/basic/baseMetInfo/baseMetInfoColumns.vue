@@ -2,52 +2,53 @@
   <div v-if="showFields">
     <!-- 有拖拽选择的时候 -->
     <div v-for="item in showFields" :key="item.value">
-              <el-table-column
-          v-if="item.value === 'metId'"
-          prop="metId"
-          :label="$t(conf.namespace + '.metId')"
-          :width="item.width"
-          min-width="130"
-        />
-        <el-table-column
-          v-if="item.value === 'metTitle'"
-          prop="metTitle"
-          :label="$t(conf.namespace + '.metTitle')"
-          :width="item.width"
-          min-width="130"
-        />
-        <el-table-column
-          v-if="item.value === 'metContent'"
-          prop="metContent"
-          :label="$t(conf.namespace + '.metContent')"
-          :width="item.width"
-          min-width="130"
-        />
-<!--        <el-table-column-->
-<!--          v-if="item.value === 'metTime'"-->
-<!--          prop="metTime"-->
-<!--          :label="$t(conf.namespace + '.metTime')"-->
-<!--          :width="item.width"-->
-<!--          min-width="130"-->
-<!--        />-->
-        <date-time-format-table-column
-          format-str="{y}-{m}-{d} {h}:{i}"
-          v-if="item.value === 'metTime'"
-          prop="metTime"
-          :label="$t(conf.namespace + '.metTime')"
-          :width="item.width"
-          min-width="130"/>
-        <creator-table-column :width="item.width" v-if="item.value === 'creator'" />
-        <create-time-table-column :width="item.width" v-if="item.value === 'createTime'" />
-        <modifier-table-column :width="item.width" v-if="item.value === 'modifier'" />
-        <modify-time-table-column :width="item.width" v-if="item.value === 'modifyTime'" />
-        <el-table-column
-          v-if="item.value === 'deleted'"
-          prop="deleted"
-          :label="$t(conf.namespace + '.deleted')"
-          :width="item.width"
-          min-width="130"
-        />
+      <el-table-column
+        v-if="item.value === 'metId'"
+        prop="metId"
+        :label="$t(conf.namespace + '.metId')"
+        :width="item.width"
+        min-width="130"
+      />
+      <el-table-column
+        v-if="item.value === 'metTitle'"
+        prop="metTitle"
+        :label="$t(conf.namespace + '.metTitle')"
+        :width="item.width"
+        min-width="130"
+      />
+      <el-table-column
+        v-if="item.value === 'metContent'"
+        prop="metContent"
+        :label="$t(conf.namespace + '.metContent')"
+        :width="item.width"
+        min-width="130"
+      />
+      <!--        <el-table-column-->
+      <!--          v-if="item.value === 'metTime'"-->
+      <!--          prop="metTime"-->
+      <!--          :label="$t(conf.namespace + '.metTime')"-->
+      <!--          :width="item.width"-->
+      <!--          min-width="130"-->
+      <!--        />-->
+      <date-time-format-table-column
+        v-if="item.value === 'metTime'"
+        format-str="{y}-{m}-{d} {h}:{i}"
+        prop="metTime"
+        :label="$t(conf.namespace + '.metTime')"
+        :width="item.width"
+        min-width="130"
+      />
+      <creator-table-column v-if="item.value === 'creator'" :width="item.width" />
+      <create-time-table-column v-if="item.value === 'createTime'" :width="item.width" />
+      <modifier-table-column v-if="item.value === 'modifier'" :width="item.width" />
+      <modify-time-table-column v-if="item.value === 'modifyTime'" :width="item.width" />
+      <el-table-column
+        v-if="item.value === 'deleted'"
+        prop="deleted"
+        :label="$t(conf.namespace + '.deleted')"
+        :width="item.width"
+        min-width="130"
+      />
     </div>
   </div>
 </template>

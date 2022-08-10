@@ -53,6 +53,6 @@ export function formRules(vm) {
         ],
         wxId: [
           { required: true, message: vm.$t(getI18nName('wxId')) + vm.$t('common.notAllowedNull'), trigger: 'blur' }
-        ],
+        ]
   }
 }

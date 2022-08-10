@@ -6,20 +6,20 @@
           <row-span-slot>
             <template v-slot="{ span }">
               <!-- 新增的的字段配置 -->
-                             <form-item-col
+              <form-item-col
                 :value="data"
                 :error="errorMessage('metTitle')"
                 :span="span"
                 prop="metTitle"
                 :namespace="conf.namespace"
-               />
-               <form-item-col-date-time
+              />
+              <form-item-col-date-time
                 :value="data"
                 :error="errorMessage('metTime')"
                 :span="span"
                 prop="metTime"
                 :namespace="conf.namespace"
-               />
+              />
               <form-item-col-rich-text
                 :value="data"
                 :error="errorMessage('metContent')"
@@ -44,8 +44,8 @@
     import FormItemColDict from '@/components/CURD/Form/formItemColDict'
     import { baseApiPostMethod } from '@/components/CURD/baseApi'
     import FormItemColEnableState from '@/components/CURD/Form/formItemColEnableState'
-    import FormItemColDateTime from "../../../components/CURD/Form/formItemColDateTime";
-    import FormItemColRichText from "../../../components/CURD/Form/formItemColRichText";
+    import FormItemColDateTime from '../../../components/CURD/Form/formItemColDateTime'
+    import FormItemColRichText from '../../../components/CURD/Form/formItemColRichText'
     export default {
         name: 'BaseMetInfoAdd',
         components: {
@@ -56,7 +56,7 @@ FormItemColDict, FormItemCol, RowSpanSlot, CuForm, AddBtn, FormItemColEnableStat
             value: {
                 type: Object,
                 default: function() {
-                    return { enableState: 1}
+                    return { enableState: 1 }
                 }
             },
             actionUrl: String

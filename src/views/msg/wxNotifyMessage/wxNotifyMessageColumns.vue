@@ -2,72 +2,72 @@
   <div v-if="showFields">
     <!-- 有拖拽选择的时候 -->
     <div v-for="item in showFields" :key="item.value">
-              <el-table-column
-          v-if="item.value === 'msgId'"
-          prop="msgId"
-          :label="$t(conf.namespace + '.msgId')"
-          :width="item.width"
-          min-width="130"
-        />
-        <el-table-column
-            v-if="item.value === 'notifyIdName'"
-            prop="notifyIdName"
-            :label="$t(conf.namespace + '.notifyIdName')"
-            :width="item.width"
-        />
-        <default-table-column
-          :namespace="conf.namespace"
-          v-if="item.value === 'data'"
-          prop="data"
-          :label="$t(conf.namespace + '.data')"
-          :width="item.width"
-        />
-        <default-table-column
-          :namespace="conf.namespace"
-          v-if="item.value === 'mapping'"
-          prop="mapping"
-          :label="$t(conf.namespace + '.mapping')"
-          :width="item.width"
-          min-width="130"
-        />
-        <create-time-table-column :width="item.width" v-if="item.value === 'createTime'" />
-        <el-table-column
-                v-if="item.value === 'wxIdName'"
-                prop="wxIdName"
-                :label="$t(conf.namespace + '.wxIdName')"
-                :width="item.width|| 130"
-                min-width="130"
-        />
-        <el-table-column
-                v-if="item.value === 'bindIdName'"
-                prop="bindIdName"
-                :label="$t(conf.namespace + '.bindIdName')"
-                :width="item.width"
-                min-width="130"
-        />
-        <el-table-column
-          v-if="item.value === 'sendState'"
-          prop="sendState"
-          :label="$t(conf.namespace + '.sendState')"
-          :width="item.width"
-          min-width="130"
-        >
-          <template slot-scope="scopeRow">
-            <span v-if="scopeRow.row.sendState === 1">
-              已发送
-            </span>
-            <span v-else>
-              发送失败
-            </span>
-          </template>
-        </el-table-column>
-        <el-table-column
-          v-if="item.value === 'reason'"
-          prop="reason"
-          :label="$t(conf.namespace + '.reason')"
-          :width="item.width"
-          min-width="130"
-        />
+      <el-table-column
+        v-if="item.value === 'msgId'"
+        prop="msgId"
+        :label="$t(conf.namespace + '.msgId')"
+        :width="item.width"
+        min-width="130"
+      />
+      <el-table-column
+        v-if="item.value === 'notifyIdName'"
+        prop="notifyIdName"
+        :label="$t(conf.namespace + '.notifyIdName')"
+        :width="item.width"
+      />
+      <default-table-column
+        v-if="item.value === 'data'"
+        :namespace="conf.namespace"
+        prop="data"
+        :label="$t(conf.namespace + '.data')"
+        :width="item.width"
+      />
+      <default-table-column
+        v-if="item.value === 'mapping'"
+        :namespace="conf.namespace"
+        prop="mapping"
+        :label="$t(conf.namespace + '.mapping')"
+        :width="item.width"
+        min-width="130"
+      />
+      <create-time-table-column v-if="item.value === 'createTime'" :width="item.width" />
+      <el-table-column
+        v-if="item.value === 'wxIdName'"
+        prop="wxIdName"
+        :label="$t(conf.namespace + '.wxIdName')"
+        :width="item.width|| 130"
+        min-width="130"
+      />
+      <el-table-column
+        v-if="item.value === 'bindIdName'"
+        prop="bindIdName"
+        :label="$t(conf.namespace + '.bindIdName')"
+        :width="item.width"
+        min-width="130"
+      />
+      <el-table-column
+        v-if="item.value === 'sendState'"
+        prop="sendState"
+        :label="$t(conf.namespace + '.sendState')"
+        :width="item.width"
+        min-width="130"
+      >
+        <template slot-scope="scopeRow">
+          <span v-if="scopeRow.row.sendState === 1">
+            已发送
+          </span>
+          <span v-else>
+            发送失败
+          </span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        v-if="item.value === 'reason'"
+        prop="reason"
+        :label="$t(conf.namespace + '.reason')"
+        :width="item.width"
+        min-width="130"
+      />
     </div>
   </div>
 </template>
@@ -80,7 +80,7 @@
     import CreateTimeTableColumn from '@/components/CURD/Table/column/CreateTimeTableColumn'
     import ModifierTableColumn from '@/components/CURD/Table/column/ModifierTableColumn'
     import ModifyTimeTableColumn from '@/components/CURD/Table/column/ModifyTimeTableColumn'
-    import DefaultTableColumn from "../../../components/CURD/Table/column/DefaultTableColumn";
+    import DefaultTableColumn from '../../../components/CURD/Table/column/DefaultTableColumn'
 
     export default {
         name: 'WxNotifyMessageColumns',

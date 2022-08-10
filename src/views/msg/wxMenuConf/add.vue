@@ -6,59 +6,61 @@
           <row-span-slot>
             <template v-slot="{ span }">
               <!-- 新增的的字段配置 -->
-                              <form-item-col
-                    :value="data"
-                    :error="errorMessage('wxId')"
-                    :span="span"
-                    prop="wxId"
-                    :namespace="conf.namespace"
-                >
-                   <wx-server-conf-input-refer
-                   :value="data"
-                   value-refer-id="wxId"
-                   value-refer-name="wxIdName"/>
-                </form-item-col>
-               <form-item-col
+              <form-item-col
+                :value="data"
+                :error="errorMessage('wxId')"
+                :span="span"
+                prop="wxId"
+                :namespace="conf.namespace"
+              >
+                <wx-server-conf-input-refer
+                  :value="data"
+                  value-refer-id="wxId"
+                  value-refer-name="wxIdName"
+                />
+              </form-item-col>
+              <form-item-col
                 :value="data"
                 :error="errorMessage('menuName')"
                 :span="span"
                 prop="menuName"
                 :namespace="conf.namespace"
-               />
-               <form-item-col-select
-                 :list="conf.menuContentTypes"
+              />
+              <form-item-col-select
+                :list="conf.menuContentTypes"
                 :value="data"
                 :error="errorMessage('menuContentType')"
                 :span="span"
                 prop="menuContentType"
                 :namespace="conf.namespace"
-               />
-               <form-item-col
+              />
+              <form-item-col
                 :value="data"
                 :error="errorMessage('menuContent')"
                 :span="span"
                 prop="menuContent"
                 :namespace="conf.namespace"
-               />
-                <form-item-col
-                    :value="data"
-                    :error="errorMessage('parentId')"
-                    :span="span"
-                    prop="parentId"
-                    :namespace="conf.namespace"
-                >
-                   <wx-menu-conf-input-refer
-                   :value="data"
-                   value-refer-id="parentId"
-                   value-refer-name="parentIdName"/>
-                </form-item-col>
-               <form-item-col
+              />
+              <form-item-col
+                :value="data"
+                :error="errorMessage('parentId')"
+                :span="span"
+                prop="parentId"
+                :namespace="conf.namespace"
+              >
+                <wx-menu-conf-input-refer
+                  :value="data"
+                  value-refer-id="parentId"
+                  value-refer-name="parentIdName"
+                />
+              </form-item-col>
+              <form-item-col
                 :value="data"
                 :error="errorMessage('sort')"
                 :span="span"
                 prop="sort"
                 :namespace="conf.namespace"
-               />
+              />
             </template>
           </row-span-slot>
         </template>
@@ -78,7 +80,7 @@
     import FormItemColEnableState from '@/components/CURD/Form/formItemColEnableState'
     import WxServerConfInputRefer from '@/views/msg/wxServerConf/inputRefer'
     import WxMenuConfInputRefer from '@/views/msg/wxMenuConf/inputRefer'
-    import FormItemColSelect from "../../../components/CURD/Form/formItemColSelect";
+    import FormItemColSelect from '../../../components/CURD/Form/formItemColSelect'
     export default {
         name: 'WxMenuConfAdd',
         components: {
@@ -90,7 +92,7 @@
             value: {
                 type: Object,
                 default: function() {
-                    return { enableState: 1}
+                    return { enableState: 1 }
                 }
             },
             actionUrl: String

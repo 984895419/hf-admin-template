@@ -5,7 +5,7 @@
       <simple-search v-model="searchForm" :inline="true" @search="doSearch">
         <template v-slot="{ span }">
           <!-- 新增的的字段配置 -->
-                    <form-item-col
+          <form-item-col
             :value="searchForm"
             :span="span"
             prop="name"
@@ -30,11 +30,11 @@
     </div>
     <explain-tip
       color="#e6a23c"
-      tip="建议不要将生产环境的公众号录制到测试/开发环境中，如果“菜单配置”发布会覆盖生产环境的配置, 造成数据错乱/异常显示。 最好做到1个公众号只在一个环境里配置">
-    </explain-tip>
+      tip="建议不要将生产环境的公众号录制到测试/开发环境中，如果“菜单配置”发布会覆盖生产环境的配置, 造成数据错乱/异常显示。 最好做到1个公众号只在一个环境里配置"
+    />
     <!-- 操作栏-->
     <div style="margin-bottom: 10px" class="col-btn-display">
-      <wx-server-conf-add :action-url="conf.urlMethods.addUrl"  @success="doSearch" />
+      <wx-server-conf-add :action-url="conf.urlMethods.addUrl" @success="doSearch" />
       <div style="float: right" class="col-btn-display">
         <del-btn
           v-if="conf.urlMethods.deleteUrl
@@ -73,9 +73,10 @@
     </div>
     <!-- 列表-->
     <table-column-preference-setting-api-slot
-            :init-data="tableFields"
-            v-model="showFields"
-            :preference-alias="conf.namespace">
+      v-model="showFields"
+      :init-data="tableFields"
+      :preference-alias="conf.namespace"
+    >
       <template v-slot="{doSave, preferenceData, headerDragend}">
         <hf-table
           v-if="showFields"
@@ -85,7 +86,7 @@
           @sort-change="sortChange"
           @header-dragend="headerDragend"
         >
-          <section-table-column/>
+          <section-table-column />
           <!-- 显示的字段-->
           <wx-server-conf-columns :show-fields="showFields" :url-methods="conf.urlMethods" @success="doSearch" />
           <el-table-column
@@ -94,7 +95,7 @@
             width="150"
           >
             <template v-slot:header>
-              {{$t('common.operate')}}
+              {{ $t('common.operate') }}
               <curd-table-column-select
                 v-model="showFields"
                 :preference-alias="conf.namespace"

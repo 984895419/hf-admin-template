@@ -6,30 +6,32 @@
           <row-span-slot>
             <template v-slot="{ span }">
               <!-- 新增的的字段配置 -->
-                              <form-item-col
-                    :value="data"
-                    :error="errorMessage('userId')"
-                    :span="span"
-                    prop="userId"
-                    :namespace="conf.namespace"
-                >
-                   <hf-base-user-info-input-refer
-                   :value="data"
-                   value-refer-id="userId"
-                   value-refer-name="userName"/>
-                </form-item-col>
-                <form-item-col
-                    :value="data"
-                    :error="errorMessage('wxId')"
-                    :span="span"
-                    prop="wxId"
-                    :namespace="conf.namespace"
-                >
-                   <wx-server-conf-input-refer
-                   :value="data"
-                   value-refer-id="wxId"
-                   value-refer-name="wxIdName"/>
-                </form-item-col>
+              <form-item-col
+                :value="data"
+                :error="errorMessage('userId')"
+                :span="span"
+                prop="userId"
+                :namespace="conf.namespace"
+              >
+                <hf-base-user-info-input-refer
+                  :value="data"
+                  value-refer-id="userId"
+                  value-refer-name="userName"
+                />
+              </form-item-col>
+              <form-item-col
+                :value="data"
+                :error="errorMessage('wxId')"
+                :span="span"
+                prop="wxId"
+                :namespace="conf.namespace"
+              >
+                <wx-server-conf-input-refer
+                  :value="data"
+                  value-refer-id="wxId"
+                  value-refer-name="wxIdName"
+                />
+              </form-item-col>
             </template>
           </row-span-slot>
         </template>
@@ -59,7 +61,7 @@
             value: {
                 type: Object,
                 default: function() {
-                    return { enableState: 1}
+                    return { enableState: 1 }
                 }
             },
             actionUrl: String

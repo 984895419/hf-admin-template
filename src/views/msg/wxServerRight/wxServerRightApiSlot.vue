@@ -1,15 +1,16 @@
 <template>
-    <div>
-        <api-slot
-                v-if="rightIds"
-                :get-url="templateUrl(conf.urlMethods.batchQueryUrl, {rightId: rightIds})"
-                :query-change-trigger="true">
-            <template v-slot="{data}">
-                <slot :data="data"/>
-            </template>
-        </api-slot>
-        <slot v-else :data="[]"/>
-    </div>
+  <div>
+    <api-slot
+      v-if="rightIds"
+      :get-url="templateUrl(conf.urlMethods.batchQueryUrl, {rightId: rightIds})"
+      :query-change-trigger="true"
+    >
+      <template v-slot="{data}">
+        <slot :data="data" />
+      </template>
+    </api-slot>
+    <slot v-else :data="[]" />
+  </div>
 </template>
 
 <script>
@@ -23,12 +24,12 @@ import CurdMixin from '@/components/CURD/curd.mixin'
 export default {
     name: 'WxServerRightRightIdSlot',
     components: { ApiSlot },
+    mixins: [CurdMixin],
     props: {
         rightIds: {
             type: [Array, String]
         }
     },
-    mixins: [CurdMixin],
     data() {
         return {
             conf: conf

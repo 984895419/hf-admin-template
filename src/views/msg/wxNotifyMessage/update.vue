@@ -2,23 +2,24 @@
   <div>
     <update-btn btn-type="text" :url="templateUrl(queryUrl, value)">
       <template v-slot="{ closeDialog, data }">
-        <cu-form :form-rules="formRules" :value="data" :action-method="updateMethod"  @success="actionSuccess" @closeDialog="closeDialog">
+        <cu-form :form-rules="formRules" :value="data" :action-method="updateMethod" @success="actionSuccess" @closeDialog="closeDialog">
           <template v-slot="{ errorMessage }">
             <row-span-slot>
               <template v-slot="{ span }">
                 <!-- 修改的字段配置 -->
-                                  <form-item-col
-                    :value="data"
-                    :error="errorMessage('notifyId')"
-                    :span="span"
-                    prop="notifyId"
-                    :namespace="conf.namespace"
-                  >
-                    <wx-notify-template-mapping-input-refer
+                <form-item-col
+                  :value="data"
+                  :error="errorMessage('notifyId')"
+                  :span="span"
+                  prop="notifyId"
+                  :namespace="conf.namespace"
+                >
+                  <wx-notify-template-mapping-input-refer
                     :value="data"
                     value-refer-id="notifyId"
-                    value-refer-name="notifyIdName"/>
-                  </form-item-col>
+                    value-refer-name="notifyIdName"
+                  />
+                </form-item-col>
                 <form-item-col
                   :value="data"
                   :error="errorMessage('data')"
@@ -33,30 +34,32 @@
                   prop="mapping"
                   :namespace="conf.namespace"
                 />
-                  <form-item-col
-                    :value="data"
-                    :error="errorMessage('wxId')"
-                    :span="span"
-                    prop="wxId"
-                    :namespace="conf.namespace"
-                  >
-                    <wx-server-conf-input-refer
+                <form-item-col
+                  :value="data"
+                  :error="errorMessage('wxId')"
+                  :span="span"
+                  prop="wxId"
+                  :namespace="conf.namespace"
+                >
+                  <wx-server-conf-input-refer
                     :value="data"
                     value-refer-id="wxId"
-                    value-refer-name="wxIdName"/>
-                  </form-item-col>
-                  <form-item-col
-                    :value="data"
-                    :error="errorMessage('bindId')"
-                    :span="span"
-                    prop="bindId"
-                    :namespace="conf.namespace"
-                  >
-                    <wx-bind-conf-input-refer
+                    value-refer-name="wxIdName"
+                  />
+                </form-item-col>
+                <form-item-col
+                  :value="data"
+                  :error="errorMessage('bindId')"
+                  :span="span"
+                  prop="bindId"
+                  :namespace="conf.namespace"
+                >
+                  <wx-bind-conf-input-refer
                     :value="data"
                     value-refer-id="bindId"
-                    value-refer-name="bindIdName"/>
-                  </form-item-col>
+                    value-refer-name="bindIdName"
+                  />
+                </form-item-col>
                 <form-item-col
                   :value="data"
                   :error="errorMessage('sendState')"

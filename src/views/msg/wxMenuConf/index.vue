@@ -11,10 +11,11 @@
             prop="wxId"
             :namespace="conf.namespace"
           >
-              <wx-server-conf-input-refer
+            <wx-server-conf-input-refer
               :value="searchForm"
               value-refer-id="wxId"
-              value-refer-name="wxIdName"/>
+              value-refer-name="wxIdName"
+            />
           </form-item-col>
           <form-item-col
             :value="searchForm"
@@ -41,7 +42,7 @@
     </div>
     <!-- 操作栏-->
     <div style="margin-bottom: 10px" class="col-btn-display">
-      <wx-menu-conf-add :value="{ publishState: 0, enableState: 1 }" :action-url="conf.urlMethods.addUrl"  @success="doSearch" />
+      <wx-menu-conf-add :value="{ publishState: 0, enableState: 1 }" :action-url="conf.urlMethods.addUrl" @success="doSearch" />
       <div style="float: right" class="col-btn-display">
         <del-btn
           v-if="conf.urlMethods.deleteUrl
@@ -73,9 +74,10 @@
     </div>
     <!-- 列表-->
     <table-column-preference-setting-api-slot
-            :init-data="tableFields"
-            v-model="showFields"
-            :preference-alias="conf.namespace">
+      v-model="showFields"
+      :init-data="tableFields"
+      :preference-alias="conf.namespace"
+    >
       <template v-slot="{doSave, preferenceData, headerDragend}">
         <hf-table
           v-if="showFields"
@@ -85,7 +87,7 @@
           @sort-change="sortChange"
           @header-dragend="headerDragend"
         >
-          <section-table-column/>
+          <section-table-column />
           <!-- 显示的字段-->
           <wx-menu-conf-columns :show-fields="showFields" :url-methods="conf.urlMethods" @success="doSearch" />
           <el-table-column
@@ -94,7 +96,7 @@
             width="150"
           >
             <template v-slot:header>
-              {{$t('common.operate')}}
+              {{ $t('common.operate') }}
               <curd-table-column-select
                 v-model="showFields"
                 :preference-alias="conf.namespace"

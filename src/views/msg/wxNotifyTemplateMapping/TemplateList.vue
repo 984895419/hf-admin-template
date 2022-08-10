@@ -1,10 +1,10 @@
 <template>
-  <form-item-col-select :value="value" v-bind="$attrs" :list="selectList" @change="changHandler"/>
+  <form-item-col-select :value="value" v-bind="$attrs" :list="selectList" @change="changHandler" />
 </template>
 
 <script>
 import FormItemColSelect from '../../../components/CURD/Form/formItemColSelect'
-import {baseApiGetMethod} from '../../../components/CURD/baseApi'
+import { baseApiGetMethod } from '../../../components/CURD/baseApi'
 import * as conf from './api'
 import CurdMixin from '@/components/CURD/curd.mixin'
 import { getData, getMessage, isSuccessResult } from '../../../utils/ajaxResultUtil'
@@ -12,28 +12,17 @@ import { getData, getMessage, isSuccessResult } from '../../../utils/ajaxResultU
 export default {
     name: 'TemplateList',
     components: { FormItemColSelect },
+    mixins: [CurdMixin],
     props: {
         appId: String,
         value: Object
     },
-    mixins: [CurdMixin],
     data() {
         return {
             conf: conf,
             valueList: [],
             selectHandler: Function
         }
-    },
-    watch: {
-        appId() {
-            if (this.appId) {
-               this.loadTemplates()
-            }
-        }
-    },
-    created() {
-        debugger
-      this.loadTemplates()
     },
     computed: {
       selectList() {
@@ -49,6 +38,17 @@ export default {
           }
           return ary
       }
+    },
+    watch: {
+        appId() {
+            if (this.appId) {
+               this.loadTemplates()
+            }
+        }
+    },
+    created() {
+        debugger
+      this.loadTemplates()
     },
     methods: {
         loadTemplates() {

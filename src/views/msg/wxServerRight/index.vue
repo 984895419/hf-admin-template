@@ -14,7 +14,8 @@
             <hf-base-user-info-input-refer
               :value="searchForm"
               value-refer-id="userId"
-              value-refer-name="userName"/>
+              value-refer-name="userName"
+            />
           </form-item-col>
           <form-item-col
             :value="searchForm"
@@ -22,10 +23,11 @@
             prop="wxId"
             :namespace="conf.namespace"
           >
-              <wx-server-conf-input-refer
+            <wx-server-conf-input-refer
               :value="searchForm"
               value-refer-id="wxId"
-              value-refer-name="wxIdName"/>
+              value-refer-name="wxIdName"
+            />
           </form-item-col>
           <!-- 字典字段字段设置方法如下
           <form-item-col-dict
@@ -40,7 +42,7 @@
     </div>
     <!-- 操作栏-->
     <div style="margin-bottom: 10px" class="col-btn-display">
-      <wx-server-right-add :action-url="conf.urlMethods.addUrl"  @success="doSearch" />
+      <wx-server-right-add :action-url="conf.urlMethods.addUrl" @success="doSearch" />
       <div style="float: right" class="col-btn-display">
         <del-btn
           v-if="conf.urlMethods.deleteUrl
@@ -72,9 +74,10 @@
     </div>
     <!-- 列表-->
     <table-column-preference-setting-api-slot
-            :init-data="tableFields"
-            v-model="showFields"
-            :preference-alias="conf.namespace">
+      v-model="showFields"
+      :init-data="tableFields"
+      :preference-alias="conf.namespace"
+    >
       <template v-slot="{doSave, preferenceData, headerDragend}">
         <hf-table
           v-if="showFields"
@@ -84,7 +87,7 @@
           @sort-change="sortChange"
           @header-dragend="headerDragend"
         >
-          <section-table-column/>
+          <section-table-column />
           <!-- 显示的字段-->
           <wx-server-right-columns :show-fields="showFields" :url-methods="conf.urlMethods" @success="doSearch" />
           <el-table-column
@@ -93,7 +96,7 @@
             width="150"
           >
             <template v-slot:header>
-              {{$t('common.operate')}}
+              {{ $t('common.operate') }}
               <curd-table-column-select
                 v-model="showFields"
                 :preference-alias="conf.namespace"

@@ -3,7 +3,7 @@
     <el-form ref="form" :model="value">
       <row-span-slot>
         <template v-slot="{ span }">
-                    <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="wxId" />
+          <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="wxId" />
           <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="name" />
           <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="appId" />
           <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="secret" />

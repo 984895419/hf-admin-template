@@ -18,14 +18,16 @@
           <simple-search v-model="searchForm" :inline="true" @search="doSearch">
             <template v-slot="{ span }">
               <!-- 新增的的字段配置 -->
-                             <hf-base-user-info-input-refer
+              <hf-base-user-info-input-refer
                 :value="data"
                 value-refer-id="userId"
-                value-refer-name="userIdName"/>
-               <wx-server-conf-input-refer
+                value-refer-name="userIdName"
+              />
+              <wx-server-conf-input-refer
                 :value="data"
                 value-refer-id="wxId"
-                value-refer-name="wxIdName"/>
+                value-refer-name="wxIdName"
+              />
               <!-- 字典字段字段设置方法如下
               <form-item-col-dict
                 :value="data"

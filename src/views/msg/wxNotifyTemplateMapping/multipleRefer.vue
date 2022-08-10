@@ -1,162 +1,162 @@
 <template>
-    <table-column-preference-setting-api-slot
-            v-model="showFields"
-            :init-data="tableFields"
-            :preference-alias="conf.namespace"
-    >
-        <template v-slot="{doSave, preferenceData}">
-            <!-- 列表-->
-            <common-dialog-btn :label="$t('common.import')" style="margin-bottom: 10px" @success="openSuccess">
-                <template v-slot="{ closeDialog }">
-                    <!-- 查询框 -->
-                    <div>
-                        <simple-search v-model="searchForm" :inline="true" @search="doSearch">
-                            <template v-slot="{ span }">
-                                <!-- 新增的的字段配置 -->
-                                                                        <form-item-col
-                                                :value="searchForm"
-                                                :span="span"
-                                                prop="notifyKey"
-                                                :namespace="conf.namespace"
-                                        />
-                                        <form-item-col
-                                                :value="searchForm"
-                                                :span="span"
-                                                prop="wxId"
-                                                :namespace="conf.namespace"
-                                        />
-                                        <form-item-col
-                                                :value="searchForm"
-                                                :span="span"
-                                                prop="templateId"
-                                                :namespace="conf.namespace"
-                                        />
-                                        <form-item-col
-                                                :value="searchForm"
-                                                :span="span"
-                                                prop="exampleData"
-                                                :namespace="conf.namespace"
-                                        />
-                                        <form-item-col
-                                                :value="searchForm"
-                                                :span="span"
-                                                prop="templateContent"
-                                                :namespace="conf.namespace"
-                                        />
-                                        <form-item-col
-                                                :value="searchForm"
-                                                :span="span"
-                                                prop="templateTitle"
-                                                :namespace="conf.namespace"
-                                        />
-                                        <form-item-col
-                                                :value="searchForm"
-                                                :span="span"
-                                                prop="mapping"
-                                                :namespace="conf.namespace"
-                                        />
-                                        <form-item-col
-                                                :value="searchForm"
-                                                :span="span"
-                                                prop="enableState"
-                                                :namespace="conf.namespace"
-                                        />
-                            </template>
-                        </simple-search>
-                    </div>
-                    <!-- 列表-->
-                    <el-button type="primary" style="margin-bottom: 5px" @click="doEnsure(closeDialog)()">{{ $t('common.ensure') }}</el-button>
-                    <hf-table
-                            ref="referTable"
-                            v-loading="loading"
-                            :row-key="uniqueColumn"
-                            :table-data="jsonData.list"
-                            @selection-change="handleSelectionChange"
-                            @sort-change="sortChange"
-                    >
-                        <el-table-column
-                                fixed="left"
-                                type="selection"
-                                width="40"
-                        />
-                        <!-- 显示的字段-->
-                        <wx-notify-template-mapping-columns :show-fields="showFields" :url-methods="conf.urlMethods" @success="doSearch" />
-                        <el-table-column
-                                fixed="right"
-                                :label="$t('common.operate')"
-                                width="0"
-                        >
-                            <template v-slot:header>
-                                {{ $t('common.operate') }}
-                                <curd-table-column-select
-                                        v-model="showFields"
-                                        :preference-alias="conf.namespace"
-                                        :table-fields="preferenceData"
-                                        style="float: right"
-                                        @selectedChange="reRenderTable"
-                                        @doSave="doSave"
-                                />
-                            </template>
-                            <template slot-scope="scopeRow">
-                                <div class="col-btn-display">
-                                    <!-- 删除-->
-                                    <del-btn
-                                            :url="templateUrl(conf.urlMethods.deleteUrl, scopeRow.row)"
-                                            :btn-type="'text'"
-                                            :value="scopeRow.row"
-                                            @success="doSearch"
-                                    />
-                                </div>
-                            </template>
-                        </el-table-column>
-                    </hf-table>
-                    <!-- 分页信息 -->
-                    <curd-pagination
-                            :current-page.sync="searchForm.pageInfo.pageNo"
-                            :page-size.sync="searchForm.pageInfo.pageSize"
-                            :total="jsonData.total"
-                            @size-change="doSearch"
-                            @current-change="doSearch"
-                    />
-                </template>
-            </common-dialog-btn>
-            <hf-table
-                    v-loading="loading"
-                    :table-data="deepValue"
+  <table-column-preference-setting-api-slot
+    v-model="showFields"
+    :init-data="tableFields"
+    :preference-alias="conf.namespace"
+  >
+    <template v-slot="{doSave, preferenceData}">
+      <!-- 列表-->
+      <common-dialog-btn :label="$t('common.import')" style="margin-bottom: 10px" @success="openSuccess">
+        <template v-slot="{ closeDialog }">
+          <!-- 查询框 -->
+          <div>
+            <simple-search v-model="searchForm" :inline="true" @search="doSearch">
+              <template v-slot="{ span }">
+                <!-- 新增的的字段配置 -->
+                <form-item-col
+                  :value="searchForm"
+                  :span="span"
+                  prop="notifyKey"
+                  :namespace="conf.namespace"
+                />
+                <form-item-col
+                  :value="searchForm"
+                  :span="span"
+                  prop="wxId"
+                  :namespace="conf.namespace"
+                />
+                <form-item-col
+                  :value="searchForm"
+                  :span="span"
+                  prop="templateId"
+                  :namespace="conf.namespace"
+                />
+                <form-item-col
+                  :value="searchForm"
+                  :span="span"
+                  prop="exampleData"
+                  :namespace="conf.namespace"
+                />
+                <form-item-col
+                  :value="searchForm"
+                  :span="span"
+                  prop="templateContent"
+                  :namespace="conf.namespace"
+                />
+                <form-item-col
+                  :value="searchForm"
+                  :span="span"
+                  prop="templateTitle"
+                  :namespace="conf.namespace"
+                />
+                <form-item-col
+                  :value="searchForm"
+                  :span="span"
+                  prop="mapping"
+                  :namespace="conf.namespace"
+                />
+                <form-item-col
+                  :value="searchForm"
+                  :span="span"
+                  prop="enableState"
+                  :namespace="conf.namespace"
+                />
+              </template>
+            </simple-search>
+          </div>
+          <!-- 列表-->
+          <el-button type="primary" style="margin-bottom: 5px" @click="doEnsure(closeDialog)()">{{ $t('common.ensure') }}</el-button>
+          <hf-table
+            ref="referTable"
+            v-loading="loading"
+            :row-key="uniqueColumn"
+            :table-data="jsonData.list"
+            @selection-change="handleSelectionChange"
+            @sort-change="sortChange"
+          >
+            <el-table-column
+              fixed="left"
+              type="selection"
+              width="40"
+            />
+            <!-- 显示的字段-->
+            <wx-notify-template-mapping-columns :show-fields="showFields" :url-methods="conf.urlMethods" @success="doSearch" />
+            <el-table-column
+              fixed="right"
+              :label="$t('common.operate')"
+              width="0"
             >
-                <section-table-column/>
-                <!-- 显示的字段-->
-                <wx-notify-template-mapping-columns :show-fields="showFields" :url-methods="conf.urlMethods" @success="doSearch" />
-                <el-table-column
-                        fixed="right"
-                        :label="$t('common.operate')"
-                        width="150"
-                >
-                    <template v-slot:header>
-                        {{ $t('common.operate') }}
-                        <curd-table-column-select
-                                v-model="showFields"
-                                :preference-alias="conf.namespace"
-                                :table-fields="preferenceData"
-                                style="float: right"
-                                @selectedChange="reRenderTable"
-                                @doSave="doSave"
-                        />
-                    </template>
-                    <template slot-scope="scopeRow">
-                        <div class="col-btn-display">
-                            <!-- 删除-->
-                            <del-btn
-                                :btn-type="'text'"
-                                :value="scopeRow.row"
-                                :deleteHandler="doDelete"
-                            />
-                        </div>
-                    </template>
-                </el-table-column>
-            </hf-table>
+              <template v-slot:header>
+                {{ $t('common.operate') }}
+                <curd-table-column-select
+                  v-model="showFields"
+                  :preference-alias="conf.namespace"
+                  :table-fields="preferenceData"
+                  style="float: right"
+                  @selectedChange="reRenderTable"
+                  @doSave="doSave"
+                />
+              </template>
+              <template slot-scope="scopeRow">
+                <div class="col-btn-display">
+                  <!-- 删除-->
+                  <del-btn
+                    :url="templateUrl(conf.urlMethods.deleteUrl, scopeRow.row)"
+                    :btn-type="'text'"
+                    :value="scopeRow.row"
+                    @success="doSearch"
+                  />
+                </div>
+              </template>
+            </el-table-column>
+          </hf-table>
+          <!-- 分页信息 -->
+          <curd-pagination
+            :current-page.sync="searchForm.pageInfo.pageNo"
+            :page-size.sync="searchForm.pageInfo.pageSize"
+            :total="jsonData.total"
+            @size-change="doSearch"
+            @current-change="doSearch"
+          />
         </template>
-    </table-column-preference-setting-api-slot>
+      </common-dialog-btn>
+      <hf-table
+        v-loading="loading"
+        :table-data="deepValue"
+      >
+        <section-table-column />
+        <!-- 显示的字段-->
+        <wx-notify-template-mapping-columns :show-fields="showFields" :url-methods="conf.urlMethods" @success="doSearch" />
+        <el-table-column
+          fixed="right"
+          :label="$t('common.operate')"
+          width="150"
+        >
+          <template v-slot:header>
+            {{ $t('common.operate') }}
+            <curd-table-column-select
+              v-model="showFields"
+              :preference-alias="conf.namespace"
+              :table-fields="preferenceData"
+              style="float: right"
+              @selectedChange="reRenderTable"
+              @doSave="doSave"
+            />
+          </template>
+          <template slot-scope="scopeRow">
+            <div class="col-btn-display">
+              <!-- 删除-->
+              <del-btn
+                :btn-type="'text'"
+                :value="scopeRow.row"
+                :delete-handler="doDelete"
+              />
+            </div>
+          </template>
+        </el-table-column>
+      </hf-table>
+    </template>
+  </table-column-preference-setting-api-slot>
 </template>
 
 <script>

@@ -11,10 +11,11 @@
             prop="wxId"
             :namespace="conf.namespace"
           >
-          <wx-server-conf-input-refer
+            <wx-server-conf-input-refer
               :value="searchForm"
               value-refer-id="wxId"
-              value-refer-name="wxIdName"/>
+              value-refer-name="wxIdName"
+            />
           </form-item-col>
           <form-item-col
             :value="searchForm"
@@ -35,7 +36,7 @@
     </div>
     <!-- 操作栏-->
     <div style="margin-bottom: 10px" class="col-btn-display">
-      <wx-notify-template-mapping-add :action-url="conf.urlMethods.addUrl"  @success="doSearch"/>
+      <wx-notify-template-mapping-add :action-url="conf.urlMethods.addUrl" @success="doSearch" />
       <div style="float: right" class="col-btn-display">
         <del-btn
           v-if="conf.urlMethods.deleteUrl
@@ -67,9 +68,10 @@
     </div>
     <!-- 列表-->
     <table-column-preference-setting-api-slot
-            :init-data="tableFields"
-            v-model="showFields"
-            :preference-alias="conf.namespace">
+      v-model="showFields"
+      :init-data="tableFields"
+      :preference-alias="conf.namespace"
+    >
       <template v-slot="{doSave, preferenceData, headerDragend}">
         <hf-table
           v-if="showFields"
@@ -79,7 +81,7 @@
           @sort-change="sortChange"
           @header-dragend="headerDragend"
         >
-          <section-table-column/>
+          <section-table-column />
           <!-- 显示的字段-->
           <wx-notify-template-mapping-columns :show-fields="showFields" :url-methods="conf.urlMethods" @success="doSearch" />
           <el-table-column
@@ -88,7 +90,7 @@
             width="150"
           >
             <template v-slot:header>
-              {{$t('common.operate')}}
+              {{ $t('common.operate') }}
               <curd-table-column-select
                 v-model="showFields"
                 :preference-alias="conf.namespace"
@@ -119,30 +121,32 @@
                   :value="scopeRow.row"
                 />
                 <!-- 参数映射 -->
-                <common-dialog-btn label="配置映射" type="text" v-if="scopeRow.row.exampleData">
+                <common-dialog-btn v-if="scopeRow.row.exampleData" label="配置映射" type="text">
                   <template v-slot="{closeDialog}">
                     <data-mapping
+                      v-model="scopeRow.row.mapping"
+                      :row="scopeRow.row"
+                      :example-data="scopeRow.row.exampleData"
+                      :template-content="scopeRow.row.templateContent"
                       @save="SaveMapping"
                       @success="doSearch"
                       @closeDialog="closeDialog"
-                      :row="scopeRow.row"
-                      v-model="scopeRow.row.mapping"
-                      :example-data="scopeRow.row.exampleData"
-                      :template-content="scopeRow.row.templateContent"/>
+                    />
                   </template>
                 </common-dialog-btn>
 
                 <!-- 参数映射 -->
-                <common-dialog-btn label="明细配置" type="text" v-if="scopeRow.row.exampleData && scopeRow.row.notifyType === 'another'">
+                <common-dialog-btn v-if="scopeRow.row.exampleData && scopeRow.row.notifyType === 'another'" label="明细配置" type="text">
                   <template v-slot="{closeDialog, showState}">
                     <template-detail
                       v-if="showState"
+                      v-model="scopeRow.row"
+                      :prop="'templateDetail'"
+                      :template-data="scopeRow.row.exampleData"
                       @save="SaveMapping"
                       @success="doSearch"
                       @closeDialog="closeDialog"
-                      v-model="scopeRow.row"
-                      :prop="'templateDetail'"
-                      :template-data="scopeRow.row.exampleData"/>
+                    />
                   </template>
                 </common-dialog-btn>
               </div>
@@ -182,12 +186,12 @@
     import TableColumnPreferenceSettingApiSlot from '@/views/basic/preferenceSetting/TableColumnPrefenceSettingApiSlot'
     import SectionTableColumn from '@/components/CURD/Table/column/base/SectionTableColumn'
     import WxServerConfInputRefer from '@/views/msg/wxServerConf/inputRefer'
-    import CommonDialogBtn from "../../../components/CURD/Btns/CommonDialogBtn";
-    import DataMapping from "./DataMapping";
-    import {baseApiPutMethod} from "../../../components/CURD/baseApi";
-    import {getMessage} from "../../../utils/ajaxResultUtil";
-    import data from "../../../mock/menulist";
-    import TemplateDetail from "./TemplateDetail";
+    import CommonDialogBtn from '../../../components/CURD/Btns/CommonDialogBtn'
+    import DataMapping from './DataMapping'
+    import { baseApiPutMethod } from '../../../components/CURD/baseApi'
+    import { getMessage } from '../../../utils/ajaxResultUtil'
+    import data from '../../../mock/menulist'
+    import TemplateDetail from './TemplateDetail'
 
     export default {
         name: 'WxNotifyTemplateMappingIndexVue',

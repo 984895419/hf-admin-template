@@ -2,23 +2,24 @@
   <div>
     <update-btn btn-type="text" :url="templateUrl(queryUrl, value)">
       <template v-slot="{ closeDialog, data }">
-        <cu-form :form-rules="formRules" :value="data" :action-method="updateMethod"  @success="actionSuccess" @closeDialog="closeDialog">
+        <cu-form :form-rules="formRules" :value="data" :action-method="updateMethod" @success="actionSuccess" @closeDialog="closeDialog">
           <template v-slot="{ errorMessage }">
             <row-span-slot>
               <template v-slot="{ span }">
                 <!-- 修改的字段配置 -->
-                                  <form-item-col
-                    :value="data"
-                    :error="errorMessage('wxId')"
-                    :span="span"
-                    prop="wxId"
-                    :namespace="conf.namespace"
-                  >
-                    <wx-server-conf-input-refer
+                <form-item-col
+                  :value="data"
+                  :error="errorMessage('wxId')"
+                  :span="span"
+                  prop="wxId"
+                  :namespace="conf.namespace"
+                >
+                  <wx-server-conf-input-refer
                     :value="data"
                     value-refer-id="wxId"
-                    value-refer-name="wxIdName"/>
-                  </form-item-col>
+                    value-refer-name="wxIdName"
+                  />
+                </form-item-col>
                 <form-item-col
                   :value="data"
                   :error="errorMessage('menuName')"
@@ -41,18 +42,19 @@
                   prop="menuContent"
                   :namespace="conf.namespace"
                 />
-                  <form-item-col
-                    :value="data"
-                    :error="errorMessage('parentId')"
-                    :span="span"
-                    prop="parentId"
-                    :namespace="conf.namespace"
-                  >
-                    <wx-menu-conf-input-refer
+                <form-item-col
+                  :value="data"
+                  :error="errorMessage('parentId')"
+                  :span="span"
+                  prop="parentId"
+                  :namespace="conf.namespace"
+                >
+                  <wx-menu-conf-input-refer
                     :value="data"
                     value-refer-id="parentId"
-                    value-refer-name="parentIdName"/>
-                  </form-item-col>
+                    value-refer-name="parentIdName"
+                  />
+                </form-item-col>
                 <form-item-col
                   :value="data"
                   :error="errorMessage('sort')"
@@ -90,7 +92,7 @@
     import FormItemColEnableState from '@/components/CURD/Form/formItemColEnableState'
     import WxServerConfInputRefer from '@/views/msg/wxServerConf/inputRefer'
     import WxMenuConfInputRefer from '@/views/msg/wxMenuConf/inputRefer'
-    import FormItemColSelect from "../../../components/CURD/Form/formItemColSelect";
+    import FormItemColSelect from '../../../components/CURD/Form/formItemColSelect'
     export default {
         name: 'WxMenuConfUpdate',
         components: {

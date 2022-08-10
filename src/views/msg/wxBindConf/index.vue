@@ -14,10 +14,11 @@
             <wx-server-conf-input-refer
               :value="searchForm"
               value-refer-id="wxId"
-              value-refer-name="wxIdName"/>
+              value-refer-name="wxIdName"
+            />
           </form-item-col>
           <!-- 新增的的字段配置 -->
-                    <form-item-col
+          <form-item-col
             :value="searchForm"
             :span="span"
             prop="bindMobile"
@@ -57,9 +58,9 @@
     <div style="margin-bottom: 10px" class="col-btn-display">
       <div style="float: right" class="col-btn-display">
         <template-confirm-btn
-          v-permission="[conf.namespace + ':enable']"
           v-if="conf.urlMethods.enableUrl
             && toggleRowSelectionArray.length > 0"
+          v-permission="[conf.namespace + ':enable']"
           :url="templateUrl(conf.urlMethods.enableUrl, toggleRowSelectionArray)"
           :btn-type="'primary'"
           :label="$t('common.batchEnable')"
@@ -67,9 +68,9 @@
           @success="doSearch"
         />
         <template-confirm-btn
-          v-permission="[conf.namespace + ':disable']"
           v-if="conf.urlMethods.disableUrl
             && toggleRowSelectionArray.length > 0"
+          v-permission="[conf.namespace + ':disable']"
           :url="templateUrl(conf.urlMethods.disableUrl, toggleRowSelectionArray)"
           :btn-type="'primary'"
           :value="toggleRowSelectionArray"
@@ -80,9 +81,10 @@
     </div>
     <!-- 列表-->
     <table-column-preference-setting-api-slot
-            :init-data="tableFields"
-            v-model="showFields"
-            :preference-alias="conf.namespace">
+      v-model="showFields"
+      :init-data="tableFields"
+      :preference-alias="conf.namespace"
+    >
       <template v-slot="{doSave, preferenceData, headerDragend}">
         <hf-table
           v-if="showFields"
@@ -92,7 +94,7 @@
           @sort-change="sortChange"
           @header-dragend="headerDragend"
         >
-          <section-table-column/>
+          <section-table-column />
           <!-- 显示的字段-->
           <wx-bind-conf-columns :show-fields="showFields" :url-methods="conf.urlMethods" @success="doSearch" />
           <el-table-column
@@ -101,7 +103,7 @@
             width="150"
           >
             <template v-slot:header>
-              {{$t('common.operate')}}
+              {{ $t('common.operate') }}
               <curd-table-column-select
                 v-model="showFields"
                 :preference-alias="conf.namespace"
@@ -126,7 +128,8 @@
                   :value="scopeRow.row"
                   :query-url="conf.urlMethods.queryUrl"
                   :update-url="conf.urlMethods.auditUrl"
-                  @success="doSearch"/>
+                  @success="doSearch"
+                />
                 <!-- 查看 -->
                 <wx-bind-conf-detail
                   :value="scopeRow.row"
@@ -168,8 +171,8 @@
     import TableColumnPreferenceSettingApiSlot from '@/views/basic/preferenceSetting/TableColumnPrefenceSettingApiSlot'
     import SectionTableColumn from '@/components/CURD/Table/column/base/SectionTableColumn'
     import WxServerConfInputRefer from '@/views/msg/wxServerConf/inputRefer'
-    import WxBindConfAudit from "./audit";
-    import FormItemColSelect from "../../../components/CURD/Form/formItemColSelect";
+    import WxBindConfAudit from './audit'
+    import FormItemColSelect from '../../../components/CURD/Form/formItemColSelect'
 
     export default {
         name: 'WxBindConfIndexVue',

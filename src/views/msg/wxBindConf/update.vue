@@ -2,7 +2,7 @@
   <div>
     <update-btn btn-type="text" :url="templateUrl(queryUrl, value)">
       <template v-slot="{ closeDialog, data }">
-        <cu-form :form-rules="formRules" :value="data" :action-method="updateMethod"  @success="actionSuccess" @closeDialog="closeDialog">
+        <cu-form :form-rules="formRules" :value="data" :action-method="updateMethod" @success="actionSuccess" @closeDialog="closeDialog">
           <template v-slot="{ errorMessage }">
             <row-span-slot>
               <template v-slot="{ span }">
@@ -15,7 +15,7 @@
                   prop="bindHeadpic"
                   :namespace="conf.namespace"
                 >
-                  <el-image :src="data.bindHeadpic" style="max-width: 150px"></el-image>
+                  <el-image :src="data.bindHeadpic" style="max-width: 150px" />
                 </form-item-text>
                 <el-col :span="16">
                   <el-row>
@@ -82,7 +82,7 @@
     import FormItemColDict from '@/components/CURD/Form/formItemColDict'
     import FormItemColEnableState from '@/components/CURD/Form/formItemColEnableState'
     import WxServerConfInputRefer from '@/views/msg/wxServerConf/inputRefer'
-    import FormItemText from "../../../components/CURD/Form/formItemText";
+    import FormItemText from '../../../components/CURD/Form/formItemText'
     export default {
         name: 'WxBindConfUpdate',
         components: {

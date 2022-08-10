@@ -34,8 +34,9 @@
                 :span="span"
                 prop="templateId"
                 :namespace="conf.namespace"
+                :app-id="data.appId"
                 @change="selectHandler"
-                :app-id="data.appId"/>
+              />
               <!--               <form-item-col-->
               <!--                :value="data"-->
               <!--                :error="errorMessage('mapping')"-->
@@ -89,10 +90,10 @@
     import { baseApiPostMethod } from '@/components/CURD/baseApi'
     import FormItemColEnableState from '@/components/CURD/Form/formItemColEnableState'
     import WxServerConfInputRefer from '@/views/msg/wxServerConf/inputRefer'
-    import TemplateList from "./TemplateList";
-    import FormItemText from "../../../components/CURD/Form/formItemText";
-    import FormItemColTextArea from "../../../components/CURD/Form/formItemColTextarea";
-    import FormItemColSelect from "../../../components/CURD/Form/formItemColSelect";
+    import TemplateList from './TemplateList'
+    import FormItemText from '../../../components/CURD/Form/formItemText'
+    import FormItemColTextArea from '../../../components/CURD/Form/formItemColTextarea'
+    import FormItemColSelect from '../../../components/CURD/Form/formItemColSelect'
     export default {
         name: 'WxNotifyTemplateMappingAdd',
         components: {

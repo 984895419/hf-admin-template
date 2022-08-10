@@ -6,70 +6,73 @@
           <row-span-slot>
             <template v-slot="{ span }">
               <!-- 新增的的字段配置 -->
-                              <form-item-col
-                    :value="data"
-                    :error="errorMessage('notifyId')"
-                    :span="span"
-                    prop="notifyId"
-                    :namespace="conf.namespace"
-                >
-                   <wx-notify-template-mapping-input-refer
-                   :value="data"
-                   value-refer-id="notifyId"
-                   value-refer-name="notifyIdName"/>
-                </form-item-col>
-               <form-item-col
+              <form-item-col
+                :value="data"
+                :error="errorMessage('notifyId')"
+                :span="span"
+                prop="notifyId"
+                :namespace="conf.namespace"
+              >
+                <wx-notify-template-mapping-input-refer
+                  :value="data"
+                  value-refer-id="notifyId"
+                  value-refer-name="notifyIdName"
+                />
+              </form-item-col>
+              <form-item-col
                 :value="data"
                 :error="errorMessage('data')"
                 :span="span"
                 prop="data"
                 :namespace="conf.namespace"
-               />
-               <form-item-col
+              />
+              <form-item-col
                 :value="data"
                 :error="errorMessage('mapping')"
                 :span="span"
                 prop="mapping"
                 :namespace="conf.namespace"
-               />
-                <form-item-col
-                    :value="data"
-                    :error="errorMessage('wxId')"
-                    :span="span"
-                    prop="wxId"
-                    :namespace="conf.namespace"
-                >
-                   <wx-server-conf-input-refer
-                   :value="data"
-                   value-refer-id="wxId"
-                   value-refer-name="wxIdName"/>
-                </form-item-col>
-                <form-item-col
-                    :value="data"
-                    :error="errorMessage('bindId')"
-                    :span="span"
-                    prop="bindId"
-                    :namespace="conf.namespace"
-                >
-                   <wx-bind-conf-input-refer
-                   :value="data"
-                   value-refer-id="bindId"
-                   value-refer-name="bindIdName"/>
-                </form-item-col>
-               <form-item-col
+              />
+              <form-item-col
+                :value="data"
+                :error="errorMessage('wxId')"
+                :span="span"
+                prop="wxId"
+                :namespace="conf.namespace"
+              >
+                <wx-server-conf-input-refer
+                  :value="data"
+                  value-refer-id="wxId"
+                  value-refer-name="wxIdName"
+                />
+              </form-item-col>
+              <form-item-col
+                :value="data"
+                :error="errorMessage('bindId')"
+                :span="span"
+                prop="bindId"
+                :namespace="conf.namespace"
+              >
+                <wx-bind-conf-input-refer
+                  :value="data"
+                  value-refer-id="bindId"
+                  value-refer-name="bindIdName"
+                />
+              </form-item-col>
+              <form-item-col
                 :value="data"
                 :error="errorMessage('sendState')"
                 :span="span"
                 prop="sendState"
                 :namespace="conf.namespace"
-               />
-               <form-item-col
+              />
+              <form-item-col
                 :value="data"
                 :error="errorMessage('reason')"
                 :span="span"
                 prop="reason"
                 :namespace="conf.namespace"
-               />
+              />
             </template>
           </row-span-slot>
         </template>
@@ -101,7 +104,7 @@
             value: {
                 type: Object,
                 default: function() {
-                    return { enableState: 1}
+                    return { enableState: 1 }
                 }
             },
             actionUrl: String

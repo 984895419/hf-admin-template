@@ -18,17 +18,17 @@
           <simple-search v-model="searchForm" :inline="true" @search="doSearch">
             <template v-slot="{ span }">
               <!-- 新增的的字段配置 -->
-                            <form-item-col
-                      :value="searchForm"
-                      :span="span"
-                      prop="name"
-                      :namespace="conf.namespace"
+              <form-item-col
+                :value="searchForm"
+                :span="span"
+                prop="name"
+                :namespace="conf.namespace"
               />
               <form-item-col
-                      :value="searchForm"
-                      :span="span"
-                      prop="appId"
-                      :namespace="conf.namespace"
+                :value="searchForm"
+                :span="span"
+                prop="appId"
+                :namespace="conf.namespace"
               />
               <!-- 字典字段字段设置方法如下
               <form-item-col-dict

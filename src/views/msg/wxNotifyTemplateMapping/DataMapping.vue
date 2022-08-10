@@ -1,44 +1,49 @@
 <template>
-    <div>
-      <el-table
-        :data="templateFields"
-        style="width: 100%">
-        <el-table-column
-          prop="field"
-          label="模板字段">
-        </el-table-column>
-        <el-table-column
-          prop="from"
-          label="数据源字段">
-          <template slot-scope="scopeRow">
-            <el-cascader
-              v-model="scopeRow.row.from"
-              clearable
-              :show-all-levels="true"
-              :props="{ checkStrictly: true, expandTrigger: 'hover'  }"
-              :options="sourceFields"></el-cascader>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="color"
-          label="颜色">
-          <template slot-scope="scopeRow">
-            <el-input v-model="scopeRow.row.color" placeholder="支持颜色填写，请填写色号，如“#03F4B6”"></el-input>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="defaultVal"
-          label="默认值">
-          <template slot-scope="scopeRow">
-            <el-input v-model="scopeRow.row.defaultVal" placeholder="支持模板字段引用，请使用${字段名}进行引用, 如“${billNo}”"></el-input>
-          </template>
-        </el-table-column>
+  <div>
+    <el-table
+      :data="templateFields"
+      style="width: 100%"
+    >
+      <el-table-column
+        prop="field"
+        label="模板字段"
+      />
+      <el-table-column
+        prop="from"
+        label="数据源字段"
+      >
+        <template slot-scope="scopeRow">
+          <el-cascader
+            v-model="scopeRow.row.from"
+            clearable
+            :show-all-levels="true"
+            :props="{ checkStrictly: true, expandTrigger: 'hover' }"
+            :options="sourceFields"
+          />
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="color"
+        label="颜色"
+      >
+        <template slot-scope="scopeRow">
+          <el-input v-model="scopeRow.row.color" placeholder="支持颜色填写，请填写色号，如“#03F4B6”" />
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="defaultVal"
+        label="默认值"
+      >
+        <template slot-scope="scopeRow">
+          <el-input v-model="scopeRow.row.defaultVal" placeholder="支持模板字段引用，请使用${字段名}进行引用, 如“${billNo}”" />
+        </template>
+      </el-table-column>
 
-      </el-table>
-      <div style="margin-top: 5px">
-        <el-button type="primary" @click="doSave">{{$t('common.save')}}</el-button>
-      </div>
+    </el-table>
+    <div style="margin-top: 5px">
+      <el-button type="primary" @click="doSave">{{ $t('common.save') }}</el-button>
     </div>
+  </div>
 </template>
 
 <script>
@@ -59,6 +64,11 @@
             row: {
                 type: Object
             }
+        },
+        data() {
+          return {
+              templateFields: []
+          }
         },
         computed: {
             valueMap() {
@@ -87,11 +97,6 @@
         watch: {
           templateContent() {
               this.templateFields = this.createTemplateField()
-          }
-        },
-        data() {
-          return {
-              templateFields: []
           }
         },
         created() {

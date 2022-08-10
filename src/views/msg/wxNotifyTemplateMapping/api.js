@@ -69,7 +69,7 @@ export function formRules(vm) {
         ],
         enableState: [
           { required: true, message: vm.$t(getI18nName('enableState')) + vm.$t('common.notAllowedNull'), trigger: 'blur' }
-        ],
+        ]
   }
 }
 

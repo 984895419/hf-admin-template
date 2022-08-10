@@ -2,35 +2,37 @@
   <div>
     <update-btn btn-type="text" :url="templateUrl(queryUrl, value)">
       <template v-slot="{ closeDialog, data }">
-        <cu-form :form-rules="formRules" :value="data" :action-method="updateMethod"  @success="actionSuccess" @closeDialog="closeDialog">
+        <cu-form :form-rules="formRules" :value="data" :action-method="updateMethod" @success="actionSuccess" @closeDialog="closeDialog">
           <template v-slot="{ errorMessage }">
             <row-span-slot>
               <template v-slot="{ span }">
                 <!-- 修改的字段配置 -->
-                                  <form-item-col
-                    :value="data"
-                    :error="errorMessage('userId')"
-                    :span="span"
-                    prop="userId"
-                    :namespace="conf.namespace"
-                  >
-                    <hf-base-user-info-input-refer
+                <form-item-col
+                  :value="data"
+                  :error="errorMessage('userId')"
+                  :span="span"
+                  prop="userId"
+                  :namespace="conf.namespace"
+                >
+                  <hf-base-user-info-input-refer
                     :value="data"
                     value-refer-id="userId"
-                    value-refer-name="userName"/>
-                  </form-item-col>
-                  <form-item-col
-                    :value="data"
-                    :error="errorMessage('wxId')"
-                    :span="span"
-                    prop="wxId"
-                    :namespace="conf.namespace"
-                  >
-                    <wx-server-conf-input-refer
+                    value-refer-name="userName"
+                  />
+                </form-item-col>
+                <form-item-col
+                  :value="data"
+                  :error="errorMessage('wxId')"
+                  :span="span"
+                  prop="wxId"
+                  :namespace="conf.namespace"
+                >
+                  <wx-server-conf-input-refer
                     :value="data"
                     value-refer-id="wxId"
-                    value-refer-name="wxIdName"/>
-                  </form-item-col>
+                    value-refer-name="wxIdName"
+                  />
+                </form-item-col>
                 <!-- 字段字段设置方法如下
                 <form-item-col-dict
                   :value="data"

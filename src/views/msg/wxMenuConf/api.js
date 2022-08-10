@@ -40,7 +40,7 @@ const exportTableFields = (fields) => {
  * 字段的配置，用在国际化及列表选择显示字段的时候
  * @type {*[]}
  */
-const tableFields = ['menuId', 'wxId', 'wxIdName', 'menuName', 'menuContentType', 'menuContent', 'creator', 'createTime', 'modifier', 'modifyTime', 'enableState', 'parentId', 'parentIdName', 'levelInd', 'levelStr', 'sort', 'publishState', 'CreatorUserName','ModifierUserName']
+const tableFields = ['menuId', 'wxId', 'wxIdName', 'menuName', 'menuContentType', 'menuContent', 'creator', 'createTime', 'modifier', 'modifyTime', 'enableState', 'parentId', 'parentIdName', 'levelInd', 'levelStr', 'sort', 'publishState', 'CreatorUserName', 'ModifierUserName']
 
 export default exportTableFields(tableFields)
 
@@ -71,9 +71,6 @@ export function formRules(vm) {
         ]
   }
 }
-
-
-
 
 export const menuContentTypes = [
   {

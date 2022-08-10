@@ -2,7 +2,7 @@
   <div>
     <update-btn btn-type="text" :url="templateUrl(queryUrl, value)">
       <template v-slot="{ closeDialog, data }">
-        <cu-form :form-rules="formRules" :value="data" :action-method="updateMethod"  @success="actionSuccess" @closeDialog="closeDialog">
+        <cu-form :form-rules="formRules" :value="data" :action-method="updateMethod" @success="actionSuccess" @closeDialog="closeDialog">
           <template v-slot="{ errorMessage }">
             <row-span-slot>
               <template v-slot="{ span }">
@@ -35,8 +35,9 @@
                   :span="span"
                   prop="templateId"
                   :namespace="conf.namespace"
+                  :app-id="data.appId"
                   @change="selectHandler"
-                  :app-id="data.appId"/>
+                />
                 <form-item-text
                   :value="data"
                   :error="errorMessage('templateTitle')"
@@ -91,10 +92,10 @@
     import FormItemColDict from '@/components/CURD/Form/formItemColDict'
     import FormItemColEnableState from '@/components/CURD/Form/formItemColEnableState'
     import WxServerConfInputRefer from '@/views/msg/wxServerConf/inputRefer'
-    import TemplateList from "./TemplateList";
-    import FormItemColTextArea from "../../../components/CURD/Form/formItemColTextarea";
-    import FormItemText from "../../../components/CURD/Form/formItemText";
-    import FormItemColSelect from "../../../components/CURD/Form/formItemColSelect";
+    import TemplateList from './TemplateList'
+    import FormItemColTextArea from '../../../components/CURD/Form/formItemColTextarea'
+    import FormItemText from '../../../components/CURD/Form/formItemText'
+    import FormItemColSelect from '../../../components/CURD/Form/formItemColSelect'
     export default {
         name: 'WxNotifyTemplateMappingUpdate',
         components: {
