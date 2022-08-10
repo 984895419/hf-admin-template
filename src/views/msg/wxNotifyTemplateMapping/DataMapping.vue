@@ -19,12 +19,18 @@
               :options="sourceFields"></el-cascader>
           </template>
         </el-table-column>
-
+        <el-table-column
+          prop="color"
+          label="颜色">
+          <template slot-scope="scopeRow">
+            <el-input v-model="scopeRow.row.color" placeholder="支持颜色填写，请填写色号，如“#03F4B6”"></el-input>
+          </template>
+        </el-table-column>
         <el-table-column
           prop="defaultVal"
           label="默认值">
           <template slot-scope="scopeRow">
-            <el-input v-model="scopeRow.row.defaultVal"></el-input>
+            <el-input v-model="scopeRow.row.defaultVal" placeholder="支持模板字段引用，请使用${字段名}进行引用, 如“${billNo}”"></el-input>
           </template>
         </el-table-column>
 
@@ -100,9 +106,8 @@
                 debugger
                 while ((temp = regex.exec(this.templateContent)) !== null) {
                     fields.push({
-                        field: temp[1],
-                        from: valueMap[temp[1]] && valueMap[temp[1]].from,
-                        defaultVal: valueMap[temp[1]] && valueMap[temp[1]].defaultVal
+                        ...valueMap[temp[1]] && valueMap[temp[1]],
+                        field: temp[1]
                     })
                 }
                 return fields
@@ -128,10 +133,7 @@
             doSave() {
                 const obj = {}
                 for (const ind in this.templateFields) {
-                    obj[this.templateFields[ind].field] = {
-                        from: this.templateFields[ind].from,
-                        defaultVal: this.templateFields[ind].defaultVal
-                    }
+                    obj[this.templateFields[ind].field] = this.templateFields[ind]
                 }
                 this.row.mapping = JSON.stringify(obj)
                 this.$emit('save', this.row, () => {

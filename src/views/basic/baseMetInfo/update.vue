@@ -1,8 +1,8 @@
 <template>
   <div>
     <update-btn btn-type="text" :url="templateUrl(queryUrl, value)">
-      <template v-slot="{ closeDialog, data }">
-        <cu-form :form-rules="formRules" :value="data" :action-method="updateMethod"  @success="actionSuccess" @closeDialog="closeDialog">
+      <template v-slot="{ closeDialog, data, showState }">
+        <cu-form v-if="showState" :form-rules="formRules" :value="data" :action-method="updateMethod"  @success="actionSuccess" @closeDialog="closeDialog">
           <template v-slot="{ errorMessage }">
             <row-span-slot>
               <template v-slot="{ span }">
@@ -14,18 +14,18 @@
                   prop="metTitle"
                   :namespace="conf.namespace"
                 />
-                <form-item-col
-                  :value="data"
-                  :error="errorMessage('metContent')"
-                  :span="span"
-                  prop="metContent"
-                  :namespace="conf.namespace"
-                />
-                <form-item-col
+                <form-item-col-date-time
                   :value="data"
                   :error="errorMessage('metTime')"
                   :span="span"
                   prop="metTime"
+                  :namespace="conf.namespace"
+                />
+                <form-item-col-rich-text
+                  :value="data"
+                  :error="errorMessage('metContent')"
+                  :span="24"
+                  prop="metContent"
                   :namespace="conf.namespace"
                 />
                 <!-- 字段字段设置方法如下
@@ -56,9 +56,13 @@
     import { baseApiPutMethod } from '@/components/CURD/baseApi'
     import FormItemColDict from '@/components/CURD/Form/formItemColDict'
     import FormItemColEnableState from '@/components/CURD/Form/formItemColEnableState'
+    import FormItemColDateTime from "../../../components/CURD/Form/formItemColDateTime";
+    import FormItemColRichText from "../../../components/CURD/Form/formItemColRichText";
     export default {
         name: 'BaseMetInfoUpdate',
-        components: { FormItemColDict, FormItemCol, RowSpanSlot, CuForm, UpdateBtn, FormItemColEnableState },
+        components: {
+            FormItemColRichText,
+            FormItemColDateTime, FormItemColDict, FormItemCol, RowSpanSlot, CuForm, UpdateBtn, FormItemColEnableState },
         mixins: [CurdMixin],
         props: {
             value: {

@@ -11,13 +11,7 @@
             prop="metTitle"
             :namespace="conf.namespace"
           />
-          <form-item-col
-            :value="searchForm"
-            :span="span"
-            prop="metContent"
-            :namespace="conf.namespace"
-          />
-          <form-item-col
+          <form-item-col-date-time
             :value="searchForm"
             :span="span"
             prop="metTime"
@@ -160,10 +154,12 @@
     import SimpleSearch from '@/components/CURD/Query/search'
     import TableColumnPreferenceSettingApiSlot from '@/views/basic/preferenceSetting/TableColumnPrefenceSettingApiSlot'
     import SectionTableColumn from '@/components/CURD/Table/column/base/SectionTableColumn'
+    import FormItemColDateTime from "../../../components/CURD/Form/formItemColDateTime";
 
     export default {
         name: 'BaseMetInfoIndexVue',
         components: {
+            FormItemColDateTime,
           SectionTableColumn,
           TemplateConfirmBtn,
           BaseMetInfoColumns,

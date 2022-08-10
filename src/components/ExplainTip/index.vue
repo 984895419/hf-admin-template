@@ -3,13 +3,25 @@
         <div class="explain__ico">
             <i class="el-icon-info"></i>
         </div>
-        <div class="explain__tip">内容区</div>
+        <div class="explain__tip" :style="color ? { color: color} : {}">
+          <slot>
+            {{tip}}
+          </slot>
+        </div>
     </div>
 </template>
 
 <script>
 export default {
-
+  props: {
+      tip: {
+          type: String,
+          default: '内容区'
+      },
+      color: {
+          type: String
+      }
+  }
 }
 </script>
 
@@ -31,7 +43,7 @@ export default {
         fill: currentColor;
         color: rgb(96,96,96);
       }
- 
+
     }
 
     &__tip {

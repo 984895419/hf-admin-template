@@ -28,6 +28,10 @@
         </template>
       </simple-search>
     </div>
+    <explain-tip
+      color="#e6a23c"
+      tip="建议不要将生产环境的公众号录制到测试/开发环境中，如果“菜单配置”发布会覆盖生产环境的配置, 造成数据错乱/异常显示。 最好做到1个公众号只在一个环境里配置">
+    </explain-tip>
     <!-- 操作栏-->
     <div style="margin-bottom: 10px" class="col-btn-display">
       <wx-server-conf-add :action-url="conf.urlMethods.addUrl"  @success="doSearch" />
@@ -156,6 +160,7 @@
     import SimpleSearch from '@/components/CURD/Query/search'
     import TableColumnPreferenceSettingApiSlot from '@/views/basic/preferenceSetting/TableColumnPrefenceSettingApiSlot'
     import SectionTableColumn from '@/components/CURD/Table/column/base/SectionTableColumn'
+    import ExplainTip from '@/components/ExplainTip'
 
     export default {
         name: 'WxServerConfIndexVue',
@@ -172,7 +177,8 @@
           FormItemColDict,
           FormItemCol,
           SimpleSearch,
-          TableColumnPreferenceSettingApiSlot
+          TableColumnPreferenceSettingApiSlot,
+          ExplainTip
         },
         mixins: [CurdMixin],
         data() {

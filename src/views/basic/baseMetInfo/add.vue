@@ -13,20 +13,20 @@
                 prop="metTitle"
                 :namespace="conf.namespace"
                />
-               <form-item-col
-                :value="data"
-                :error="errorMessage('metContent')"
-                :span="span"
-                prop="metContent"
-                :namespace="conf.namespace"
-               />
-               <form-item-col
+               <form-item-col-date-time
                 :value="data"
                 :error="errorMessage('metTime')"
                 :span="span"
                 prop="metTime"
                 :namespace="conf.namespace"
                />
+              <form-item-col-rich-text
+                :value="data"
+                :error="errorMessage('metContent')"
+                :span="24"
+                prop="metContent"
+                :namespace="conf.namespace"
+              />
             </template>
           </row-span-slot>
         </template>
@@ -44,9 +44,13 @@
     import FormItemColDict from '@/components/CURD/Form/formItemColDict'
     import { baseApiPostMethod } from '@/components/CURD/baseApi'
     import FormItemColEnableState from '@/components/CURD/Form/formItemColEnableState'
+    import FormItemColDateTime from "../../../components/CURD/Form/formItemColDateTime";
+    import FormItemColRichText from "../../../components/CURD/Form/formItemColRichText";
     export default {
         name: 'BaseMetInfoAdd',
         components: {
+            FormItemColRichText,
+            FormItemColDateTime,
 FormItemColDict, FormItemCol, RowSpanSlot, CuForm, AddBtn, FormItemColEnableState },
         props: {
             value: {

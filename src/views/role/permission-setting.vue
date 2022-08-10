@@ -76,8 +76,12 @@ export default {
         if (menus && menus.length > 0) {
             menus.forEach(s => {
                 items = items.concat(this.iteratorMenuIds(s.children || s.methods))
-                if (s.checked === true && s.methodId) {
-                    items.push('METHOD_' + s.methodId)
+                if (s.checked === true) {
+                    if (s.methodId) {
+                        items.push('METHOD_' + s.methodId)
+                    } else if (!s.children && s.menuId) {
+                        items.push('MENU_' + s.menuId)
+                    }
                 }
             })
         }

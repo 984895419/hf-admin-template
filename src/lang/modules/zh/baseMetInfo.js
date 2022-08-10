@@ -7,5 +7,6 @@ export default {
   createTime: '创建时间',
   modifier: '修改人',
   modifyTime: '修改时间',
-  deleted: '删除状态'
+  deleted: '删除状态',
+  metTimeHelper: '时间系统更新上线时间'
 }

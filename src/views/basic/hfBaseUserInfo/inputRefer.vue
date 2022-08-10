@@ -33,67 +33,7 @@
               <form-item-col
                 :value="searchForm"
                 :span="span"
-                prop="pkOrg"
-                :namespace="conf.namespace"
-              />
-              <form-item-col
-                :value="searchForm"
-                :span="span"
-                prop="pkDept"
-                :namespace="conf.namespace"
-              />
-              <form-item-col
-                :value="searchForm"
-                :span="span"
-                prop="gender"
-                :namespace="conf.namespace"
-              />
-              <form-item-col
-                :value="searchForm"
-                :span="span"
                 prop="mobile"
-                :namespace="conf.namespace"
-              />
-              <form-item-col
-                :value="searchForm"
-                :span="span"
-                prop="email"
-                :namespace="conf.namespace"
-              />
-              <form-item-col
-                :value="searchForm"
-                :span="span"
-                prop="ncUserId"
-                :namespace="conf.namespace"
-              />
-              <form-item-col
-                :value="searchForm"
-                :span="span"
-                prop="userFrom"
-                :namespace="conf.namespace"
-              />
-              <form-item-col
-                :value="searchForm"
-                :span="span"
-                prop="enableState"
-                :namespace="conf.namespace"
-              />
-              <form-item-col
-                :value="searchForm"
-                :span="span"
-                prop="headPic"
-                :namespace="conf.namespace"
-              />
-              <form-item-col
-                :value="searchForm"
-                :span="span"
-                prop="id"
-                :namespace="conf.namespace"
-              />
-              <form-item-col
-                :value="searchForm"
-                :span="span"
-                prop="effectTime"
                 :namespace="conf.namespace"
               />
               <!-- 字典字段字段设置方法如下
