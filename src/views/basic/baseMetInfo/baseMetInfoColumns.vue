@@ -60,7 +60,7 @@
     import CreateTimeTableColumn from '@/components/CURD/Table/column/CreateTimeTableColumn'
     import ModifierTableColumn from '@/components/CURD/Table/column/ModifierTableColumn'
     import ModifyTimeTableColumn from '@/components/CURD/Table/column/ModifyTimeTableColumn'
-    import DateTimeFormatTableColumn from '/components/CURD/Table/column/base/DateTimeFormatTableColumn'
+    import DateTimeFormatTableColumn from '@/components/CURD/Table/column/base/DateTimeFormatTableColumn'
 
     export default {
         name: 'BaseMetInfoColumns',
