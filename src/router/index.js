@@ -37,8 +37,7 @@ Vue.use(Router)
  * a base page that does not have permission requirements
  * all roles can be accessed
  */
-
-export const constantRoutes = [
+const constantRoutesArray = [
 
   {
     path: '/redirect',
@@ -83,8 +82,11 @@ export const constantRoutes = [
         meta: { title: 'dashboard', icon: 'dashboard', affix: true }
       }
     ]
-  },
-  {
+  }
+]
+if (process.env.NODE_ENV === 'development') {
+  // 在开发环境得时候才会有代码生成器出现
+  constantRoutesArray.push({
     path: '/generator',
     component: Layout,
     redirect: '/generator/code',
@@ -92,199 +94,14 @@ export const constantRoutes = [
       {
         path: 'code',
         component: () => import('@/views/basic/generator/index'),
-          name: 'code',
+        name: 'code',
         meta: { title: '代码生成器', icon: 'dashboard', affix: true }
       }
     ],
     meta: { title: '生成器管理', icon: 'dashboard', affix: true }
-  }
-  // {
-  //   path: '/base',
-  //   component: Layout,
-  //   redirect: '/base/systemConfig',
-  //   children: [
-  //     {
-    //       path: 'systemConfig',
-  //       component: () => import('@/views/basic/baseSystemConfig/index'),
-  //       name: 'systemConfig',
-  //       meta: { title: '系统设置管理', icon: 'dashboard', affix: true }
-  //     },
-  //     {
-  //       path: 'tenant',
-  //       component: () => import('@/views/basic/baseTenant/index'),
-  //       name: 'tenant',
-  //       meta: { title: '租户管理', icon: 'dashboard', affix: true }
-  //     },
-  //     {
-  //       path: 'dictType',
-  //       component: () => import('@/views/basic/baseDictType/indexSplit'),
-  //       name: 'dictType',
-  //       meta: { title: '字典管理', icon: 'dashboard', affix: true }
-  //     },
-  //     {
-  //       path: 'i18nManager',
-  //       component: () => import('@/views/basic/baseI18bGroup/indexSplit'),
-  //       name: 'i18nManager',
-  //       meta: { title: '国际化管理', icon: 'dashboard', affix: true }
-  //     },
-  //     {
-  //       path: 'baseRegexRule',
-  //       component: () => import('@/views/basic/baseRegexRule/index'),
-  //       name: 'baseRegexRule',
-  //       meta: { title: '正则表达式管理', icon: 'dashboard', affix: true }
-  //     },
-  //     {
-  //       path: 'baseBusinessCode',
-  //       component: () => import('@/views/basic/baseBusinessCode/index'),
-  //       name: 'baseBusinessCode',
-  //       meta: { title: '编码规则', icon: 'dashboard', affix: true }
-  //     },
-  //     {
-  //       path: 'baseJobType',
-  //       component: () => import('@/views/basic/baseJobType/index'),
-  //       name: 'baseJobType',
-  //       meta: { title: '调度任务类型', icon: 'dashboard', affix: true }
-  //     },
-  //     {
-  //       path: 'baseJobInfo',
-  //       component: () => import('@/views/basic/baseJobInfo/index'),
-  //       name: 'baseJobInfo',
-  //       meta: { title: '调度任务管理', icon: 'dashboard', affix: true }
-  //     }
-  //   ],
-  //   meta: { title: '基础管理', icon: 'dashboard', affix: true }
-  // },
-  // {
-  //   // 人事管理-用户模块
-  //   path: '/oa',
-  //   component: Layout,
-  //   redirect: '/oa/account',
-  //   children: [
-  //     {
-  //       path: 'account',
-  //       component: () => import('@/views/oa/account'),
-  //       name: 'account',
-  //       meta: { title: '用户管理', icon: 'dashboard', affix: true }
-  //     },
-  //     {
-  //       path: 'mmdp',
-  //       component: () => import('@/views/oa/mmdp'),
-  //       name: 'mmdp',
-  //       meta: { title: '密码修改', icon: 'dashboard', affix: true }
-  //     },
-  //     {
-  //       path: 'reset',
-  //       component: () => import('@/views/oa/reset'),
-  //       name: 'reset',
-  //       meta: { title: '密码重置', icon: 'dashboard', affix: true }
-  //     }
-  //     // {
-  //     //   path: 'role-settings',
-  //     //   component: () => import('@/views/oa/role-settings'),
-  //     //   name: 'role-settings',
-  //     //   meta: { title: '设置角色', icon: 'dashboard', affix: true }
-  //     // }
-  //   ],
-  //   meta: { title: 'OA人事', icon: 'dashboard', affix: true }
-  // },
-  // {
-  //   // 资源管理
-  //   path: '/resource',
-  //   component: Layout,
-  //   redirect: '/resource/menu',
-  //   children: [
-  //     {
-  //       path: 'menu',
-  //       component: () => import('@/views/resource/menu'),
-  //       name: 'menu',
-  //       meta: { title: '菜单列表', icon: 'dashboard', affix: true }
-  //     },
-  //     {
-  //       path: 'operate',
-  //       component: () => import('@/views/resource/operate'),
-  //       name: 'operate',
-  //       meta: { title: '操作管理', icon: 'dashboard', affix: true }
-  //     },
-  //     {
-  //       path: 'baseHandlerMappingMethod',
-  //       component: () => import('@/views/basic/baseHandlerMappingMethod'),
-  //       name: 'baseHandlerMappingMethod',
-  //       meta: { title: '方法权限', icon: 'dashboard', affix: true }
-  //     }
-  //   ],
-  //   meta: { title: '资源管理', icon: 'dashboard', affix: true }
-  // },
-  //   {
-  //   // 角色部分
-  //   path: '/role',
-  //   component: Layout,
-  //   redirect: '/role/role-list',
-  //   children: [
-  //     {
-  //       path: 'role-list',
-  //       component: () => import('@/views/basic/hfBaseRightRole'),
-  //       name: 'role-list',
-  //       meta: { title: '角色列表', icon: 'dashboard', affix: true }
-  //     }
-  //   ],
-  //   meta: { title: '角色', icon: 'dashboard', affix: true }
-  // }
-  // {
-  //   // 应用管理
-  //   path: '/application',
-  //   component: Layout,
-  //   redirect: '/application/authClient',
-  //   children: [
-  //     {
-  //       path: 'authClient',
-  //       component: () => import('@/views/sso/ssoAuthClient'),
-  //       name: 'authClient',
-  //       meta: { title: '授权应用', icon: 'dashboard', affix: true }
-  //     },
-  //     {
-  //       path: 'loginApp',
-  //       component: () => import('@/views/sso/ssoLoginApp'),
-  //       name: 'loginApp',
-  //       meta: { title: '免登应用', icon: 'dashboard', affix: true }
-  //     },
-  //     {
-  //       path: 'ssoLoginPermission',
-  //       component: () => import('@/views/sso/ssoLoginPermission'),
-  //       name: 'ssoLoginPermission',
-  //       meta: { title: '权限管理', icon: 'dashboard', affix: true }
-  //     }
-  //   ],
-  //   meta: { title: '应用管理', icon: 'dashboard', affix: true }
-  // },
-  // {
-  //   // 应用管理
-  //   path: '/log',
-  //   component: Layout,
-  //   redirect: '/log/base',
-  //   children: [
-  //     {
-  //       path: 'base',
-  //       component: () => import('@/views/basic/baseLog'),
-  //       name: 'base',
-  //       meta: { title: '请求日志', icon: 'dashboard', affix: true }
-  //     },
-  //     {
-  //       path: 'loginLog',
-  //       component: () => import('@/views/basic/hfBaseUserLoginLog'),
-  //       name: 'loginLog',
-  //       meta: { title: '登录日志', icon: 'dashboard', affix: true }
-  //     },
-  //     {
-  //       path: 'appLog',
-  //       component: () => import('@/views/sso/ssoLoginAppLog'),
-  //       name: 'appLog',
-  //       meta: { title: '应用免登', icon: 'dashboard', affix: true }
-  //     }
-  //   ],
-  //   meta: { title: '日志管理', icon: 'dashboard', affix: true }
-  // }
-
-]
+  })
+}
+export const constantRoutes = constantRoutesArray
 
 /**
  * asyncRoutes
