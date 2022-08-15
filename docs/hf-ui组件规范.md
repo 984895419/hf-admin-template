@@ -1,3 +1,5 @@
+
+
 # 开发指南
 
 ## 安装前须知
@@ -21,7 +23,7 @@ npm  i
 ```
 
 ```package.json
- "dependencies": {
+"dependencies": {
     "axios": "~0.27.2",
     "core-js": "^3.8.3",
     "element-ui": "~2.15.9",
@@ -221,9 +223,15 @@ new Vue({
 
 ##### 	DropdownBtn(下拉菜单按钮)
 
-
+| 参数  | 说明  | 类型                                            | 可选值                                             | 默认值 |
+| ----- | ----- | ----------------------------------------------- | -------------------------------------------------- | ------ |
+| type  | 类型  | string                                          | primary / success / warning / danger / info / text | —      |
+| title | title | Dialog 的标题，也可通过具名 slot （见下表）传入 | string                                             | —      |
+| label | 名称  | String                                          | —                                                  | —      |
 
 ##### 	ExportBtn(导出按钮)
+
+
 
 ##### 	TemplateConfirmBtn
 
@@ -261,8 +269,6 @@ new Vue({
 | ---- | -------- | ------ | ------ | --------- |
 | type | 类型     | String | —      | primary   |
 | size | 尺寸大小 | Number | —      | undefined |
-
-###### 
 
 #### Form
 
@@ -357,14 +363,3 @@ new Vue({
 | max-height | Table 的最大高度。合法的值为数字或者单位为 px 的高度。       | string/number        | —      | —                           |
 |            |                                                              |                      |        |                             |
 
-
-
-## 常用组合组件
-
-
-
-## 模块组件
-
-### hfBaseUserInfo
-
-![img](组件.assets/image-20220713142229882.png)
