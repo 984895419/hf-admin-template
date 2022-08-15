@@ -2,54 +2,53 @@
   <div v-if="showFields">
     <!-- 有拖拽选择的时候 -->
     <div v-for="item in showFields" :key="item.value">
-              <el-table-column
-          v-if="item.value === 'typeId'"
-          prop="typeId"
-          :width="item.width"
+      <el-table-column
+        v-if="item.value === 'typeId'"
+        prop="typeId"
+        :width="item.width"
         :label="$t(conf.namespace + '.typeId')"
-          width="60"
-        />
-        <developer-copier-column
-          v-if="item.value === 'code'"
-        />
-        <el-table-column
-          v-if="item.value === 'name'"
-          prop="name"
-          :width="item.width"
+      />
+      <developer-copier-column
+        v-if="item.value === 'code'"
+      />
+      <el-table-column
+        v-if="item.value === 'name'"
+        prop="name"
+        :width="item.width"
         :label="$t(conf.namespace + '.name')"
-          min-width="130"
-        />
-        <el-table-column
-          v-if="item.value === 'description'"
-          prop="description"
-          :width="item.width"
+        min-width="130"
+      />
+      <el-table-column
+        v-if="item.value === 'description'"
+        prop="description"
+        :width="item.width"
         :label="$t(conf.namespace + '.description')"
-          min-width="130"
-        />
-        <creator-table-column :width="item.width" v-if="item.value === 'creatorUserName'" />
-        <create-time-table-column :width="item.width" v-if="item.value === 'createTime'" />
-        <modifier-table-column :width="item.width" v-if="item.value === 'modifierUserName'" />
-        <modify-time-table-column :width="item.width" v-if="item.value === 'modifyTime'" />
-        <enable-state-table-column
-          v-if="item.value === 'enableState'"
-          :operate="true"
-          :enable-url="urlMethods.enableUrl"
-          :disable-url="urlMethods.disableUrl"
-          v-on="$listeners"
-        />
-        <el-table-column
-          v-if="item.value === 'deleted'"
-          prop="deleted"
-          :width="item.width"
+        min-width="130"
+      />
+      <creator-table-column v-if="item.value === 'creatorUserName'" :width="item.width" />
+      <create-time-table-column v-if="item.value === 'createTime'" :width="item.width" />
+      <modifier-table-column v-if="item.value === 'modifierUserName'" :width="item.width" />
+      <modify-time-table-column v-if="item.value === 'modifyTime'" :width="item.width" />
+      <enable-state-table-column
+        v-if="item.value === 'enableState'"
+        :operate="true"
+        :enable-url="urlMethods.enableUrl"
+        :disable-url="urlMethods.disableUrl"
+        v-on="$listeners"
+      />
+      <el-table-column
+        v-if="item.value === 'deleted'"
+        prop="deleted"
+        :width="item.width"
         :label="$t(conf.namespace + '.deleted')"
-          min-width="130"
-        />
-        <el-table-column
-          v-if="item.value === 'tenantId'"
-          prop="tenantId"
-          :label="$t(conf.namespace + '.tenantId')"
-          min-width="130"
-        />
+        min-width="130"
+      />
+      <el-table-column
+        v-if="item.value === 'tenantId'"
+        prop="tenantId"
+        :label="$t(conf.namespace + '.tenantId')"
+        min-width="130"
+      />
     </div>
   </div>
 </template>

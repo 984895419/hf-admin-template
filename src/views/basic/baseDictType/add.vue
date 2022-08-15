@@ -6,27 +6,27 @@
           <row-span-slot>
             <template v-slot="{ span }">
               <!-- 新增的的字段配置 -->
-                             <form-item-col
+              <form-item-col
                 :value="data"
                 :error="errorMessage('code')"
                 :span="span"
                 prop="code"
                 :namespace="conf.namespace"
-               />
-               <form-item-col
+              />
+              <form-item-col
                 :value="data"
                 :error="errorMessage('name')"
                 :span="span"
                 prop="name"
                 :namespace="conf.namespace"
-               />
-               <form-item-col
+              />
+              <form-item-col
                 :value="data"
                 :error="errorMessage('description')"
                 :span="span"
                 prop="description"
                 :namespace="conf.namespace"
-               />
+              />
               <form-item-col-enable-state
                 :value="data"
                 :span="span"
@@ -65,7 +65,7 @@
             value: {
                 type: Object,
                 default: function() {
-                    return { enableState: 1}
+                    return { enableState: 1 }
                 }
             },
             actionUrl: String

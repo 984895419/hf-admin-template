@@ -1,12 +1,13 @@
 <template>
   <el-row>
     <el-col :span="12">
-      <base-dict-type-index-vue @row-click="rowClick" :cell-class-name="cellClassName"/>
+      <base-dict-type-index-vue :cell-class-name="cellClassName" @row-click="rowClick" />
     </el-col>
     <el-col :span="12">
       <base-dict-value-index-vue
         :code="selectRow ? selectRow.code : undefined"
-         :name="selectRow ? selectRow.name : undefined"/>
+        :name="selectRow ? selectRow.name : undefined"
+      />
     </el-col>
   </el-row>
 </template>
@@ -15,9 +16,9 @@
     import BaseDictTypeIndexVue from './index'
     import BaseDictValueIndexVue from '../baseDictValue/index'
     export default {
-        name: 'indexSplit',
+        name: 'IndexSplit',
         components: { BaseDictValueIndexVue, BaseDictTypeIndexVue },
-        data(){
+        data() {
             return {
                 selectRow: null
             }

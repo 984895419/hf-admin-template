@@ -34,6 +34,10 @@ export default {
       type: String,
       default: 'primary'
     },
+    type: {
+      type: String,
+      default: this.btnType
+    },
     label: {
       type: String,
       require: true,

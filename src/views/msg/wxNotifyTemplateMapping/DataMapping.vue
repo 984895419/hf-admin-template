@@ -108,7 +108,6 @@
                 const regex = /\{\{([0-9|a-z|A-Z]+)\.DATA\}\}/g
                 const fields = []
                 let temp = null
-                debugger
                 while ((temp = regex.exec(this.templateContent)) !== null) {
                     fields.push({
                         ...valueMap[temp[1]] && valueMap[temp[1]],

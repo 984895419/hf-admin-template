@@ -65,8 +65,7 @@
     import FormItemColEnableState from '@/components/CURD/Form/formItemColEnableState'
     export default {
         name: 'WxServerConfAdd',
-        components: {
-FormItemColDict, FormItemCol, RowSpanSlot, CuForm, AddBtn, FormItemColEnableState },
+        components: { FormItemColDict, FormItemCol, RowSpanSlot, CuForm, AddBtn, FormItemColEnableState },
         props: {
             value: {
                 type: Object,

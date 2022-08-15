@@ -18,7 +18,7 @@
       v-on="$listeners"
     >
       <div style="margin-top:20px">
-        <slot :data="postData" :closeDialog="closeDialog" :showState="showDialog"/>
+        <slot :data="postData" :closeDialog="closeDialog" :showState="showDialog" />
       </div>
     </el-dialog>
   </div>
