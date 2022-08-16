@@ -1,14 +1,15 @@
 <template>
   <div>
     <el-popconfirm
-      confirm-button-text='确定'
-      @onConfirm="confirmDel(value, url)"
-      cancel-button-text='取消'
-      @onCancel="onCancel"
+      confirm-button-text="确定"
+      cancel-button-text="取消"
       icon="el-icon-info"
       icon-color="red"
-      title="此操作将永久删除该记录, 是否继续?">
-      <el-button :type="btnType" :size="size" :style="{ color: btnType !== 'text' ? '' : 'red' }" slot="reference">删除
+      title="此操作将永久删除该记录, 是否继续?"
+      @onConfirm="confirmDel(value, url)"
+      @onCancel="onCancel"
+    >
+      <el-button slot="reference" :type="btnType" :size="size" :style="{ color: btnType !== 'text' ? '' : 'red' }">删除
       </el-button>
     </el-popconfirm>
   </div>
@@ -25,14 +26,14 @@ export default {
   props: {
     btnType: {
       type: String,
-      default: function () {
+      default: function() {
         return this.$t('common.delete')
       }
     },
     label: {
       type: String,
       require: true,
-      default: function () {
+      default: function() {
         return this.$t('common.delete')
       }
     },
