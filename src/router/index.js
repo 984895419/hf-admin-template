@@ -80,9 +80,15 @@ const constantRoutesArray = [
         component: () => import('@/views/dashboard/index'),
         name: 'Dashboard',
         meta: { title: 'dashboard', icon: 'dashboard', affix: true }
+      },
+      {
+        path: 'singletable',
+        component: () => import('@/views/demo/single-table'),
+        meta: { title: '单表', icon: 'dashboard', affix: true }
       }
     ]
   }
+
 ]
 if (process.env.NODE_ENV === 'development') {
   // 在开发环境得时候才会有代码生成器出现
