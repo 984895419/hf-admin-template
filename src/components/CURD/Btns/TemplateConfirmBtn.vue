@@ -17,7 +17,7 @@
 
 import { getMessage, isSuccessResult } from '@/utils/ajaxResultUtil'
 import { baseApiDeleteMethod, baseApiPostMethod, baseApiPutMethod } from '@/components/CURD/baseApi'
-import {getData} from '../../../utils/ajaxResultUtil'
+import { getData } from '../../../utils/ajaxResultUtil'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -37,7 +37,7 @@ export default {
     },
     value: [Object, Array, String],
     /**
-     * 查询的url
+     * 操作的url
      */
     url: String,
     /**

@@ -28,7 +28,7 @@ export default {
         label: {
             type: String,
             require: true,
-            default: '启用'
+            default: '导出'
         },
         /**
          * http方法

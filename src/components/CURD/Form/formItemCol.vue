@@ -16,17 +16,20 @@
           class="item"
           effect="dark"
           :content="computedSuffixContent('Helper')"
-          placement="right">
+          placement="right"
+        >
           <el-input
             v-model="value[prop]"
             v-bind="$attrs"
-            :placeholder="computedPlaceholder" />
+            :placeholder="computedPlaceholder"
+          />
         </el-tooltip>
         <el-input
           v-else
           v-model="value[prop]"
           v-bind="$attrs"
-          :placeholder="computedPlaceholder" />
+          :placeholder="computedPlaceholder"
+        />
       </slot>
     </el-form-item>
   </el-col>
@@ -35,6 +38,7 @@
 import FormItemMixin from './formItem.mixin'
 export default {
   name: 'FormItemCol',
+  mixins: [FormItemMixin],
   props: {
     span: {
           type: Number,
@@ -64,7 +68,6 @@ export default {
           type: String,
           default: undefined
         }
-  },
-  mixins: [FormItemMixin]
+  }
 }
 </script>

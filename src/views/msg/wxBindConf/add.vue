@@ -6,51 +6,52 @@
           <row-span-slot>
             <template v-slot="{ span }">
               <!-- 新增的的字段配置 -->
-                             <form-item-col
+              <form-item-col
                 :value="data"
                 :error="errorMessage('bindMobile')"
                 :span="span"
                 prop="bindMobile"
                 :namespace="conf.namespace"
-               />
-               <form-item-col
+              />
+              <form-item-col
                 :value="data"
                 :error="errorMessage('bindCompany')"
                 :span="span"
                 prop="bindCompany"
                 :namespace="conf.namespace"
-               />
-               <form-item-col
+              />
+              <form-item-col
                 :value="data"
                 :error="errorMessage('auditState')"
                 :span="span"
                 prop="auditState"
                 :namespace="conf.namespace"
-               />
-               <form-item-col
+              />
+              <form-item-col
                 :value="data"
                 :error="errorMessage('bindNickName')"
                 :span="span"
                 prop="bindNickName"
                 :namespace="conf.namespace"
-               />
+              />
               <form-item-col-enable-state
                 :value="data"
                 :span="span"
                 :namespace="conf.namespace"
               />
-                <form-item-col
-                    :value="data"
-                    :error="errorMessage('wxId')"
-                    :span="span"
-                    prop="wxId"
-                    :namespace="conf.namespace"
-                >
-                   <wx-server-conf-input-refer
-                   :value="data"
-                   value-refer-id="wxId"
-                   value-refer-name="wxIdName"/>
-                </form-item-col>
+              <form-item-col
+                :value="data"
+                :error="errorMessage('wxId')"
+                :span="span"
+                prop="wxId"
+                :namespace="conf.namespace"
+              >
+                <wx-server-conf-input-refer
+                  :value="data"
+                  value-refer-id="wxId"
+                  value-refer-name="wxIdName"
+                />
+              </form-item-col>
             </template>
           </row-span-slot>
         </template>
@@ -78,7 +79,7 @@
             value: {
                 type: Object,
                 default: function() {
-                    return { enableState: 1}
+                    return { enableState: 1 }
                 }
             },
             actionUrl: String

@@ -9,7 +9,7 @@
       @onConfirm="confirmDel(value, url)"
       @onCancel="onCancel"
     >
-      <el-button slot="reference" :type="btnType" :size="size" :style="{ color: btnType !== 'text' ? '' : 'red' }">删除
+      <el-button slot="reference" :type="btnType" :size="size" :style="{ color: btnType !== 'text' ? '' : 'red' }">{{ label }}
       </el-button>
     </el-popconfirm>
   </div>
@@ -27,7 +27,13 @@ export default {
     btnType: {
       type: String,
       default: function() {
-        return this.$t('common.delete')
+        return 'primary'
+      }
+    },
+    type: {
+      type: String,
+      default: function() {
+        return this.btnType
       }
     },
     label: {
