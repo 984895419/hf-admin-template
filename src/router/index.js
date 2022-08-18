@@ -83,16 +83,14 @@ const constantRoutesArray = [
         }
       },
       {
-        path: 'single-table',
-        component: () => import('@/views/demo/single-table'),
-        name: 'single-table',
+        path: 'stable',
+        component: () => import('@/views/demo/stable'),
+        name: 'stable',
         meta: {
           title: '单表',
-          icon: 'single-table',
-          affix: true
+          icon: 'single-table'
         }
       }
-
     ]
   }
 
