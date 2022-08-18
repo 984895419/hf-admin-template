@@ -1,0 +1,48 @@
+{
+  "retCode": "00001",
+  "data": {
+    "list": [{
+      "roleId": 1,
+      "roleName": "Admin",
+      "tenantId": 0,
+      "roleDesc": "系统管理员",
+      "initData": 1,
+      "tenantName": "根租户",
+      "authority": "1",
+      "id": 1
+    }, {
+      "roleId": 11,
+      "roleName": "测试数据1",
+      "tenantId": 0,
+      "roleDesc": "测试数据1",
+      "initData": 0,
+      "tenantName": "根租户",
+      "authority": "11",
+      "id": 11
+    }, {
+      "roleId": 12,
+      "roleName": "测试数据2",
+      "tenantId": 0,
+      "roleDesc": "测试数据2",
+      "initData": 0,
+      "tenantName": "根租户",
+      "authority": "12",
+      "id": 12
+    }, {
+      "roleId": 1359527218823168,
+      "roleName": "message-platform-developer",
+      "tenantId": 0,
+      "roleDesc": "消息推送平台开发",
+      "initData": 0,
+      "tenantName": "根租户",
+      "authority": "1359527218823168",
+      "id": 1359527218823168
+    }],
+    "page": 1,
+    "pageSize": 50,
+    "totalPage": 1,
+    "total": 4
+  },
+  "message": "OPERATE_SUCCESS",
+  "success": true
+}

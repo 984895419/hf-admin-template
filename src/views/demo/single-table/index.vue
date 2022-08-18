@@ -1,6 +1,6 @@
 <template>
   <div id="singletable" class="single">
-    <div class="search">
+    <!-- <div class="search">
       <el-form :inline="true" :model="formInline" class="demo-form-inline">
         <el-form-item label="订单编号">
           <el-input v-model="formInline.user" placeholder="订单编号" />
@@ -18,17 +18,14 @@
           <el-button type="danger" @click="onSubmit">重置</el-button>
         </el-form-item>
       </el-form>
-    </div>
+    </div> -->
+
     <div class="btnslist">
-      <el-button type="primary" style="margin-right:20px">新增</el-button>
+      <!-- <el-button type="primary" style="margin-right:20px">新增</el-button>
+       -->
+      <base-stable-add />
       <div class="block">
-        <el-cascader
-          v-model="value"
-          :options="options"
-          placeholder="批量操作"
-          :props="{ expandTrigger: 'hover' }"
-          @change="handleChange"
-        />
+        <el-cascader v-model="value1" :options="options" placeholder="批量操作" :props="{ expandTrigger: 'hover' }" @change="handleChange" />
       </div>
     </div>
     <el-card class="box-card">
@@ -58,15 +55,7 @@
         订单总额：1,200,2542.21元，已付款数量：35643条，已付款金额：954,5224,03元
       </div>
       <div class="pagination">
-        <el-pagination
-          :current-page="currentPage4"
-          :page-sizes="[100, 200, 300, 400]"
-          :page-size="100"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="400"
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-        />
+        <el-pagination :current-page="currentPage4" :page-sizes="[100, 200, 300, 400]" :page-size="100" layout="total, sizes, prev, pager, next, jumper" :total="400" @size-change="handleSizeChange" @current-change="handleCurrentChange" />
       </div>
     </el-card>
 
@@ -74,8 +63,13 @@
 </template>
 
 <script>
+import BaseStableAdd from './add'
+import SimpleSearch from '@/components/CURD/Query/search'
 export default {
   name: 'SingleTable',
+  components: {
+    BaseStableAdd, SimpleSearch
+  },
   data() {
     return {
       tableData: [{
@@ -372,35 +366,57 @@ export default {
         region: ''
       },
       currentPage4: 4,
+      value1: '',
       options: [
         {
-          value: 'config',
+          value1: 'config',
           label: '设置'
         },
         {
-          value: 'markascatalog',
+          value1: 'markascatalog',
           label: '标记为目录册'
         },
         {
-          value: 'del',
+          value1: 'del',
           label: '删除'
         }, {
-          value: 'import',
+          value1: 'import',
           label: '导入'
         }, {
-          value: 'export',
+          value1: 'export',
           label: '导出',
           children: [{
-            value: 'select',
+            value1: 'select',
             label: '选中导出'
           }, {
-            value: 'singlepage',
+            value1: 'singlepage',
             label: '单页导出'
           }, {
-            value: 'all',
+            value1: 'all',
             label: '全部导出'
           }]
-        }]
+        }],
+      searchForm: {
+        roleId: null,
+        roleName: null,
+        tenantId: null,
+        roleDesc: null,
+        /**
+         * 分页信息
+         */
+        pageInfo: {
+          pageNo: 1,
+          pageSize: this.$store.getters.pageSize
+        },
+        /**
+         * 排序信息
+         */
+        sortInfo: []
+      },
+      jsonData: {
+        list: [],
+        total: 0
+      }
     }
   },
   methods: {
@@ -415,8 +431,16 @@ export default {
     },
     handleChange(value) {
       console.log(value, '按钮层')
+    },
+    /**
+  * 查询条件变化
+  */
+    inquiryChangeSearch(query) {
+      this.searchForm.query = query
+      this.doSearch()
     }
-  }
+  },
+  created() {}
 }
 </script>
 
