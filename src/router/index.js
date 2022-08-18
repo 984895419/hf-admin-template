@@ -43,12 +43,10 @@ const constantRoutesArray = [
     path: '/redirect',
     component: Layout,
     hidden: true,
-    children: [
-      {
-        path: '/redirect/:path*',
-        component: () => import('@/views/redirect/index')
-      }
-    ]
+    children: [{
+      path: '/redirect/:path*',
+      component: () => import('@/views/redirect/index')
+    }]
   },
   {
     path: '/login',
@@ -74,18 +72,27 @@ const constantRoutesArray = [
     path: '/',
     component: Layout,
     redirect: '/dashboard',
-    children: [
-      {
+    children: [{
         path: 'dashboard',
         component: () => import('@/views/dashboard/index'),
         name: 'Dashboard',
-        meta: { title: 'dashboard', icon: 'dashboard', affix: true }
+        meta: {
+          title: 'dashboard',
+          icon: 'dashboard',
+          affix: true
+        }
       },
       {
-        path: 'singletable',
+        path: 'single-table',
         component: () => import('@/views/demo/single-table'),
-        meta: { title: '单表', icon: 'dashboard', affix: true }
+        name: 'single-table',
+        meta: {
+          title: '单表',
+          icon: 'single-table',
+          affix: true
+        }
       }
+
     ]
   }
 
@@ -96,15 +103,21 @@ if (process.env.NODE_ENV === 'development') {
     path: '/generator',
     component: Layout,
     redirect: '/generator/code',
-    children: [
-      {
-        path: 'code',
-        component: () => import('@/views/basic/generator/index'),
-        name: 'code',
-        meta: { title: '代码生成器', icon: 'dashboard', affix: true }
+    children: [{
+      path: 'code',
+      component: () => import('@/views/basic/generator/index'),
+      name: 'code',
+      meta: {
+        title: '代码生成器',
+        icon: 'dashboard',
+        affix: true
       }
-    ],
-    meta: { title: '生成器管理', icon: 'dashboard', affix: true }
+    }],
+    meta: {
+      title: '生成器管理',
+      icon: 'dashboard',
+      affix: true
+    }
   })
 }
 export const constantRoutes = constantRoutesArray
@@ -113,14 +126,19 @@ export const constantRoutes = constantRoutesArray
  * asyncRoutes
  * the routes that need to be dynamically loaded based on user roles
  */
-export const asyncRoutes = [
-    { path: '*', redirect: '/404', hidden: true }
+export const asyncRoutes = [{
+    path: '*',
+    redirect: '/404',
+    hidden: true
+  }
 
 ]
 
 const createRouter = () => new Router({
   // mode: 'history', // require service support
-  scrollBehavior: () => ({ y: 0 }),
+  scrollBehavior: () => ({
+    y: 0
+  }),
   routes: constantRoutes
 })
 
