@@ -5,8 +5,8 @@
       <simple-search v-model="searchForm" :inline="true" @search="doSearch">
         <template v-slot="{ span }">
           <!-- 新增的的字段配置 -->
-          <form-item-col :value="searchForm" :span="span" prop="roleName" :namespace="conf.namespace" />
-          <form-item-col :value="searchForm" :span="span" prop="roleDesc" :namespace="conf.namespace" />
+          <form-item-col :value="searchForm" :span="span" prop="orderNo" :namespace="conf.namespace" />
+          <form-item-col :value="searchForm" :span="span" prop="ordertime" :namespace="conf.namespace" />
           <!-- 字典字段字段设置方法如下
           <form-item-col-dict
             :value="data"
@@ -63,18 +63,6 @@
                   @success="doSearch" />
                 <!-- 查看 -->
                 <hf-base-right-role-detail :value="scopeRow.row" />
-                <!-- 绑定用户 -->
-                <dialog-Btn-Page v-if="scopeRow.row.initData !== 1" :label="'绑定用户'" :type="'text'">
-                  <template slot-scope="{ closeDialog }">
-                    <user-bind :data-list="scopeRow.row" @closeDialog="closeDialog" />
-                  </template>
-                </dialog-Btn-Page>
-                <!-- 权限设置 -->
-                <dialog-Btn-Page v-if="scopeRow.row.initData !== 1" :label="'权限设置'" :type="'text'">
-                  <template slot-scope="{ closeDialog }">
-                    <permission-setting :data-list="scopeRow.row" @closeDialog="closeDialog" />
-                  </template>
-                </dialog-Btn-Page>
               </div>
             </template>
           </el-table-column>
@@ -143,10 +131,17 @@ export default {
        * 查询的表单信息
        */
       searchForm: {
-        roleId: null,
-        roleName: null,
-        tenantId: null,
-        roleDesc: null,
+        orderNo: null,
+        ordertime: null,
+        ordertotal: null,
+        consignee: null,
+        orderstatus: null,
+        paystatus: null,
+        shipmentstatus: null,
+        paymethod: null,
+        customerphone: null,
+        customeraddress: null,
+        customermail: null,
         /**
          * 分页信息
          */
@@ -245,41 +240,125 @@ export default {
           retCode: "00001",
           data: {
             list: [{
-              roleId: 1,
-              roleName: "Admin",
-              tenantId: 0,
-              roleDesc: "系统管理员",
-              initData: 1,
-              tenantName: "根租户",
-              authority: "1",
-              id: 1
+              orderNo: 1,
+              ordertime: "2022/08/19",
+              ordertotal: 2000,
+              consignee: "张三",
+              orderstatus: '已完成',
+              paystatus: "待付款",
+              shipmentstatus: "已发货",
+              paymethod: "支付宝",
+              customerphone: "12345448484",
+              customeraddress: "莆田华峰啥的那是你的啊骚大师asdasd",
+              customermail: "xxx@qq.com",
             }, {
-              roleId: 11,
-              roleName: "测试数据1",
-              tenantId: 0,
-              roleDesc: "测试数据1",
-              initData: 0,
-              tenantName: "根租户",
-              authority: "11",
-              id: 11
+              orderNo: 2,
+              ordertime: "2022/08/19",
+              ordertotal: 2000,
+              consignee: "张三",
+              orderstatus: '已完成',
+              paystatus: "待付款",
+              shipmentstatus: "已发货",
+              paymethod: "支付宝",
+              customerphone: "12345448484",
+              customeraddress: "莆田华峰",
+              customermail: "xxx@qq.com",
             }, {
-              roleId: 12,
-              roleName: "测试数据2",
-              tenantId: 0,
-              roleDesc: "测试数据2",
-              initData: 0,
-              tenantName: "根租户",
-              authority: "12",
-              id: 12
+              orderNo: 3,
+              ordertime: "2022/08/19",
+              ordertotal: 2000,
+              consignee: "张三",
+              orderstatus: '已完成',
+              paystatus: "待付款",
+              shipmentstatus: "已发货",
+              paymethod: "支付宝",
+              customerphone: "12345448484",
+              customeraddress: "莆田华峰",
+              customermail: "xxx@qq.com",
             }, {
-              roleId: 1359527218823168,
-              roleName: "message-platform-developer",
-              tenantId: 0,
-              roleDesc: "消息推送平台开发",
-              initData: 0,
-              tenantName: "根租户",
-              authority: "1359527218823168",
-              id: 1359527218823168
+              orderNo: 4,
+              ordertime: "2022/08/19",
+              ordertotal: 2000,
+              consignee: "张三",
+              orderstatus: '已完成',
+              paystatus: "待付款",
+              shipmentstatus: "已发货",
+              paymethod: "支付宝",
+              customerphone: "12345448484",
+              customeraddress: "莆田华峰",
+              customermail: "xxx@qq.com",
+            }, {
+              orderNo: 5,
+              ordertime: "2022/08/19",
+              ordertotal: 2000,
+              consignee: "张三",
+              orderstatus: '已完成',
+              paystatus: "待付款",
+              shipmentstatus: "已发货",
+              paymethod: "支付宝",
+              customerphone: "12345448484",
+              customeraddress: "莆田华峰",
+              customermail: "xxx@qq.com",
+            }, {
+              orderNo: 6,
+              ordertime: "2022/08/19",
+              ordertotal: 2000,
+              consignee: "张三",
+              orderstatus: '已完成',
+              paystatus: "待付款",
+              shipmentstatus: "已发货",
+              paymethod: "支付宝",
+              customerphone: "12345448484",
+              customeraddress: "莆田华峰",
+              customermail: "xxx@qq.com",
+            }, {
+              orderNo: 7,
+              ordertime: "2022/08/19",
+              ordertotal: 2000,
+              consignee: "张三",
+              orderstatus: '已完成',
+              paystatus: "待付款",
+              shipmentstatus: "已发货",
+              paymethod: "支付宝",
+              customerphone: "12345448484",
+              customeraddress: "莆田华峰",
+              customermail: "xxx@qq.com",
+            }, {
+              orderNo: 8,
+              ordertime: "2022/08/19",
+              ordertotal: 2000,
+              consignee: "张三",
+              orderstatus: '已完成',
+              paystatus: "待付款",
+              shipmentstatus: "已发货",
+              paymethod: "支付宝",
+              customerphone: "12345448484",
+              customeraddress: "莆田华峰",
+              customermail: "xxx@qq.com",
+            }, {
+              orderNo: 9,
+              ordertime: "2022/08/19",
+              ordertotal: 2000,
+              consignee: "张三",
+              orderstatus: '已完成',
+              paystatus: "待付款",
+              shipmentstatus: "已发货",
+              paymethod: "支付宝",
+              customerphone: "12345448484",
+              customeraddress: "莆田华峰",
+              customermail: "xxx@qq.com",
+            }, {
+              orderNo: 10,
+              ordertime: "2022/08/19",
+              ordertotal: 2000,
+              consignee: "张三",
+              orderstatus: '已完成',
+              paystatus: "待付款",
+              shipmentstatus: "已发货",
+              paymethod: "支付宝",
+              customerphone: "12345448484",
+              customeraddress: "莆田华峰",
+              customermail: "xxx@qq.com",
             }],
             page: 1,
             pageSize: 50,

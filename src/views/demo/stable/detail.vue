@@ -3,10 +3,17 @@
     <el-form ref="form" :model="value">
       <row-span-slot>
         <template v-slot="{ span }">
-          <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="roleId" />
-          <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="roleName" />
-          <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="tenantId" />
-          <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="roleDesc" />
+          <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="orderNo" />
+          <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="ordertime" />
+          <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="ordertotal" />
+          <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="consignee" />
+          <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="orderstatus" />
+          <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="paystatus" />
+          <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="shipmentstatus" />
+          <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="paymethod" />
+          <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="customerphone" />
+          <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="customeraddress" />
+          <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="customermail" />
         </template>
       </row-span-slot>
     </el-form>

@@ -3,7 +3,7 @@ import { defaultUrlMethod } from '@/components/CURD/defaultUrl'
  * 单点登录认证管理模块基础地址
  * @type {string}
  */
-export const baseUrl = '/api/hfBaseRightRole'
+export const baseUrl = '/api/hfBaseStable'
 /**
  * 基础查询地址
  * @type {{pageUrl: string}}
@@ -15,7 +15,7 @@ export const urlMethods = defaultUrlMethod(baseUrl, 'roleId', {
  * 定义模块的命名空间
  * @type {string}
  */
-const modelName = 'hfBaseRightRole'
+ const modelName = 'baseStable'
 export const namespace = modelName
 
 /**
@@ -37,7 +37,7 @@ const exportTableFields = (fields) => {
  * 字段的配置，用在国际化及列表选择显示字段的时候
  * @type {*[]}
  */
-const tableFields = ['roleId', 'roleName', 'tenantId', 'roleDesc']
+ const tableFields = ['orderNo', 'ordertime', 'ordertotal', 'consignee', 'orderstatus', 'paystatus', 'shipmentstatus', 'paymethod', 'customerphone', 'customeraddress', 'customermail']
 
 export default exportTableFields(tableFields)
 
@@ -46,19 +46,62 @@ export default exportTableFields(tableFields)
  * @param vm
  * @returns {{clientId: {trigger: string, message: *, required: boolean}[]}}
  */
-export function formRules(vm) {
+ export function formRules(vm) {
   return {
-    roleId: [
-      { required: true, message: vm.$t(getI18nName('roleId')) + vm.$t('common.notAllowedNull'), trigger: 'blur' }
-    ],
-    roleName: [
-      { required: true, message: vm.$t(getI18nName('roleName')) + vm.$t('common.notAllowedNull'), trigger: 'blur' }
-    ],
-    tenantId: [
-      { required: true, message: vm.$t(getI18nName('tenantId')) + vm.$t('common.notAllowedNull'), trigger: 'blur' }
-    ],
-    roleDesc: [
-      { required: true, message: vm.$t(getI18nName('roleDesc')) + vm.$t('common.notAllowedNull'), trigger: 'blur' }
-    ]
+    orderNo: [{
+      required: true,
+      message: vm.$t(getI18nName('orderNo')) + vm.$t('common.notAllowedNull'),
+      trigger: 'blur'
+    }],
+    ordertime: [{
+      required: true,
+      message: vm.$t(getI18nName('ordertime')) + vm.$t('common.notAllowedNull'),
+      trigger: 'blur'
+    }],
+    ordertotal: [{
+      required: true,
+      message: vm.$t(getI18nName('ordertotal')) + vm.$t('common.notAllowedNull'),
+      trigger: 'blur'
+    }],
+    consignee: [{
+      required: true,
+      message: vm.$t(getI18nName('consignee')) + vm.$t('common.notAllowedNull'),
+      trigger: 'blur'
+    }],
+    orderstatus: [{
+      required: true,
+      message: vm.$t(getI18nName('orderstatus')) + vm.$t('common.notAllowedNull'),
+      trigger: 'blur'
+    }],
+    paystatus: [{
+      required: true,
+      message: vm.$t(getI18nName('paystatus')) + vm.$t('common.notAllowedNull'),
+      trigger: 'blur'
+    }],
+    shipmentstatus: [{
+      required: true,
+      message: vm.$t(getI18nName('shipmentstatus')) + vm.$t('common.notAllowedNull'),
+      trigger: 'blur'
+    }],
+    paymethod: [{
+      required: true,
+      message: vm.$t(getI18nName('paymethod')) + vm.$t('common.notAllowedNull'),
+      trigger: 'blur'
+    }],
+    customerphone: [{
+      required: true,
+      message: vm.$t(getI18nName('customerphone')) + vm.$t('common.notAllowedNull'),
+      trigger: 'blur'
+    }],
+    customeraddress: [{
+      required: true,
+      message: vm.$t(getI18nName('customeraddress')) + vm.$t('common.notAllowedNull'),
+      trigger: 'blur'
+    }],
+    customermail: [{
+      required: true,
+      message: vm.$t(getI18nName('customermail')) + vm.$t('common.notAllowedNull'),
+      trigger: 'blur'
+    }]
   }
 }

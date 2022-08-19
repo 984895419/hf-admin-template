@@ -6,39 +6,83 @@
           <row-span-slot>
             <template v-slot="{ span }">
               <!-- 新增的的字段配置 -->
-              <form-item-col
+               <form-item-col
                 :value="data"
-                :error="errorMessage('roleName')"
+                :error="errorMessage('orderNo')"
                 :span="span"
-                prop="roleName"
+                prop="orderNo"
                 :namespace="conf.namespace"
               />
               <form-item-col
                 :value="data"
-                :error="errorMessage('roleDesc')"
+                :error="errorMessage('ordertime')"
                 :span="span"
-                prop="roleDesc"
+                prop="ordertime"
                 :namespace="conf.namespace"
               />
               <form-item-col
-                v-if="tenantId === 0"
                 :value="data"
-                :error="errorMessage('tenantId')"
+                :error="errorMessage('ordertotal')"
                 :span="span"
-                prop="tenantId"
+                prop="ordertotal"
                 :namespace="conf.namespace"
-              >
-                <base-tenant-input-refer :value="data" value-refer-id="tenantId" value-refer-name="tenantName" />
-              </form-item-col>
-              <!-- 字典字段字段设置方法如下
-              <form-item-col-dict
+              />
+              <form-item-col
                 :value="data"
-                :error="errorMessage('clientMethod')"
+                :error="errorMessage('consignee')"
                 :span="span"
-                prop="clientMethod"
-                :dict-code="'CLIENT_METHOD_TYPES'"
+                prop="consignee"
                 :namespace="conf.namespace"
-              /> -->
+              />
+              <form-item-col
+                :value="data"
+                :error="errorMessage('orderstatus')"
+                :span="span"
+                prop="orderstatus"
+                :namespace="conf.namespace"
+              />
+              <form-item-col
+                :value="data"
+                :error="errorMessage('paystatus')"
+                :span="span"
+                prop="paystatus"
+                :namespace="conf.namespace"
+              />
+              <form-item-col
+                :value="data"
+                :error="errorMessage('shipmentstatus')"
+                :span="span"
+                prop="shipmentstatus"
+                :namespace="conf.namespace"
+              />
+              <form-item-col
+                :value="data"
+                :error="errorMessage('paymethod')"
+                :span="span"
+                prop="paymethod"
+                :namespace="conf.namespace"
+              />
+              <form-item-col
+                :value="data"
+                :error="errorMessage('customerphone')"
+                :span="span"
+                prop="customerphone"
+                :namespace="conf.namespace"
+              />
+              <form-item-col
+                :value="data"
+                :error="errorMessage('customeraddress')"
+                :span="span"
+                prop="customeraddress"
+                :namespace="conf.namespace"
+              />
+              <form-item-col
+                :value="data"
+                :error="errorMessage('customermail')"
+                :span="span"
+                prop="customermail"
+                :namespace="conf.namespace"
+              />
             </template>
           </row-span-slot>
         </template>
