@@ -49,17 +49,14 @@ export default exportTableFields(tableFields)
  export function formRules(vm) {
   return {
     orderNo: [{
-      required: true,
       message: vm.$t(getI18nName('orderNo')) + vm.$t('common.notAllowedNull'),
       trigger: 'blur'
     }],
     ordertime: [{
-      required: true,
       message: vm.$t(getI18nName('ordertime')) + vm.$t('common.notAllowedNull'),
       trigger: 'blur'
     }],
     ordertotal: [{
-      required: true,
       message: vm.$t(getI18nName('ordertotal')) + vm.$t('common.notAllowedNull'),
       trigger: 'blur'
     }],
@@ -69,22 +66,18 @@ export default exportTableFields(tableFields)
       trigger: 'blur'
     }],
     orderstatus: [{
-      required: true,
       message: vm.$t(getI18nName('orderstatus')) + vm.$t('common.notAllowedNull'),
       trigger: 'blur'
     }],
     paystatus: [{
-      required: true,
       message: vm.$t(getI18nName('paystatus')) + vm.$t('common.notAllowedNull'),
       trigger: 'blur'
     }],
     shipmentstatus: [{
-      required: true,
       message: vm.$t(getI18nName('shipmentstatus')) + vm.$t('common.notAllowedNull'),
       trigger: 'blur'
     }],
     paymethod: [{
-      required: true,
       message: vm.$t(getI18nName('paymethod')) + vm.$t('common.notAllowedNull'),
       trigger: 'blur'
     }],
@@ -94,7 +87,6 @@ export default exportTableFields(tableFields)
       trigger: 'blur'
     }],
     customeraddress: [{
-      required: true,
       message: vm.$t(getI18nName('customeraddress')) + vm.$t('common.notAllowedNull'),
       trigger: 'blur'
     }],

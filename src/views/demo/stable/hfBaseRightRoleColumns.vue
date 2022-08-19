@@ -2,72 +2,48 @@
   <div v-if="showFields">
     <!-- 有拖拽选择的时候 -->
     <div v-for="item in showFields" :key="item.value">
-      <el-table-column v-if="item.value === 'orderNo'" prop="orderNo" :label="$t(conf.namespace + '.orderNo')"
-        min-width="130" :show-overflow-tooltip='true'>
-        <template slot-scope="scope">
-          <span>{{ scope.row.orderNo }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column v-if="item.value === 'ordertime'" prop="ordertime" :label="$t(conf.namespace + '.ordertime')"
-        min-width="130" :show-overflow-tooltip='true'>
-        <template slot-scope="scope">
-          <span>{{ scope.row.ordertime }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column v-if="item.value === 'ordertotal'" prop="ordertotal" :label="$t(conf.namespace + '.ordertotal')"
-        min-width="130" :show-overflow-tooltip='true'>
-        <template slot-scope="scope">
-          <span>{{ scope.row.ordertotal }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column v-if="item.value === 'consignee'" prop="consignee" :label="$t(conf.namespace + '.consignee')"
-        min-width="130" :show-overflow-tooltip='true'>
-        <template slot-scope="scope">
-          <span>{{ scope.row.consignee }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column v-if="item.value === 'orderstatus'" prop="orderstatus"
-        :label="$t(conf.namespace + '.orderstatus')" min-width="130" :show-overflow-tooltip='true'>
-        <template slot-scope="scope">
-          <span>{{ scope.row.orderstatus }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column v-if="item.value === 'paystatus'" prop="paystatus" :label="$t(conf.namespace + '.paystatus')"
-        min-width="130" :show-overflow-tooltip='true'>
-        <template slot-scope="scope">
-          <span>{{ scope.row.paystatus }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column v-if="item.value === 'shipmentstatus'" prop="shipmentstatus"
-        :label="$t(conf.namespace + '.shipmentstatus')" min-width="130" :show-overflow-tooltip='true'>
-        <template slot-scope="scope">
-          <span>{{ scope.row.shipmentstatus }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column v-if="item.value === 'paymethod'" prop="paymethod" :label="$t(conf.namespace + '.paymethod')"
-        min-width="130" :show-overflow-tooltip='true'>
-        <template slot-scope="scope">
-          <span>{{ scope.row.paymethod }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column v-if="item.value === 'customerphone'" prop="customerphone" :show-overflow-tooltip='true'
-        :label="$t(conf.namespace + '.customerphone')" min-width="130">
-        <template slot-scope="scope">
-          <span>{{ scope.row.customerphone }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column v-if="item.value === 'customeraddress'" prop="customeraddress"
-        :label="$t(conf.namespace + '.customeraddress')" min-width="130" :show-overflow-tooltip='true'>
-        <template slot-scope="scope">
-          <span>{{ scope.row.customeraddress }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column v-if="item.value === 'customermail'" prop="customermail" :show-overflow-tooltip='true'
-        :label="$t(conf.namespace + '.customermail')" min-width="130">
-        <template slot-scope="scope">
-          <span>{{ scope.row.customermail }}</span>
-        </template>
-      </el-table-column>
+      <default-table-column v-if="item.value === 'orderNo'" prop="orderNo" :width="item.width"
+        :label="$t(conf.namespace + '.orderNo')" :namespace="conf.namespace" :copyable="true" min-width="130"
+        :show-overflow-tooltip='true' :formatter="stateFormat" />
+      <default-table-column v-if="item.value === 'ordertime'" prop="ordertime" :width="item.width"
+        :label="$t(conf.namespace + '.ordertime')" :namespace="conf.namespace" :copyable="true" min-width="130"
+        :show-overflow-tooltip='true' :formatter="stateFormat" />
+      <default-table-column v-if="item.value === 'ordertotal'" prop="ordertotal" :width="item.width"
+        :label="$t(conf.namespace + '.ordertotal')" :namespace="conf.namespace" :copyable="true" min-width="130"
+        :show-overflow-tooltip='true' :formatter="stateFormat">
+      </default-table-column>
+      <default-table-column v-if="item.value === 'consignee'" prop="consignee" :width="item.width"
+        :label="$t(conf.namespace + '.consignee')" :namespace="conf.namespace" :copyable="true" min-width="130"
+        :show-overflow-tooltip='true' :formatter="stateFormat">
+      </default-table-column>
+      <default-table-column v-if="item.value === 'orderstatus'" prop="orderstatus" :width="item.width"
+        :label="$t(conf.namespace + '.orderstatus')" :namespace="conf.namespace" :copyable="true" min-width="130"
+        :show-overflow-tooltip='true'>
+      </default-table-column>
+      <default-table-column v-if="item.value === 'paystatus'" prop="paystatus" :width="item.width"
+        :label="$t(conf.namespace + '.paystatus')" :namespace="conf.namespace" :copyable="true" min-width="130"
+        :show-overflow-tooltip='true' :formatter="stateFormat">
+      </default-table-column>
+      <default-table-column v-if="item.value === 'shipmentstatus'" prop="shipmentstatus" :width="item.width"
+        :label="$t(conf.namespace + '.shipmentstatus')" :namespace="conf.namespace" :copyable="true" min-width="130"
+        :show-overflow-tooltip='true'>
+      </default-table-column>
+      <default-table-column v-if="item.value === 'paymethod'" prop="paymethod" :width="item.width"
+        :label="$t(conf.namespace + '.paymethod')" :namespace="conf.namespace" :copyable="true" min-width="130"
+        :show-overflow-tooltip='true'>
+      </default-table-column>
+      <default-table-column v-if="item.value === 'customerphone'" prop="customerphone" :width="item.width"
+        :label="$t(conf.namespace + '.customerphone')" :namespace="conf.namespace" :copyable="true" min-width="130"
+        :show-overflow-tooltip='true'>
+      </default-table-column>
+      <default-table-column v-if="item.value === 'customeraddress'" prop="customeraddress" :width="item.width"
+        :label="$t(conf.namespace + '.customeraddress')" :namespace="conf.namespace" :copyable="true" min-width="130"
+        :show-overflow-tooltip='true'>
+      </default-table-column>
+      <default-table-column v-if="item.value === 'customermail'" prop="customermail" :width="item.width"
+        :label="$t(conf.namespace + '.customermail')" :namespace="conf.namespace" :copyable="true" min-width="130"
+        :show-overflow-tooltip='true'>
+      </default-table-column>
     </div>
   </div>
 </template>
@@ -80,13 +56,13 @@ import CreatorTableColumn from '@/components/CURD/Table/column/CreatorTableColum
 import CreateTimeTableColumn from '@/components/CURD/Table/column/CreateTimeTableColumn'
 import ModifierTableColumn from '@/components/CURD/Table/column/ModifierTableColumn'
 import ModifyTimeTableColumn from '@/components/CURD/Table/column/ModifyTimeTableColumn'
-
+import DefaultTableColumn from '@/components/CURD/Table/column/DefaultTableColumn'
 export default {
   name: 'HfBaseRightRoleColumns',
   components: {
     EnableStateTableColumn,
     CreatorTableColumn, CreateTimeTableColumn,
-    ModifierTableColumn, ModifyTimeTableColumn
+    ModifierTableColumn, ModifyTimeTableColumn, DefaultTableColumn
   },
   props: {
     urlMethods: {
@@ -98,9 +74,27 @@ export default {
     return {
       conf: conf
     }
+  },
+  methods: {
+    matter(row, column, cellValue) {
+      cellValue += ''
+      if (!cellValue.includes('.')) cellValue += '.'
+      return cellValue.replace(/(\d)(?=(\d{3})+\.)/g, function ($0, $1) {
+        return $1 + ','
+      }).replace(/\.$/, '')
+    },
   }
 }
 </script>
 
 <style scoped lang="less">
+.shenglue {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.el-table /deep/ .el-tooltip div {
+  background: red;
+}
 </style>

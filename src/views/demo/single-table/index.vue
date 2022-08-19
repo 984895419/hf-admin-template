@@ -21,8 +21,6 @@
     </div> -->
 
     <div class="btnslist">
-      <!-- <el-button type="primary" style="margin-right:20px">新增</el-button>
-       -->
       <base-stable-add />
       <div class="block">
         <el-cascader v-model="value1" :options="options" placeholder="批量操作" :props="{ expandTrigger: 'hover' }" @change="handleChange" />

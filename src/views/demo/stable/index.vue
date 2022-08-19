@@ -20,9 +20,13 @@
       </simple-search>
     </div>
     <!-- 操作栏-->
-    <div style="margin-bottom: 10px" class="col-btn-display">
-      <hf-base-right-role-add :action-url="conf.urlMethods.addUrl" @success="doSearch" />
-      <div style="float: right" class="col-btn-display">
+    <div class="btnslist">
+      <hf-base-right-role-add style="margin-right:10px" :action-url="conf.urlMethods.addUrl" @success="doSearch" />
+      <div class="block">
+        <el-cascader v-model="batchVal" :options="options" placeholder="批量操作" :props="{ expandTrigger: 'hover' }"
+          @change="handleChange" />
+      </div>
+      <div style="float: right;" class="col-btn-display">
         <del-btn v-if="conf.urlMethods.deleteUrl
         && toggleRowSelectionArray.length > 0" :url="templateUrl(conf.urlMethods.deleteUrl, toggleRowSelectionArray)"
           :value="toggleRowSelectionArray" :label="$t('common.batchDelete')" @success="doSearch" />
@@ -36,13 +40,17 @@
           @success="doSearch" />
       </div>
     </div>
+
+
     <!-- 列表-->
     <table-column-preference-setting-api-slot v-model="showFields" :init-data="tableFields"
       :preference-alias="conf.namespace">
       <template v-slot="{ doSave, preferenceData, headerDragend }">
-        <hf-table v-if="showFields" v-loading="loading" :table-data="jsonData.list"
+
+        <hf-table v-if="showFields" v-loading="loading" :table-data="jsonData.list" @row-dblclick="rowdbclick"
           @selection-change="handleSelectionChange" @sort-change="sortChange" @header-dragend="headerDragend">
           <section-table-column />
+
           <!-- 显示的字段-->
           <hf-base-right-role-columns :show-fields="showFields" :url-methods="conf.urlMethods" @success="doSearch" />
           <el-table-column fixed="right" :label="$t('common.operate')" width="150">
@@ -62,13 +70,17 @@
                   :url="templateUrl(conf.urlMethods.deleteUrl, scopeRow.row)" :btn-type="'text'" :value="scopeRow.row"
                   @success="doSearch" />
                 <!-- 查看 -->
-                <hf-base-right-role-detail :value="scopeRow.row" />
+                <!-- <hf-base-right-role-detail :value="scopeRow.row" /> -->
               </div>
             </template>
           </el-table-column>
         </hf-table>
       </template>
     </table-column-preference-setting-api-slot>
+    <!-- 抽屉 -->
+    <drawer-detail @getshowdetail="getshowdetail" :isshowdetail="isshowdetail" />
+    <!-- 总计 -->
+    <div class="total">订单总额：1,200,2542.21元，已付款数量：35643条，已付款金额：954,5224,03元</div>
     <!-- 分页信息 -->
     <curd-pagination :current-page.sync="searchForm.pageInfo.pageNo" :page-size.sync="searchForm.pageInfo.pageSize"
       :total="jsonData.total" @size-change="doSearch" @current-change="doSearch" />
@@ -98,6 +110,7 @@ import UserBind from '@/views/role/user-bind.vue'
 import RoleSettings from '@/views/role/permission-setting.vue'
 import DialogBtnPage from '@/components/CURD/Btns/DialogBtnPage'
 import PermissionSetting from '@/views/role/permission-setting.vue'
+import DrawerDetail from './drawerDetail.vue'
 
 export default {
   name: 'HfBaseRightRoleIndexVue',
@@ -118,7 +131,8 @@ export default {
     UserBind,
     RoleSettings,
     DialogBtnPage,
-    PermissionSetting
+    PermissionSetting,
+    DrawerDetail
   },
   mixins: [CurdMixin],
 
@@ -160,7 +174,39 @@ export default {
         total: 0
       },
       tableFields: conf.default,
-      toggleRowSelectionArray: []
+      toggleRowSelectionArray: [],
+      isshowdetail: false,
+      // 批量操作
+      options: [
+        {
+          batchVal: 'config',
+          label: '设置'
+        },
+        {
+          batchVal: 'markascatalog',
+          label: '标记为目录册'
+        },
+        {
+          batchVal: 'del',
+          label: '删除'
+        }, {
+          batchVal: 'import',
+          label: '导入'
+        }, {
+          batchVal: 'export',
+          label: '导出',
+          children: [{
+            batchVal: 'select',
+            label: '选中导出'
+          }, {
+            batchVal: 'singlepage',
+            label: '单页导出'
+          }, {
+            batchVal: 'all',
+            label: '全部导出'
+          }]
+        }],
+      batchVal:'',//批量数组
     }
   },
 
@@ -243,7 +289,7 @@ export default {
               orderNo: 1,
               ordertime: "2022/08/19",
               ordertotal: 2000,
-              consignee: "张三",
+              consignee: "张三莆田华峰啥的那是你的啊骚大师莆田华峰啥的那是你的啊骚大师",
               orderstatus: '已完成',
               paystatus: "待付款",
               shipmentstatus: "已发货",
@@ -254,7 +300,7 @@ export default {
             }, {
               orderNo: 2,
               ordertime: "2022/08/19",
-              ordertotal: 2000,
+              ordertotal: 231231313123,
               consignee: "张三",
               orderstatus: '已完成',
               paystatus: "待付款",
@@ -378,16 +424,48 @@ export default {
       } else {
         this.$message.error('请配置分页查询地址参数:{pageUrl: xxxx}')
       }
-    }
-
+    },
+    /**
+     * 双击看详情
+     */
+    rowdbclick(row, column, event) {
+      // 双击行
+      this.isshowdetail = true
+      console.log(row, "row")
+    },
+    /**
+     * 抽屉子回显
+     */
+    getshowdetail(data) {
+      this.isshowdetail = data
+    },
+    /**
+   * 按钮层
+   */
+    handleChange(value) {
+      console.log(value, '按钮层')
+    },
   }
 }
 </script>
 
-<style scoped>
+<style scoped lang="less">
 /deep/ .col-btn-display>div,
 .col-btn-display>.el-button {
   display: inline-block;
   margin-right: 10px;
+}
+
+.btnslist {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.total {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
 }
 </style>
