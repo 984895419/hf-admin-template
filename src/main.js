@@ -12,7 +12,10 @@ import i18n from './lang' // internationalization
 import router from './router'
 import './icons' // icon
 import './permission' // permission control
-import { hasPermission, hasPermMenu } from './utils/permission' // permission control
+import {
+  hasPermission,
+  hasPermMenu
+} from './utils/permission' // permission control
 import './utils/error-log' // error log
 import * as filters from './filters' // global filters
 import commonUtils from '@/utils/commonUtil'
@@ -24,6 +27,12 @@ import SuperFlow from 'vue-super-flow'
 import 'vue-super-flow/lib/index.css'
 import Clipboard from 'v-clipboard'
 import permission from './directive/permission/permission'
+// 配置全局过滤器，实现数字千分位格式
+import {
+  stateFormat
+} from '@/utils/numberToCurrency.js'
+Vue.prototype.stateFormat = stateFormat
+
 
 Vue.use(Clipboard)
 

@@ -1,0 +1,51 @@
+{
+  "baseUrl": "/api/hfBaseStable",
+  "default": [{
+    "value": "orderNo",
+    "selectChecked": true
+  }, {
+    "value": "ordertime",
+    "selectChecked": true
+  }, {
+    "value": "ordertotal",
+    "selectChecked": true
+  }, {
+    "value": "consignee",
+    "selectChecked": true
+  }, {
+    "value": "orderstatus",
+    "selectChecked": true
+  }, {
+    "value": "paystatus",
+    "selectChecked": true
+  }, {
+    "value": "shipmentstatus",
+    "selectChecked": true
+  }, {
+    "value": "paymethod",
+    "selectChecked": true
+  }, {
+    "value": "customerphone",
+    "selectChecked": true
+  }, {
+    "value": "customeraddress",
+    "selectChecked": true
+  }, {
+    "value": "customermail",
+    "selectChecked": true
+  }],
+  "namespace": "baseStable",
+  "urlMethods": {
+    "pageUrl": "/api/hfBaseStable/pageQuery",
+    "addUrl": "/api/hfBaseStable/save",
+    "updateUrl": "/api/hfBaseStable/{roleId}",
+    "queryUrl": "/api/hfBaseStable/{roleId}",
+    "deleteUrl": "/api/hfBaseStable/{roleId}",
+    "enableUrl": "/api/hfBaseStable/enable/{roleId}",
+    "disableUrl": "/api/hfBaseStable/disable/{roleId}",
+    "listUrl": "/api/hfBaseStable/list",
+    "listQueryUrl": "/api/hfBaseStable/list/query",
+    "batchUpdateUrl": "/api/hfBaseStable/batch",
+    "batchQueryUrl": "/api/hfBaseStable/batch/{roleId}"
+  }
+}

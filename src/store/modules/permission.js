@@ -92,7 +92,6 @@ export function genRoutesFromMenuTree(childMenus) {
   } else {
     console.log('')
   }
-  console.log(accessedRouters, 'accessedRouters1')
   return accessedRouters
 }
 

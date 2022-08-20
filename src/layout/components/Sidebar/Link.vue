@@ -18,7 +18,6 @@ export default {
   },
   methods: {
     linkProps(url) {
-      console.log('keqinghong:url', url)
       if (isExternal(url)) {
         return {
           is: 'a',
