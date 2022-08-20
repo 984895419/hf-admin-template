@@ -10,7 +10,7 @@
         :show-overflow-tooltip='true' :formatter="stateFormat" />
       <default-table-column v-if="item.value === 'ordertotal'" prop="ordertotal" :width="item.width"
         :label="$t(conf.namespace + '.ordertotal')" :namespace="conf.namespace" :copyable="true" min-width="130"
-        :show-overflow-tooltip='true' :formatter="stateFormat">
+        :show-overflow-tooltip='true' :formatter="stateFormat"  >
       </default-table-column>
       <default-table-column v-if="item.value === 'consignee'" prop="consignee" :width="item.width"
         :label="$t(conf.namespace + '.consignee')" :namespace="conf.namespace" :copyable="true" min-width="130"

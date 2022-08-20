@@ -1,12 +1,13 @@
 <template>
-  <el-card class="app-container">
+  <div class="stable" v-resize="handleResize">
     <!-- 查询框 -->
     <div>
       <simple-search v-model="searchForm" :inline="true" @search="doSearch">
         <template v-slot="{ span }">
           <!-- 新增的的字段配置 -->
-          <form-item-col :value="searchForm" :span="span" prop="orderNo" :namespace="conf.namespace" />
-          <form-item-col :value="searchForm" :span="span" prop="ordertime" :namespace="conf.namespace" />
+          <form-item-col :value="searchForm" :span="6" prop="orderNo" :namespace="conf.namespace" />
+          <form-item-col :value="searchForm" :span="6" prop="ordertime" :namespace="conf.namespace" />
+          <form-item-col :value="searchForm" :span="6" prop="ordertime" :namespace="conf.namespace" />
           <!-- 字典字段字段设置方法如下
           <form-item-col-dict
             :value="data"
@@ -41,50 +42,52 @@
       </div>
     </div>
 
+    <el-card>
+      <!-- 列表-->
+      <table-column-preference-setting-api-slot v-model="showFields" :init-data="tableFields"
+        :preference-alias="conf.namespace">
+        <template v-slot="{ doSave, preferenceData, headerDragend }">
 
-    <!-- 列表-->
-    <table-column-preference-setting-api-slot v-model="showFields" :init-data="tableFields"
-      :preference-alias="conf.namespace">
-      <template v-slot="{ doSave, preferenceData, headerDragend }">
+          <hf-table v-if="showFields" v-loading="loading" :table-data="jsonData.list" @row-dblclick="rowdbclick"
+            @selection-change="handleSelectionChange" @sort-change="sortChange" @header-dragend="headerDragend"
+            :maxheight="heightTable">
+            <section-table-column />
 
-        <hf-table v-if="showFields" v-loading="loading" :table-data="jsonData.list" @row-dblclick="rowdbclick"
-          @selection-change="handleSelectionChange" @sort-change="sortChange" @header-dragend="headerDragend">
-          <section-table-column />
-
-          <!-- 显示的字段-->
-          <hf-base-right-role-columns :show-fields="showFields" :url-methods="conf.urlMethods" @success="doSearch" />
-          <el-table-column fixed="right" :label="$t('common.operate')" width="150">
-            <template v-slot:header>
-              {{ $t('common.operate') }}
-              <curd-table-column-select v-model="showFields" :preference-alias="conf.namespace"
-                :table-fields="preferenceData" style="float: right" @selectedChange="reRenderTable" @doSave="doSave" />
-            </template>
-            <template slot-scope="scopeRow">
-              <div class="col-btn-display">
-                <!-- 更新 -->
-                <hf-base-right-role-update v-if="scopeRow.row.initData !== 1" v-permission="['hfBaseRightRole:update']"
-                  :value="scopeRow.row" :query-url="conf.urlMethods.queryUrl" :update-url="conf.urlMethods.updateUrl"
-                  @success="doSearch" />
-                <!-- 删除-->
-                <del-btn v-if="scopeRow.row.initData !== 1" v-permission="['hfBaseRightRole:delete']"
-                  :url="templateUrl(conf.urlMethods.deleteUrl, scopeRow.row)" :btn-type="'text'" :value="scopeRow.row"
-                  @success="doSearch" />
-                <!-- 查看 -->
-                <!-- <hf-base-right-role-detail :value="scopeRow.row" /> -->
-              </div>
-            </template>
-          </el-table-column>
-        </hf-table>
-      </template>
-    </table-column-preference-setting-api-slot>
-    <!-- 抽屉 -->
-    <drawer-detail @getshowdetail="getshowdetail" :isshowdetail="isshowdetail" />
-    <!-- 总计 -->
-    <div class="total">订单总额：1,200,2542.21元，已付款数量：35643条，已付款金额：954,5224,03元</div>
+            <!-- 显示的字段-->
+            <hf-base-right-role-columns :show-fields="showFields" :url-methods="conf.urlMethods" @success="doSearch" />
+            <el-table-column fixed="right" :label="$t('common.operate')" width="150">
+              <template v-slot:header>
+                {{ $t('common.operate') }}
+                <curd-table-column-select v-model="showFields" :preference-alias="conf.namespace"
+                  :table-fields="preferenceData" style="float: right" @selectedChange="reRenderTable"
+                  @doSave="doSave" />
+              </template>
+              <template slot-scope="scopeRow">
+                <div class="col-btn-display">
+                  <!-- 更新 -->
+                  <hf-base-right-role-update v-if="scopeRow.row.initData !== 1"
+                    v-permission="['hfBaseRightRole:update']" :value="scopeRow.row"
+                    :query-url="conf.urlMethods.queryUrl" :update-url="conf.urlMethods.updateUrl" @success="doSearch" />
+                  <!-- 删除-->
+                  <del-btn v-if="scopeRow.row.initData !== 1" v-permission="['hfBaseRightRole:delete']"
+                    :url="templateUrl(conf.urlMethods.deleteUrl, scopeRow.row)" :btn-type="'text'" :value="scopeRow.row"
+                    @success="doSearch" />
+                  <!-- 查看 -->
+                  <!-- <hf-base-right-role-detail :value="scopeRow.row" /> -->
+                </div>
+              </template>
+            </el-table-column>
+          </hf-table>
+        </template>
+      </table-column-preference-setting-api-slot>
+      <!-- 抽屉 -->
+      <drawer-detail @getshowdetail="getshowdetail" :isshowdetail="isshowdetail" :rowdata="rowdata" />
+    </el-card>
     <!-- 分页信息 -->
-    <curd-pagination :current-page.sync="searchForm.pageInfo.pageNo" :page-size.sync="searchForm.pageInfo.pageSize"
-      :total="jsonData.total" @size-change="doSearch" @current-change="doSearch" />
-  </el-card>
+    <curd-pagination style="margin-top:10px" :current-page.sync="searchForm.pageInfo.pageNo"
+      :page-size.sync="searchForm.pageInfo.pageSize" :total="jsonData.total" @size-change="doSearch"
+      @current-change="doSearch" />
+  </div>
 </template>
 
 <script>
@@ -206,7 +209,9 @@ export default {
             label: '全部导出'
           }]
         }],
-      batchVal:'',//批量数组
+      batchVal: '',//批量数组
+      rowdata: null,
+      heightTable: ""
     }
   },
 
@@ -214,6 +219,25 @@ export default {
   },
   created() {
     this.doSearch()
+  },
+  directives: {
+    resize: {
+      bind(el, binding) {
+        let width = '', height = '';
+        function isReize() {
+          const style = document.defaultView.getComputedStyle(el);
+          if (width !== style.width || height !== style.height) {
+            binding.value({ width: style.width, height: style.height });
+          }
+          width = style.width;
+          height = style.height;
+        }
+        el.__vueSetInterval__ = setInterval(isReize, 300);
+      },
+      unbind(el) {
+        clearInterval(el.__vueSetInterval__);
+      }
+    }
   },
   methods: {
     reRenderTable(res) {
@@ -405,6 +429,114 @@ export default {
               customerphone: "12345448484",
               customeraddress: "莆田华峰",
               customermail: "xxx@qq.com",
+            }, {
+              orderNo: 11,
+              ordertime: "2022/08/19",
+              ordertotal: 2000,
+              consignee: "张三",
+              orderstatus: '已完成',
+              paystatus: "待付款",
+              shipmentstatus: "已发货",
+              paymethod: "支付宝",
+              customerphone: "12345448484",
+              customeraddress: "莆田华峰",
+              customermail: "xxx@qq.com",
+            }, {
+              orderNo: 12,
+              ordertime: "2022/08/19",
+              ordertotal: 2000,
+              consignee: "张三",
+              orderstatus: '已完成',
+              paystatus: "待付款",
+              shipmentstatus: "已发货",
+              paymethod: "支付宝",
+              customerphone: "12345448484",
+              customeraddress: "莆田华峰",
+              customermail: "xxx@qq.com",
+            }, {
+              orderNo: 13,
+              ordertime: "2022/08/19",
+              ordertotal: 2000,
+              consignee: "张三",
+              orderstatus: '已完成',
+              paystatus: "待付款",
+              shipmentstatus: "已发货",
+              paymethod: "支付宝",
+              customerphone: "12345448484",
+              customeraddress: "莆田华峰",
+              customermail: "xxx@qq.com",
+            }, {
+              orderNo: 14,
+              ordertime: "2022/08/19",
+              ordertotal: 2000,
+              consignee: "张三",
+              orderstatus: '已完成',
+              paystatus: "待付款",
+              shipmentstatus: "已发货",
+              paymethod: "支付宝",
+              customerphone: "12345448484",
+              customeraddress: "莆田华峰",
+              customermail: "xxx@qq.com",
+            }, {
+              orderNo: 10,
+              ordertime: "2022/08/19",
+              ordertotal: 2000,
+              consignee: "张三",
+              orderstatus: '已完成',
+              paystatus: "待付款",
+              shipmentstatus: "已发货",
+              paymethod: "支付宝",
+              customerphone: "12345448484",
+              customeraddress: "莆田华峰",
+              customermail: "xxx@qq.com",
+            }, {
+              orderNo: 10,
+              ordertime: "2022/08/19",
+              ordertotal: 2000,
+              consignee: "张三",
+              orderstatus: '已完成',
+              paystatus: "待付款",
+              shipmentstatus: "已发货",
+              paymethod: "支付宝",
+              customerphone: "12345448484",
+              customeraddress: "莆田华峰",
+              customermail: "xxx@qq.com",
+            }, {
+              orderNo: 10,
+              ordertime: "2022/08/19",
+              ordertotal: 2000,
+              consignee: "张三",
+              orderstatus: '已完成',
+              paystatus: "待付款",
+              shipmentstatus: "已发货",
+              paymethod: "支付宝",
+              customerphone: "12345448484",
+              customeraddress: "莆田华峰",
+              customermail: "xxx@qq.com",
+            }, {
+              orderNo: 10,
+              ordertime: "2022/08/19",
+              ordertotal: 2000,
+              consignee: "张三",
+              orderstatus: '已完成',
+              paystatus: "待付款",
+              shipmentstatus: "已发货",
+              paymethod: "支付宝",
+              customerphone: "12345448484",
+              customeraddress: "莆田华峰",
+              customermail: "xxx@qq.com",
+            }, {
+              orderNo: 10,
+              ordertime: "2022/08/19",
+              ordertotal: 2000,
+              consignee: "张三",
+              orderstatus: '已完成',
+              paystatus: "待付款",
+              shipmentstatus: "已发货",
+              paymethod: "支付宝",
+              customerphone: "12345448484",
+              customeraddress: "莆田华峰",
+              customermail: "xxx@qq.com",
             }],
             page: 1,
             pageSize: 50,
@@ -431,6 +563,8 @@ export default {
     rowdbclick(row, column, event) {
       // 双击行
       this.isshowdetail = true
+      this.rowdata = row
+      console.log(this.rowdata, "this.rowdata")
       console.log(row, "row")
     },
     /**
@@ -445,11 +579,19 @@ export default {
     handleChange(value) {
       console.log(value, '按钮层')
     },
+    handleResize({ width, height }) {
+      this.heightTable = (parseFloat(height) - 210) + 'px'
+    }
   }
 }
 </script>
 
 <style scoped lang="less">
+.stable {
+  margin: 20px 10px 10px 10px;
+  height: 100%;
+}
+
 /deep/ .col-btn-display>div,
 .col-btn-display>.el-button {
   display: inline-block;

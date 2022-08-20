@@ -32,6 +32,8 @@ import {
   stateFormat
 } from '@/utils/numberToCurrency.js'
 Vue.prototype.stateFormat = stateFormat
+
+
 Vue.use(Clipboard)
 
 import RefferInstall from './utils/RefferInstall.js'
