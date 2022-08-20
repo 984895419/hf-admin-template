@@ -1,17 +1,18 @@
 <template>
-    <preference-setting-api-slot
-      v-model="stringData"
-      @loadAfter="loadAfter"
-      :preference-type="preferenceType"
-      :preference-alias="preferenceAlias">
-      <template v-slot="{ preferenceData, doSave }">
-        <slot
-          :preferenceData="preferenceDataComputed(preferenceData)"
-          :doSave="saveHandler(doSave)"
-          :headerDragend="headerDragend">
-        </slot>
-      </template>
-    </preference-setting-api-slot>
+  <preference-setting-api-slot
+    v-model="stringData"
+    :preference-type="preferenceType"
+    :preference-alias="preferenceAlias"
+    @loadAfter="loadAfter"
+  >
+    <template v-slot="{ preferenceData, doSave }">
+      <slot
+        :preferenceData="preferenceDataComputed(preferenceData)"
+        :doSave="saveHandler(doSave)"
+        :headerDragend="headerDragend"
+      />
+    </template>
+  </preference-setting-api-slot>
 </template>
 
 <script>
@@ -31,6 +32,13 @@
                 type: Array
             }
         },
+        data() {
+            return {
+                preferenceType: 'TABLE_COLUMN_SHOW',
+                stringData: null,
+                widths: {}
+            }
+        },
         computed: {
             preferenceDataComputed() {
                 return (preferenceData) => {
@@ -44,13 +52,6 @@
                         return s
                     })
                 }
-            }
-        },
-        data() {
-            return {
-                preferenceType: 'TABLE_COLUMN_SHOW',
-                stringData: null,
-                widths: {}
             }
         },
         methods: {

@@ -5,36 +5,41 @@
       <el-table-column
         v-if="item.value === 'id'"
         prop="id"
+        :width="item.width"
         :label="$t(conf.namespace + '.id')"
         min-width="40"
       />
       <el-table-column
         v-if="item.value === 'userId'"
         prop="creatorUserName"
+        :width="item.width"
         :label="$t(conf.namespace + '.userId')"
-        width="80"
+        min-width="80"
       />
       <el-table-column
         v-if="item.value === 'loginType'"
         prop="loginTypeName"
         :label="$t(conf.namespace + '.loginType')"
-        width="120"
+        :width="item.width"
       />
       <el-table-column
         v-if="item.value === 'loginTime'"
         prop="loginTime"
         :label="$t(conf.namespace + '.loginTime')"
+        :width="item.width"
         min-width="130"
       />
       <el-table-column
         v-if="item.value === 'lastLoginIp'"
         prop="lastLoginIp"
         :label="$t(conf.namespace + '.lastLoginIp')"
+        :width="item.width"
         min-width="130"
       />
       <el-table-column
         v-if="item.value === 'lastLoginFinger'"
         prop="lastLoginFinger"
+        :width="item.width"
         :label="$t(conf.namespace + '.lastLoginFinger')"
         min-width="130"
       />

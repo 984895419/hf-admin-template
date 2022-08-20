@@ -2,87 +2,87 @@
   <div v-if="showFields">
     <!-- 有拖拽选择的时候 -->
     <div v-for="item in showFields" :key="item.value">
-              <el-table-column
-          v-if="item.value === 'jobId'"
-          prop="jobId"
-          :width="item.width"
+      <el-table-column
+        v-if="item.value === 'jobId'"
+        prop="jobId"
+        :width="item.width"
         :label="$t(conf.namespace + '.jobId')"
-          min-width="130"
-        />
-        <el-table-column
-          v-if="item.value === 'jobName'"
-          prop="jobName"
-          :width="item.width"
+        min-width="130"
+      />
+      <el-table-column
+        v-if="item.value === 'jobName'"
+        prop="jobName"
+        :width="item.width"
         :label="$t(conf.namespace + '.jobName')"
-          min-width="130"
-        />
-        <el-table-column
-          v-if="item.value === 'jobDescription'"
-          prop="jobDescription"
-          :width="item.width"
+        min-width="130"
+      />
+      <el-table-column
+        v-if="item.value === 'jobDescription'"
+        prop="jobDescription"
+        :width="item.width"
         :label="$t(conf.namespace + '.jobDescription')"
-          min-width="130"
-        />
-        <el-table-column
-          v-if="item.value === 'jobData'"
-          prop="jobData"
-          :width="item.width"
+        min-width="130"
+      />
+      <el-table-column
+        v-if="item.value === 'jobData'"
+        prop="jobData"
+        :width="item.width"
         :label="$t(conf.namespace + '.jobData')"
-          min-width="130"
-        />
-        <el-table-column
-          v-if="item.value === 'jobTypeId'"
-          prop="jobTypeId"
-          :width="item.width"
+        min-width="130"
+      />
+      <el-table-column
+        v-if="item.value === 'jobTypeId'"
+        prop="jobTypeId"
+        :width="item.width"
         :label="$t(conf.namespace + '.jobTypeId')"
-          min-width="130"
-        />
-        <el-table-column
-          v-if="item.value === 'jobTypeName'"
-          prop="jobTypeName"
-          :width="item.width"
+        min-width="130"
+      />
+      <el-table-column
+        v-if="item.value === 'jobTypeName'"
+        prop="jobTypeName"
+        :width="item.width"
         :label="$t(conf.namespace + '.jobTypeName')"
-          min-width="130"
-        />
-        <creator-table-column :width="item.width" v-if="item.value === 'creatorUserName'" />
-        <create-time-table-column :width="item.width" v-if="item.value === 'createTime'" />
-        <modifier-table-column :width="item.width" v-if="item.value === 'modifierUserName'" />
-        <modify-time-table-column :width="item.width" v-if="item.value === 'modifyTime'" />
-        <enable-state-table-column
-          v-if="item.value === 'enableState'"
-          :operate="true"
-          :enable-url="urlMethods.enableUrl"
-          :disable-url="urlMethods.disableUrl"
-          v-on="$listeners"
-        />
-        <el-table-column
-          v-if="item.value === 'deleted'"
-          prop="deleted"
-          :width="item.width"
+        min-width="130"
+      />
+      <creator-table-column v-if="item.value === 'creatorUserName'" :width="item.width" />
+      <create-time-table-column v-if="item.value === 'createTime'" :width="item.width" />
+      <modifier-table-column v-if="item.value === 'modifierUserName'" :width="item.width" />
+      <modify-time-table-column v-if="item.value === 'modifyTime'" :width="item.width" />
+      <enable-state-table-column
+        v-if="item.value === 'enableState'"
+        :operate="true"
+        :enable-url="urlMethods.enableUrl"
+        :disable-url="urlMethods.disableUrl"
+        v-on="$listeners"
+      />
+      <el-table-column
+        v-if="item.value === 'deleted'"
+        prop="deleted"
+        :width="item.width"
         :label="$t(conf.namespace + '.deleted')"
-          min-width="130"
-        />
-        <el-table-column
-          v-if="item.value === 'tenantId'"
-          prop="tenantId"
-          :width="item.width"
+        min-width="130"
+      />
+      <el-table-column
+        v-if="item.value === 'tenantId'"
+        prop="tenantId"
+        :width="item.width"
         :label="$t(conf.namespace + '.tenantId')"
-          min-width="130"
-        />
-        <tag-table-column
-          v-if="item.value === 'runState'"
-          prop="runStateName"
-          :width="item.width"
+        min-width="130"
+      />
+      <tag-table-column
+        v-if="item.value === 'runState'"
+        prop="runStateName"
+        :width="item.width"
         :label="$t(conf.namespace + '.runState')"
-          min-width="130"
-        />
-        <el-table-column
-          v-if="item.value === 'finishTime'"
-          prop="finishTime"
-          :width="item.width"
+        min-width="130"
+      />
+      <el-table-column
+        v-if="item.value === 'finishTime'"
+        prop="finishTime"
+        :width="item.width"
         :label="$t(conf.namespace + '.finishTime')"
-          min-width="130"
-        />
+        min-width="130"
+      />
 
       <el-table-column
         v-if="item.value === 'triggerType'"
@@ -147,7 +147,7 @@
     import CreateTimeTableColumn from '@/components/CURD/Table/column/CreateTimeTableColumn'
     import ModifierTableColumn from '@/components/CURD/Table/column/ModifierTableColumn'
     import ModifyTimeTableColumn from '@/components/CURD/Table/column/ModifyTimeTableColumn'
-    import TagTableColumn from "../../../components/CURD/Table/column/base/TagTableColumn";
+    import TagTableColumn from '../../../components/CURD/Table/column/base/TagTableColumn'
 
     export default {
         name: 'BaseJobInfoColumns',
