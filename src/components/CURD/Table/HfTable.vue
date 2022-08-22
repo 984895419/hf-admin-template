@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-table ref="mainTable" v-if="tableData" :size="size" :data="tableData" border :row-key="rowKey" v-bind="$attrs"
+    <el-table ref="mainTable"  :size="size" :data="tableData" border :row-key="rowKey" v-bind="$attrs"
       :max-height="maxheight" v-on="$listeners">
       <slot />
     </el-table>
@@ -12,13 +12,12 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'HfTable',
   props: {
-    tableData: Array,
+    tableData: { type: Array },
     rowKey: {
       type: String
     },
     maxheight: {
-      type: String,
-      default: '600px'
+      default: 600
     }
   },
   computed: {
@@ -57,7 +56,33 @@ export default {
   border-left: 1px solid #e4e7ec;
 }
 
+.el-table /deep/ thead tr th {
+  &:first-child {
+    .cell {
+      padding-right: 14px;
+    }
+  }
+}
+
 .el-table /deep/ th>.cell {
   text-align: center;
+}
+
+.el-table /deep/ td div div {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.el-table /deep/ td {
+  &:last-child {
+    div {
+      div {
+        white-space: normal;
+        overflow: visible;
+        text-overflow: normal;
+      }
+    }
+  }
 }
 </style>

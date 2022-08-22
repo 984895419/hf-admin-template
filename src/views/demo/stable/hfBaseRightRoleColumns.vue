@@ -4,29 +4,32 @@
     <div v-for="item in showFields" :key="item.value">
       <default-table-column v-if="item.value === 'orderNo'" prop="orderNo" :width="item.width"
         :label="$t(conf.namespace + '.orderNo')" :namespace="conf.namespace" :copyable="true" min-width="130"
-        :show-overflow-tooltip='true' :formatter="stateFormat" />
+        :show-overflow-tooltip='true' />
       <default-table-column v-if="item.value === 'ordertime'" prop="ordertime" :width="item.width"
         :label="$t(conf.namespace + '.ordertime')" :namespace="conf.namespace" :copyable="true" min-width="130"
-        :show-overflow-tooltip='true' :formatter="stateFormat" />
-      <default-table-column v-if="item.value === 'ordertotal'" prop="ordertotal" :width="item.width"
+        :show-overflow-tooltip='true' />
+      <default-table-column align="right" v-if="item.value === 'ordertotal'" prop="ordertotal" :width="item.width"
         :label="$t(conf.namespace + '.ordertotal')" :namespace="conf.namespace" :copyable="true" min-width="130"
-        :show-overflow-tooltip='true' :formatter="stateFormat"  >
+        :show-overflow-tooltip='true'>
+        <template slot-scope="scope">
+          <span>1211231233213{{ scope}}</span>
+        </template>
       </default-table-column>
       <default-table-column v-if="item.value === 'consignee'" prop="consignee" :width="item.width"
         :label="$t(conf.namespace + '.consignee')" :namespace="conf.namespace" :copyable="true" min-width="130"
-        :show-overflow-tooltip='true' :formatter="stateFormat">
+        :show-overflow-tooltip='true'>
       </default-table-column>
-      <default-table-column v-if="item.value === 'orderstatus'" prop="orderstatus" :width="item.width"
+      <default-table-column align="center" v-if="item.value === 'orderstatus'" prop="orderstatus" :width="item.width"
         :label="$t(conf.namespace + '.orderstatus')" :namespace="conf.namespace" :copyable="true" min-width="130"
         :show-overflow-tooltip='true'>
       </default-table-column>
-      <default-table-column v-if="item.value === 'paystatus'" prop="paystatus" :width="item.width"
+      <default-table-column align="center" v-if="item.value === 'paystatus'" prop="paystatus" :width="item.width"
         :label="$t(conf.namespace + '.paystatus')" :namespace="conf.namespace" :copyable="true" min-width="130"
-        :show-overflow-tooltip='true' :formatter="stateFormat">
-      </default-table-column>
-      <default-table-column v-if="item.value === 'shipmentstatus'" prop="shipmentstatus" :width="item.width"
-        :label="$t(conf.namespace + '.shipmentstatus')" :namespace="conf.namespace" :copyable="true" min-width="130"
         :show-overflow-tooltip='true'>
+      </default-table-column>
+      <default-table-column align="center" v-if="item.value === 'shipmentstatus'" prop="shipmentstatus"
+        :width="item.width" :label="$t(conf.namespace + '.shipmentstatus')" :namespace="conf.namespace" :copyable="true"
+        min-width="130" :show-overflow-tooltip='true'>
       </default-table-column>
       <default-table-column v-if="item.value === 'paymethod'" prop="paymethod" :width="item.width"
         :label="$t(conf.namespace + '.paymethod')" :namespace="conf.namespace" :copyable="true" min-width="130"
@@ -76,13 +79,7 @@ export default {
     }
   },
   methods: {
-    matter(row, column, cellValue) {
-      cellValue += ''
-      if (!cellValue.includes('.')) cellValue += '.'
-      return cellValue.replace(/(\d)(?=(\d{3})+\.)/g, function ($0, $1) {
-        return $1 + ','
-      }).replace(/\.$/, '')
-    },
+
   }
 }
 </script>

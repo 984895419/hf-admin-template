@@ -7,16 +7,30 @@
           <!-- 新增的的字段配置 -->
           <form-item-col :value="searchForm" :span="6" prop="orderNo" :namespace="conf.namespace" />
           <form-item-col :value="searchForm" :span="6" prop="ordertime" :namespace="conf.namespace" />
-          <form-item-col :value="searchForm" :span="6" prop="ordertime" :namespace="conf.namespace" />
-          <!-- 字典字段字段设置方法如下
-          <form-item-col-dict
-            :value="data"
-            :error="errorMessage('clientMethod')"
-            :span="span"
-            prop="clientMethod"
-            :dict-code="'CLIENT_METHOD_TYPES'"
-            :namespace="conf.namespace"
-          /> -->
+        </template>
+        <template slot="advanced">
+          <div class="advanced-title">高级搜索</div>
+          <el-form :model="searchForm" label-width="80px">
+            <form-item-col :value="searchForm" :span="8" prop="orderNo" :namespace="conf.namespace" />
+            <form-item-col :value="searchForm" :span="8" prop="ordertime" :namespace="conf.namespace">
+              <el-date-picker v-model="datatimeVal" type="datetime" placeholder="选择日期时间" align="right"
+                :picker-options="pickerOptions">
+              </el-date-picker>
+            </form-item-col>
+            <form-item-col :value="searchForm" :span="8" prop="ordertotal" :namespace="conf.namespace" />
+            <form-item-col :value="searchForm" :span="8" prop="consignee" :namespace="conf.namespace" />
+            <form-item-col :value="searchForm" :span="8" prop="orderstatus" :namespace="conf.namespace" />
+            <form-item-col :value="searchForm" :span="8" prop="paystatus" :namespace="conf.namespace" />
+            <form-item-col :value="searchForm" :span="8" prop="shipmentstatus" :namespace="conf.namespace" />
+            <form-item-col :value="searchForm" :span="8" prop="paymethod" :namespace="conf.namespace" />
+            <form-item-col :value="searchForm" :span="8" prop="customerphone" :namespace="conf.namespace" />
+            <form-item-col :value="searchForm" :span="8" prop="customeraddress" :namespace="conf.namespace" />
+            <form-item-col :value="searchForm" :span="8" prop="customermail" :namespace="conf.namespace" />
+          </el-form>
+          <div>
+            <el-button type="primary" @click="onSubmit">立即搜索</el-button>
+            <el-button @click="onSubmit">取消</el-button>
+          </div>
         </template>
       </simple-search>
     </div>
@@ -24,8 +38,9 @@
     <div class="btnslist">
       <hf-base-right-role-add style="margin-right:10px" :action-url="conf.urlMethods.addUrl" @success="doSearch" />
       <div class="block">
-        <el-cascader v-model="batchVal" :options="options" placeholder="批量操作" :props="{ expandTrigger: 'hover' }"
-          @change="handleChange" />
+        <el-cascader @change="handleChange" :show-all-levels="false" v-model="batchval" :options="options"
+          :props="{ expandTrigger: 'hover' }">
+        </el-cascader>
       </div>
       <div style="float: right;" class="col-btn-display">
         <del-btn v-if="conf.urlMethods.deleteUrl
@@ -35,10 +50,9 @@
         && toggleRowSelectionArray.length > 0" :url="templateUrl(conf.urlMethods.enableUrl, toggleRowSelectionArray)"
           :btn-type="'primary'" :label="$t('common.batchEnable')" :value="toggleRowSelectionArray"
           @success="doSearch" />
-        <template-confirm-btn v-if="conf.urlMethods.disableUrl
-        && toggleRowSelectionArray.length > 0" :url="templateUrl(conf.urlMethods.disableUrl, toggleRowSelectionArray)"
-          :btn-type="'primary'" :value="toggleRowSelectionArray" :label="$t('common.batchDisable')"
-          @success="doSearch" />
+        <template-confirm-btn v-if="conf.urlMethods.disableUrl && toggleRowSelectionArray.length > 0"
+          :url="templateUrl(conf.urlMethods.disableUrl, toggleRowSelectionArray)" :btn-type="'primary'"
+          :value="toggleRowSelectionArray" :label="$t('common.batchDisable')" @success="doSearch" />
       </div>
     </div>
 
@@ -179,43 +193,75 @@ export default {
       tableFields: conf.default,
       toggleRowSelectionArray: [],
       isshowdetail: false,
+      batchval: [],
       // 批量操作
       options: [
         {
-          batchVal: 'config',
-          label: '设置'
+          value: 'batchEnable',
+          label: '批量启动'
         },
         {
-          batchVal: 'markascatalog',
-          label: '标记为目录册'
+          value: 'batchDisable',
+          label: '批量禁用'
         },
         {
-          batchVal: 'del',
-          label: '删除'
+          value: 'batchDelete',
+          label: '批量删除'
+        },
+        {
+          value: 'batchaudit',
+          label: '批量审核'
         }, {
-          batchVal: 'import',
+          value: 'import',
           label: '导入'
         }, {
-          batchVal: 'export',
+          value: 'export',
           label: '导出',
           children: [{
-            batchVal: 'select',
+            value: 'select',
             label: '选中导出'
           }, {
-            batchVal: 'singlepage',
+            value: 'singlepage',
             label: '单页导出'
           }, {
-            batchVal: 'all',
+            value: 'all',
             label: '全部导出'
+          }, {
+            value: 'template',
+            label: '模板'
           }]
         }],
-      batchVal: '',//批量数组
       rowdata: null,
-      heightTable: ""
+      heightTable: null,
+      // 带快捷时间
+      pickerOptions: {
+        shortcuts: [{
+          text: '今天',
+          onClick(picker) {
+            picker.$emit('pick', new Date());
+          }
+        }, {
+          text: '昨天',
+          onClick(picker) {
+            const date = new Date();
+            date.setTime(date.getTime() - 3600 * 1000 * 24);
+            picker.$emit('pick', date);
+          }
+        }, {
+          text: '一周前',
+          onClick(picker) {
+            const date = new Date();
+            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+            picker.$emit('pick', date);
+          }
+        }]
+      },
+      datatimeVal: ''
     }
   },
 
   mounted() {
+    console.log(1)
   },
   created() {
     this.doSearch()
@@ -232,7 +278,7 @@ export default {
           width = style.width;
           height = style.height;
         }
-        el.__vueSetInterval__ = setInterval(isReize, 300);
+        el.__vueSetInterval__ = setInterval(isReize, 100);
       },
       unbind(el) {
         clearInterval(el.__vueSetInterval__);
@@ -573,14 +619,19 @@ export default {
     getshowdetail(data) {
       this.isshowdetail = data
     },
-    /**
-   * 按钮层
-   */
-    handleChange(value) {
-      console.log(value, '按钮层')
-    },
     handleResize({ width, height }) {
-      this.heightTable = (parseFloat(height) - 210) + 'px'
+      this.heightTable = parseFloat(height) - 210
+      console.log(this.heightTable)
+    },
+    // 提交查询表单
+    onSubmit() {
+      console.log('submit!')
+    },
+    /**
+    * 联级选择器
+    */
+    handleChange(value) {
+      console.log(value);
     }
   }
 }
@@ -591,6 +642,8 @@ export default {
   margin: 20px 10px 10px 10px;
   height: 100%;
 }
+
+
 
 /deep/ .col-btn-display>div,
 .col-btn-display>.el-button {
@@ -609,5 +662,13 @@ export default {
   display: flex;
   justify-content: center;
   margin: 10px 0;
+}
+
+.advanced-title {
+  border-bottom: 1px solid rgb(25, 137, 250);
+  padding: 0 0 10px 0;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 10px;
 }
 </style>

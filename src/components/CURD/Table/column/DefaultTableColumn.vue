@@ -1,8 +1,9 @@
 <template>
   <div>
-    <el-table-column :prop="prop" :label="$t(namespace + '.' + prop)" v-bind="$attrs" :formatter="matter">
+    <el-table-column :prop="prop" :label="$t(namespace + '.' + prop)" v-bind="$attrs" :align="align">
       <template slot-scope="scope">
-        <copier-render :copyable="copyable" :prop="prop" :row="scope.row" :max-words="maxWords" />
+        <copier-render :copyable="copyable" :prop="prop" :row="scope.row"
+          :max-words="maxWords" />
       </template>
     </el-table-column>
   </div>
@@ -21,22 +22,15 @@ export default {
     namespace: {
       type: String
     },
+    align: {
+      type: String
+    },
     prop: {
       type: String
     },
     maxWords: {
       type: Number,
       default: 27
-    }
-  },
-  methods: {
-    matter(row, column, cellValue) {
-      debugger
-      cellValue += ''
-      if (!cellValue.includes('.')) cellValue += '.'
-      return cellValue.replace(/(\d)(?=(\d{3})+\.)/g, function ($0, $1) {
-        return $1 + ','
-      }).replace(/\.$/, '')
     }
   }
 }

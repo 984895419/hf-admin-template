@@ -16,8 +16,8 @@
                 @click="more = !more">
                 $t('common.show')
               </el-button>
-              <common-dialog-btn style="display:inline-block;margin-left:10px" :size="size" :init-data="{ 'age': 1 }" :label="'高级搜索'">
-                <div>高级搜索</div>
+              <common-dialog-btn style="display:inline-block;margin-left:10px" :size="size"  :label="'高级搜索'">
+                <slot name="advanced" />
               </common-dialog-btn>
             </el-form-item>
           </el-col>

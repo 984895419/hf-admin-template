@@ -28,12 +28,8 @@ import 'vue-super-flow/lib/index.css'
 import Clipboard from 'v-clipboard'
 import permission from './directive/permission/permission'
 // 配置全局过滤器，实现数字千分位格式
-import {
-  stateFormat
-} from '@/utils/numberToCurrency.js'
-Vue.prototype.stateFormat = stateFormat
-
-
+import { numberToCurrencyNo } from '@/utils/numberToCurrency'
+Vue.filter('numberToCurrency', numberToCurrencyNo)
 Vue.use(Clipboard)
 
 import RefferInstall from './utils/RefferInstall.js'
