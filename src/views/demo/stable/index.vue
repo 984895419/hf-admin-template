@@ -109,7 +109,7 @@
               </dialog-btn-page>
             </el-dropdown-item>
             <!-- 导入 -->
-            <el-dropdown-item icon="el-icon-circle-check" @click.native="importExl">
+            <el-dropdown-item icon="el-icon-circle-check" >
               <dialog-btn-page :type="'text'" :label="'导入'" :title="'导入'">
                 <upload-excel-component :on-success="handleSuccess" :before-upload="beforeUpload" />
               </dialog-btn-page>
