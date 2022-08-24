@@ -18,7 +18,7 @@
           <simple-search v-model="searchForm" :inline="true" @search="doSearch">
             <template v-slot="{ span }">
               <!-- 新增的的字段配置 -->
-                            <form-item-col
+              <form-item-col
                 :value="searchForm"
                 :span="span"
                 prop="businessKey"
@@ -117,7 +117,10 @@
                 showFields: null,
                 loading: false,
                 showDialog: false,
-
+                /**
+                 * 是否已经初始化，在首次调用openDialog得时候触发
+                 */
+                alreadyInit: false,
                 /**
                  * 查询的表单信息
                  */
@@ -162,10 +165,12 @@
             }
         },
         created() {
-          this.doSearch()
         },
         methods: {
             openDialog() {
+                if (!this.alreadyInit) {
+                  this.doSearch()
+                }
                 this.showDialog = true
             },
             closeDialog() {
@@ -177,6 +182,7 @@
             doSearch() {
                 if (this.conf.urlMethods && this.conf.urlMethods.pageUrl) {
                     this.loading = true
+                    this.alreadyInit = true
                     baseApiGetMethod(this.conf.urlMethods.pageUrl, this.searchForm).then(resp => {
                         if (isSuccessResult(resp)) {
                             this.$set(this.jsonData, 'list', getData(resp).list)

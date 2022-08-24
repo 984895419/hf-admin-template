@@ -141,6 +141,10 @@
                 showFields: null,
                 loading: false,
                 showDialog: false,
+                /**
+                 * 是否已经初始化，在首次调用openDialog得时候触发
+                 */
+                alreadyInit: false,
 
                 /**
                  * 查询的表单信息
@@ -180,22 +184,24 @@
                 }
             }
         },
-        created() {
-          this.doSearch()
-        },
+        
         methods: {
             openDialog() {
+                if (!this.alreadyInit) {
+                  this.doSearch()
+                }
                 this.showDialog = true
             },
             closeDialog() {
                 this.showDialog = false
             },
-            /**
+             /**
              * 执行查询操作
              */
             doSearch() {
                 if (this.conf.urlMethods && this.conf.urlMethods.pageUrl) {
                     this.loading = true
+                    this.alreadyInit = true
                     baseApiGetMethod(this.conf.urlMethods.pageUrl, this.searchForm).then(resp => {
                         if (isSuccessResult(resp)) {
                             this.$set(this.jsonData, 'list', getData(resp).list)
