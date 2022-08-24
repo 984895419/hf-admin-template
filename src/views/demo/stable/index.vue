@@ -312,7 +312,6 @@ export default {
       tableFields: conf.default,
       toggleRowSelectionArray: [],
       isshowdetail: false,
-      batchval: [],
       // 批量操作
       options: [
         {
@@ -378,8 +377,6 @@ export default {
       datatimeVal: '',
       tHeader: [], // 导出表头
       exportListArr: [], // 导出数据,
-      tableData: [],
-      tableHeader: [],
       auditstatus: '1' // 审核状态
     }
   },
@@ -782,10 +779,12 @@ export default {
         '客户地址',
         '客户邮件'
       ]
+      // 全部导出
       if (command === 'all') {
         this.exportListArr = this.formatJson(filterVal, this.jsonData.list)
         this.handleExport2Excel(this.tHeader, this.exportListArr, 'all-xlsx')
       } else if (command === 'select') {
+        // 选中导出
         if (this.toggleRowSelectionArray.length > 0) {
           this.exportListArr = this.formatJson(filterVal, this.toggleRowSelectionArray)
           this.handleExport2Excel(this.tHeader, this.exportListArr, 'select-xlsx')
@@ -793,23 +792,23 @@ export default {
           alert('你还没有选中数据')
         }
       } else if (command === 'template') {
+        // 模板导出
         alert('模板导出')
       } else if (command === 'singlepage') {
+        // 单页导出
         this.exportListArr = this.formatJson(filterVal, this.jsonData.list)
         this.handleExport2Excel(this.tHeader, this.exportListArr, 'singlepage-xlsx')
       }
-    },
-    /**
-  * 取消高级弹窗
-  */
-    cancelAdvanced() {
-
     },
     // 处理数据格式将[{}……]处理为@/vendor/Export2Excel需要的[[]……]格式
     formatJson(filterVal, jsonData) {
       return jsonData.map((v) => filterVal.map((j) => v[j]))
     },
-    importExl() {
+    /**
+    * 取消高级搜索弹窗
+    */
+    cancelAdvanced() {
+
     },
     // 导入前判断
     beforeUpload(file) {
