@@ -1,93 +1,74 @@
 <template>
-    <div>
-        <el-drawer size="30%" :visible.sync="isshowdetail" :direction="direction" :before-close="handleClose">
-            <div class="demo-drawer__content">
-                <div class="table-tit">订单明细表</div>
-            </div>
-            <div class="demo-drawer__table">
-                <el-form :model="rowdata" label-width="80px">
-                    <el-col :span="12">
-                        <el-form-item label="订单编号" v-if="rowdata">
-                            <el-input :readonly=true v-model="rowdata.orderNo"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="下单时间" v-if="rowdata">
-                            <el-input :readonly=true v-model="rowdata.ordertime"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="订单总额" v-if="rowdata">
-                            <el-input :readonly=true v-model="rowdata.ordertotal"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="收货人" v-if="rowdata">
-                            <el-input :readonly=true v-model="rowdata.consignee"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="订单状态" v-if="rowdata">
-                            <el-input :readonly=true v-model="rowdata.orderstatus"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="订单编号" v-if="rowdata">
-                            <el-input :readonly=true v-model="rowdata.orderNo"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="付款状态" v-if="rowdata">
-                            <el-input :readonly=true v-model="rowdata.paystatus"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="发货状态" v-if="rowdata">
-                            <el-input :readonly=true v-model="rowdata.shipmentstatus"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="支付方式" v-if="rowdata">
-                            <el-input :readonly=true v-model="rowdata.paymethod"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="客户联系方式" v-if="rowdata">
-                            <el-input :readonly=true v-model="rowdata.customerphone"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="客户地址" v-if="rowdata">
-                            <el-input :readonly=true v-model="rowdata.customeraddress"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="客户邮件" v-if="rowdata">
-                            <el-input :readonly=true v-model="rowdata.customermail"></el-input>
-                        </el-form-item>
-                    </el-col>
+  <div>
+    <el-drawer size="30%" :visible.sync="isshowdetail" :direction="direction" :before-close="handleClose">
+      <div class="demo-drawer__content">
+        <div class="table-tit">订单明细表</div>
+      </div>
+      <div class="demo-drawer__table">
+        <el-form :model="rowdata" label-width="80px">
+          <el-col :span="12">
+            <el-form-item v-if="rowdata" label="订单编号">
+              <el-input v-model="rowdata.orderNo" :readonly="true" /></el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item v-if="rowdata" label="下单时间">
+              <el-input v-model="rowdata.ordertime" :readonly="true" /></el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item v-if="rowdata" label="订单总额">
+              <el-input v-model="rowdata.ordertotal" :readonly="true" /></el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item v-if="rowdata" label="收货人">
+              <el-input v-model="rowdata.consignee" :readonly="true" /></el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item v-if="rowdata" label="订单状态">
+              <el-input v-model="rowdata.orderstatus" :readonly="true" /></el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item v-if="rowdata" label="订单编号">
+              <el-input v-model="rowdata.orderNo" :readonly="true" /></el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item v-if="rowdata" label="付款状态">
+              <el-input v-model="rowdata.paystatus" :readonly="true" /></el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item v-if="rowdata" label="发货状态">
+              <el-input v-model="rowdata.shipmentstatus" :readonly="true" /></el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item v-if="rowdata" label="支付方式">
+              <el-input v-model="rowdata.paymethod" :readonly="true" /></el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item v-if="rowdata" label="客户联系方式">
+              <el-input v-model="rowdata.customerphone" :readonly="true" /></el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item v-if="rowdata" label="客户地址">
+              <el-input v-model="rowdata.customeraddress" :readonly="true" /></el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item v-if="rowdata" label="客户邮件">
+              <el-input v-model="rowdata.customermail" :readonly="true" /></el-form-item>
+          </el-col>
 
-                </el-form>
-            </div>
-            <div class="demo-drawer__footer">
-                <el-button @click="cancelForm">取 消</el-button>
-                <el-button type="primary" :loading="loading">{{ loading ? '提交中...' : '确 定' }}</el-button>
-            </div>
-        </el-drawer>
-    </div>
+        </el-form>
+      </div>
+      <div class="demo-drawer__footer">
+        <el-button @click="cancelForm">取 消</el-button>
+        <el-button type="primary" :loading="loading">{{ loading ? '提交中...' : '确 定' }}</el-button>
+      </div>
+    </el-drawer>
+  </div>
 </template>
 
 <script>
 import * as conf from './api'
 
 export default {
-    data() {
-        return {
-            direction: 'rtl',
-            loading: true,
-            conf: conf
-        }
-    },
 
     props: {
         isshowdetail: {
@@ -111,6 +92,13 @@ export default {
                     customermail: ''
                 }
             }
+        }
+    },
+    data() {
+        return {
+            direction: 'rtl',
+            loading: true,
+            conf: conf
         }
     },
     methods: {
