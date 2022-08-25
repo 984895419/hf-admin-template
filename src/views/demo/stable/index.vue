@@ -7,42 +7,12 @@
           <!-- 新增的的字段配置 -->
           <form-item-col :value="searchForm" :span="6" prop="orderNo" :namespace="conf.namespace" />
           <form-item-col :value="searchForm" :span="8" prop="ordertime" :namespace="conf.namespace">
-            <el-date-picker
-              v-model="datatimeVal"
-              style="width:100%"
-              type="datetime"
-              placeholder="选择日期时间"
-              :picker-options="pickerOptions"
-            />
+            <el-date-picker v-model="datatimeVal" style="width:100%" type="datetime" placeholder="选择日期时间"
+              :picker-options="pickerOptions" />
           </form-item-col>
         </template>
         <template slot="advanced">
-          <div class="advanced-title">高级搜索</div>
-          <el-form :model="searchForm" label-width="80px">
-            <form-item-col :value="searchForm" :span="8" prop="orderNo" :namespace="conf.namespace" />
-            <form-item-col :value="searchForm" :span="8" prop="ordertime" :namespace="conf.namespace">
-              <el-date-picker
-                v-model="datatimeVal"
-                style="width:100%"
-                type="datetime"
-                placeholder="选择日期时间"
-                :picker-options="pickerOptions"
-              />
-            </form-item-col>
-            <form-item-col :value="searchForm" :span="8" prop="ordertotal" :namespace="conf.namespace" />
-            <form-item-col :value="searchForm" :span="8" prop="consignee" :namespace="conf.namespace" />
-            <form-item-col :value="searchForm" :span="8" prop="orderstatus" :namespace="conf.namespace" />
-            <form-item-col :value="searchForm" :span="8" prop="paystatus" :namespace="conf.namespace" />
-            <form-item-col :value="searchForm" :span="8" prop="shipmentstatus" :namespace="conf.namespace" />
-            <form-item-col :value="searchForm" :span="8" prop="paymethod" :namespace="conf.namespace" />
-            <form-item-col :value="searchForm" :span="8" prop="customerphone" :namespace="conf.namespace" />
-            <form-item-col :value="searchForm" :span="8" prop="customeraddress" :namespace="conf.namespace" />
-            <form-item-col :value="searchForm" :span="8" prop="customermail" :namespace="conf.namespace" />
-          </el-form>
-          <div>
-            <el-button type="primary" @click="onSubmit">立即搜索</el-button>
-            <el-button @click="cancelAdvanced">重置查询条件</el-button>
-          </div>
+          <advanced :conf="conf" :searchForm="searchForm" />
         </template>
       </simple-search>
     </div>
@@ -50,12 +20,8 @@
     <div class="btnslist">
       <hf-base-stable-add style="margin-right:10px" :action-url="conf.urlMethods.addUrl" @success="doSearch" />
       <div class="block">
-        <el-dropdown
-          v-if="conf.urlMethods.disableUrl
-            && toggleRowSelectionArray.length > 0"
-          :hide-on-click="false"
-          trigger="click"
-        >
+        <el-dropdown v-if="conf.urlMethods.disableUrl
+        && toggleRowSelectionArray.length > 0" :hide-on-click="false" trigger="click">
           <span class="el-dropdown-link">
             批量操作<i class="el-icon-arrow-down el-icon--right" />
           </span>
@@ -63,33 +29,21 @@
           <el-dropdown-menu slot="dropdown">
             <!-- 启用 -->
             <el-dropdown-item icon="el-icon-plus">
-              <template-confirm-btn
-                :url="templateUrl(conf.urlMethods.enableUrl, toggleRowSelectionArray)"
-                :btn-type="'text'"
-                :label="$t('common.batchEnable')"
-                :value="toggleRowSelectionArray"
-                @success="doSearch"
-              />
+              <template-confirm-btn :url="templateUrl(conf.urlMethods.enableUrl, toggleRowSelectionArray)"
+                :btn-type="'text'" :label="$t('common.batchEnable')" :value="toggleRowSelectionArray"
+                @success="doSearch" />
             </el-dropdown-item>
             <!-- 禁用 -->
             <el-dropdown-item icon="el-icon-circle-plus">
-              <template-confirm-btn
-                :url="templateUrl(conf.urlMethods.disableUrl, toggleRowSelectionArray)"
-                :btn-type="'text'"
-                :value="toggleRowSelectionArray"
-                :label="$t('common.batchDisable')"
-                @success="doSearch"
-              />
+              <template-confirm-btn :url="templateUrl(conf.urlMethods.disableUrl, toggleRowSelectionArray)"
+                :btn-type="'text'" :value="toggleRowSelectionArray" :label="$t('common.batchDisable')"
+                @success="doSearch" />
             </el-dropdown-item>
             <!-- 删除 -->
             <el-dropdown-item icon="el-icon-circle-plus-outline">
-              <del-btn
-                :url="templateUrl(conf.urlMethods.deleteUrl, toggleRowSelectionArray)"
-                :value="toggleRowSelectionArray"
-                :label="$t('common.batchDelete')"
-                :btn-type="'text'"
-                @success="doSearch"
-              />
+              <del-btn :url="templateUrl(conf.urlMethods.deleteUrl, toggleRowSelectionArray)"
+                :value="toggleRowSelectionArray" :label="$t('common.batchDelete')" :btn-type="'text'"
+                @success="doSearch" />
             </el-dropdown-item>
             <!-- 审核 -->
             <el-dropdown-item icon="el-icon-check">
@@ -109,22 +63,37 @@
               </dialog-btn-page>
             </el-dropdown-item>
             <!-- 导入 -->
-            <el-dropdown-item icon="el-icon-circle-check" >
+            <el-dropdown-item icon="el-icon-circle-check">
               <dialog-btn-page :type="'text'" :label="'导入'" :title="'导入'">
                 <upload-excel-component :on-success="handleSuccess" :before-upload="beforeUpload" />
               </dialog-btn-page>
             </el-dropdown-item>
             <!-- 导出 -->
             <el-dropdown-item icon="el-icon-circle-check">
-              <el-dropdown :hide-on-click="false" placement="bottom" @command="handleCommand">
+              <el-dropdown :hide-on-click="false" placement="bottom" >
                 <span class="el-dropdown-link">
                   导出
                 </span>
                 <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item icon="el-icon-plus" command="select">选中导出</el-dropdown-item>
-                  <el-dropdown-item icon="el-icon-circle-plus" command="singlepage">单页导出</el-dropdown-item>
-                  <el-dropdown-item icon="el-icon-circle-plus-outline" command="all">全部导出</el-dropdown-item>
-                  <el-dropdown-item icon="el-icon-check" command="template">模板导出</el-dropdown-item>
+                  <el-dropdown-item icon="el-icon-plus">
+                    <template-confirm-btn
+                      :url="templateUrl(conf.urlMethods.batchExportSelectUrl, toggleRowSelectionArray)"
+                      :btn-type="'text'" :label="'选中导出'" @success="doSearch" />
+                  </el-dropdown-item>
+                  <el-dropdown-item icon="el-icon-circle-plus">
+                    <template-confirm-btn
+                      :url="templateUrl(conf.urlMethods.batchExportSinglePageUrl, toggleRowSelectionArray)"
+                      :btn-type="'text'" :label="'单页导出'" @success="doSearch" />
+                  </el-dropdown-item>
+                  <el-dropdown-item icon="el-icon-circle-plus-outline">
+                    <template-confirm-btn :url="templateUrl(conf.urlMethods.batchExportAllUrl, toggleRowSelectionArray)"
+                      :btn-type="'text'" :label="'全部导出'" @success="doSearch" />
+                  </el-dropdown-item>
+                  <el-dropdown-item icon="el-icon-check">
+                    <template-confirm-btn
+                      :url="templateUrl(conf.urlMethods.batchExportTemplateUrl, toggleRowSelectionArray)"
+                      :btn-type="'text'" :label="'模板导出'" @success="doSearch" />
+                  </el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
             </el-dropdown-item>
@@ -136,58 +105,32 @@
 
     <el-card>
       <!-- 列表-->
-      <table-column-preference-setting-api-slot
-        v-model="showFields"
-        :init-data="tableFields"
-        :preference-alias="conf.namespace"
-      >
+      <table-column-preference-setting-api-slot v-model="showFields" :init-data="tableFields"
+        :preference-alias="conf.namespace">
         <template v-slot="{ doSave, preferenceData, headerDragend }">
-          <hf-table
-            v-if="showFields"
-            v-loading="loading"
-            :table-data="jsonData.list"
-            :maxheight="heightTable"
-            @row-dblclick="rowdbclick"
-            @selection-change="handleSelectionChange"
-            @sort-change="sortChange"
-            @header-dragend="headerDragend"
-          >
+          <hf-table v-if="showFields" v-loading="loading" :table-data="jsonData.list" :maxheight="heightTable"
+            @row-dblclick="rowdbclick" @selection-change="handleSelectionChange" @sort-change="sortChange"
+            @header-dragend="headerDragend">
             <section-table-column />
-
             <!-- 显示的字段-->
             <hf-base-right-role-columns :show-fields="showFields" :url-methods="conf.urlMethods" @success="doSearch" />
             <el-table-column fixed="right" :label="$t('common.operate')" width="150">
               <template v-slot:header>
                 {{ $t('common.operate') }}
-                <curd-table-column-select
-                  v-model="showFields"
-                  :preference-alias="conf.namespace"
-                  :table-fields="preferenceData"
-                  style="float: right"
-                  @selectedChange="reRenderTable"
-                  @doSave="doSave"
-                />
+                <curd-table-column-select v-model="showFields" :preference-alias="conf.namespace"
+                  :table-fields="preferenceData" style="float: right" @selectedChange="reRenderTable"
+                  @doSave="doSave" />
               </template>
               <template slot-scope="scopeRow">
                 <div class="col-btn-display">
                   <!-- 更新 -->
-                  <hf-base-right-role-update
-                    v-if="scopeRow.row.initData !== 1"
-                    v-permission="['hfBaseRightRole:update']"
-                    :value="scopeRow.row"
-                    :query-url="conf.urlMethods.queryUrl"
-                    :update-url="conf.urlMethods.updateUrl"
-                    @success="doSearch"
-                  />
+                  <hf-base-right-role-update v-if="scopeRow.row.initData !== 1"
+                    v-permission="['hfBaseRightRole:update']" :value="scopeRow.row"
+                    :query-url="conf.urlMethods.queryUrl" :update-url="conf.urlMethods.updateUrl" @success="doSearch" />
                   <!-- 删除-->
-                  <del-btn
-                    v-if="scopeRow.row.initData !== 1"
-                    v-permission="['hfBaseRightRole:delete']"
-                    :url="templateUrl(conf.urlMethods.deleteUrl, scopeRow.row)"
-                    :btn-type="'text'"
-                    :value="scopeRow.row"
-                    @success="doSearch"
-                  />
+                  <del-btn v-if="scopeRow.row.initData !== 1" v-permission="['hfBaseRightRole:delete']"
+                    :url="templateUrl(conf.urlMethods.deleteUrl, scopeRow.row)" :btn-type="'text'" :value="scopeRow.row"
+                    @success="doSearch" />
                 </div>
               </template>
             </el-table-column>
@@ -198,14 +141,9 @@
       <drawer-detail :isshowdetail="isshowdetail" :rowdata="rowdata" @getshowdetail="getshowdetail" />
     </el-card>
     <!-- 分页信息 -->
-    <curd-pagination
-      style="margin-top:10px"
-      :current-page.sync="searchForm.pageInfo.pageNo"
-      :page-size.sync="searchForm.pageInfo.pageSize"
-      :total="jsonData.total"
-      @size-change="doSearch"
-      @current-change="doSearch"
-    />
+    <curd-pagination style="margin-top:10px" :current-page.sync="searchForm.pageInfo.pageNo"
+      :page-size.sync="searchForm.pageInfo.pageSize" :total="jsonData.total" @size-change="doSearch"
+      @current-change="doSearch" />
   </div>
 </template>
 
@@ -230,6 +168,7 @@ import SectionTableColumn from '@/components/CURD/Table/column/base/SectionTable
 import DialogBtnPage from '@/components/CURD/Btns/DialogBtnPage'
 import DrawerDetail from './drawerDetail.vue'
 import UploadExcelComponent from '@/components/UploadExcel/index.vue'
+import Advanced from "./advanced.vue"
 
 export default {
   name: 'HfBaseRightRoleIndexVue',
@@ -249,7 +188,8 @@ export default {
     TableColumnPreferenceSettingApiSlot,
     DialogBtnPage,
     DrawerDetail,
-    UploadExcelComponent
+    UploadExcelComponent,
+    Advanced
   },
   directives: {
     resize: {
@@ -351,6 +291,9 @@ export default {
         }],
       rowdata: null,
       heightTable: null,
+      tHeader: [], // 导出表头
+      exportListArr: [], // 导出数据,
+      auditstatus: '1',// 审核状态,
       // 带快捷时间
       pickerOptions: {
         shortcuts: [{
@@ -374,10 +317,7 @@ export default {
           }
         }]
       },
-      datatimeVal: '',
-      tHeader: [], // 导出表头
-      exportListArr: [], // 导出数据,
-      auditstatus: '1' // 审核状态
+      datatimeVal: ''
     }
   },
 
@@ -751,55 +691,55 @@ export default {
     /**
    * 下拉菜单事件
    */
-    handleCommand(command) {
-      // 导出的表头字段名，需要导出表格字段名
-      const filterVal = [
-        'orderNo',
-        'ordertime',
-        'ordertotal',
-        'consignee',
-        'orderstatus',
-        'paystatus',
-        'shipmentstatus',
-        'paymethod',
-        'customerphone',
-        'customeraddress',
-        'customermail'
-      ]
-      this.tHeader = [
-        '下单编号',
-        '下单时间',
-        '订单总额',
-        '收货人',
-        '订单状态',
-        '付款状态',
-        '发货状态',
-        '支付方式',
-        '客户联系方式',
-        '客户地址',
-        '客户邮件'
-      ]
-      // 全部导出
-      if (command === 'all') {
-        this.exportListArr = this.formatJson(filterVal, this.jsonData.list)
-        this.handleExport2Excel(this.tHeader, this.exportListArr, 'all-xlsx')
-      } else if (command === 'select') {
-        // 选中导出
-        if (this.toggleRowSelectionArray.length > 0) {
-          this.exportListArr = this.formatJson(filterVal, this.toggleRowSelectionArray)
-          this.handleExport2Excel(this.tHeader, this.exportListArr, 'select-xlsx')
-        } else {
-          alert('你还没有选中数据')
-        }
-      } else if (command === 'template') {
-        // 模板导出
-        alert('模板导出')
-      } else if (command === 'singlepage') {
-        // 单页导出
-        this.exportListArr = this.formatJson(filterVal, this.jsonData.list)
-        this.handleExport2Excel(this.tHeader, this.exportListArr, 'singlepage-xlsx')
-      }
-    },
+    // handleCommand(command) {
+    //   // 导出的表头字段名，需要导出表格字段名
+    //   const filterVal = [
+    //     'orderNo',
+    //     'ordertime',
+    //     'ordertotal',
+    //     'consignee',
+    //     'orderstatus',
+    //     'paystatus',
+    //     'shipmentstatus',
+    //     'paymethod',
+    //     'customerphone',
+    //     'customeraddress',
+    //     'customermail'
+    //   ]
+    //   this.tHeader = [
+    //     '下单编号',
+    //     '下单时间',
+    //     '订单总额',
+    //     '收货人',
+    //     '订单状态',
+    //     '付款状态',
+    //     '发货状态',
+    //     '支付方式',
+    //     '客户联系方式',
+    //     '客户地址',
+    //     '客户邮件'
+    //   ]
+    //   // 全部导出
+    //   if (command === 'all') {
+    //     this.exportListArr = this.formatJson(filterVal, this.jsonData.list)
+    //     this.handleExport2Excel(this.tHeader, this.exportListArr, 'all-xlsx')
+    //   } else if (command === 'select') {
+    //     // 选中导出
+    //     if (this.toggleRowSelectionArray.length > 0) {
+    //       this.exportListArr = this.formatJson(filterVal, this.toggleRowSelectionArray)
+    //       this.handleExport2Excel(this.tHeader, this.exportListArr, 'select-xlsx')
+    //     } else {
+    //       alert('你还没有选中数据')
+    //     }
+    //   } else if (command === 'template') {
+    //     // 模板导出
+    //     alert('模板导出')
+    //   } else if (command === 'singlepage') {
+    //     // 单页导出
+    //     this.exportListArr = this.formatJson(filterVal, this.jsonData.list)
+    //     this.handleExport2Excel(this.tHeader, this.exportListArr, 'singlepage-xlsx')
+    //   }
+    // },
     // 处理数据格式将[{}……]处理为@/vendor/Export2Excel需要的[[]……]格式
     formatJson(filterVal, jsonData) {
       return jsonData.map((v) => filterVal.map((j) => v[j]))

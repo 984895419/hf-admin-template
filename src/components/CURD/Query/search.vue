@@ -17,7 +17,7 @@
                 $t('common.show')
               </el-button>
               <common-dialog-btn v-if="$route.path=='/stable'" style="display:inline-block;margin-left:10px" :size="size" :label="'高级搜索'">
-                <slot name="advanced" />
+                <slot name="advanced"  />
               </common-dialog-btn>
             </el-form-item>
           </el-col>
