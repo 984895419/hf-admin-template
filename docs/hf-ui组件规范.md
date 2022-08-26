@@ -27,7 +27,7 @@ npm  i
     "axios": "~0.27.2",
     "core-js": "^3.8.3",
     "element-ui": "~2.15.9",
-    "hf-ui": "~1.0.31",
+    "hf-ui": "~1.0.57",
     "js-cookie": "~3.0.1",
     "js-file-download": "~0.4.12",
     "sortablejs": "~1.15.0",
@@ -90,7 +90,7 @@ Vue.use(Element, {
   i18n: (key, value) => i18n.t(key, value)
 })
 Vue.use(hfui)
-
+Vue.use(hfuibasic)
 new Vue({
   router,
   store,
