@@ -70,7 +70,7 @@
             </el-dropdown-item>
             <!-- 导出 -->
             <el-dropdown-item icon="el-icon-circle-check">
-              <el-dropdown :hide-on-click="false" placement="bottom" >
+              <el-dropdown :hide-on-click="false" placement="bottom">
                 <span class="el-dropdown-link">
                   导出
                 </span>
@@ -138,7 +138,7 @@
         </template>
       </table-column-preference-setting-api-slot>
       <!-- 查看抽屉 -->
-      <drawer-detail :isshowdetail="isshowdetail" :rowdata="rowdata" @getshowdetail="getshowdetail" />
+      <drawer-detail :rowdata="rowdata" ref="detail" :title="'订单明细表'" />
     </el-card>
     <!-- 分页信息 -->
     <curd-pagination style="margin-top:10px" :current-page.sync="searchForm.pageInfo.pageNo"
@@ -647,18 +647,12 @@ export default {
       }
     },
     /**
-     * 双击看详情
-     */
+   * 双击看详情
+   */
     rowdbclick(row, column, event) {
       // 双击行
-      this.isshowdetail = true
+      this.$refs.detail.openDialog()
       this.rowdata = row
-    },
-    /**
-     * 抽屉子回显
-     */
-    getshowdetail(data) {
-      this.isshowdetail = data
     },
     // 表格宽高
     handleResize({ width, height }) {

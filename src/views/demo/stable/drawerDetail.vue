@@ -1,58 +1,71 @@
 <template>
   <div>
+    <el-button @click="openDialog()" v-show="false"></el-button>
     <el-drawer size="30%" :visible.sync="isshowdetail" :direction="direction" :before-close="handleClose">
       <div class="demo-drawer__content">
-        <div class="table-tit">订单明细表</div>
+        <div class="table-tit">{{ title }}</div>
       </div>
       <div class="demo-drawer__table">
         <el-form :model="rowdata" label-width="80px">
           <el-col :span="12">
             <el-form-item v-if="rowdata" label="订单编号">
-              <el-input v-model="rowdata.orderNo" :readonly="true" /></el-form-item>
+              <el-input v-model="rowdata.orderNo" :readonly="true" />
+            </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item v-if="rowdata" label="下单时间">
-              <el-input v-model="rowdata.ordertime" :readonly="true" /></el-form-item>
+              <el-input v-model="rowdata.ordertime" :readonly="true" />
+            </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item v-if="rowdata" label="订单总额">
-              <el-input v-model="rowdata.ordertotal" :readonly="true" /></el-form-item>
+              <el-input v-model="rowdata.ordertotal" :readonly="true" />
+            </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item v-if="rowdata" label="收货人">
-              <el-input v-model="rowdata.consignee" :readonly="true" /></el-form-item>
+              <el-input v-model="rowdata.consignee" :readonly="true" />
+            </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item v-if="rowdata" label="订单状态">
-              <el-input v-model="rowdata.orderstatus" :readonly="true" /></el-form-item>
+              <el-input v-model="rowdata.orderstatus" :readonly="true" />
+            </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item v-if="rowdata" label="订单编号">
-              <el-input v-model="rowdata.orderNo" :readonly="true" /></el-form-item>
+              <el-input v-model="rowdata.orderNo" :readonly="true" />
+            </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item v-if="rowdata" label="付款状态">
-              <el-input v-model="rowdata.paystatus" :readonly="true" /></el-form-item>
+              <el-input v-model="rowdata.paystatus" :readonly="true" />
+            </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item v-if="rowdata" label="发货状态">
-              <el-input v-model="rowdata.shipmentstatus" :readonly="true" /></el-form-item>
+              <el-input v-model="rowdata.shipmentstatus" :readonly="true" />
+            </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item v-if="rowdata" label="支付方式">
-              <el-input v-model="rowdata.paymethod" :readonly="true" /></el-form-item>
+              <el-input v-model="rowdata.paymethod" :readonly="true" />
+            </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item v-if="rowdata" label="客户联系方式">
-              <el-input v-model="rowdata.customerphone" :readonly="true" /></el-form-item>
+              <el-input v-model="rowdata.customerphone" :readonly="true" />
+            </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item v-if="rowdata" label="客户地址">
-              <el-input v-model="rowdata.customeraddress" :readonly="true" /></el-form-item>
+              <el-input v-model="rowdata.customeraddress" :readonly="true" />
+            </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item v-if="rowdata" label="客户邮件">
-              <el-input v-model="rowdata.customermail" :readonly="true" /></el-form-item>
+              <el-input v-model="rowdata.customermail" :readonly="true" />
+            </el-form-item>
           </el-col>
 
         </el-form>
@@ -70,73 +83,77 @@ import * as conf from './api'
 
 export default {
 
-    props: {
-        isshowdetail: {
-            type: Boolean,
-            default: false
-        },
-        rowdata: {
-            type: Object,
-            default: () => {
-                return {
-                    orderNo: '',
-                    ordertime: '',
-                    ordertotal: '',
-                    consignee: '',
-                    orderstatus: '',
-                    paystatus: '',
-                    shipmentstatus: '',
-                    paymethod: '',
-                    customerphone: '',
-                    customeraddress: '',
-                    customermail: ''
-                }
-            }
-        }
-    },
-    data() {
+  props: {
+    rowdata: {
+      type: Object,
+      default: () => {
         return {
-            direction: 'rtl',
-            loading: true,
-            conf: conf
+          orderNo: '',
+          ordertime: '',
+          ordertotal: '',
+          consignee: '',
+          orderstatus: '',
+          paystatus: '',
+          shipmentstatus: '',
+          paymethod: '',
+          customerphone: '',
+          customeraddress: '',
+          customermail: ''
         }
+      }
     },
-    methods: {
-        handleClose(done) {
-            this.$confirm('确认关闭？')
-                .then(_ => {
-                    this.$emit('getshowdetail', false)
-                })
-                .catch(_ => { })
-        },
-        cancelForm() {
-            this.$emit('getshowdetail', false)
-        }
+    title: {
+      type: String,
+      default: '订单明细表'
     }
+  },
+  data() {
+    return {
+      direction: 'rtl',
+      loading: true,
+      conf: conf,
+      isshowdetail: false
+    }
+  },
+  methods: {
+    handleClose(done) {
+      this.$confirm('确认关闭？')
+        .then(_ => {
+          this.isshowdetail = false
+        })
+        .catch(_ => { })
+    },
+    cancelForm() {
+      this.isshowdetail = false
+    },
+    openDialog(row) {
+      this.isshowdetail = true
+    }
+  }
 }
 </script>
 
 <style  lang="less" scoped>
 .demo-drawer__content {
-    .table-tit {
-        font-size: 24px;
-        padding: 15px 0;
-        box-sizing: border-box;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: rgb(242, 242, 242);
-    }
+  .table-tit {
+    font-size: 24px;
+    padding: 15px 0;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgb(242, 242, 242);
+  }
 
 }
 
 .demo-drawer__table {
-    padding: 20px 10px 0 10px;
-    box-sizing: border-box;
+  padding: 20px 10px 0 10px;
+  box-sizing: border-box;
 }
 
 .demo-drawer__footer {
-    float: right;
-    margin: 10px 10px 10px 0;
+  float: right;
+  margin: 10px 10px 10px 0;
 }
 </style>
