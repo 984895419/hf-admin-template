@@ -83,14 +83,14 @@ import hfui from 'hf-ui'
 import hfuibasic from 'hf-ui-basic'
 import 'hf-ui/hf-ui.css'
 import 'hf-ui-basic/hf-ui-basic.css'
-
+Vue.use(hfui)
+Vue.use(hfuibasic)
 Vue.config.productionTip = false
 Vue.use(Element, {
   size: Cookies.get('size') || 'medium', // set element-ui default size
   i18n: (key, value) => i18n.t(key, value)
 })
-Vue.use(hfui)
-Vue.use(hfuibasic)
+
 new Vue({
   router,
   store,
