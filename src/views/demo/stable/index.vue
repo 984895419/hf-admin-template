@@ -47,20 +47,7 @@
             </el-dropdown-item>
             <!-- 审核 -->
             <el-dropdown-item icon="el-icon-check">
-              <dialog-btn-page :type="'text'" :label="'批量审核'" :title="'批量审核'">
-                <el-card>
-                  <el-form>
-                    <el-form-item label="审核状态">
-                      <el-radio v-model="auditstatus" label="1" border size="medium">通过</el-radio>
-                      <el-radio v-model="auditstatus" label="2" border size="medium">不通过</el-radio>
-                    </el-form-item>
-                  </el-form>
-                </el-card>
-                <div style="float:right;margin:10px 0">
-                  <el-button type="primary" @click="onSubmit">确定</el-button>
-                  <el-button @click="cancelAdvanced">取消</el-button>
-                </div>
-              </dialog-btn-page>
+              <examine :auditstatus="auditstatus" />
             </el-dropdown-item>
             <!-- 导入 -->
             <el-dropdown-item icon="el-icon-circle-check">
@@ -169,6 +156,7 @@ import DialogBtnPage from '@/components/CURD/Btns/DialogBtnPage'
 import DrawerDetail from './drawerDetail.vue'
 import UploadExcelComponent from '@/components/UploadExcel/index.vue'
 import Advanced from "./advanced.vue"
+import Examine from "./examine.vue"
 
 export default {
   name: 'HfBaseRightRoleIndexVue',
@@ -189,7 +177,8 @@ export default {
     DialogBtnPage,
     DrawerDetail,
     UploadExcelComponent,
-    Advanced
+    Advanced,
+    Examine
   },
   directives: {
     resize: {
@@ -658,10 +647,7 @@ export default {
     handleResize({ width, height }) {
       this.heightTable = parseFloat(height) - 210
     },
-    // 提交查询表单
-    onSubmit() {
-      console.log('submit!')
-    },
+
     /**
     * 联级选择器
     */
@@ -738,12 +724,7 @@ export default {
     formatJson(filterVal, jsonData) {
       return jsonData.map((v) => filterVal.map((j) => v[j]))
     },
-    /**
-    * 取消高级搜索弹窗
-    */
-    cancelAdvanced() {
 
-    },
     // 导入前判断
     beforeUpload(file) {
       const isLt1M = file.size / 1024 / 1024 < 1
