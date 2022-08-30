@@ -1,18 +1,14 @@
 <template>
-  <div
-    v-loading.fullscreen.lock="fullscreenLoading"
-    element-loading-text="拼命加载中"
-    element-loading-spinner="el-icon-loading"
-    element-loading-background="rgba(0, 0, 0, 0.1)"
-    class="app-container"
-  >
+  <div v-loading.fullscreen.lock="fullscreenLoading" element-loading-text="拼命加载中"
+    element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.1)" class="app-container">
     <div class="userbind">{{ dataList.roleName }}绑定用户</div>
     <el-row style="margin-bottom:none">
       <el-col :span="3">
         <tree-search :data="companydepartsdata" @treeNodeval="treeNodeval" />
       </el-col>
       <el-col :span="21">
-        <hfBaseUserInfo :binduserlist="hasSelectList" :post-base-user-info-param="postBaseUserInfoParam" @userbindlist="userbind($event)" />
+        <hfBaseUserInfo :binduserlist="hasSelectList" :post-base-user-info-param="postBaseUserInfoParam"
+          @userbindlist="userbind($event)" />
       </el-col>
     </el-row>
     <div class="btn-rt">
@@ -65,7 +61,7 @@ export default {
       // 查找多选框
       pageData1: {
         pageNo: 1,
-        pageSize: 100
+        pageSize: 10
       },
       fullscreenLoading: false,
       userIds: [],
@@ -82,7 +78,9 @@ export default {
   mounted() {
     this.getCompanyDeparts()
     this.init()
-    this.getAlreadyBindUser()
+    this.$nextTick(() => {
+      this.getAlreadyBindUser()
+    })
   },
   methods: {
     filterNode(value, data) {
@@ -204,14 +202,16 @@ export default {
     },
     // 获取角色已绑定用户
     getAlreadyBindUser() {
-      baseApiGetMethod(`/api/hfBaseRightRole/bindUsers/${this.dataList.roleId}`, this.pageData1).then(
+      console.log(this.dataList.roleId, "this.dataList.roleId")
+      baseApiGetMethod(`/api/hfBaseRightRole/bindUsers/11`, this.pageData1).then(
         (resp) => {
+          console.log(resp.data, "resp.data")
           if (resp.retCode === '00001') {
-             this.alreadyBindUserList = resp.data.list
-             this.alreadyBindUserList.forEach((item) => {
-                    this.hasSelectList.push(item.id)
-              })
-             this.init()
+            this.alreadyBindUserList = resp.data.list
+            this.alreadyBindUserList.forEach((item) => {
+              this.hasSelectList.push(item.id)
+            })
+            this.init()
           }
         }
       )
@@ -221,9 +221,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.userbind{
+.userbind {
   margin-top: -20px;
 }
+
 .el-row {
   margin-bottom: 20px;
 

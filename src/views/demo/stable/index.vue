@@ -89,7 +89,7 @@
       </div>
       <div style="float: right;" class="col-btn-display" />
     </div>
-
+    <!-- 主内容区 -->
     <el-card>
       <!-- 列表-->
       <table-column-preference-setting-api-slot v-model="showFields" :init-data="tableFields"
@@ -241,43 +241,6 @@ export default {
       tableFields: conf.default,
       toggleRowSelectionArray: [],
       isshowdetail: false,
-      // 批量操作
-      options: [
-        {
-          value: 'batchEnable',
-          label: '批量启动'
-        },
-        {
-          value: 'batchDisable',
-          label: '批量禁用'
-        },
-        {
-          value: 'batchDelete',
-          label: '批量删除'
-        },
-        {
-          value: 'batchaudit',
-          label: '批量审核'
-        }, {
-          value: 'import',
-          label: '导入'
-        }, {
-          value: 'export',
-          label: '导出',
-          children: [{
-            value: 'select',
-            label: '选中导出'
-          }, {
-            value: 'singlepage',
-            label: '单页导出'
-          }, {
-            value: 'all',
-            label: '全部导出'
-          }, {
-            value: 'template',
-            label: '模板'
-          }]
-        }],
       rowdata: null,
       heightTable: null,
       tHeader: [], // 导出表头
