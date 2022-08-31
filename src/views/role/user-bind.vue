@@ -7,8 +7,8 @@
         <tree-search :data="companydepartsdata" @treeNodeval="treeNodeval" />
       </el-col>
       <el-col :span="21">
-        <hfBaseUserInfo :binduserlist="hasSelectList" :post-base-user-info-param="postBaseUserInfoParam"
-          @userbindlist="userbind($event)" />
+        <hfBaseUserInfo  :dataList="dataList"  :post-base-user-info-param="postBaseUserInfoParam"
+          @userbindlist="userbind($event)"  />
       </el-col>
     </el-row>
     <div class="btn-rt">
@@ -58,15 +58,8 @@ export default {
         pageNum: 1,
         pageSize: 10
       },
-      // 查找多选框
-      pageData1: {
-        pageNo: 1,
-        pageSize: 10
-      },
       fullscreenLoading: false,
       userIds: [],
-      alreadyBindUserList: [],
-      hasSelectList: [],
       postBaseUserInfoParam: []
     }
   },
@@ -78,9 +71,6 @@ export default {
   mounted() {
     this.getCompanyDeparts()
     this.init()
-    this.$nextTick(() => {
-      this.getAlreadyBindUser()
-    })
   },
   methods: {
     filterNode(value, data) {
@@ -200,22 +190,7 @@ export default {
     handleSelectionChange() {
       alert('未选择')
     },
-    // 获取角色已绑定用户
-    getAlreadyBindUser() {
-      console.log(this.dataList.roleId, "this.dataList.roleId")
-      baseApiGetMethod(`/api/hfBaseRightRole/bindUsers/11`, this.pageData1).then(
-        (resp) => {
-          console.log(resp.data, "resp.data")
-          if (resp.retCode === '00001') {
-            this.alreadyBindUserList = resp.data.list
-            this.alreadyBindUserList.forEach((item) => {
-              this.hasSelectList.push(item.id)
-            })
-            this.init()
-          }
-        }
-      )
-    }
+ 
   }
 }
 </script>

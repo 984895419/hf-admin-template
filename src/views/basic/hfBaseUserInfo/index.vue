@@ -164,8 +164,9 @@ export default {
   },
   mixins: [CurdMixin],
   props: {
-    'binduserlist': Array,
+    // 'binduserlist': Array,
     'postBaseUserInfoParam': {},
+    dataList: {}
   },
   data() {
     return {
@@ -201,20 +202,37 @@ export default {
       toggleRowSelectionArray: [],
       roleBindList: [],
       maxheight: 565,
-      alreadychecked: null
+      alreadychecked: false,
+      // 查找多选框
+      pageData1: {
+        pageNo: 1,
+        pageSize: 50
+      },
+      // binduserlist: null,
+      hasSelectList: [],
     }
   },
   watch: {
     postBaseUserInfoParam(val, oldval) {
       this.searchForm.pkOrg = val.pkCorp
       this.doSearch()
+    },
+    alreadychecked(val, oldval) {
+      if (val === true) {
+        this.getAlreadyBindUser(val)
+      } else {
+        this.doSearch()
+      }
     }
   },
   created() {
     this.doSearch()
   },
   mounted() {
-    console.log(this.postBaseUserInfoParam, 'postBaseUserInfoParam')
+    console.log(this.postBaseUserInfoParam, 'postBaseUserInfoParam');
+    this.$nextTick(() => {
+      this.getAlreadyBindUser()
+    })
   },
   methods: {
     reRenderTable(res) {
@@ -275,10 +293,11 @@ export default {
           if (isSuccessResult(resp)) {
             this.$set(this.jsonData, 'list', resp.data.list)
             this.$set(this.jsonData, 'total', resp.data.total)
+            console.log(this.hasSelectList, "this.hasSelectList2")
             setTimeout(() => {
-              if (this.binduserlist && this.binduserlist.length > 0) {
+              if (this.hasSelectList && this.hasSelectList.length > 0) {
                 this.$nextTick(() => {
-                  this.$refs.hfMainTable.toggleRowSelection(this.jsonData.list.filter(row => this.binduserlist.indexOf(row.id) >= 0), true)
+                  this.$refs.hfMainTable.toggleRowSelection(this.jsonData.list.filter(row => this.hasSelectList.indexOf(row.id) >= 0), true)
                 })
               } else {
                 console.log()
@@ -296,6 +315,10 @@ export default {
         this.$message.error('请配置分页查询地址参数:{pageUrl: xxxx}')
       }
     },
+    // 筛选已绑定
+    filterBound(resp) {
+
+    },
     // 从NC同步用户信息
     syncNcData() {
       this.listLoading = true
@@ -308,7 +331,56 @@ export default {
         }
       )
     },
-  },
+    newArrFn(arr) {
+      const newArr = []
+      for (let i = 0; i < arr.length; i++) {
+        newArr.includes(arr[i]) ? newArr : newArr.push(arr[i])
+      }
+      return newArr
+    },
+    // 数组对象去重
+    fn1(tempArr) {
+      for (let i = 0; i < tempArr.length; i++) {
+        for (let j = i + 1; j < tempArr.length; j++) {
+          if (tempArr[i].id == tempArr[j].id) {
+            tempArr.splice(j, 1);
+            j--;
+          };
+        };
+      };
+      return tempArr;
+    },
+    // 获取角色已绑定用户
+    getAlreadyBindUser(val) {
+      // console.log(this.dataList,123)
+      baseApiGetMethod(`/api/hfBaseRightRole/bindUsers/${this.dataList.roleId}`, this.pageData1).then(
+        (resp) => {
+          if (resp.retCode === '00001') {
+            this.binduserlist = resp.data.list
+            this.binduserlist.forEach((item) => {
+              this.hasSelectList.push(item.id)
+            })
+            this.hasSelectList = this.newArrFn(this.hasSelectList)
+            if (val) {
+              this.$set(this.jsonData, 'list', this.fn1(resp.data.list))
+              this.$set(this.jsonData, 'total', resp.data.total)
+              setTimeout(() => {
+                if (this.hasSelectList && this.hasSelectList.length > 0) {
+                  this.$nextTick(() => {
+                    this.$refs.hfMainTable.toggleRowSelection(this.jsonData.list.filter(row => this.hasSelectList.indexOf(row.id) >= 0), true)
+                  })
+                } else {
+                  console.log()
+                }
+              }, 500)
+            } else {
+              return
+            }
+          }
+        }
+      )
+    }
+  }
 }
 </script>
 
