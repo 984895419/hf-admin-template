@@ -68,10 +68,10 @@ export default {
     },
     methods: {
         onSubmit() {
-
+            this.$emit('success')
         },
         cancelAdvanced() {
-
+            this.$emit('cancel')
         }
 
     }

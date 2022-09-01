@@ -231,6 +231,7 @@ export default {
     display: flex;
     justify-content: flex-end;
     margin-top: -40px;
+    position: relative;
   }
 
   .accout-nav {

@@ -18,7 +18,9 @@
     </div>
     <!-- 操作栏-->
     <div class="btnslist">
+      <!-- 新增组件  -->
       <hf-base-stable-add style="margin-right:10px" :action-url="conf.urlMethods.addUrl" @success="doSearch" />
+      <!-- 右边批量操作栏 只有选择checkbox时候 才显示 -->
       <div class="block">
         <el-dropdown v-if="conf.urlMethods.disableUrl
         && toggleRowSelectionArray.length > 0" :hide-on-click="false" trigger="click">
@@ -55,13 +57,14 @@
                 <upload-excel-component :on-success="handleSuccess" :before-upload="beforeUpload" />
               </dialog-btn-page>
             </el-dropdown-item>
-            <!-- 导出 -->
+            <!-- 导出集合 -->
             <el-dropdown-item icon="el-icon-circle-check">
               <el-dropdown :hide-on-click="false" placement="bottom">
                 <span class="el-dropdown-link">
                   导出
                 </span>
                 <el-dropdown-menu slot="dropdown">
+                  <!--批量导出 功能块-->
                   <el-dropdown-item icon="el-icon-plus">
                     <template-confirm-btn
                       :url="templateUrl(conf.urlMethods.batchExportSelectUrl, toggleRowSelectionArray)"
@@ -95,11 +98,13 @@
       <table-column-preference-setting-api-slot v-model="showFields" :init-data="tableFields"
         :preference-alias="conf.namespace">
         <template v-slot="{ doSave, preferenceData, headerDragend }">
+          <!-- 主表内容区域 table-data:数据list   maxheight:最大高度  row-dblclick:双击事件 sort-change:表头上出现一个上下箭头图标  headerDragend:拖动列改变宽度事件  handleSelectionChange:checkbox当选项发生变化时会触发该事件 -->
           <hf-table v-if="showFields" v-loading="loading" :table-data="jsonData.list" :maxheight="heightTable"
-            @row-dblclick="rowdbclick" @selection-change="handleSelectionChange" @sort-change="sortChange"
-            @header-dragend="headerDragend">
+            @row-dblclick="(row) => { $refs.detail.openDialog(row) }" @selection-change="handleSelectionChange"
+            @sort-change="sortChange" @header-dragend="headerDragend">
             <section-table-column />
             <!-- 显示的字段-->
+            <!-- table表中右侧操作栏 -->
             <hf-base-right-role-columns :show-fields="showFields" :url-methods="conf.urlMethods" @success="doSearch" />
             <el-table-column fixed="right" :label="$t('common.operate')" width="150">
               <template v-slot:header>
@@ -124,8 +129,8 @@
           </hf-table>
         </template>
       </table-column-preference-setting-api-slot>
-      <!-- 查看抽屉 -->
-      <drawer-detail :rowdata="rowdata" ref="detail" :title="'订单明细表'" />
+      <!-- 双击查看抽屉明细表 rowdata:双击table行数据  -->
+      <drawer-detail ref="detail" :title="'订单明细表'" />
     </el-card>
     <!-- 分页信息 -->
     <curd-pagination style="margin-top:10px" :current-page.sync="searchForm.pageInfo.pageNo"
@@ -137,26 +142,26 @@
 <script>
 import * as conf from './api'
 import HfBaseStableAdd from './add'
-import HfTable from '@/components/CURD/Table/HfTable'
-import { baseApiGetMethod } from '@/components/CURD/baseApi'
-import { isSuccessResult } from '@/utils/ajaxResultUtil'
-import CurdPagination from '@/components/CURD/pagination/Pagination'
-import HfBaseRightRoleUpdate from './update'
-import DelBtn from '@/components/CURD/Btns/DelBtn'
+import HfTable from '@/components/CURD/Table/HfTable'//单表组件
+import { baseApiGetMethod } from '@/components/CURD/baseApi'// 统一请求方法
+import { isSuccessResult } from '@/utils/ajaxResultUtil'// 统一请求方法
+import CurdPagination from '@/components/CURD/pagination/Pagination'// 分页
+import HfBaseRightRoleUpdate from './update'// 更新页面
+import DelBtn from '@/components/CURD/Btns/DelBtn'// 删除按钮
 import CurdMixin from '@/components/CURD/curd.mixin'
 import CurdTableColumnSelect from '@/components/CURD/Table/select/TableColumnSelect'
-import HfBaseRightRoleColumns from './hfBaseRightRoleColumns'
-import TemplateConfirmBtn from '@/components/CURD/Btns/TemplateConfirmBtn'
-import FormItemColDict from '@/components/CURD/Form/formItemColDict.vue'
-import FormItemCol from '@/components/CURD/Form/formItemCol.vue'
+import HfBaseRightRoleColumns from './hfBaseRightRoleColumns'// 表头
+import TemplateConfirmBtn from '@/components/CURD/Btns/TemplateConfirmBtn'// 按钮弹窗
+import FormItemColDict from '@/components/CURD/Form/formItemColDict.vue'//el-form 封装组件
+import FormItemCol from '@/components/CURD/Form/formItemCol.vue'//普通搜索
 import SimpleSearch from '@/components/CURD/Query/search'
 import TableColumnPreferenceSettingApiSlot from '@/views/basic/preferenceSetting/TableColumnPrefenceSettingApiSlot'
 import SectionTableColumn from '@/components/CURD/Table/column/base/SectionTableColumn'
-import DialogBtnPage from '@/components/CURD/Btns/DialogBtnPage'
-import DrawerDetail from './drawerDetail.vue'
-import UploadExcelComponent from '@/components/UploadExcel/index.vue'
-import Advanced from "./advanced.vue"
-import Examine from "./examine.vue"
+import DialogBtnPage from '@/components/CURD/Btns/DialogBtnPage'// 按钮弹窗
+import DrawerDetail from './drawerDetail.vue'// 双击抽屉详情页
+import UploadExcelComponent from '@/components/UploadExcel/index.vue' //本是  excel 导出
+import Advanced from "./advanced.vue"//高级搜索弹窗
+import Examine from "./examine.vue" //审核页面
 
 export default {
   name: 'HfBaseRightRoleIndexVue',
@@ -180,6 +185,7 @@ export default {
     Advanced,
     Examine
   },
+  // 指令:  计算单表的高度 让他自适应高度
   directives: {
     resize: {
       bind(el, binding) {
@@ -233,19 +239,20 @@ export default {
          */
         sortInfo: []
       },
+      // 统一的配置
       conf: conf,
+      // 表单数据初始化
       jsonData: {
         list: [],
         total: 0
       },
+      // 表单表头项
       tableFields: conf.default,
+      // 选中数据
       toggleRowSelectionArray: [],
-      isshowdetail: false,
-      rowdata: null,
-      heightTable: null,
-      tHeader: [], // 导出表头
-      exportListArr: [], // 导出数据,
-      auditstatus: '1',// 审核状态,
+      rowdata: null, // 行数据
+      heightTable: null, // 计算高度
+      auditstatus: '1', // 审核状态
       // 带快捷时间
       pickerOptions: {
         shortcuts: [{
@@ -269,13 +276,11 @@ export default {
           }
         }]
       },
-      datatimeVal: ''
+      datatimeVal: ''//搜索时间值
     }
   },
 
-  mounted() {
-    console.log(1)
-  },
+  mounted() { },
   created() {
     this.doSearch()
   },
@@ -324,9 +329,6 @@ export default {
     handleSelectionChange(section) {
       this.toggleRowSelectionArray = section
       console.log(section, 'section')
-    },
-    checkboxHasSelect(val) {
-      console.log(val)
     },
     /**
      * 执行查询操作
@@ -598,96 +600,10 @@ export default {
         this.$message.error('请配置分页查询地址参数:{pageUrl: xxxx}')
       }
     },
-    /**
-   * 双击看详情
-   */
-    rowdbclick(row, column, event) {
-      // 双击行
-      this.$refs.detail.openDialog()
-      this.rowdata = row
-    },
     // 表格宽高
     handleResize({ width, height }) {
       this.heightTable = parseFloat(height) - 210
     },
-
-    /**
-    * 联级选择器
-    */
-    handleBatchChange(value) {
-      console.log(value, 'val')
-    },
-    /**
-     * header表头  data具体数据  fliename文件名
-     */
-    handleExport2Excel(header, data, filename) {
-      import('@/vendor/Export2Excel').then(excel => {
-        excel.export_json_to_excel({
-          header: header, // 表头 必填
-          data, // 具体数据 必填
-          filename: filename, // 非必填
-          autoWidth: true, // 非必填
-          bookType: 'xlsx' // 非必填
-        })
-      })
-    },
-    /**
-   * 下拉菜单事件
-   */
-    // handleCommand(command) {
-    //   // 导出的表头字段名，需要导出表格字段名
-    //   const filterVal = [
-    //     'orderNo',
-    //     'ordertime',
-    //     'ordertotal',
-    //     'consignee',
-    //     'orderstatus',
-    //     'paystatus',
-    //     'shipmentstatus',
-    //     'paymethod',
-    //     'customerphone',
-    //     'customeraddress',
-    //     'customermail'
-    //   ]
-    //   this.tHeader = [
-    //     '下单编号',
-    //     '下单时间',
-    //     '订单总额',
-    //     '收货人',
-    //     '订单状态',
-    //     '付款状态',
-    //     '发货状态',
-    //     '支付方式',
-    //     '客户联系方式',
-    //     '客户地址',
-    //     '客户邮件'
-    //   ]
-    //   // 全部导出
-    //   if (command === 'all') {
-    //     this.exportListArr = this.formatJson(filterVal, this.jsonData.list)
-    //     this.handleExport2Excel(this.tHeader, this.exportListArr, 'all-xlsx')
-    //   } else if (command === 'select') {
-    //     // 选中导出
-    //     if (this.toggleRowSelectionArray.length > 0) {
-    //       this.exportListArr = this.formatJson(filterVal, this.toggleRowSelectionArray)
-    //       this.handleExport2Excel(this.tHeader, this.exportListArr, 'select-xlsx')
-    //     } else {
-    //       alert('你还没有选中数据')
-    //     }
-    //   } else if (command === 'template') {
-    //     // 模板导出
-    //     alert('模板导出')
-    //   } else if (command === 'singlepage') {
-    //     // 单页导出
-    //     this.exportListArr = this.formatJson(filterVal, this.jsonData.list)
-    //     this.handleExport2Excel(this.tHeader, this.exportListArr, 'singlepage-xlsx')
-    //   }
-    // },
-    // 处理数据格式将[{}……]处理为@/vendor/Export2Excel需要的[[]……]格式
-    formatJson(filterVal, jsonData) {
-      return jsonData.map((v) => filterVal.map((j) => v[j]))
-    },
-
     // 导入前判断
     beforeUpload(file) {
       const isLt1M = file.size / 1024 / 1024 < 1
@@ -699,23 +615,13 @@ export default {
         type: 'warning'
       })
       return false
-    },
-    // 导入预留表格数据
-    handleSuccess({ results, header }) {
-      // this.tableData = results
-      // this.tableHeader = header
-      this.$message({
-        message: '导入成功',
-        type: 'success'
-      })
-      console.log('results', results)
-      console.log('header', header)
     }
   }
 }
 </script>
 
 <style scoped lang="less">
+/* 表内部分样式 */
 .stable {
   margin: 20px 10px 10px 10px;
   height: 100%;
