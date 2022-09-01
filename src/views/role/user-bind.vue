@@ -8,7 +8,7 @@
       </el-col>
       <el-col :span="21">
         <hfBaseUserInfo  :dataList="dataList"  :post-base-user-info-param="postBaseUserInfoParam"
-          @userbindlist="userbind($event)"  />
+          @userbindlist="userbind($event)" :showAlreadyChecked="true" />
       </el-col>
     </el-row>
     <div class="btn-rt">
