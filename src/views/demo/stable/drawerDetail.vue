@@ -82,26 +82,7 @@
 import * as conf from './api'
 
 export default {
-
   props: {
-    rowdata: {
-      type: Object,
-      default: () => {
-        return {
-          orderNo: '',
-          ordertime: '',
-          ordertotal: '',
-          consignee: '',
-          orderstatus: '',
-          paystatus: '',
-          shipmentstatus: '',
-          paymethod: '',
-          customerphone: '',
-          customeraddress: '',
-          customermail: ''
-        }
-      }
-    },
     title: {
       type: String,
       default: '订单明细表'
@@ -112,7 +93,20 @@ export default {
       direction: 'rtl',
       loading: true,
       conf: conf,
-      isshowdetail: false
+      isshowdetail: false,
+      rowdata: {
+        orderNo: '',
+        ordertime: '',
+        ordertotal: '',
+        consignee: '',
+        orderstatus: '',
+        paystatus: '',
+        shipmentstatus: '',
+        paymethod: '',
+        customerphone: '',
+        customeraddress: '',
+        customermail: ''
+      }
     }
   },
   methods: {
@@ -127,6 +121,7 @@ export default {
       this.isshowdetail = false
     },
     openDialog(row) {
+      this.rowdata = row
       this.isshowdetail = true
     }
   }
