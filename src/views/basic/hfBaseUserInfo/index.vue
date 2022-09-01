@@ -5,12 +5,31 @@
       <simple-search v-model="searchForm" :inline="true" @search="doSearch">
         <template v-slot="{ span }">
           <!-- 新增的的字段配置 -->
-          <form-item-col :value="searchForm" style="width:auto" :span="span" prop="userCode"
-            :namespace="conf.namespace" />
-          <form-item-col :value="searchForm" style="width:auto" :span="span" prop="userName"
-            :namespace="conf.namespace" />
-          <!-- 字典字段字段设置方法如下
-          <form-item-col-dict
+          <form-item-col
+            :value="searchForm"
+            style="width:auto"
+            :span="span"
+            prop="userCode"
+            :namespace="conf.namespace"
+          />
+          <form-item-col
+            :value="searchForm"
+            style="width:auto"
+            :span="span"
+            prop="userName"
+            :namespace="conf.namespace"
+          />
+          <form-item-col-enable-state
+            :value="searchForm"
+            style="width:auto"
+            :span="span"
+            prop="enableState"
+            :namespace="conf.namespace"
+            :show-by="'select'"
+          />
+          <!--
+            字典字段字段设置方法如下
+            <form-item-col-dict
             :value="data"
             :error="errorMessage('clientMethod')"
             :span="span"
@@ -30,7 +49,8 @@
       <!--      <hf-base-user-info-add v-permission="['hfBaseUserInfo:save']" :action-url="conf.urlMethods.addUrl" @success="doSearch" />-->
       <div
         style="display: flex;align-items: center;justify-content: space-between;padding-left: 12px; box-sizing: border-box;"
-        class="col-btn-display">
+        class="col-btn-display"
+      >
         <!--        <del-btn-->
         <!--          v-if="conf.urlMethods.deleteUrl-->
         <!--            && toggleRowSelectionArray.length > 0"-->
@@ -60,26 +80,49 @@
         <div>
           <el-checkbox v-if="$route.path == '/role/role-list'" v-model="alreadychecked">筛选已绑定</el-checkbox>
         </div>
-        <template-confirm-btn v-if="conf.urlMethods.syncUrl" :http-method="'post'" :url="conf.urlMethods.syncUrl"
-          :btn-type="'primary'" :label="$t('common.sync')" @success="doSearch" />
+        <template-confirm-btn
+          v-if="conf.urlMethods.syncUrl"
+          :http-method="'post'"
+          :url="conf.urlMethods.syncUrl"
+          :btn-type="'primary'"
+          :label="$t('common.sync')"
+          @success="doSearch"
+        />
       </div>
 
     </div>
     <!-- 列表-->
-    <table-column-preference-setting-api-slot v-model="showFields" :init-data="tableFields"
-      :preference-alias="conf.namespace">
+    <table-column-preference-setting-api-slot
+      v-model="showFields"
+      :init-data="tableFields"
+      :preference-alias="conf.namespace"
+    >
       <template v-slot="{ doSave, preferenceData, headerDragend }">
-        <hf-table v-if="showFields" ref="hfMainTable" v-loading="loading" :maxheight="maxheight"
-          :table-data="jsonData.list" row-key="id" @selection-change="handleSelectionChange" @sort-change="sortChange"
-          @header-dragend="headerDragend">
+        <hf-table
+          v-if="showFields"
+          ref="hfMainTable"
+          v-loading="loading"
+          :maxheight="maxheight"
+          :table-data="jsonData.list"
+          row-key="id"
+          @selection-change="handleSelectionChange"
+          @sort-change="sortChange"
+          @header-dragend="headerDragend"
+        >
           <el-table-column fixed="left" type="selection" width="40" />
           <!-- 显示的字段-->
           <hf-base-user-info-columns :show-fields="showFields" :url-methods="conf.urlMethods" @success="doSearch" />
           <el-table-column fixed="right" :label="$t('common.operate')" width="150">
             <template v-slot:header>
               {{ $t('common.operate') }}
-              <curd-table-column-select v-model="showFields" :preference-alias="conf.namespace"
-                :table-fields="preferenceData" style="float: right" @selectedChange="reRenderTable" @doSave="doSave" />
+              <curd-table-column-select
+                v-model="showFields"
+                :preference-alias="conf.namespace"
+                :table-fields="preferenceData"
+                style="float: right"
+                @selectedChange="reRenderTable"
+                @doSave="doSave"
+              />
             </template>
             <template slot-scope="scopeRow">
               <div class="col-btn-display">
@@ -103,8 +146,12 @@
                 <hf-base-user-info-detail :value="scopeRow.row" />
                 <!-- 设置角色 -->
                 <!-- {{ $store.state.permission.routesMethods }} -->
-                <common-dialog-btn v-show="$route.path === '/oa/account'" v-permission="['hfBaseUserInfo:bindRoles']"
-                  :label="'设置角色'" :type="'text'">
+                <common-dialog-btn
+                  v-show="$route.path === '/oa/account'"
+                  v-permission="['hfBaseUserInfo:bindRoles']"
+                  :label="'设置角色'"
+                  :type="'text'"
+                >
                   <template slot-scope="{ closeDialog }">
                     <role-settings :data="scopeRow.row" @closeDialog="closeDialog" />
                   </template>
@@ -116,8 +163,13 @@
       </template>
     </table-column-preference-setting-api-slot>
     <!-- 分页信息 -->
-    <curd-pagination :current-page.sync="searchForm.pageInfo.pageNo" :page-size.sync="searchForm.pageInfo.pageSize"
-      :total="jsonData.total" @size-change="doSearch" @current-change="doSearch" />
+    <curd-pagination
+      :current-page.sync="searchForm.pageInfo.pageNo"
+      :page-size.sync="searchForm.pageInfo.pageSize"
+      :total="jsonData.total"
+      @size-change="doSearch"
+      @current-change="doSearch"
+    />
   </el-card>
 </template>
 
@@ -137,6 +189,7 @@ import HfBaseUserInfoColumns from './hfBaseUserInfoColumns'
 import TemplateConfirmBtn from '@/components/CURD/Btns/TemplateConfirmBtn'
 import FormItemColDict from '@/components/CURD/Form/formItemColDict.vue'
 import FormItemCol from '@/components/CURD/Form/formItemCol.vue'
+import FormItemColEnableState from '@/components/CURD/Form/formItemColEnableState.vue'
 import SimpleSearch from '@/components/CURD/Query/search'
 import TableColumnPreferenceSettingApiSlot from '@/views/basic/preferenceSetting/TableColumnPrefenceSettingApiSlot'
 import RoleSettings from '@/views/oa/role-settings.vue'
@@ -156,6 +209,7 @@ export default {
     HfTable, HfBaseUserInfoAdd,
     FormItemColDict,
     FormItemCol,
+    FormItemColEnableState,
     SimpleSearch,
     TableColumnPreferenceSettingApiSlot,
     RoleSettings,
@@ -181,6 +235,7 @@ export default {
         userName: null,
         pkOrg: null,
         pkDept: null,
+        enableState: 1,
         /**
          * 分页信息
          */
@@ -209,7 +264,7 @@ export default {
         pageSize: 50
       },
       // binduserlist: null,
-      hasSelectList: [],
+      hasSelectList: []
     }
   },
   watch: {
@@ -229,7 +284,7 @@ export default {
     this.doSearch()
   },
   mounted() {
-    console.log(this.postBaseUserInfoParam, 'postBaseUserInfoParam');
+    console.log(this.postBaseUserInfoParam, 'postBaseUserInfoParam')
     this.$nextTick(() => {
       this.getAlreadyBindUser()
     })
@@ -293,7 +348,7 @@ export default {
           if (isSuccessResult(resp)) {
             this.$set(this.jsonData, 'list', resp.data.list)
             this.$set(this.jsonData, 'total', resp.data.total)
-            console.log(this.hasSelectList, "this.hasSelectList2")
+            console.log(this.hasSelectList, 'this.hasSelectList2')
             setTimeout(() => {
               if (this.hasSelectList && this.hasSelectList.length > 0) {
                 this.$nextTick(() => {
@@ -343,12 +398,12 @@ export default {
       for (let i = 0; i < tempArr.length; i++) {
         for (let j = i + 1; j < tempArr.length; j++) {
           if (tempArr[i].id == tempArr[j].id) {
-            tempArr.splice(j, 1);
-            j--;
-          };
-        };
-      };
-      return tempArr;
+            tempArr.splice(j, 1)
+            j--
+          }
+        }
+      }
+      return tempArr
     },
     // 获取角色已绑定用户
     getAlreadyBindUser(val) {

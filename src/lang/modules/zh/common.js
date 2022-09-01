@@ -31,6 +31,7 @@ export default {
   batchDisable: '批量禁用',
   delete: '删除',
   add: '新增',
+  all: '全部',
   copyToAdd: '复制新增',
   edit: '编辑',
   batchDelete: '批量删除',
