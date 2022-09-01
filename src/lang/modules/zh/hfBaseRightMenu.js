@@ -15,7 +15,7 @@ export default {
   modifyTime: '修改时间',
   enableState: '启用/禁用',
   parentId: '上级id',
-  level: '层级',
+  levelInd: '层级',
   levelStr: '层级字符串',
   sort: '排序',
   deleted: '删除状态',
