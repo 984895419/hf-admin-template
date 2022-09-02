@@ -1,18 +1,14 @@
 <template>
-  <div
-    v-loading.fullscreen.lock="fullscreenLoading"
-    element-loading-text="拼命加载中"
-    element-loading-spinner="el-icon-loading"
-    element-loading-background="rgba(0, 0, 0, 0.1)"
-    class="app-container"
-  >
+  <div v-loading.fullscreen.lock="fullscreenLoading" element-loading-text="拼命加载中"
+    element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.1)" class="app-container">
     <div class="userbind">{{ dataList.roleName }}绑定用户</div>
     <el-row style="margin-bottom:none">
       <el-col :span="3">
         <tree-search :data="companydepartsdata" @treeNodeval="treeNodeval" />
       </el-col>
       <el-col :span="21">
-        <hfBaseUserInfo :binduserlist="hasSelectList" :post-base-user-info-param="postBaseUserInfoParam" @userbindlist="userbind($event)" />
+        <hfBaseUserInfo  :dataList="dataList"  :post-base-user-info-param="postBaseUserInfoParam"
+          @userbindlist="userbind($event)" :showAlreadyChecked="true" />
       </el-col>
     </el-row>
     <div class="btn-rt">
@@ -62,15 +58,8 @@ export default {
         pageNum: 1,
         pageSize: 10
       },
-      // 查找多选框
-      pageData1: {
-        pageNo: 1,
-        pageSize: 100
-      },
       fullscreenLoading: false,
       userIds: [],
-      alreadyBindUserList: [],
-      hasSelectList: [],
       postBaseUserInfoParam: []
     }
   },
@@ -82,7 +71,6 @@ export default {
   mounted() {
     this.getCompanyDeparts()
     this.init()
-    this.getAlreadyBindUser()
   },
   methods: {
     filterNode(value, data) {
@@ -202,28 +190,16 @@ export default {
     handleSelectionChange() {
       alert('未选择')
     },
-    // 获取角色已绑定用户
-    getAlreadyBindUser() {
-      baseApiGetMethod(`/api/hfBaseRightRole/bindUsers/${this.dataList.roleId}`, this.pageData1).then(
-        (resp) => {
-          if (resp.retCode === '00001') {
-             this.alreadyBindUserList = resp.data.list
-             this.alreadyBindUserList.forEach((item) => {
-                    this.hasSelectList.push(item.id)
-              })
-             this.init()
-          }
-        }
-      )
-    }
+ 
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.userbind{
+.userbind {
   margin-top: -20px;
 }
+
 .el-row {
   margin-bottom: 20px;
 
@@ -255,6 +231,7 @@ export default {
     display: flex;
     justify-content: flex-end;
     margin-top: -40px;
+    position: relative;
   }
 
   .accout-nav {

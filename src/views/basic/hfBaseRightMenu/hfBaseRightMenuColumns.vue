@@ -50,10 +50,10 @@
         :label="$t(conf.namespace + '.redirect')"
         min-width="130"
       />
-      <creator-table-column :width="item.width" v-if="item.value === 'creatorUserName'" />
-      <create-time-table-column :width="item.width" v-if="item.value === 'createTime'" />
-      <modifier-table-column :width="item.width" v-if="item.value === 'modifierUserName'" />
-      <modify-time-table-column :width="item.width" v-if="item.value === 'modifyTime'" />
+      <creator-table-column v-if="item.value === 'creatorUserName'" :width="item.width" />
+      <create-time-table-column v-if="item.value === 'createTime'" :width="item.width" />
+      <modifier-table-column v-if="item.value === 'modifierUserName'" :width="item.width" />
+      <modify-time-table-column v-if="item.value === 'modifyTime'" :width="item.width" />
       <enable-state-table-column
         v-if="item.value === 'enableState'"
         :operate="true"
@@ -68,9 +68,9 @@
         min-width="130"
       />
       <el-table-column
-        v-if="item.value === 'level'"
-        prop="level"
-        :label="$t(conf.namespace + '.level')"
+        v-if="item.value === 'levelInd'"
+        prop="levelInd"
+        :label="$t(conf.namespace + '.levelInd')"
         min-width="60"
       />
       <el-table-column

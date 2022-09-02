@@ -16,7 +16,8 @@
                 @click="more = !more">
                 $t('common.show')
               </el-button>
-              <common-dialog-btn style="display:inline-block;margin-left:10px" :size="size"  :label="'高级搜索'">
+              <common-dialog-btn v-if="$scopedSlots['advanced']" style="display:inline-block;margin-left:10px"
+                :size="size" :label="'高级搜索'">
                 <slot name="advanced" />
               </common-dialog-btn>
             </el-form-item>
@@ -48,6 +49,9 @@ export default {
       initValue: deepClone(this.value),
       more: false
     }
+  },
+  mounted() {
+    console.log(this.$scopedSlots,"1232")
   },
   computed: {
     ...mapGetters([

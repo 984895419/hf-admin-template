@@ -27,7 +27,7 @@ npm  i
     "axios": "~0.27.2",
     "core-js": "^3.8.3",
     "element-ui": "~2.15.9",
-    "hf-ui": "~1.0.31",
+    "hf-ui": "~1.0.57",
     "js-cookie": "~3.0.1",
     "js-file-download": "~0.4.12",
     "sortablejs": "~1.15.0",
@@ -83,13 +83,13 @@ import hfui from 'hf-ui'
 import hfuibasic from 'hf-ui-basic'
 import 'hf-ui/hf-ui.css'
 import 'hf-ui-basic/hf-ui-basic.css'
-
+Vue.use(hfui)
+Vue.use(hfuibasic)
 Vue.config.productionTip = false
 Vue.use(Element, {
   size: Cookies.get('size') || 'medium', // set element-ui default size
   i18n: (key, value) => i18n.t(key, value)
 })
-Vue.use(hfui)
 
 new Vue({
   router,

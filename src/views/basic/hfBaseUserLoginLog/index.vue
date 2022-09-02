@@ -10,11 +10,18 @@
             :span="span"
             prop="userId"
             :namespace="conf.namespace"
-          />
-          <form-item-col
+          >
+            <hf-base-user-info-input-refer
+              :value="searchForm"
+              value-refer-id="userId"
+              value-refer-name="userName"
+            />
+          </form-item-col>
+          <form-item-col-dict
             :value="searchForm"
             :span="span"
             prop="loginType"
+            :dict-code="'LOGIN_TYPE'"
             :namespace="conf.namespace"
           />
           <form-item-col

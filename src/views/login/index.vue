@@ -150,6 +150,10 @@ export default {
       capsTooltip: false,
       loading: false,
       showDialog: false,
+                /**
+                 * 是否已经初始化，在首次调用openDialog得时候触发
+                 */
+                alreadyInit: false,
       dialogFormVisible: false,
       redirect: undefined,
       otherQuery: {},
