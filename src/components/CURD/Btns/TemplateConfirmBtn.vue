@@ -2,10 +2,12 @@
   <div>
     <el-button
       v-if="supportCheck"
-      :type="btnType"
+      :type="($attrs && $attrs.type) || btnType"
       :icon="icon"
       :size="size"
+      v-bind="$attrs"
       @click="openDialog"
+      v-on="$listeners"
     >
       {{ label }}
     </el-button>
