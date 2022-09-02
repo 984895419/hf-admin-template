@@ -1,19 +1,16 @@
 <template>
-  <div
-    v-loading.fullscreen.lock="fullscreenLoading"
-    element-loading-text="拼命加载中"
-    element-loading-spinner="el-icon-loading"
-    element-loading-background="rgba(0, 0, 0, 0.1)"
-    class="app-container"
-  >
-    <el-row>
-      <el-col :span="3">
-        <tree-search :data="companydepartsdata" @treeNodeval="treeNodeval" />
-      </el-col>
-      <el-col :span="21">
-        <HfBaseUserInfoIndexVue :post-base-user-info-param="postBaseUserInfoParam" />
-      </el-col>
-    </el-row>
+  <div v-loading.fullscreen.lock="fullscreenLoading" element-loading-text="拼命加载中"
+    element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.1)" class="app-container">
+    <div class="account">
+      <el-row>
+        <el-col :span="3">
+          <tree-search :data="companydepartsdata" @treeNodeval="treeNodeval" />
+        </el-col>
+        <el-col :span="21">
+          <HfBaseUserInfoIndexVue :post-base-user-info-param="postBaseUserInfoParam" />
+        </el-col>
+      </el-row>
+    </div>
   </div>
 </template>
 <script>
@@ -29,7 +26,7 @@ import { isEmpty } from 'element-ui/src/utils/util'
 export default {
   components: { HfBaseUserInfoIndexVue, TreeSearch },
   props: [
-      'description', 'value', 'methods'
+    'description', 'value', 'methods'
   ],
   data() {
     return {
@@ -64,9 +61,10 @@ export default {
       },
       fullscreenLoading: false,
       postBaseUserInfoParam: [],
-      departInfoDOS: []
+      departInfoDOS: [],
     }
   },
+
   watch: {
     filterText(val) {
       this.$refs.tree.filter(val)
@@ -75,25 +73,25 @@ export default {
       // val.foreach((item) => {
 
       // })
-  //  treeToList(list) {
-  //     if (list == null || list.length <= 0) { return [] }
-  //     for (var i = 0; i < list.length; i++) {
-  //       list[i].label = list[i].menuName || list[i].description
+      //  treeToList(list) {
+      //     if (list == null || list.length <= 0) { return [] }
+      //     for (var i = 0; i < list.length; i++) {
+      //       list[i].label = list[i].menuName || list[i].description
 
-  //       if (list[i].methods != null) {
-  //         list[i].children = list[i].methods
-  //       }
-  //       if (list[i].checked === true) {
-  //         this.defaultCheckedKeysList.push(list[i].menuId)
-  //       }
-  //       list[i].children = this.treeToList(list[i].children)
-  //     }
-  //       this.nextDefaultCheckedKeysList = this.defaultCheckedKeysList.filter(x => !!x === true || x === 0)
-  //       this.$nextTick(() => {
-  //         this.$refs.tree.setCheckedKeys(this.nextDefaultCheckedKeysList)
-  //       })
-  //     return list
-  //   }
+      //       if (list[i].methods != null) {
+      //         list[i].children = list[i].methods
+      //       }
+      //       if (list[i].checked === true) {
+      //         this.defaultCheckedKeysList.push(list[i].menuId)
+      //       }
+      //       list[i].children = this.treeToList(list[i].children)
+      //     }
+      //       this.nextDefaultCheckedKeysList = this.defaultCheckedKeysList.filter(x => !!x === true || x === 0)
+      //       this.$nextTick(() => {
+      //         this.$refs.tree.setCheckedKeys(this.nextDefaultCheckedKeysList)
+      //       })
+      //     return list
+      //   }
     }
   },
   mounted() {
@@ -173,12 +171,13 @@ export default {
     handleSelectionChange() {
       alert('未选择')
     }
-
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.account {}
+
 .el-row {
   margin-bottom: 20px;
 

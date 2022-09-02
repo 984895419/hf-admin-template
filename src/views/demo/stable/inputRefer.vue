@@ -49,7 +49,7 @@
           @row-dblclick="rowDbClick"
         >
           <!-- 显示的字段-->
-          <hf-base-right-role-columns
+          <base-stable-columns
             :show-fields="conf.default"
             :url-methods="conf.urlMethods"
             @success="doSearch"
@@ -76,16 +76,21 @@
     import SimpleSearch from '@/components/CURD/Query/search'
     import HfTable from '@/components/CURD/Table/HfTable'
     import CurdPagination from '@/components/CURD/pagination/Pagination'
-    import HfBaseRightRoleColumns from './hfBaseRightRoleColumns'
+    import baseStableColumns from './hfBaseRightRoleColumns'
     import FormItemColDict from '@/components/CURD/Form/formItemColDict.vue'
     import FormItemCol from '@/components/CURD/Form/formItemCol.vue'
     import RowSpanSlot from '@/components/CURD/Slot/RowSpanSlot.vue'
     export default {
         name: 'HfBaseRightRoleInputRefer',
-        components: { HfBaseRightRoleColumns, CurdPagination, HfTable, SimpleSearch,
+        components: {
+          baseStableColumns,
+          CurdPagination,
+          HfTable,
+          SimpleSearch,
           FormItemColDict,
           FormItemCol,
-          RowSpanSlot },
+          RowSpanSlot 
+          },
         props: {
             value: {
                 type: Object,
@@ -117,6 +122,10 @@
                 showFields: null,
                 loading: false,
                 showDialog: false,
+                /**
+                 * 是否已经初始化，在首次调用openDialog得时候触发
+                 */
+                alreadyInit: false,
 
                 /**
                  * 查询的表单信息
@@ -146,22 +155,24 @@
                 }
             }
         },
-        created() {
-          this.doSearch()
-        },
+        
         methods: {
             openDialog() {
+                if (!this.alreadyInit) {
+                  this.doSearch()
+                }
                 this.showDialog = true
             },
             closeDialog() {
                 this.showDialog = false
             },
-            /**
+             /**
              * 执行查询操作
              */
             doSearch() {
                 if (this.conf.urlMethods && this.conf.urlMethods.pageUrl) {
                     this.loading = true
+                    this.alreadyInit = true
                     baseApiGetMethod(this.conf.urlMethods.pageUrl, this.searchForm).then(resp => {
                         if (isSuccessResult(resp)) {
                             this.$set(this.jsonData, 'list', getData(resp).list)

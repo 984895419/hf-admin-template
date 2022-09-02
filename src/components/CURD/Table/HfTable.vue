@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-table ref="mainTable"  :size="size" :data="tableData" border :row-key="rowKey" v-bind="$attrs"
+    <el-table ref="mainTable" :size="size" :data="tableData" border :row-key="rowKey" v-bind="$attrs"
       :max-height="maxheight" v-on="$listeners">
       <slot />
     </el-table>
@@ -17,7 +17,8 @@ export default {
       type: String
     },
     maxheight: {
-      default: 600
+      default: 600,
+      type: Number
     }
   },
   computed: {

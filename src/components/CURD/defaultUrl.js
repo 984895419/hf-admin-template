@@ -20,6 +20,10 @@ export function defaultUrlMethod(baseUrl, primaryKeyField, customUrl) {
       listQueryUrl: baseUrl + '/list/query',
       batchUpdateUrl: baseUrl + '/batch',
       batchQueryUrl: baseUrl + '/batch/{' + primaryKeyField + '}',
+      batchExportSelectUrl: baseUrl + '/select/{' + primaryKeyField + '}',
+      batchExportSinglePageUrl: baseUrl + '/singlePage/{' + primaryKeyField + '}',
+      batchExportAllUrl: baseUrl + '/exportall/{' + primaryKeyField + '}',
+      batchExportTemplateUrl: baseUrl + '/template/{' + primaryKeyField + '}',
       ...customUrl
     }
   } else {

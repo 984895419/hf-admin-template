@@ -1,15 +1,8 @@
 <template>
   <div class="content-lf">
     <el-input v-model="filterText" placeholder="输入关键字进行过滤" clearable @input="filterInput" />
-    <el-tree
-      ref="treesearch"
-      class="filter-tree"
-      :data="data"
-      :props="defaultProps"
-      default-expand-all
-      :filter-node-method="filterNode"
-      @node-click="handleNodeClick"
-    >
+    <el-tree ref="treesearch" class="filter-tree" :data="data" :props="defaultProps" default-expand-all
+      :filter-node-method="filterNode" @check-change="handleCheckChange" show-checkbox check-strictly>
       <span slot-scope="{ node, data }" class="custom-tree-node">
         <el-tooltip class="item" effect="dark" :content="node.label" placement="top-start">
           <span> {{ node.label }} </span>
@@ -44,10 +37,14 @@ export default {
     filterInput() {
       this.$refs.treesearch.filter(this.filterText)
     },
-    handleNodeClick(val) {
-      console.log(val, 'val')
-      this.$emit('treeNodeval', val)
-    }
+    // handleNodeClick(val) {
+    //   console.log(val, 'val')
+    //   this.$emit('treeNodeval', val)
+    // }
+    handleCheckChange(data, checked, indeterminate) {
+      this.$emit('treeNodeval', data)
+      console.log(data);
+    },
   }
 }
 </script>
@@ -58,14 +55,14 @@ export default {
   box-sizing: border-box;
 
 }
-/deep/ .filter-tree{
- overflow-y: scroll;
+
+/deep/ .filter-tree {
+  overflow-y: scroll;
   height: calc(100vh - 180px);
 
- &::-webkit-scrollbar{
-  display: none;
- }
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
-
 </style>
 
