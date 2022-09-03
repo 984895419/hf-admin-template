@@ -158,7 +158,6 @@ export default {
      */
     componentAttrs() {
       // 如果主键的值存在，则为修改，否则为新增
-      debugger
       if (this.value[this.conf.primaryKeyField]) {
         return {
           type: 'text'

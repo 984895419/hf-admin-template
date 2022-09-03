@@ -136,7 +136,7 @@
     </template>
 
     <!-- 列表-->
-    <template v-slot="{ doSave, preferenceData, headerDragend, reRenderTable, showFields, heightTable}">
+    <template v-slot="{ doSave, headerDragend, showFields, heightTable}">
       <!-- 主表内容区域 table-data:数据list   maxheight:最大高度  row-dblclick:双击事件 sort-change:表头上出现一个上下箭头图标  headerDragend:拖动列改变宽度事件  handleSelectionChange:checkbox当选项发生变化时会触发该事件 -->
       <hf-table
         v-if="showFields"
@@ -151,7 +151,8 @@
         <section-table-column />
         <!-- 显示的字段-->
         <!-- table表中右侧操作栏 -->
-        <hf-base-right-role-columns :show-fields="showFields" :url-methods="conf.urlMethods" @success="doSearch" />
+        <hf-base-right-role-columns-dynamic :show-fields="showFields" />
+        <!-- <hf-base-right-role-columns :show-fields="showFields" /> -->
         <el-table-column fixed="right" :label="$t('common.operate')" width="150">
           <template v-slot:header>
             {{ $t('common.operate') }}
@@ -205,6 +206,7 @@ import DemoCu from './cu'// 更新页面
 import DelBtn from '@/components/CURD/Btns/DelBtn'// 删除按钮
 import CurdMixin from '@/components/CURD/curd.mixin'
 import HfBaseRightRoleColumns from './hfBaseRightRoleColumns'// 表头
+import hfBaseRightRoleColumnsDynamic from './hfBaseRightRoleColumnsDynamic'// 表头
 import TemplateConfirmBtn from '@/components/CURD/Btns/TemplateConfirmBtn'// 按钮弹窗
 import FormItemColDict from '@/components/CURD/Form/formItemColDict.vue'// el-form 封装组件
 import formItemColDateTime from '@/components/CURD/Form/formItemColDateTime.vue'// el-form 封装组件
@@ -224,6 +226,7 @@ export default {
     SectionTableColumn,
     TemplateConfirmBtn,
     HfBaseRightRoleColumns,
+    hfBaseRightRoleColumnsDynamic,
     DelBtn,
     CurdPagination,
     HfTable,
