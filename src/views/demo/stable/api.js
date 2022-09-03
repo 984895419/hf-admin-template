@@ -4,11 +4,16 @@ import { defaultUrlMethod } from '@/components/CURD/defaultUrl'
  * @type {string}
  */
 export const baseUrl = '/api/hfBaseStable'
+
+/**
+ * 定义主键字段
+ */
+export const primaryKeyField = 'orderNo'
 /**
  * 基础查询地址
  * @type {{pageUrl: string}}
  */
-export const urlMethods = defaultUrlMethod(baseUrl, 'roleId', {
+export const urlMethods = defaultUrlMethod(baseUrl, primaryKeyField, {
   pageUrl: baseUrl + '/pageQuery'
 })
 /**

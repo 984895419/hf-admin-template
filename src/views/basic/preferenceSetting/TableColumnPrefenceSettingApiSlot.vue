@@ -74,7 +74,6 @@
                 }
             },
             headerDragend(newWidth, oldWidth, column, event) {
-                debugger
                 this.widths[column.property] = newWidth
             }
         }

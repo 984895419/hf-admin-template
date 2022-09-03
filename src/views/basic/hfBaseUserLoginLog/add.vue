@@ -6,41 +6,41 @@
           <row-span-slot>
             <template v-slot="{ span }">
               <!-- 新增的的字段配置 -->
-                             <form-item-col
+              <form-item-col
                 :value="data"
                 :error="errorMessage('userId')"
                 :span="span"
                 prop="userId"
                 :namespace="conf.namespace"
-               />
-               <form-item-col
+              />
+              <form-item-col
                 :value="data"
                 :error="errorMessage('loginType')"
                 :span="span"
                 prop="loginType"
                 :namespace="conf.namespace"
-               />
-               <form-item-col
+              />
+              <form-item-col
                 :value="data"
                 :error="errorMessage('loginTime')"
                 :span="span"
                 prop="loginTime"
                 :namespace="conf.namespace"
-               />
-               <form-item-col
+              />
+              <form-item-col
                 :value="data"
                 :error="errorMessage('lastLoginIp')"
                 :span="span"
                 prop="lastLoginIp"
                 :namespace="conf.namespace"
-               />
-               <form-item-col
+              />
+              <form-item-col
                 :value="data"
                 :error="errorMessage('lastLoginFinger')"
                 :span="span"
                 prop="lastLoginFinger"
                 :namespace="conf.namespace"
-               />
+              />
               <!-- 字典字段字段设置方法如下
               <form-item-col-dict
                 :value="data"
@@ -74,7 +74,7 @@
             value: {
                 type: Object,
                 default: function() {
-                    return { enableState: 1}
+                    return { enableState: 1 }
                 }
             },
             actionUrl: String

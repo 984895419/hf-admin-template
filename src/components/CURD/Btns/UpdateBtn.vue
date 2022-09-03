@@ -1,7 +1,7 @@
 <template>
   <div v-loading.fullscreen.lock="loading">
     <el-button
-      :type="btnType"
+      :type="type || btnType"
       :size="size"
       @click="openDialog"
     >
@@ -26,6 +26,7 @@
 import { baseApiGetMethod } from '@/components/CURD/baseApi'
 import { getData, getMessage, isSuccessResult } from '@/utils/ajaxResultUtil'
 import { mapGetters } from 'vuex'
+import { deepClone } from '@/utils'
 
 export default {
   name: 'UpdateBtn',
@@ -54,11 +55,23 @@ export default {
     /**
      * 附带的查询数据
      */
-    queryData: Object,
+    queryData: {
+      type: Object,
+      default: () => {}
+    },
     /**
      * 查询的url
      */
-    url: String
+    url: {
+      type: {
+        type: String,
+        default: undefined
+      }
+    },
+    /**
+     * 初始数据，如果有初始数据，就不会去后端查询
+     */
+    initData: Object
   },
   data() {
     return {
@@ -78,19 +91,25 @@ export default {
      */
     openDialog() {
       // 从指定的
-      this.loading = true
-      baseApiGetMethod(this.url, this.queryData).then(resp => {
-        if (isSuccessResult(resp)) {
-          this.postData = getData(resp)
-          this.$emit('loadSuccess', this.postData)
-          this.showDialog = true
-        } else {
-          this.$message.error(getMessage(resp))
-        }
-        this.loading = false
-      }).catch(e => {
-        this.loading = false
-      })
+      if (this.initData) {
+        this.postData = deepClone(this.initData)
+        this.$emit('loadSuccess', this.postData)
+        this.showDialog = true
+      } else {
+        this.loading = true
+        baseApiGetMethod(this.url, this.queryData).then(resp => {
+          if (isSuccessResult(resp)) {
+            this.postData = getData(resp)
+            this.$emit('loadSuccess', this.postData)
+            this.showDialog = true
+          } else {
+            this.$message.error(getMessage(resp))
+          }
+          this.loading = false
+        }).catch(e => {
+          this.loading = false
+        })
+      }
     },
     /**
      * 关闭弹窗

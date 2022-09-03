@@ -16,21 +16,26 @@
           class="item"
           effect="dark"
           :content="computedSuffixContent('Helper')"
-          placement="right">
+          placement="right"
+        >
           <el-date-picker
-            type="datetime"
             v-model="value[prop]"
+            type="datetime"
             v-bind="$attrs"
-            :placeholder="computedPlaceholder">
-          </el-date-picker>
+            value-format="yyyy-MM-dd HH:mm:ss"
+            :picker-options="pickerOptions"
+            :placeholder="computedPlaceholder"
+          />
         </el-tooltip>
         <el-date-picker
           v-else
-          type="datetime"
           v-model="value[prop]"
+          type="datetime"
           v-bind="$attrs"
-          :placeholder="computedPlaceholder">
-        </el-date-picker>
+          value-format="yyyy-MM-dd HH:mm:ss"
+          :picker-options="pickerOptions"
+          :placeholder="computedPlaceholder"
+        />
       </slot>
     </el-form-item>
   </el-col>
@@ -39,6 +44,7 @@
 import FormItemMixin from './formItem.mixin'
 export default {
   name: 'FormItemColDateTime',
+  mixins: [FormItemMixin],
   props: {
     span: {
           type: Number,
@@ -67,8 +73,34 @@ export default {
     labelWidth: {
           type: String,
           default: undefined
+        },
+        pickerOptions: {
+          type: Object,
+          default: function() {
+            return {
+              shortcuts: [{
+                text: '今天',
+                onClick(picker) {
+                  picker.$emit('pick', new Date())
+                }
+              }, {
+                text: '昨天',
+                onClick(picker) {
+                  const date = new Date()
+                  date.setTime(date.getTime() - 3600 * 1000 * 24)
+                  picker.$emit('pick', date)
+                }
+              }, {
+                text: '一周前',
+                onClick(picker) {
+                  const date = new Date()
+                  date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)
+                  picker.$emit('pick', date)
+                }
+              }]
+            }
+          }
         }
-  },
-  mixins: [FormItemMixin]
+  }
 }
 </script>

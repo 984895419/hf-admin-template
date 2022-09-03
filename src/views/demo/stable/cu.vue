@@ -1,10 +1,10 @@
 <template>
-  <add-btn :init-data="value">
+  <component :is="componentBtn" :init-data="value" v-bind="componentAttrs">
     <template v-slot="{ closeDialog, data }">
       <cu-form
         :namespace="conf.namespace"
         :value="data"
-        :action-method="addUrl"
+        :action-method="actionMethod"
         :form-rules="formRules"
         v-on="$listeners"
         @closeDialog="closeDialog"
@@ -97,31 +97,31 @@
         </template>
       </cu-form>
     </template>
-  </add-btn>
+  </component>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import * as conf from './api'
 import AddBtn from '@/components/CURD/Btns/AddBtn'
+import UpdateBtn from '@/components/CURD/Btns/UpdateBtn'
 import CuForm from '@/components/CURD/Form/cuFrom'
 import RowSpanSlot from '@/components/CURD/Slot/RowSpanSlot'
 import FormItemCol from '@/components/CURD/Form/formItemCol'
 import FormItemColDict from '@/components/CURD/Form/formItemColDict'
-import { baseApiPostMethod } from '@/components/CURD/baseApi'
+import { baseApiPostMethod, baseApiPutMethod } from '@/components/CURD/baseApi'
 import FormItemColEnableState from '@/components/CURD/Form/formItemColEnableState'
 import BaseTenantInputRefer from '../../basic/baseTenant/inputRefer'
 export default {
-  name: 'HfBaseRightRoleAdd',
-  components: { BaseTenantInputRefer, FormItemColDict, FormItemCol, RowSpanSlot, CuForm, AddBtn, FormItemColEnableState },
+  name: 'HfBaseRightRoleCu',
+  components: { BaseTenantInputRefer, FormItemColDict, FormItemCol, RowSpanSlot, CuForm, AddBtn, UpdateBtn, FormItemColEnableState },
   props: {
     value: {
       type: Object,
       default: function() {
         return { enableState: 1 }
       }
-    },
-    actionUrl: String
+    }
   },
   data() {
     return {
@@ -133,9 +133,38 @@ export default {
     ...mapGetters([
       'tenantId'
     ]),
-    addUrl() {
+    actionMethod() {
       return (data) => {
-        return baseApiPostMethod(this.actionUrl, data)
+        if (this.value[this.conf.primaryKeyField]) {
+          return baseApiPutMethod(this.templateUrl(this.conf.urlMethods.updateUrl, data), data)
+        } else {
+          return baseApiPostMethod(this.conf.urlMethods.addUrl, data)
+        }
+      }
+    },
+    /**
+     * 主键按钮的类型
+     */
+    componentBtn() {
+      // 如果主键的值存在，则为修改，否则为新增
+      if (this.value[this.conf.primaryKeyField]) {
+        return 'update-btn'
+      } else {
+        return 'add-btn'
+      }
+    },
+    /**
+     * componentAttrs的属性
+     */
+    componentAttrs() {
+      // 如果主键的值存在，则为修改，否则为新增
+      debugger
+      if (this.value[this.conf.primaryKeyField]) {
+        return {
+          type: 'text'
+        }
+      } else {
+        return {}
       }
     }
   },
