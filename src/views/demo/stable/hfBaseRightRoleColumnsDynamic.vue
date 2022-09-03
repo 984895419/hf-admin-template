@@ -33,7 +33,7 @@ export default {
       return (item) => {
         return {
           ...item,
-          'tp-name': 'default',
+          'tp-name': item.value === 'paystatus' ? 'tag' : 'default',
           prop: item.value,
           width: item.width,
           namespace: this.conf.namespace,

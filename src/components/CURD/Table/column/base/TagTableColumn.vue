@@ -2,6 +2,7 @@
   <el-table-column
     v-bind="$attrs"
     :prop="prop"
+    :label="$t(namespace + '.' + prop)"
     v-on="$listeners"
   >
     <template slot-scope="scope">
@@ -9,6 +10,7 @@
         <el-tag
           v-for="item in scope.row[prop].split(',')"
           :key="item"
+          v-bind="$attrs"
           style="margin-bottom: 5px; margin-right: 5px"
         >
           {{ item }}
@@ -19,10 +21,17 @@
 </template>
 
 <script>
+import CurdMixin from '@/components/CURD/curd.mixin'
 export default {
     name: 'TagTableColumn',
+    mixins: [CurdMixin],
     props: {
-        prop: String
+      namespace: {
+        type: String
+      },
+      prop: {
+        type: String
+      }
     }
 }
 </script>
