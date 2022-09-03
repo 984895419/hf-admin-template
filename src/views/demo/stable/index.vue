@@ -151,8 +151,8 @@
         <section-table-column />
         <!-- 显示的字段-->
         <!-- table表中右侧操作栏 -->
-        <hf-base-right-role-columns-dynamic :show-fields="showFields" />
-        <!-- <hf-base-right-role-columns :show-fields="showFields" /> -->
+        <!-- <hf-base-right-role-columns-dynamic :show-fields="showFields" /> -->
+        <hf-base-right-role-columns :show-fields="showFields" />
         <el-table-column fixed="right" :label="$t('common.operate')" width="150">
           <template v-slot:header>
             {{ $t('common.operate') }}
