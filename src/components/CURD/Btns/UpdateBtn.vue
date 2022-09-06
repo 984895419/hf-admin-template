@@ -63,10 +63,8 @@ export default {
      * 查询的url
      */
     url: {
-      type: {
-        type: String,
-        default: undefined
-      }
+      type: String,
+      default: undefined
     },
     /**
      * 初始数据，如果有初始数据，就不会去后端查询

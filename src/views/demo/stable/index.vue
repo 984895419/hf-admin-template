@@ -179,6 +179,8 @@
           </template>
         </el-table-column>
       </hf-table>
+      <!-- 双击查看抽屉明细表 rowdata:双击table行数据  -->
+      <drawer-detail ref="detail" :title="'订单明细表'" />
     </template>
 
     <!-- 分页-->
