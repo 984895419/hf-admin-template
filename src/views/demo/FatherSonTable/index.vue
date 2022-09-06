@@ -136,7 +136,7 @@
     </template>
 
     <!-- 列表-->
-    <template v-slot="{ doSave, headerDragend, showFields, heightTable }">
+    <template v-slot="{ doSave, headerDragend, showFields, heightTable}">
       <!-- 主表内容区域 table-data:数据list   maxheight:最大高度  row-dblclick:双击事件 sort-change:表头上出现一个上下箭头图标  headerDragend:拖动列改变宽度事件  handleSelectionChange:checkbox当选项发生变化时会触发该事件 -->
       <hf-table
         v-if="showFields"
@@ -601,9 +601,6 @@ export default {
         this.$message.error('请配置分页查询地址参数:{pageUrl: xxxx}')
       }
     },
-    handleSuccess() {
-      // 导入成功回调
-    },
     // 导入前判断
     beforeUpload(file) {
       const isLt1M = file.size / 1024 / 1024 < 1
@@ -619,10 +616,3 @@ export default {
   }
 }
 </script>
-<style lang="less" scoped>
-
-.block /deep/ .el-dropdown-menu__item {
-    display: flex!important;
-    align-items: center;
-  }
-</style>

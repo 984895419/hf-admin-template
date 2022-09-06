@@ -90,6 +90,15 @@ const constantRoutesArray = [
           title: '单表',
           icon: 'single-table'
         }
+      },
+      {
+        path: 'fathersontable',
+        component: () => import('@/views/demo/FatherSonTable'),
+        name: 'fathersontable',
+        meta: {
+          title: '主子表',
+          icon: 'fatherson-table'
+        }
       }
     ]
   }
