@@ -69,7 +69,7 @@ export function genRoutesFromMenuTree(childMenus) {
         menuRoute.redirect = menu.redirect
       } else {
         menuRoute.name = menu.menuAlias
-        if (menu.menuName === '外设菜单') {
+        if (menu.menuType === 'PROXY_MENU') {
           menuRoute.component = (resolve) => require(['@/views/basic/basePeripheral'], resolve)
           menuRoute.path = 'outer'
           menuRoute.props = {
