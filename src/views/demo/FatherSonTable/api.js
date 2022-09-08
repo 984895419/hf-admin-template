@@ -1,9 +1,11 @@
-import { defaultUrlMethod } from '@/components/CURD/defaultUrl'
+import {
+  defaultUrlMethod
+} from '@/components/CURD/defaultUrl'
 /**
  * 单点登录认证管理模块基础地址
  * @type {string}
  */
-export const baseUrl = '/api/hfBaseStable'
+export const baseUrl = '/api/baseFatherSonTable'
 
 /**
  * 定义主键字段
@@ -20,8 +22,10 @@ export const urlMethods = defaultUrlMethod(baseUrl, primaryKeyField, {
  * 定义模块的命名空间
  * @type {string}
  */
- const modelName = 'baseStable'
+const modelName = 'baseFatherSonTable'
 export const namespace = modelName
+
+
 
 /**
  * 正则
@@ -34,7 +38,9 @@ export function getI18nName(name) {
 
 const exportTableFields = (fields) => {
   return fields.map(t => {
-    return { value: t }
+    return {
+      value: t
+    }
   })
 }
 
@@ -42,16 +48,21 @@ const exportTableFields = (fields) => {
  * 字段的配置，用在国际化及列表选择显示字段的时候
  * @type {*[]}
  */
- const tableFields = ['orderNo', 'ordertime', 'ordertotal', 'consignee', 'orderstatus', 'paystatus', 'shipmentstatus', 'paymethod', 'customerphone', 'customeraddress', 'customermail']
-
+// 主表
+const tableFields = ['orderNo', 'ordertime', 'ordertotal', 'consignee', 'orderstatus', 'paystatus', 'shipmentstatus', 'paymethod', 'customerphone', 'customeraddress', 'customermail']
+// 子表
+const SonTableFields = ['GoodsCode', 'GoodsName', 'Specifications', 'GoodsUnit', 'QuantityRequired', 'UnitPrice', 'money', 'stock']
+const exportSonTableFields = exportTableFields(SonTableFields)
 export default exportTableFields(tableFields)
-
+export  {
+  exportSonTableFields
+}
 /**
  * 字段的验证规则
  * @param vm
  * @returns {{clientId: {trigger: string, message: *, required: boolean}[]}}
  */
- export function formRules(vm) {
+export function formRules(vm) {
   return {
     orderNo: [{
       message: vm.$t(getI18nName('orderNo')) + vm.$t('common.notAllowedNull'),
@@ -95,10 +106,45 @@ export default exportTableFields(tableFields)
       message: vm.$t(getI18nName('customeraddress')) + vm.$t('common.notAllowedNull'),
       trigger: 'blur'
     }],
-    customermail: [{
+    GoodsCode: [{
       required: true,
-      message: vm.$t(getI18nName('customermail')) + vm.$t('common.notAllowedNull'),
+      message: vm.$t(getI18nName('GoodsCode')) + vm.$t('common.notAllowedNull'),
       trigger: 'blur'
-    }]
+    }],
+    GoodsName: [{
+      required: true,
+      message: vm.$t(getI18nName('GoodsName')) + vm.$t('common.notAllowedNull'),
+      trigger: 'blur'
+    }],
+    Specifications: [{
+      required: true,
+      message: vm.$t(getI18nName('Specifications')) + vm.$t('common.notAllowedNull'),
+      trigger: 'blur'
+    }],
+    GoodsUnit: [{
+      required: true,
+      message: vm.$t(getI18nName('GoodsUnit')) + vm.$t('common.notAllowedNull'),
+      trigger: 'blur'
+    }],
+    QuantityRequired: [{
+      required: true,
+      message: vm.$t(getI18nName('QuantityRequired')) + vm.$t('common.notAllowedNull'),
+      trigger: 'blur'
+    }],
+    UnitPrice: [{
+      required: true,
+      message: vm.$t(getI18nName('UnitPrice')) + vm.$t('common.notAllowedNull'),
+      trigger: 'blur'
+    }],
+    money: [{
+      required: true,
+      message: vm.$t(getI18nName('money')) + vm.$t('common.notAllowedNull'),
+      trigger: 'blur'
+    }],
+    stock: [{
+      required: true,
+      message: vm.$t(getI18nName('stock')) + vm.$t('common.notAllowedNull'),
+      trigger: 'blur'
+    }],
   }
 }

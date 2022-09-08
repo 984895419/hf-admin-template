@@ -33,7 +33,7 @@
     <!-- 操作栏-->
     <template #btnslist>
       <!-- 新增组件  -->
-      <demo-cu style="margin-right:10px" :action-url="conf.urlMethods.addUrl" @success="doSearch" />
+      <demo-cu style="margin-right:10px"  :action-url="conf.urlMethods.addUrl" @success="doSearch" />
       <!-- 右边批量操作栏 只有选择checkbox时候 才显示 -->
       <div class="block">
         <el-dropdown
@@ -149,6 +149,7 @@
         @header-dragend="headerDragend"
       >
         <section-table-column />
+
         <!-- 显示的字段-->
         <!-- table表中右侧操作栏 -->
         <!-- <hf-base-right-role-columns-dynamic :show-fields="showFields" /> -->
@@ -354,19 +355,7 @@ export default {
           retCode: '00001',
           data: {
             list: [{
-              orderNo: 1,
-              ordertime: '2022/08/19',
-              ordertotal: 2000,
-              consignee: '张三莆田华峰啥的那是你的啊骚大师莆田华峰啥的那是你的啊骚大师',
-              orderstatus: '已完成',
-              paystatus: '待付款',
-              shipmentstatus: '已发货',
-              paymethod: '支付宝',
-              customerphone: '12345448484',
-              customeraddress: '莆田华峰啥的那是你的啊骚大师asdasd',
-              customermail: 'xxx@qq.com'
-            }, {
-              orderNo: 2,
+              orderNo: 20210121000002,
               ordertime: '2022/08/19',
               ordertotal: 231231313123,
               consignee: '张三',
@@ -378,7 +367,19 @@ export default {
               customeraddress: '莆田华峰',
               customermail: 'xxx@qq.com'
             }, {
-              orderNo: 3,
+              orderNo: 20210121000002,
+              ordertime: '2022/08/19',
+              ordertotal: 231231313123,
+              consignee: '张三',
+              orderstatus: '已完成',
+              paystatus: '待付款',
+              shipmentstatus: '已发货',
+              paymethod: '支付宝',
+              customerphone: '12345448484',
+              customeraddress: '莆田华峰',
+              customermail: 'xxx@qq.com'
+            }, {
+              orderNo: 20210121000003,
               ordertime: '2022/08/19',
               ordertotal: 2000,
               consignee: '张三',
@@ -390,7 +391,7 @@ export default {
               customeraddress: '莆田华峰',
               customermail: 'xxx@qq.com'
             }, {
-              orderNo: 4,
+              orderNo: 20210121000004,
               ordertime: '2022/08/19',
               ordertotal: 2000,
               consignee: '张三',
@@ -402,7 +403,7 @@ export default {
               customeraddress: '莆田华峰',
               customermail: 'xxx@qq.com'
             }, {
-              orderNo: 5,
+              orderNo: 20210121000005,
               ordertime: '2022/08/19',
               ordertotal: 2000,
               consignee: '张三',
@@ -414,7 +415,7 @@ export default {
               customeraddress: '莆田华峰',
               customermail: 'xxx@qq.com'
             }, {
-              orderNo: 6,
+              orderNo: 20210121000006,
               ordertime: '2022/08/19',
               ordertotal: 2000,
               consignee: '张三',
@@ -426,7 +427,7 @@ export default {
               customeraddress: '莆田华峰',
               customermail: 'xxx@qq.com'
             }, {
-              orderNo: 7,
+              orderNo: 20210121000007,
               ordertime: '2022/08/19',
               ordertotal: 2000,
               consignee: '张三',
@@ -438,7 +439,7 @@ export default {
               customeraddress: '莆田华峰',
               customermail: 'xxx@qq.com'
             }, {
-              orderNo: 8,
+              orderNo: 20210121000008,
               ordertime: '2022/08/19',
               ordertotal: 2000,
               consignee: '张三',
@@ -450,7 +451,7 @@ export default {
               customeraddress: '莆田华峰',
               customermail: 'xxx@qq.com'
             }, {
-              orderNo: 9,
+              orderNo: 20210121000009,
               ordertime: '2022/08/19',
               ordertotal: 2000,
               consignee: '张三',
@@ -462,7 +463,7 @@ export default {
               customeraddress: '莆田华峰',
               customermail: 'xxx@qq.com'
             }, {
-              orderNo: 10,
+              orderNo: 20210121000010,
               ordertime: '2022/08/19',
               ordertotal: 2000,
               consignee: '张三',
@@ -474,7 +475,7 @@ export default {
               customeraddress: '莆田华峰',
               customermail: 'xxx@qq.com'
             }, {
-              orderNo: 11,
+              orderNo: 20210121000011,
               ordertime: '2022/08/19',
               ordertotal: 2000,
               consignee: '张三',
@@ -486,7 +487,7 @@ export default {
               customeraddress: '莆田华峰',
               customermail: 'xxx@qq.com'
             }, {
-              orderNo: 12,
+              orderNo: 20210121000012,
               ordertime: '2022/08/19',
               ordertotal: 2000,
               consignee: '张三',
