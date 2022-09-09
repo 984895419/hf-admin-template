@@ -32,9 +32,16 @@
             :size="$store.size"
             @change="changeCheckedState(item)"
           >
-            {{
-              $t(preferenceAlias + '.' + item.value)
-            }}
+            <span v-if="inSpecialFields(item.value)">
+              {{
+                $t('common.' + item.value)
+              }}
+            </span>
+            <span v-else>
+              {{
+                $t(preferenceAlias + '.' + item.value)
+              }}
+            </span>
           </el-checkbox>
           <i class="el-icon-rank" style="margin-left: 10px" />
         </el-dropdown-item>
@@ -96,7 +103,11 @@ export default {
        * emitInput是否马上响应变化
        */
       immediately: true,
-      preferenceType: 'TABLE_COLUMN_SHOW'
+      preferenceType: 'TABLE_COLUMN_SHOW',
+      specialFields: [
+        'creatorUserName',
+        'modifierUserName'
+      ]
     }
   },
   computed: {
@@ -114,6 +125,11 @@ export default {
         }
       }
       return res.length
+    },
+    inSpecialFields() {
+      return (val) => {
+        return this.specialFields.indexOf(val) >= 0
+      }
     }
   },
   created() {

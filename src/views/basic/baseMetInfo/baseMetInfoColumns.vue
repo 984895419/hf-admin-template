@@ -38,9 +38,9 @@
         :width="item.width"
         min-width="130"
       />
-      <creator-table-column v-if="item.value === 'creator'" :width="item.width" />
+      <creator-table-column v-if="item.value === 'creatorUserName'" :width="item.width" />
       <create-time-table-column v-if="item.value === 'createTime'" :width="item.width" />
-      <modifier-table-column v-if="item.value === 'modifier'" :width="item.width" />
+      <modifier-table-column v-if="item.value === 'modifierUserName'" :width="item.width" />
       <modify-time-table-column v-if="item.value === 'modifyTime'" :width="item.width" />
       <el-table-column
         v-if="item.value === 'deleted'"

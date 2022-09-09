@@ -44,8 +44,8 @@ const tableFields = ['jobId', 'jobName', 'triggerType',
   'triggerTime', 'jobDescription', 'jobData',
   'jobTypeId', 'jobTypeName', 'creatorUserName', 'createTime',
   'modifierUserName', 'modifyTime', 'enableState', 'deleted',
-  'tenantId', 'runState', 'finishTime', 'startTime', 'endTime',
-  'nextFireTime', 'previousFireTime', 'executeState']
+  'tenantId', 'runStateName', 'finishTime', 'startTime', 'endTime',
+  'nextFireTime', 'previousFireTime', 'executeStateName']
 
 export default exportTableFields(tableFields)
 

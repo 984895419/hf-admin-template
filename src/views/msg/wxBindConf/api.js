@@ -38,7 +38,7 @@ const exportTableFields = (fields) => {
  * 字段的配置，用在国际化及列表选择显示字段的时候
  * @type {*[]}
  */
-const tableFields = ['bindId', 'bindMobile', 'bindCompany', 'auditState', 'bindNickName', 'bindOpenId', 'bindHeadpic', 'modifier', 'modifyTime', 'enableState', 'version', 'wxId', 'wxIdName', 'reason', 'ModifierUserName']
+const tableFields = ['bindId', 'bindMobile', 'bindCompany', 'auditState', 'bindNickName', 'bindOpenId', 'bindHeadpic', 'modifier', 'modifyTime', 'enableState', 'version', 'wxId', 'wxIdName', 'reason', 'modifierUserName']
 
 export default exportTableFields(tableFields)
 

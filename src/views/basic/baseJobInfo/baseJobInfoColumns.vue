@@ -70,10 +70,10 @@
         min-width="130"
       />
       <tag-table-column
-        v-if="item.value === 'runState'"
+        v-if="item.value === 'runStateName'"
         prop="runStateName"
         :width="item.width"
-        :label="$t(conf.namespace + '.runState')"
+        :label="$t(conf.namespace + '.runStateName')"
         min-width="130"
       />
       <el-table-column
@@ -129,10 +129,10 @@
         min-width="100"
       />
       <tag-table-column
-        v-if="item.value === 'executeState'"
+        v-if="item.value === 'executeStateName'"
         prop="executeStateName"
         :width="item.width"
-        :label="$t(conf.namespace + '.executeState')"
+        :label="$t(conf.namespace + '.executeStateName')"
         min-width="100"
       />
     </div>

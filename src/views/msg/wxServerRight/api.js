@@ -37,7 +37,7 @@ const exportTableFields = (fields) => {
  * 字段的配置，用在国际化及列表选择显示字段的时候
  * @type {*[]}
  */
-const tableFields = ['rightId', 'userId', 'userIdName', 'wxId', 'wxIdName', 'creator', 'createTime', 'CreatorUserName']
+const tableFields = ['rightId', 'userId', 'userIdName', 'wxId', 'wxIdName', 'creator', 'createTime', 'creatorUserName']
 
 export default exportTableFields(tableFields)
 

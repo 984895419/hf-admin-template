@@ -8,7 +8,7 @@ export default {
   enableState: '状态',
   zh: '中文',
   en: '英文',
-  saveAsNormal: '保存为常用',
+  saveAsNormal: '保存',
   save: '保存',
   search: '查询',
   reset: '重置',

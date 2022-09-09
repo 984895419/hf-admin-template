@@ -2,7 +2,7 @@
   <el-table-column
     v-bind="$attrs"
     :prop="prop"
-    :label="$t(namespace + '.' + prop)"
+    :label="($attrs && $attrs.label) || $t(namespace + '.' + prop)"
     v-on="$listeners"
   >
     <template slot-scope="scope">
