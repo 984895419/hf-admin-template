@@ -1,23 +1,21 @@
 <template>
-  <el-row>
-    <el-col :span="12">
-      <base-dict-type-index-vue :cell-class-name="cellClassName" @row-click="rowClick" />
-    </el-col>
-    <el-col :span="12">
+  <HfResizeSplitPane>
+    <base-dict-type-index-vue :cell-class-name="cellClassName" @row-click="rowClick" />
+    <div slot="right">
       <base-dict-value-index-vue
         :code="selectRow ? selectRow.code : undefined"
         :name="selectRow ? selectRow.name : undefined"
       />
-    </el-col>
-  </el-row>
+    </div>
+  </HfResizeSplitPane>
 </template>
-
 <script>
     import BaseDictTypeIndexVue from './index'
     import BaseDictValueIndexVue from '../baseDictValue/index'
+    import HfResizeSplitPane from '@/components/CURD/Effect/HfResizeSplitPane'
     export default {
         name: 'IndexSplit',
-        components: { BaseDictValueIndexVue, BaseDictTypeIndexVue },
+        components: { BaseDictValueIndexVue, BaseDictTypeIndexVue, HfResizeSplitPane },
         data() {
             return {
                 selectRow: null

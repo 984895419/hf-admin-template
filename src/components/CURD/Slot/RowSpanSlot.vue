@@ -39,7 +39,7 @@ export default {
    * 创建时候执行
    */
   created() {
-    window.onresize = this.showNumCalculate
+    window.addEventListener('resize', () => { this.showNumCalculate })
   },
   methods: {
     /**

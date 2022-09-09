@@ -75,9 +75,6 @@ export default {
       initValue: deepClone(this.value)
     }
   },
-  mounted() {
-    console.log(this.$scopedSlots, '1232')
-  },
   computed: {
     ...mapGetters([
       'size',
