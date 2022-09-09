@@ -1,14 +1,21 @@
 <template>
-  <el-form ref="form" :size="size" :model="value" :label-width="$attrs['label-width'] || 'auto'" v-bind="$attrs"
-    :rules="formRules" @submit.native.prevent>
+  <el-form
+    ref="form"
+    :size="size"
+    :model="value"
+    :label-width="$attrs['label-width'] || 'auto'"
+    v-bind="$attrs"
+    :rules="formRules"
+    @submit.native.prevent
+  >
     <el-card class="box-card">
       <slot :data="value" :errorMessage="errorMessage" />
     </el-card>
     <el-form-item style="margin:10px 0 5px 0">
       <div style="float: right">
         <slot name="add-btn-before" :data="value" :formValidate="formValidate" />
-        <el-button type="primary" native-type="submit" :size="size" icon="el-icon-search" @click="doSubmit">{{
-            $t('common.submit')
+        <el-button :loading="loading" type="primary" native-type="submit" :size="size" icon="el-icon-search" @click="doSubmit">{{
+          $t('common.submit')
         }}</el-button>
         <el-button icon="el-icon-circle-close" :size="size" @click="doCancel">{{ $t('common.cancel') }}</el-button>
         <slot name="add-btn-after" :data="value" :formValidate="formValidate" />
@@ -24,13 +31,13 @@ export default {
   props: {
     value: {
       type: Object,
-      default: function () {
+      default: function() {
         return {}
       }
     },
     formRules: {
       type: Object,
-      default: function () {
+      default: function() {
         return {}
       }
     },
@@ -48,6 +55,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       errorInfo: null
     }
   },

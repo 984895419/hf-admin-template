@@ -15,7 +15,8 @@
           class="item"
           effect="dark"
           :content="computedSuffixContent('Helper')"
-          placement="right">
+          placement="right"
+        >
           <!-- 下拉 -->
           <el-select
             v-if="$attrs['multiple'] === undefined || $attrs['multiple'] === false"
@@ -99,6 +100,7 @@ import FormItemMixin from './formItem.mixin'
 
 export default {
   name: 'FormItemColDict',
+  mixins: [FormItemMixin],
   props: {
     span: {
           type: Number,
@@ -133,7 +135,6 @@ export default {
       default: null
     }
   },
-  mixins: [FormItemMixin],
   data() {
       return {
           dictListUrl: '/api/baseDictValue/list/query',
@@ -147,7 +148,9 @@ export default {
           return (val) => {
               if (this.value[this.prop]) {
                   if (typeof this.value[this.prop] === 'number') {
-                      return parseInt(val)
+                      if (/([\d.]+\.)?\d+/g.test(val)) {
+                         return parseInt(val)
+                      }
                   }
                   if (typeof this.value[this.prop] === 'string') {
                       return val + ''

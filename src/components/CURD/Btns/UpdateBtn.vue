@@ -33,11 +33,11 @@ export default {
   props: {
     btnType: {
       type: String,
-      default: 'primary'
+      default: 'text'
     },
     type: {
       type: String,
-      default: 'primary'
+      default: 'text'
     },
     label: {
       type: String,

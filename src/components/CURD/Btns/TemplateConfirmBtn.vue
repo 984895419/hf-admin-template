@@ -2,6 +2,7 @@
   <div>
     <el-button
       v-if="supportCheck"
+      :loading="loading"
       :type="($attrs && $attrs.type) || btnType"
       :icon="icon"
       :size="size"
@@ -60,6 +61,11 @@ export default {
       default: true
     }
   },
+  data() {
+    return {
+      loading: false
+    }
+  },
   computed: {
     ...mapGetters([
         'size'
@@ -101,6 +107,8 @@ export default {
     },
     doHttpExecute() {
       let promis = null
+      this.loading = true
+
       if (this.httpMethod.toLowerCase() === 'delete') {
         promis = baseApiDeleteMethod(this.url, this.value)
       } else if (this.httpMethod.toLowerCase() === 'post') {
@@ -109,6 +117,7 @@ export default {
         promis = baseApiPutMethod(this.url, this.value)
       }
       promis.then(resp => {
+        this.loading = false
         if (isSuccessResult(resp)) {
           if (getData(resp) === false) {
             this.$message({

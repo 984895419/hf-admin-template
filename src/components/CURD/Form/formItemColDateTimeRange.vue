@@ -25,6 +25,7 @@
             v-bind="$attrs"
             :picker-options="$attrs.pickerOptions || pickerOptions"
             :placeholder="computedPlaceholder"
+            :style="{ 'max-width': '200px', ...$attrs._picker}"
             @change="valChange"
           />
         </el-tooltip>
@@ -36,6 +37,7 @@
           value-format="yyyy-MM-dd HH:mm:ss"
           :picker-options="$attrs.pickerOptions || pickerOptions"
           :placeholder="computedPlaceholder"
+          :style="{ 'max-width': '200px', ...$attrs._picker}"
           @change="valChange"
         />
       </slot>

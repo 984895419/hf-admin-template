@@ -1,7 +1,15 @@
 <template>
   <div>
-    <el-table ref="mainTable" :size="size" :data="tableData" border :row-key="rowKey" v-bind="$attrs"
-      :max-height="maxheight" v-on="$listeners">
+    <el-table
+      ref="mainTable"
+      :size="size"
+      :data="tableData"
+      border
+      :row-key="rowKey"
+      v-bind="$attrs"
+      :max-height="maxheight"
+      v-on="$listeners"
+    >
       <slot />
     </el-table>
   </div>

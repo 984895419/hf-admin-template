@@ -17,6 +17,7 @@
 
                 <!-- 高级搜索-->
                 <common-dialog-btn
+                  v-if="$scopedSlots['advanced']"
                   ref="advanced"
                   style="display:inline-block;margin-left:10px"
                   :size="size"
@@ -50,8 +51,8 @@
 
               </el-form-item>
             </el-col>
-          </div></template></row-span-slot></el-form></div>
-</template>
+          </div>
+        </template>
       </row-span-slot>
     </el-form>
   </div>
@@ -101,9 +102,12 @@ export default {
     /**
      * 重置查询条件
      */
-    doReset() {
+    doReset(cb) {
       this.$emit('input', deepClone(this.initValue))
       this.$emit('search')
+      if (cb) {
+        cb()
+      }
     }
   }
 }
