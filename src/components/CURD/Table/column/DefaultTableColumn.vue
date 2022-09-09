@@ -2,8 +2,14 @@
   <div>
     <el-table-column :prop="prop" :label="$t(namespace + '.' + prop)" v-bind="$attrs" :align="align">
       <template slot-scope="scope">
-        <copier-render :copyable="copyable" :prop="prop" :row="scope.row"
-          :max-words="maxWords" />
+        <slot>
+          <copier-render
+            :copyable="copyable"
+            :prop="prop"
+            :row="scope.row"
+            :max-words="maxWords"
+          />
+        </slot>
       </template>
     </el-table-column>
   </div>

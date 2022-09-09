@@ -153,10 +153,7 @@
         <!-- table表中右侧操作栏 -->
         <!-- <hf-base-right-role-columns-dynamic :show-fields="showFields" /> -->
         <hf-base-right-role-columns :show-fields="showFields" />
-        <el-table-column fixed="right" :label="$t('common.operate')" width="150">
-          <template v-slot:header>
-            {{ $t('common.operate') }}
-          </template>
+        <operate-table-column>
           <template slot-scope="scopeRow">
             <div class="col-btn-display">
               <!-- 更新 -->
@@ -177,7 +174,7 @@
               />
             </div>
           </template>
-        </el-table-column>
+        </operate-table-column>
       </hf-table>
       <!-- 双击查看抽屉明细表 rowdata:双击table行数据  -->
       <drawer-detail ref="detail" :title="'订单明细表'" />
@@ -215,6 +212,7 @@ import formItemColDateTime from '@/components/CURD/Form/formItemColDateTime.vue'
 import FormItemCol from '@/components/CURD/Form/formItemCol.vue'// 普通搜索
 import SimpleSearch from '@/components/CURD/Query/search'
 import SectionTableColumn from '@/components/CURD/Table/column/base/SectionTableColumn'
+import OperateTableColumn from '@/components/CURD/Table/column/OperateTableColumn'
 import DialogBtnPage from '@/components/CURD/Btns/DialogBtnPage'// 按钮弹窗
 import DrawerDetail from './drawerDetail.vue'// 双击抽屉详情页
 import UploadExcelComponent from '@/components/UploadExcel/index.vue' // 本是  excel 导出
@@ -242,7 +240,8 @@ export default {
     UploadExcelComponent,
     Examine,
     SimpleTableLayout,
-    FormItemColDateTimeRange
+    FormItemColDateTimeRange,
+    OperateTableColumn
   },
 
   mixins: [CurdMixin],
