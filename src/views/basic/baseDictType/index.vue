@@ -81,7 +81,7 @@
           <!-- 显示的字段-->
           <base-dict-type-columns :show-fields="showFields" :url-methods="conf.urlMethods" @success="doSearch" />
           <el-table-column
-            fixed="right"
+            :fixed="fixed ? 'right' : undefined"
             :label="$t('common.operate')"
             width="150"
           >
@@ -171,6 +171,12 @@
           TableColumnPreferenceSettingApiSlot
         },
         mixins: [CurdMixin],
+        props: {
+          fixed: {
+            type: Boolean,
+            default: true
+          }
+        },
         data() {
             return {
                 db: {},

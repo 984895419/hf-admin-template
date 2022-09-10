@@ -9,9 +9,10 @@
     class="panes-wrap"
     v-bind="$attrs"
     v-on="$listeners"
+    @update:size="paneSize"
   >
     <template #firstPane>
-      <slot />
+      <slot :width="leftWidth" />
     </template>
     <template #secondPane>
       <slot name="right" />
@@ -59,10 +60,19 @@
         }
       }
     },
+    data() {
+      return {
+        leftWidth: this.minWidth > this.width ? this.minWidth : this.width
+      }
+    },
     computed: {
       autoWidth() {
-        debugger
         return this.minWidth > this.width ? this.minWidth : this.width
+      }
+    },
+    methods: {
+      paneSize(size) {
+        this.leftWidth = size
       }
     }
   }

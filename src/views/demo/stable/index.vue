@@ -2,21 +2,13 @@
   <simple-table-layout :conf="conf" :table-fields="tableFields">
     <!-- 查询框 -->
     <template #search>
-      <simple-search v-model="searchForm" :inline="true" @search="doSearch">
+      <simple-search v-model="searchForm" :inline="true" label-width="100px" @search="doSearch">
         <template v-slot="{ span }">
           <!-- 新增的的字段配置 -->
           <form-item-col :value="searchForm" :span="span" prop="orderNo" :namespace="conf.namespace" />
           <form-item-col-date-time :value="searchForm" :span="span" prop="ordertime" :namespace="conf.namespace" />
         </template>
         <template #advanced="{ span }">
-          <form-item-col-date-time-range
-            :value="searchForm"
-            :span="span"
-            prop="ordertime"
-            :namespace="conf.namespace"
-            :min-prop="'createTimeMin'"
-            :max-prop="'createTimeMax'"
-          />
           <form-item-col :value="searchForm" :span="span" prop="ordertotal" :namespace="conf.namespace" />
           <form-item-col :value="searchForm" :span="span" prop="consignee" :namespace="conf.namespace" />
           <form-item-col :value="searchForm" :span="span" prop="orderstatus" :namespace="conf.namespace" />
@@ -26,6 +18,15 @@
           <form-item-col :value="searchForm" :span="span" prop="customerphone" :namespace="conf.namespace" />
           <form-item-col :value="searchForm" :span="span" prop="customeraddress" :namespace="conf.namespace" />
           <form-item-col :value="searchForm" :span="span" prop="customermail" :namespace="conf.namespace" />
+
+          <form-item-col-date-time-range
+            :value="searchForm"
+            :span="span"
+            prop="ordertime"
+            :namespace="conf.namespace"
+            :min-prop="'createTimeMin'"
+            :max-prop="'createTimeMax'"
+          />
         </template>
       </simple-search>
     </template>

@@ -1,6 +1,8 @@
 <template>
   <HfResizeSplitPane>
-    <base-dict-type-index-vue :cell-class-name="cellClassName" @row-click="rowClick" />
+    <template v-slot="{width}">
+      <base-dict-type-index-vue :fixed="width > 300" :cell-class-name="cellClassName" @row-click="rowClick" />
+    </template>
     <div slot="right">
       <base-dict-value-index-vue
         :code="selectRow ? selectRow.code : undefined"
