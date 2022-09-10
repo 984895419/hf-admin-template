@@ -31,6 +31,9 @@
     <!-- 操作栏-->
     <div style="margin-bottom: 10px" class="col-btn-display">
       <base-met-info-add v-permission="[conf.namespace + ':save']" :action-url="conf.urlMethods.addUrl" @success="doSearch" />
+      <common-dialog-btn label="时间轴">
+        <Timeline />
+      </common-dialog-btn>
       <div style="float: right" class="col-btn-display">
         <del-btn
           v-if="conf.urlMethods.deleteUrl
@@ -150,31 +153,36 @@
     import BaseMetInfoDetail from './detail'
     import BaseMetInfoColumns from './baseMetInfoColumns'
     import TemplateConfirmBtn from '@/components/CURD/Btns/TemplateConfirmBtn'
+    import CommonDialogBtn from '@/components/CURD/Btns/CommonDialogBtn'
     import FormItemColDict from '@/components/CURD/Form/formItemColDict.vue'
     import FormItemCol from '@/components/CURD/Form/formItemCol.vue'
     import SimpleSearch from '@/components/CURD/Query/search'
     import TableColumnPreferenceSettingApiSlot from '@/views/basic/preferenceSetting/TableColumnPrefenceSettingApiSlot'
     import SectionTableColumn from '@/components/CURD/Table/column/base/SectionTableColumn'
     import FormItemColDateTime from '../../../components/CURD/Form/formItemColDateTime'
+    import Timeline from './timeline.vue'
 
     export default {
         name: 'BaseMetInfoIndexVue',
         components: {
-            FormItemColDateTime,
-          SectionTableColumn,
-          TemplateConfirmBtn,
-          BaseMetInfoColumns,
-          BaseMetInfoDetail,
-            CurdTableColumnSelect,
-            DelBtn,
-          BaseMetInfoUpdate,
-            CurdPagination,
-            HfTable, BaseMetInfoAdd,
-          FormItemColDict,
-          FormItemCol,
-          SimpleSearch,
-          TableColumnPreferenceSettingApiSlot
-        },
+    FormItemColDateTime,
+    SectionTableColumn,
+    CommonDialogBtn,
+    TemplateConfirmBtn,
+    BaseMetInfoColumns,
+    BaseMetInfoDetail,
+    CurdTableColumnSelect,
+    DelBtn,
+    BaseMetInfoUpdate,
+    CurdPagination,
+    HfTable,
+    BaseMetInfoAdd,
+    FormItemColDict,
+    FormItemCol,
+    SimpleSearch,
+    TableColumnPreferenceSettingApiSlot,
+    Timeline
+},
         mixins: [CurdMixin],
         data() {
             return {

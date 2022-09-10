@@ -1,6 +1,6 @@
 <template>
   <HfResizeSplitPane>
-    <template v-slot="{width}">
+    <template v-slot="{width}" timestampProps="">
       <base-dict-type-index-vue :fixed="width > 300" :cell-class-name="cellClassName" @row-click="rowClick" />
     </template>
     <div slot="right">
