@@ -52,6 +52,7 @@ export default {
   audit: '审核',
   auditPass: '审核通过',
   auditReject: '审核不通过',
+  selectShowFields: '请选择要显示的字段',
   navbar: {
     dashboard: '首页',
     github: '项目地址',

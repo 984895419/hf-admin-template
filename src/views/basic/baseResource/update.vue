@@ -4,9 +4,10 @@
       <template v-slot="{ closeDialog, data, showState }">
         <cu-form v-if="showState" :form-rules="formRules" :value="data" :action-method="updateMethod" @success="actionSuccess" @closeDialog="closeDialog">
           <template v-slot="{ errorMessage }">
+            <el-divider content-position="left">基础信息</el-divider>
             <row-span-slot>
               <template v-slot="{ span }">
-                <!-- 修改的字段配置 -->
+                <!-- 新增的的字段配置 -->
                 <form-item-col
                   :value="data"
                   :error="errorMessage('resourceKey')"
@@ -21,33 +22,26 @@
                   prop="resourceName"
                   :namespace="conf.namespace"
                 />
-                <form-item-col
+                <form-item-col-enable-state
                   :value="data"
+                  :span="span"
+                  :namespace="conf.namespace"
+                />
+              </template>
+            </row-span-slot>
+            <el-divider content-position="left">微应用信息</el-divider>
+            <row-span-slot>
+              <template v-slot="{ span }">
+                <form-item-col-dict
+                  :value="data"
+                  :dict-code="'YES_OR_NO'"
                   :error="errorMessage('micro')"
                   :span="span"
                   prop="micro"
                   :namespace="conf.namespace"
                 />
                 <form-item-col
-                  :value="data"
-                  :error="errorMessage('providerUrl')"
-                  :span="span"
-                  prop="providerUrl"
-                  :namespace="conf.namespace"
-                />
-                <form-item-col
-                  :value="data"
-                  :error="errorMessage('feignUrl')"
-                  :span="span"
-                  prop="feignUrl"
-                  :namespace="conf.namespace"
-                />
-                <form-item-col-enable-state
-                  :value="data"
-                  :span="span"
-                  :namespace="conf.namespace"
-                />
-                <form-item-col
+                  v-if="data.micro + '' === '1'"
                   :value="data"
                   :error="errorMessage('microId')"
                   :span="span"
@@ -60,15 +54,23 @@
                     value-refer-name="microIdName"
                   />
                 </form-item-col>
-                <!-- 字段字段设置方法如下
-                <form-item-col-dict
+                <form-item-col
+                  v-if="data.micro + '' === '1'"
                   :value="data"
-                  :error="errorMessage('clientMethod')"
-                  :span="span"
-                  prop="clientMethod"
-                  :dict-code="'CLIENT_METHOD_TYPES'"
+                  :error="errorMessage('providerUrl')"
+                  :span="24"
+                  prop="providerUrl"
                   :namespace="conf.namespace"
-                /> -->
+                />
+                <form-item-col
+                  v-if="data.micro + '' === '1'"
+                  :value="data"
+                  :error="errorMessage('feignUrl')"
+                  :span="24"
+                  prop="feignUrl"
+                  :namespace="conf.namespace"
+                />
+
               </template>
             </row-span-slot>
           </template>

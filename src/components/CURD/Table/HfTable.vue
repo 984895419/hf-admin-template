@@ -51,6 +51,9 @@ export default {
           this.$refs.mainTable.toggleRowSelection(valData[ind], flag || true)
         }
       }
+    },
+    doLayout() {
+      this.$refs.mainTable?.doLayout()
     }
   }
 }

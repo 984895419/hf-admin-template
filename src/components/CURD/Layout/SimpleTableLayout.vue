@@ -23,13 +23,17 @@
           />
         </div>
 
-        <el-card>
+        <el-card v-loading="reRending">
           <slot
+            v-if="showFields && showFields.length > 0"
             :doSave="doSave"
             :showFields="showFields"
             :headerDragend="headerDragend"
             :heightTable="heightTable"
           />
+          <span v-else>
+            {{ $t('common.selectShowFields') }}
+          </span>
         </el-card>
       </template>
     </table-column-preference-setting-api-slot>
@@ -74,7 +78,8 @@
     data() {
       return {
         showFields: undefined,
-        heightTable: 900
+        heightTable: 900,
+        reRending: false
       }
     },
     methods: {

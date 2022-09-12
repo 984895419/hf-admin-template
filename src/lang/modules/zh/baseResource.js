@@ -1,6 +1,7 @@
 export default {
   resourceId: '资源ID',
   resourceKey: '资源的key(唯一)',
+  resourceKeyHelper: '代码中需要根据resourceKey来获取有权限的资源',
   resourceName: '资源描述',
   micro: '是否微应用的资源',
   providerUrl: '资源提供者的url',

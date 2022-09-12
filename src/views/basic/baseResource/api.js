@@ -43,6 +43,20 @@ const tableFields = ['microIdName', 'resourceKey', 'resourceName', 'micro',
 export default exportTableFields(tableFields)
 
 /**
+ * 定义分组字段
+ */
+export const groupFields = [
+  {
+    value: 'baseInfo',
+    children: ['resourceKey', 'resourceName', 'enableState']
+  },
+  {
+    value: 'microInfo',
+    children: ['microIdName', 'micro', 'providerUrl', 'feignUrl']
+  }
+]
+
+/**
  * 字段的验证规则
  * @param vm
  * @returns {{clientId: {trigger: string, message: *, required: boolean}[]}}

@@ -1,7 +1,6 @@
 <template>
-  <el-card class="app-container">
-    <!-- 查询框 -->
-    <div>
+  <simple-table-layout :table-fields="conf.default" :conf="conf">
+    <template #search>
       <simple-search v-model="searchForm" :inline="true" @search="doSearch">
         <template v-slot="{ span }">
           <!-- 新增的的字段配置 -->
@@ -17,15 +16,17 @@
             prop="resourceName"
             :namespace="conf.namespace"
           />
-          <form-item-col
+          <form-item-col-dict
             :value="searchForm"
             :span="span"
             prop="micro"
+            :dict-code="'YES_OR_NO'"
             :namespace="conf.namespace"
           />
-          <form-item-col
+          <form-item-col-enable-state
             :value="searchForm"
             :span="span"
+            :show-by="'select'"
             prop="enableState"
             :namespace="conf.namespace"
           />
@@ -51,9 +52,8 @@
           /> -->
         </template>
       </simple-search>
-    </div>
-    <!-- 操作栏-->
-    <div style="margin-bottom: 10px" class="col-btn-display">
+    </template>
+    <template #btnslist>
       <base-resource-add v-permission="[conf.namespace + ':save']" :action-url="conf.urlMethods.addUrl" @success="doSearch" />
       <div style="float: right" class="col-btn-display">
         <del-btn
@@ -86,82 +86,67 @@
           @success="doSearch"
         />
       </div>
-    </div>
-    <!-- 列表-->
-    <table-column-preference-setting-api-slot
-      v-model="showFields"
-      :init-data="tableFields"
-      :preference-alias="conf.namespace"
-    >
-      <template v-slot="{doSave, preferenceData, headerDragend}">
-        <hf-table
-          v-if="showFields"
-          v-loading="loading"
-          :table-data="jsonData.list"
-          @selection-change="handleSelectionChange"
-          @sort-change="sortChange"
-          @header-dragend="headerDragend"
+    </template>
+    <template v-slot="{ showFields, headerDragend }">
+      <hf-table
+        ref="mainTable"
+        v-loading="loading"
+        :table-data="jsonData.list"
+        @selection-change="handleSelectionChange"
+        @sort-change="sortChange"
+        @header-dragend="headerDragend"
+      >
+        <section-table-column />
+        <!-- 显示的字段-->
+        <base-resource-columns :show-fields="showFields" :url-methods="conf.urlMethods" @success="doSearch" />
+        <el-table-column
+          fixed="right"
+          :label="$t('common.operate')"
+          width="150"
         >
-          <section-table-column />
-          <!-- 显示的字段-->
-          <base-resource-columns :show-fields="showFields" :url-methods="conf.urlMethods" @success="doSearch" />
-          <el-table-column
-            fixed="right"
-            :label="$t('common.operate')"
-            width="150"
-          >
-            <template v-slot:header>
-              {{ $t('common.operate') }}
-              <curd-table-column-select
-                v-model="showFields"
-                :preference-alias="conf.namespace"
-                :table-fields="preferenceData"
-                style="float: right"
-                @selectedChange="reRenderTable"
-                @doSave="doSave"
+          <template slot-scope="scopeRow">
+            <div class="col-btn-display">
+              <!-- 更新 -->
+              <base-resource-update
+                v-permission="[conf.namespace + ':update']"
+                :value="scopeRow.row"
+                :query-url="conf.urlMethods.queryUrl"
+                :update-url="conf.urlMethods.updateUrl"
+                @success="doSearch"
               />
-            </template>
-            <template slot-scope="scopeRow">
-              <div class="col-btn-display">
-                <!-- 更新 -->
-                <base-resource-update
-                  v-permission="[conf.namespace + ':update']"
-                  :value="scopeRow.row"
-                  :query-url="conf.urlMethods.queryUrl"
-                  :update-url="conf.urlMethods.updateUrl"
-                  @success="doSearch"
-                />
-                <!-- 删除-->
-                <del-btn
-                  v-permission="[conf.namespace + ':delete']"
-                  :url="templateUrl(conf.urlMethods.deleteUrl, scopeRow.row)"
-                  :btn-type="'text'"
-                  :value="scopeRow.row"
-                  @success="doSearch"
-                />
-                <!-- 查看 -->
-                <base-resource-detail
-                  :value="scopeRow.row"
-                />
-              </div>
-            </template>
-          </el-table-column>
-        </hf-table>
-      </template>
-    </table-column-preference-setting-api-slot>
+              <!-- 删除-->
+              <del-btn
+                v-permission="[conf.namespace + ':delete']"
+                :url="templateUrl(conf.urlMethods.deleteUrl, scopeRow.row)"
+                :btn-type="'text'"
+                :value="scopeRow.row"
+                @success="doSearch"
+              />
+              <!-- 查看 -->
+              <base-resource-detail
+                :value="scopeRow.row"
+              />
+            </div>
+          </template>
+        </el-table-column>
+      </hf-table>
+    </template>
     <!-- 分页信息 -->
-    <curd-pagination
-      :current-page.sync="searchForm.pageInfo.pageNo"
-      :page-size.sync="searchForm.pageInfo.pageSize"
-      :total="jsonData.total"
-      @size-change="doSearch"
-      @current-change="doSearch"
-    />
-  </el-card>
+    <template #pagination>
+      <curd-pagination
+        :current-page.sync="searchForm.pageInfo.pageNo"
+        :page-size.sync="searchForm.pageInfo.pageSize"
+        :total="jsonData.total"
+        @size-change="doSearch"
+        @current-change="doSearch"
+      />
+    </template>
+  </simple-table-layout>
 </template>
 
 <script>
     import * as conf from './api'
+    import SimpleTableLayout from '@/components/CURD/Layout/SimpleTableLayout.vue'
     import BaseResourceAdd from './add'
     import HfTable from '@/components/CURD/Table/HfTable'
     import { baseApiGetMethod } from '@/components/CURD/baseApi'
@@ -176,8 +161,8 @@
     import TemplateConfirmBtn from '@/components/CURD/Btns/TemplateConfirmBtn'
     import FormItemColDict from '@/components/CURD/Form/formItemColDict.vue'
     import FormItemCol from '@/components/CURD/Form/formItemCol.vue'
+    import formItemColEnableState from '@/components/CURD/Form/formItemColEnableState.vue'
     import SimpleSearch from '@/components/CURD/Query/search'
-    import TableColumnPreferenceSettingApiSlot from '@/views/basic/preferenceSetting/TableColumnPrefenceSettingApiSlot'
     import SectionTableColumn from '@/components/CURD/Table/column/base/SectionTableColumn'
     import BaseMicroInputRefer from '@/views/basic/baseMicro/inputRefer'
 
@@ -195,9 +180,10 @@
             CurdPagination,
             HfTable, BaseResourceAdd,
           FormItemColDict,
+          formItemColEnableState,
           FormItemCol,
           SimpleSearch,
-          TableColumnPreferenceSettingApiSlot
+          SimpleTableLayout
         },
         mixins: [CurdMixin],
         data() {
@@ -244,14 +230,15 @@
         methods: {
             reRenderTable(res) {
                 // 扩展显示的字段
-                this.showFields = []
-                // 标记为重新渲染中
-                this.reRending = true
-                setTimeout(() => {
-                    this.showFields = res
-                    // 标记为重新渲染中
-                    this.reRending = false
-                }, 50)
+                // this.showFields = []
+                // // 标记为重新渲染中
+                // this.reRending = true
+                // setTimeout(() => {
+                //     this.showFields = res
+                //     // 标记为重新渲染中
+                //     this.reRending = false
+                // }, 50)
+                this.$nextTick(this.$refs['hf-table']?.doLayout())
             },
             /**
              * 排序发生变化的时候执行的排序变化
