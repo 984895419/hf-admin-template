@@ -10,6 +10,8 @@
             :max-words="maxWords"
           />
         </slot>
+       <slot name="one" />
+    
       </template>
     </el-table-column>
   </div>
