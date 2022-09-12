@@ -10,20 +10,27 @@
       <!-- 下拉框 -->
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item icon="el-icon-plus">
-          启用
+          <!-- {{conf.urlMethods}} -->
+          <template-confirm-btn :url="templateUrl(conf.urlMethods.enableUrl, toggleRowSelectionArray)"
+            :btn-type="'text'" :label="$t('common.batchEnable')" :value="toggleRowSelectionArray" @success="doSearch" />
         </el-dropdown-item>
         <el-dropdown-item icon="el-icon-circle-plus">
-          禁用
+          <template-confirm-btn :url="templateUrl(conf.urlMethods.disableUrl, toggleRowSelectionArray)"
+            :btn-type="'text'" :value="toggleRowSelectionArray" :label="$t('common.batchDisable')"
+            @success="doSearch" />
         </el-dropdown-item>
         <el-dropdown-item icon="el-icon-circle-plus-outline">
-          删除
+          <del-btn :url="templateUrl(conf.urlMethods.deleteUrl, toggleRowSelectionArray)"
+            :value="toggleRowSelectionArray" :label="$t('common.batchDelete')" :btn-type="'text'" @success="doSearch" />
         </el-dropdown-item>
         <el-dropdown-item icon="el-icon-check">
           审核
           <!-- <examine :auditstatus="auditstatus" /> -->
         </el-dropdown-item>
         <el-dropdown-item icon="el-icon-circle-check">
-          导入
+          <dialog-btn-page :type="'text'" :label="'导入'" :title="'导入'">
+            <upload-excel-component :on-success="handleSuccess" :before-upload="beforeUpload" />
+          </dialog-btn-page>
         </el-dropdown-item>
         <!-- 导出集合 -->
         <el-dropdown-item icon="el-icon-circle-check">
@@ -33,16 +40,23 @@
             </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item icon="el-icon-plus">
-                选中导出
+                <template-confirm-btn :url="templateUrl(conf.urlMethods.batchExportSelectUrl, toggleRowSelectionArray)"
+                  :btn-type="'text'" :label="'选中导出'" @success="doSearch" />
               </el-dropdown-item>
+
               <el-dropdown-item icon="el-icon-circle-plus">
-                单页导出
+                <template-confirm-btn
+                  :url="templateUrl(conf.urlMethods.batchExportSinglePageUrl, toggleRowSelectionArray)"
+                  :btn-type="'text'" :label="'单页导出'" @success="doSearch" />
               </el-dropdown-item>
               <el-dropdown-item icon="el-icon-circle-plus-outline">
-                全部导出
+                <template-confirm-btn :url="templateUrl(conf.urlMethods.batchExportAllUrl, toggleRowSelectionArray)"
+                  :btn-type="'text'" :label="'全部导出'" @success="doSearch" />
               </el-dropdown-item>
               <el-dropdown-item icon="el-icon-check">
-                模板导出
+                <template-confirm-btn
+                  :url="templateUrl(conf.urlMethods.batchExportTemplateUrl, toggleRowSelectionArray)" :btn-type="'text'"
+                  :label="'模板导出'" @success="doSearch" />
               </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
@@ -59,8 +73,22 @@
   
 <script>
 import { mapGetters } from 'vuex'
+import CurdMixin from '@/components/CURD/curd.mixin'
+import TemplateConfirmBtn from '@/components/CURD/Btns/TemplateConfirmBtn'// 按钮弹窗
+import DelBtn from '@/components/CURD/Btns/DelBtn'// 删除按钮
+import UploadExcelComponent from '@/components/UploadExcel/index.vue'
+import DialogBtnPage from '@/components/CURD/Btns/DialogBtnPage'// 按钮弹窗
 export default {
   name: 'EditTable',
+  data() {
+    return {
+      toggleRowSelectionArray: [],
+    }
+  },
+  created() {
+    this.doSearch()
+  },
+  mixins: [CurdMixin],
   props: {
     tableData: {
       default: function () {
@@ -76,7 +104,17 @@ export default {
     maxheight: {
       default: 300,
       type: Number
+    },
+    conf: {},
+    selectionChange: {
+
     }
+  },
+  components: {
+    TemplateConfirmBtn,
+    DelBtn,
+    UploadExcelComponent,
+    DialogBtnPage
   },
   computed: {
     ...mapGetters([
@@ -141,6 +179,9 @@ export default {
         type: 'warning'
       })
       return false
+    },
+    doSearch() {
+
     }
   }
 }
@@ -149,6 +190,11 @@ export default {
 <style scoped lang="less">
 .el-table /deep/ .el-table__row td:not(.is-hidden):last-child {
   border-left: 1px solid #EBEEF5;
+}
+
+/deep/ .el-dropdown-menu__item {
+  display: flex;
+  align-items: center;
 }
 
 .el-table /deep/ thead th:not(.is-hidden):last-child {

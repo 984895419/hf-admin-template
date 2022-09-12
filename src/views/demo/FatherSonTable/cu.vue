@@ -32,8 +32,8 @@
             </template>
           </row-span-slot>
 
-          <edit-table :tableData="propTableData" border @selection-change="selectionChange"
-            @handleAddBtn="handleAddBtn">
+          <edit-table :tableData="propTableData" border @selection-change="selectionChange" @handleAddBtn="handleAddBtn"
+            :conf="conf">
             <section-table-column />
             <el-table-column label="id" type="index" fixed="left" align="center" width="50"></el-table-column>
             <default-table-column :prop="'GoodsCode'" :namespace="conf.namespace" :show-overflow-tooltip="true"
@@ -87,10 +87,6 @@ import BaseTenantInputRefer from '../../basic/baseTenant/inputRefer'
 import hfBaseSonColumns from './hfBaseSonColumns'// 表头
 import SectionTableColumn from '@/components/CURD/Table/column/base/SectionTableColumn'
 import DefaultTableColumn from '@/components/CURD/Table/column/DefaultTableColumn'
-
-import UploadExcelComponent from '@/components/UploadExcel/index.vue'
-import TemplateConfirmBtn from '@/components/CURD/Btns/TemplateConfirmBtn'// 按钮弹窗
-import DialogBtnPage from '@/components/CURD/Btns/DialogBtnPage'// 按钮弹窗
 import EditTable from '@/components/CURD/Table/EditTable.vue' //编辑表格
 const defaultProp = {
   GoodsCode: '',
@@ -110,8 +106,8 @@ export default {
     FormItemColDict, FormItemCol, RowSpanSlot,
     CuForm, AddBtn, UpdateBtn, FormItemColEnableState,
     HfTable, hfBaseSonColumns, DefaultTableColumn,
-    SectionTableColumn, UploadExcelComponent, TemplateConfirmBtn,
-    DialogBtnPage, EditTable
+    SectionTableColumn,
+    EditTable
   },
   props: {
     value: {
