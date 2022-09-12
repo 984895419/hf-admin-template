@@ -5,7 +5,7 @@
     trigger="click"
     :hide-on-click="false"
   >
-    <i class="el-icon-s-grid" />
+    <i class="el-icon-s-grid" v-bind="$attrs" v-on="$listeners" />
     <el-dropdown-menu slot="dropdown">
       <el-dropdown-item>
         <el-button

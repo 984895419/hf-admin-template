@@ -17,7 +17,7 @@
             v-model="showFields"
             :preference-alias="conf.namespace"
             :table-fields="preferenceData"
-            style="float: right"
+            style="float: right;margin-left: 10px;"
             @selectedChange="reRenderTable"
             @doSave="doSave"
           />

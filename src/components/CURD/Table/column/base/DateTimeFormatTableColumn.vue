@@ -6,7 +6,7 @@
 </template>
 
 <script>
-    import { parseTime } from '../../../../../utils'
+    import { parseTime } from '@/utils'
 
     export default {
         name: 'DateTimeFormatTableColumn',

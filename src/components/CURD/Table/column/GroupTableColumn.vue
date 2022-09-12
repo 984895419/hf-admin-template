@@ -5,6 +5,7 @@
       <el-table-column v-for="item in sortGroupFields" :key="item.value" :label="$t(namespace + '.' + item.value)">
         <slot v-if="item.children && item.children.length > 0" :fields="inGroup(item.children)" />
         <!-- {{ showFields }} -->
+        <!-- {{ inGroup(item.children) }} -->
       </el-table-column>
     </div>
   </div>
@@ -12,9 +13,9 @@
 <script>
 import { deepClone } from '@/utils'
 
-  /**
-   * 特殊字段说明，可以放在最后
-   */
+/**
+ * 特殊字段说明，可以放在最后
+ */
 const specialFields = [
   'creatorUserName',
   'modifierUserName',
@@ -63,7 +64,7 @@ const specialFields = [
       },
       inGroup() {
         return (arry = []) => {
-          return this.showFields.filter(s => arry.indexOf(s.value) >= 0)
+          return this.showFields.filter(s => arry.indexOf(s.value) >= 0).reverse()
         }
       }
     },

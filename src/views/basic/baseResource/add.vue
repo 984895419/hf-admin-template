@@ -3,7 +3,7 @@
     <template v-slot="{ closeDialog, data, showState }">
       <cu-form v-if="showState" :value="data" :action-method="addUrl" :form-rules="formRules" v-on="$listeners" @closeDialog="closeDialog">
         <template v-slot="{ errorMessage }">
-          <el-divider content-position="left">基础信息</el-divider>
+          <el-divider content-position="left">{{ $t(conf.namespace + '.baseInfo') }}</el-divider>
           <row-span-slot>
             <template v-slot="{ span }">
               <!-- 新增的的字段配置 -->
@@ -28,7 +28,7 @@
               />
             </template>
           </row-span-slot>
-          <el-divider content-position="left">微应用信息</el-divider>
+          <el-divider content-position="left">{{ $t(conf.namespace + '.microInfo') }}</el-divider>
           <row-span-slot>
             <template v-slot="{ span }">
               <form-item-col-dict

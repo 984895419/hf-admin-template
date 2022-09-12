@@ -13,5 +13,7 @@ export default {
   enableState: '启用/禁用',
   deleted: '删除状态',
   microIdName: '微应用ID',
-  microId: '微应用ID'
+  microId: '微应用ID',
+  baseInfo: '基础信息',
+  microInfo: '微应用信息'
 }
