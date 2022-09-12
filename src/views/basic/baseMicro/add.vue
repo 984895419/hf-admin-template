@@ -6,34 +6,34 @@
           <row-span-slot>
             <template v-slot="{ span }">
               <!-- 新增的的字段配置 -->
-                             <form-item-col
+              <form-item-col
                 :value="data"
                 :error="errorMessage('microAppId')"
                 :span="span"
                 prop="microAppId"
                 :namespace="conf.namespace"
-               />
-               <form-item-col
+              />
+              <form-item-col
                 :value="data"
                 :error="errorMessage('microName')"
                 :span="span"
                 prop="microName"
                 :namespace="conf.namespace"
-               />
-               <form-item-col
+              />
+              <form-item-col
                 :value="data"
                 :error="errorMessage('microDescription')"
                 :span="span"
                 prop="microDescription"
                 :namespace="conf.namespace"
-               />
-               <form-item-col
+              />
+              <form-item-col
                 :value="data"
                 :error="errorMessage('microSecret')"
                 :span="span"
                 prop="microSecret"
                 :namespace="conf.namespace"
-               />
+              />
               <form-item-col-enable-state
                 :value="data"
                 :span="span"
@@ -54,7 +54,7 @@
     import RowSpanSlot from '@/components/CURD/Slot/RowSpanSlot'
     import FormItemCol from '@/components/CURD/Form/formItemCol'
     import FormItemColDict from '@/components/CURD/Form/formItemColDict'
-    import FormItemColDateTime from '@./components/CURD/Form/formItemColDateTime'
+    import FormItemColDateTime from '@/components/CURD/Form/formItemColDateTime'
     import { baseApiPostMethod } from '@/components/CURD/baseApi'
     import FormItemColEnableState from '@/components/CURD/Form/formItemColEnableState'
     export default {
@@ -66,7 +66,7 @@ FormItemColDict, FormItemCol, RowSpanSlot, FormItemColDateTime,
             value: {
                 type: Object,
                 default: function() {
-                    return { enableState: 1}
+                    return { enableState: 1 }
                 }
             },
             actionUrl: String

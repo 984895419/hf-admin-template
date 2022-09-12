@@ -18,25 +18,27 @@
           <simple-search v-model="searchForm" :inline="true" @search="doSearch">
             <template v-slot="{ span }">
               <!-- 新增的的字段配置 -->
-                             <hf-base-right-role-input-refer
+              <hf-base-right-role-input-refer
                 :value="data"
                 value-refer-id="roleId"
-                value-refer-name="roleIdName"/>
+                value-refer-name="roleIdName"
+              />
               <base-resource-input-refer
                 :value="data"
                 value-refer-id="resourceId"
-                value-refer-name="resourceKey"/>
-              <form-item-col
-                      :value="searchForm"
-                      :span="span"
-                      prop="resourceKey"
-                      :namespace="conf.namespace"
+                value-refer-name="resourceKey"
               />
               <form-item-col
-                      :value="searchForm"
-                      :span="span"
-                      prop="enableState"
-                      :namespace="conf.namespace"
+                :value="searchForm"
+                :span="span"
+                prop="resourceKey"
+                :namespace="conf.namespace"
+              />
+              <form-item-col
+                :value="searchForm"
+                :span="span"
+                prop="enableState"
+                :namespace="conf.namespace"
               />
               <!-- 字典字段字段设置方法如下
               <form-item-col-dict
@@ -219,7 +221,7 @@
                         this.$set(this.value, this.valueReferId, row.id)
                     }
                     if (this.valueReferName) {
-                        this.$set(this.value, this.valueReferName, row.)
+                        this.$set(this.value, this.valueReferName, row.id)
                     }
                     if (this.valueExpendRefers) {
                         for (const ind in this.valueExpendRefers) {

@@ -6,51 +6,53 @@
           <row-span-slot>
             <template v-slot="{ span }">
               <!-- 新增的的字段配置 -->
-                              <form-item-col
-                    :value="data"
-                    :error="errorMessage('roleId')"
-                    :span="span"
-                    prop="roleId"
-                    :namespace="conf.namespace"
-                >
-                   <hf-base-right-role-input-refer
-                   :value="data"
-                   value-refer-id="roleId"
-                   value-refer-name="roleIdName"/>
-                </form-item-col>
-               <form-item-col
-                       :value="data"
-                       :error="errorMessage('resourceId')"
-                       :span="span"
-                       prop="resourceId"
-                       :namespace="conf.namespace"
-               >
-                   <base-resource-input-refer
-                   :value="data"
-                   value-refer-id="resourceId"
-                   value-refer-name="resourceKey"/>
-               </form-item-col>
-               <form-item-col
+              <form-item-col
+                :value="data"
+                :error="errorMessage('roleId')"
+                :span="span"
+                prop="roleId"
+                :namespace="conf.namespace"
+              >
+                <hf-base-right-role-input-refer
+                  :value="data"
+                  value-refer-id="roleId"
+                  value-refer-name="roleIdName"
+                />
+              </form-item-col>
+              <form-item-col
+                :value="data"
+                :error="errorMessage('resourceId')"
+                :span="span"
+                prop="resourceId"
+                :namespace="conf.namespace"
+              >
+                <base-resource-input-refer
+                  :value="data"
+                  value-refer-id="resourceId"
+                  value-refer-name="resourceKey"
+                />
+              </form-item-col>
+              <form-item-col
                 :value="data"
                 :error="errorMessage('resourceKey')"
                 :span="span"
                 prop="resourceKey"
                 :namespace="conf.namespace"
-               />
-               <form-item-col
+              />
+              <form-item-col
                 :value="data"
                 :error="errorMessage('label')"
                 :span="span"
                 prop="label"
                 :namespace="conf.namespace"
-               />
-               <form-item-col
+              />
+              <form-item-col
                 :value="data"
                 :error="errorMessage('value')"
                 :span="span"
                 prop="value"
                 :namespace="conf.namespace"
-               />
+              />
               <form-item-col-enable-state
                 :value="data"
                 :span="span"
@@ -71,7 +73,7 @@
     import RowSpanSlot from '@/components/CURD/Slot/RowSpanSlot'
     import FormItemCol from '@/components/CURD/Form/formItemCol'
     import FormItemColDict from '@/components/CURD/Form/formItemColDict'
-    import FormItemColDateTime from '@./components/CURD/Form/formItemColDateTime'
+    import FormItemColDateTime from '@/components/CURD/Form/formItemColDateTime'
     import { baseApiPostMethod } from '@/components/CURD/baseApi'
     import FormItemColEnableState from '@/components/CURD/Form/formItemColEnableState'
     import HfBaseRightRoleInputRefer from '@/views/basic/hfBaseRightRole/inputRefer'
@@ -87,7 +89,7 @@
             value: {
                 type: Object,
                 default: function() {
-                    return { enableState: 1}
+                    return { enableState: 1 }
                 }
             },
             actionUrl: String

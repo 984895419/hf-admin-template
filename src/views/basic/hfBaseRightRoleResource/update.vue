@@ -2,35 +2,37 @@
   <div>
     <update-btn btn-type="text" :url="templateUrl(queryUrl, value)">
       <template v-slot="{ closeDialog, data, showState }">
-        <cu-form v-if="showState" :form-rules="formRules" :value="data" :action-method="updateMethod"  @success="actionSuccess" @closeDialog="closeDialog">
+        <cu-form v-if="showState" :form-rules="formRules" :value="data" :action-method="updateMethod" @success="actionSuccess" @closeDialog="closeDialog">
           <template v-slot="{ errorMessage }">
             <row-span-slot>
               <template v-slot="{ span }">
                 <!-- 修改的字段配置 -->
-                                  <form-item-col
-                    :value="data"
-                    :error="errorMessage('roleId')"
-                    :span="span"
-                    prop="roleId"
-                    :namespace="conf.namespace"
-                  >
-                    <hf-base-right-role-input-refer
+                <form-item-col
+                  :value="data"
+                  :error="errorMessage('roleId')"
+                  :span="span"
+                  prop="roleId"
+                  :namespace="conf.namespace"
+                >
+                  <hf-base-right-role-input-refer
                     :value="data"
                     value-refer-id="roleId"
-                    value-refer-name="roleIdName"/>
-                  </form-item-col>
-                  <form-item-col
-                    :value="data"
-                    :error="errorMessage('resourceId')"
-                    :span="span"
-                    prop="resourceId"
-                    :namespace="conf.namespace"
-                  >
-                    <base-resource-input-refer
+                    value-refer-name="roleIdName"
+                  />
+                </form-item-col>
+                <form-item-col
+                  :value="data"
+                  :error="errorMessage('resourceId')"
+                  :span="span"
+                  prop="resourceId"
+                  :namespace="conf.namespace"
+                >
+                  <base-resource-input-refer
                     :value="data"
                     value-refer-id="resourceId"
-                    value-refer-name="resourceKey"/>
-                  </form-item-col>
+                    value-refer-name="resourceKey"
+                  />
+                </form-item-col>
                 <form-item-col
                   :value="data"
                   :error="errorMessage('resourceKey')"
@@ -84,13 +86,13 @@
     import CurdMixin from '@/components/CURD/curd.mixin'
     import { baseApiPutMethod } from '@/components/CURD/baseApi'
     import FormItemColDict from '@/components/CURD/Form/formItemColDict'
-    import FormItemColDateTime from '@./components/CURD/Form/formItemColDateTime'
+    import FormItemColDateTime from '@/components/CURD/Form/formItemColDateTime'
     import FormItemColEnableState from '@/components/CURD/Form/formItemColEnableState'
     import HfBaseRightRoleInputRefer from '@/views/basic/hfBaseRightRole/inputRefer'
     import BaseResourceInputRefer from '@/views/basic/baseResource/inputRefer'
     export default {
         name: 'HfBaseRightRoleResourceUpdate',
-        components: { 
+        components: {
       HfBaseRightRoleInputRefer,
       BaseResourceInputRefer,
       FormItemColDict, FormItemCol, RowSpanSlot, FormItemColDateTime,

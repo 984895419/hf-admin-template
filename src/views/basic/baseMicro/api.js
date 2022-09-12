@@ -37,7 +37,8 @@ const exportTableFields = (fields) => {
  * 字段的配置，用在国际化及列表选择显示字段的时候
  * @type {*[]}
  */
-const tableFields = []
+const tableFields = ['microAppId', 'microId', 'microDescription', 'microSecret',
+  'enableState']
 
 export default exportTableFields(tableFields)
 
@@ -62,6 +63,6 @@ export function formRules(vm) {
         ],
         enableState: [
           { required: true, message: vm.$t(getI18nName('enableState')) + vm.$t('common.notAllowedNull'), trigger: 'blur' }
-        ],
+        ]
   }
 }

@@ -18,34 +18,35 @@
           <simple-search v-model="searchForm" :inline="true" @search="doSearch">
             <template v-slot="{ span }">
               <!-- 新增的的字段配置 -->
-                            <form-item-col
-                      :value="searchForm"
-                      :span="span"
-                      prop="resourceKey"
-                      :namespace="conf.namespace"
+              <form-item-col
+                :value="searchForm"
+                :span="span"
+                prop="resourceKey"
+                :namespace="conf.namespace"
               />
               <form-item-col
-                      :value="searchForm"
-                      :span="span"
-                      prop="resourceName"
-                      :namespace="conf.namespace"
+                :value="searchForm"
+                :span="span"
+                prop="resourceName"
+                :namespace="conf.namespace"
               />
               <form-item-col
-                      :value="searchForm"
-                      :span="span"
-                      prop="micro"
-                      :namespace="conf.namespace"
+                :value="searchForm"
+                :span="span"
+                prop="micro"
+                :namespace="conf.namespace"
               />
               <form-item-col
-                      :value="searchForm"
-                      :span="span"
-                      prop="enableState"
-                      :namespace="conf.namespace"
+                :value="searchForm"
+                :span="span"
+                prop="enableState"
+                :namespace="conf.namespace"
               />
-               <base-micro-input-refer
+              <base-micro-input-refer
                 :value="data"
                 value-refer-id="microId"
-                value-refer-name="microIdName"/>
+                value-refer-name="microIdName"
+              />
               <!-- 字典字段字段设置方法如下
               <form-item-col-dict
                 :value="data"
@@ -225,7 +226,7 @@
                         this.$set(this.value, this.valueReferId, row.resourceId)
                     }
                     if (this.valueReferName) {
-                        this.$set(this.value, this.valueReferName, row.)
+                        this.$set(this.value, this.valueReferName, row.resourceName)
                     }
                     if (this.valueExpendRefers) {
                         for (const ind in this.valueExpendRefers) {

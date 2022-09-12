@@ -2,12 +2,12 @@
   <div>
     <update-btn btn-type="text" :url="templateUrl(queryUrl, value)">
       <template v-slot="{ closeDialog, data, showState }">
-        <cu-form v-if="showState" :form-rules="formRules" :value="data" :action-method="updateMethod"  @success="actionSuccess" @closeDialog="closeDialog">
+        <cu-form v-if="showState" :form-rules="formRules" :value="data" :action-method="updateMethod" @success="actionSuccess" @closeDialog="closeDialog">
           <template v-slot="{ errorMessage }">
             <row-span-slot>
               <template v-slot="{ span }">
                 <!-- 修改的字段配置 -->
-                                <form-item-col
+                <form-item-col
                   :value="data"
                   :error="errorMessage('resourceKey')"
                   :span="span"
@@ -47,18 +47,19 @@
                   :span="span"
                   :namespace="conf.namespace"
                 />
-                  <form-item-col
-                    :value="data"
-                    :error="errorMessage('microId')"
-                    :span="span"
-                    prop="microId"
-                    :namespace="conf.namespace"
-                  >
-                    <base-micro-input-refer
+                <form-item-col
+                  :value="data"
+                  :error="errorMessage('microId')"
+                  :span="span"
+                  prop="microId"
+                  :namespace="conf.namespace"
+                >
+                  <base-micro-input-refer
                     :value="data"
                     value-refer-id="microId"
-                    value-refer-name="microIdName"/>
-                  </form-item-col>
+                    value-refer-name="microIdName"
+                  />
+                </form-item-col>
                 <!-- 字段字段设置方法如下
                 <form-item-col-dict
                   :value="data"
@@ -86,12 +87,12 @@
     import CurdMixin from '@/components/CURD/curd.mixin'
     import { baseApiPutMethod } from '@/components/CURD/baseApi'
     import FormItemColDict from '@/components/CURD/Form/formItemColDict'
-    import FormItemColDateTime from '@./components/CURD/Form/formItemColDateTime'
+    import FormItemColDateTime from '@/components/CURD/Form/formItemColDateTime'
     import FormItemColEnableState from '@/components/CURD/Form/formItemColEnableState'
     import BaseMicroInputRefer from '@/views/basic/baseMicro/inputRefer'
     export default {
         name: 'BaseResourceUpdate',
-        components: { 
+        components: {
       BaseMicroInputRefer,
       FormItemColDict, FormItemCol, RowSpanSlot, FormItemColDateTime,
       CuForm, UpdateBtn, FormItemColEnableState },

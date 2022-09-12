@@ -2,12 +2,12 @@
   <div>
     <update-btn btn-type="text" :url="templateUrl(queryUrl, value)">
       <template v-slot="{ closeDialog, data, showState }">
-        <cu-form v-if="showState" :form-rules="formRules" :value="data" :action-method="updateMethod"  @success="actionSuccess" @closeDialog="closeDialog">
+        <cu-form v-if="showState" :form-rules="formRules" :value="data" :action-method="updateMethod" @success="actionSuccess" @closeDialog="closeDialog">
           <template v-slot="{ errorMessage }">
             <row-span-slot>
               <template v-slot="{ span }">
                 <!-- 修改的字段配置 -->
-                                <form-item-col
+                <form-item-col
                   :value="data"
                   :error="errorMessage('microAppId')"
                   :span="span"
@@ -67,7 +67,7 @@
     import CurdMixin from '@/components/CURD/curd.mixin'
     import { baseApiPutMethod } from '@/components/CURD/baseApi'
     import FormItemColDict from '@/components/CURD/Form/formItemColDict'
-    import FormItemColDateTime from '@./components/CURD/Form/formItemColDateTime'
+    import FormItemColDateTime from '@/components/CURD/Form/formItemColDateTime'
     import FormItemColEnableState from '@/components/CURD/Form/formItemColEnableState'
     export default {
         name: 'BaseMicroUpdate',

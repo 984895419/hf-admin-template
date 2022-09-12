@@ -5,7 +5,7 @@
       <simple-search v-model="searchForm" :inline="true" @search="doSearch">
         <template v-slot="{ span }">
           <!-- 新增的的字段配置 -->
-                    <form-item-col
+          <form-item-col
             :value="searchForm"
             :span="span"
             prop="resourceKey"
@@ -29,17 +29,18 @@
             prop="enableState"
             :namespace="conf.namespace"
           />
-            <form-item-col
-                    :value="searchForm"
-                    :span="span"
-                    prop="microId"
-                    :namespace="conf.namespace"
-            >
-              <base-micro-input-refer
+          <form-item-col
+            :value="searchForm"
+            :span="span"
+            prop="microId"
+            :namespace="conf.namespace"
+          >
+            <base-micro-input-refer
               :value="searchForm"
               value-refer-id="microId"
-              value-refer-name="microIdName"/>
-            </form-item-col>
+              value-refer-name="microIdName"
+            />
+          </form-item-col>
           <!-- 字典字段字段设置方法如下
           <form-item-col-dict
             :value="searchForm"
@@ -53,21 +54,21 @@
     </div>
     <!-- 操作栏-->
     <div style="margin-bottom: 10px" class="col-btn-display">
-      <base-resource-add v-permission="[conf.namespace + ':save']" :action-url="conf.urlMethods.addUrl"  @success="doSearch" />
+      <base-resource-add v-permission="[conf.namespace + ':save']" :action-url="conf.urlMethods.addUrl" @success="doSearch" />
       <div style="float: right" class="col-btn-display">
         <del-btn
-          v-permission="[conf.namespace + ':delete']"
           v-if="conf.urlMethods.deleteUrl
             && toggleRowSelectionArray.length > 0"
+          v-permission="[conf.namespace + ':delete']"
           :url="templateUrl(conf.urlMethods.deleteUrl, toggleRowSelectionArray)"
           :value="toggleRowSelectionArray"
           :label="$t('common.batchDelete')"
           @success="doSearch"
         />
         <template-confirm-btn
-          v-permission="[conf.namespace + ':enable']"
           v-if="conf.urlMethods.enableUrl
             && toggleRowSelectionArray.length > 0"
+          v-permission="[conf.namespace + ':enable']"
           :url="templateUrl(conf.urlMethods.enableUrl, toggleRowSelectionArray)"
           :btn-type="'primary'"
           :label="$t('common.batchEnable')"
@@ -75,9 +76,9 @@
           @success="doSearch"
         />
         <template-confirm-btn
-          v-permission="[conf.namespace + ':disable']"
           v-if="conf.urlMethods.disableUrl
             && toggleRowSelectionArray.length > 0"
+          v-permission="[conf.namespace + ':disable']"
           :url="templateUrl(conf.urlMethods.disableUrl, toggleRowSelectionArray)"
           :btn-type="'primary'"
           :value="toggleRowSelectionArray"
@@ -88,9 +89,10 @@
     </div>
     <!-- 列表-->
     <table-column-preference-setting-api-slot
-            :init-data="tableFields"
-            v-model="showFields"
-            :preference-alias="conf.namespace">
+      v-model="showFields"
+      :init-data="tableFields"
+      :preference-alias="conf.namespace"
+    >
       <template v-slot="{doSave, preferenceData, headerDragend}">
         <hf-table
           v-if="showFields"
@@ -100,7 +102,7 @@
           @sort-change="sortChange"
           @header-dragend="headerDragend"
         >
-          <section-table-column/>
+          <section-table-column />
           <!-- 显示的字段-->
           <base-resource-columns :show-fields="showFields" :url-methods="conf.urlMethods" @success="doSearch" />
           <el-table-column
@@ -109,7 +111,7 @@
             width="150"
           >
             <template v-slot:header>
-              {{$t('common.operate')}}
+              {{ $t('common.operate') }}
               <curd-table-column-select
                 v-model="showFields"
                 :preference-alias="conf.namespace"
