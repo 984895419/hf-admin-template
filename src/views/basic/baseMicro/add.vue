@@ -6,7 +6,14 @@
           <row-span-slot>
             <template v-slot="{ span }">
               <!-- 新增的的字段配置 -->
-              <form-item-col
+              <!-- <form-item-col
+                :value="data"
+                :error="errorMessage('microAppId')"
+                :span="span"
+                prop="microAppId"
+                :namespace="conf.namespace"
+              /> -->
+              <form-item-col-random
                 :value="data"
                 :error="errorMessage('microAppId')"
                 :span="span"
@@ -14,7 +21,8 @@
                 :namespace="conf.namespace"
               />
               <form-item-col
-                :value="data"
+                :value="
+                  data"
                 :error="errorMessage('microName')"
                 :span="span"
                 prop="microName"
@@ -53,6 +61,7 @@
     import CuForm from '@/components/CURD/Form/cuFrom'
     import RowSpanSlot from '@/components/CURD/Slot/RowSpanSlot'
     import FormItemCol from '@/components/CURD/Form/formItemCol'
+    import FormItemColRandom from '@/components/CURD/Form/formItemColRandom'
     import FormItemColDict from '@/components/CURD/Form/formItemColDict'
     import FormItemColDateTime from '@/components/CURD/Form/formItemColDateTime'
     import { baseApiPostMethod } from '@/components/CURD/baseApi'
@@ -60,7 +69,8 @@
     export default {
         name: 'BaseMicroAdd',
         components: {
-FormItemColDict, FormItemCol, RowSpanSlot, FormItemColDateTime,
+        FormItemColDict, FormItemCol, RowSpanSlot,
+        FormItemColDateTime, FormItemColRandom,
         CuForm, AddBtn, FormItemColEnableState },
         props: {
             value: {
