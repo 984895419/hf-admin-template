@@ -31,101 +31,28 @@
                 :namespace="conf.namespace" />
             </template>
           </row-span-slot>
-          <!-- 子表内容 -->
-            <el-button v-model="handleAdd" size="mini" style="margin:0px 10px 10px 0" type="success" round plain @click="handleAdd()">{{$t('common.add')}}</el-button>
-            <el-dropdown :hide-on-click="false" trigger="click" v-if="toggleRowSelectionArray.len">
-              <el-button>
-                批量操作<i class="el-icon-arrow-down el-icon--right" />
-              </el-button>
-              <!-- 下拉框 -->
-              <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item icon="el-icon-plus">
-                  启用
-                </el-dropdown-item>
-                <el-dropdown-item icon="el-icon-circle-plus">
-                  禁用
-                </el-dropdown-item>
-                <el-dropdown-item icon="el-icon-circle-plus-outline">
-                  删除
-                </el-dropdown-item>
-                <el-dropdown-item icon="el-icon-check">
-                  审核
-                  <!-- <examine :auditstatus="auditstatus" /> -->
-                </el-dropdown-item>
-                <el-dropdown-item icon="el-icon-circle-check">
-                  导入
-                </el-dropdown-item>
-                <!-- 导出集合 -->
-                <el-dropdown-item icon="el-icon-circle-check">
-                  <el-dropdown :hide-on-click="false" placement="bottom">
-                    <span class="el-dropdown-link">
-                      导出
-                    </span>
-                    <el-dropdown-menu slot="dropdown">
-                      <el-dropdown-item icon="el-icon-plus">
-                        选中导出
-                      </el-dropdown-item>
-                      <el-dropdown-item icon="el-icon-circle-plus">
-                        单页导出
-                      </el-dropdown-item>
-                      <el-dropdown-item icon="el-icon-circle-plus-outline">
-                        全部导出
-                      </el-dropdown-item>
-                      <el-dropdown-item icon="el-icon-check">
-                        模板导出
-                      </el-dropdown-item>
-                    </el-dropdown-menu>
-                  </el-dropdown>
-                </el-dropdown-item>
-              </el-dropdown-menu>
-            </el-dropdown>
 
-          <el-table max-height="300px" @selection-change="SelectionChange"
-            :data="propTableData.col"
-            border>
+          <edit-table :tableData="propTableData" border @selection-change="selectionChange" @handleAddBtn="handleAddBtn"
+            :conf="conf" :toggleRowSelectionArray="toggleRowSelectionArray">
             <section-table-column />
-            <el-table-column label="id" type="index" align="center" width="50"></el-table-column>
-            <el-table-column label="货物编码" :show-overflow-tooltip="true" min-width="130">
-              <template slot-scope="scope">
-                <span v-if="scope.row.editable">
-                  <el-input size="mini" v-model="scope.row.GoodsCode"></el-input>
-                </span>
-                <span v-else>{{ scope.row.GoodsCode }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column label="货物名称" :show-overflow-tooltip="true" min-width="130">
-              <template slot-scope="scope">
-                <pasn v-if="scope.row.editable">
-                  <el-input size="mini" v-model="scope.row.GoodsName"></el-input>
-                </pasn>
-                <span v-else>{{ scope.row.GoodsName }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column label="货物规格" :show-overflow-tooltip="true" min-width="130">
-              <template slot-scope="scope">
-                <span v-if="scope.row.editable">
-                  <el-input size="mini" v-model="scope.row.Specifications"></el-input>
-                </span>
-                <span v-else>{{ scope.row.Specifications }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column label="货物单位" :show-overflow-tooltip="true" min-width="130">
-              <template slot-scope="scope">
-                <span v-if="scope.row.editable">
-                  <el-input size="mini" v-model="scope.row.GoodsUnit"></el-input>
-                </span>
-                <span v-else>{{ scope.row.GoodsUnit }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column label="所需数量" :show-overflow-tooltip="true" min-width="130">
-              <template slot-scope="scope">
-                <span v-if="scope.row.editable">
-                  <el-input size="mini" v-model="scope.row.QuantityRequired"></el-input>
-                </span>
-                <span v-else>{{ scope.row.QuantityRequired }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column align="center" width="170px" :show-overflow-tooltip="true">
+            <el-table-column label="id" type="index" fixed="left" align="center" width="50"></el-table-column>
+            <default-table-column :prop="'GoodsCode'" :namespace="conf.namespace" :show-overflow-tooltip="true"
+              min-width="130"></default-table-column>
+            <default-table-column :prop="'GoodsName'" :namespace="conf.namespace" :show-overflow-tooltip="true"
+              min-width="130"></default-table-column>
+            <default-table-column :prop="'Specifications'" :namespace="conf.namespace" :show-overflow-tooltip="true"
+              min-width="130"></default-table-column>
+            <default-table-column :prop="'GoodsUnit'" :namespace="conf.namespace" :show-overflow-tooltip="true"
+              min-width="130"></default-table-column>
+            <default-table-column :prop="'QuantityRequired'" :namespace="conf.namespace" :show-overflow-tooltip="true"
+              min-width="130"></default-table-column>
+            <default-table-column :prop="'UnitPrice'" :namespace="conf.namespace" :show-overflow-tooltip="true"
+              min-width="130"></default-table-column>
+            <default-table-column :prop="'money'" :namespace="conf.namespace" :show-overflow-tooltip="true"
+              min-width="130"></default-table-column>
+            <default-table-column :prop="'stock'" :namespace="conf.namespace" :show-overflow-tooltip="true"
+              min-width="130"></default-table-column>
+            <el-table-column align="center" width="170px" fixed="right">
               <template slot-scope="scope">
                 <el-button size="mini" type="primary" round plain v-if="!scope.row.editable"
                   @click="valChange(scope.row,scope.$index,true)">{{ $t('common.edit') }}</el-button>
@@ -137,7 +64,7 @@
                   @click="valChange(scope.row,scope.$index,false)">{{ $t('common.cancel') }}</el-button>
               </template>
             </el-table-column>
-          </el-table>
+          </edit-table>
         </template>
       </cu-form>
     </template>
@@ -160,10 +87,7 @@ import BaseTenantInputRefer from '../../basic/baseTenant/inputRefer'
 import hfBaseSonColumns from './hfBaseSonColumns'// 表头
 import SectionTableColumn from '@/components/CURD/Table/column/base/SectionTableColumn'
 import DefaultTableColumn from '@/components/CURD/Table/column/DefaultTableColumn'
-
-import UploadExcelComponent from '@/components/UploadExcel/index.vue'
-import TemplateConfirmBtn from '@/components/CURD/Btns/TemplateConfirmBtn'// 按钮弹窗
-import DialogBtnPage from '@/components/CURD/Btns/DialogBtnPage'// 按钮弹窗
+import EditTable from '@/components/CURD/Table/EditTable.vue' //编辑表格
 const defaultProp = {
   GoodsCode: '',
   GoodsName: '',
@@ -182,8 +106,8 @@ export default {
     FormItemColDict, FormItemCol, RowSpanSlot,
     CuForm, AddBtn, UpdateBtn, FormItemColEnableState,
     HfTable, hfBaseSonColumns, DefaultTableColumn,
-    SectionTableColumn, UploadExcelComponent, TemplateConfirmBtn,
-    DialogBtnPage
+    SectionTableColumn,
+    EditTable
   },
   props: {
     value: {
@@ -205,7 +129,8 @@ export default {
         col: []
       },
       toggleRowSelectionArray: [],
-      auditstatus: '1'
+      auditstatus: '1',
+
     }
   },
   computed: {
@@ -248,7 +173,7 @@ export default {
   },
   created() {
     this.formRules = conf.formRules(this)
-  
+
   },
   mounted() {
     this.propTableData = {
@@ -306,30 +231,16 @@ export default {
     }
   },
   methods: {
-    // 添加
-    handleAdd() {
-      for (let i of this.propTableData.col) {
-        if (i.editable) {
-          return this.Message(
-            this.$t('basicData.device.propDlg.pleSave'),
-            'warning'
-          )
-        }
-      }
-      let row = {
-        GoodsCode: '',
-        GoodsName: '',
-        Specifications: '',
-        GoodsUnit: '',
-        QuantityRequired: '',
-        id: '',
-        UnitPrice: '',
-        money: '',
-        stock: '',
-        editable:true
-      }
-      this.propTableData.col.push(row)
-      this.propTableData.sel = row
+    /**
+   * 选中后处理的事件
+   * @param section
+   */
+    selectionChange(section) {
+      this.toggleRowSelectionArray = section
+      console.log(section, "section")
+    },
+    handleAddBtn(data) {
+      console.log(data, "handleAddBtn")
     },
     //修改
     valChange(row, index, qx) {
@@ -352,7 +263,7 @@ export default {
       }
       //提交数据
       if (row.editable) {
-        console.log('this.propTableData.sel', this.propTableData.sel)
+        console.log('tableData.sel', this.propTableData.sel)
         const v = this.propTableData.sel
         // 必填项判断
         if (v.code == '' || v.name == '') {
@@ -377,26 +288,7 @@ export default {
     Message(msg, type) {
       this.$message({ type: type ? type : 'info', message: msg })
     },
-    /**
-   * 选中后处理的事件
-   * @param section
-   */
-   SelectionChange(section) {
-      this.toggleRowSelectionArray = section
-      console.log(section, 'section')
-    },
-    // 导入前判断
-    beforeUpload(file) {
-      const isLt1M = file.size / 1024 / 1024 < 1
-      if (isLt1M) {
-        return true
-      }
-      this.$message({
-        message: '文件大于1M 请重新上传',
-        type: 'warning'
-      })
-      return false
-    }
+
   }
 }
 </script>
