@@ -157,22 +157,14 @@
         <operate-table-column>
           <template slot-scope="scopeRow">
             <div class="col-btn-display">
-              <!-- 更新 -->
-              <demo-cu
-                v-if="scopeRow.row.initData !== 1"
-                v-permission="['hfBaseRightRole:update']"
-                :value="scopeRow.row"
-                @success="doSearch"
-              />
-              <!-- 删除-->
-              <del-btn
-                v-if="scopeRow.row.initData !== 1"
-                v-permission="['hfBaseRightRole:delete']"
-                :url="templateUrl(conf.urlMethods.deleteUrl, scopeRow.row)"
-                :btn-type="'text'"
-                :value="scopeRow.row"
-                @success="doSearch"
-              />
+              <el-button size="mini" type="text" v-if="!scope.row.editable"
+                  @click="valChange(scope.row,scope.$index,true)">{{ $t('common.edit') }}</el-button>
+                <el-button size="mini" type="text" v-else @click="valChange(scope.row,scope.$index,true)">{{
+                $t('common.save') }}</el-button>
+                <el-button size="mini" style="color:red" type="text" v-if="!scope.row.editable"
+                  @click="handleDelete(scope.$index, scope.row)">{{ $t('common.delete') }}</el-button>
+                <el-button size="mini" style="color:red" type="text" v-else
+                  @click="valChange(scope.row,scope.$index,false)">{{ $t('common.cancel') }}</el-button>
             </div>
           </template>
         </operate-table-column>
