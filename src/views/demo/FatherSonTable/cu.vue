@@ -31,36 +31,34 @@
                 :namespace="conf.namespace" />
             </template>
           </row-span-slot>
-
-          <edit-table :tableData="propTableData" border @selection-change="selectionChange" @handleAddBtn="handleAddBtn"
-            :conf="conf" :toggleRowSelectionArray="toggleRowSelectionArray">
+          <!--handleAddBtn 新增行按钮事件  -->
+          <edit-table :tableData="propTableData" border @handleAddBtn="handleAddBtn" :conf="conf" :rowData="rowData">
             <section-table-column />
-            <el-table-column label="id" type="index" fixed="left" align="center" width="50"></el-table-column>
             <default-table-column :prop="'GoodsCode'" :namespace="conf.namespace" :show-overflow-tooltip="true"
-              min-width="130"></default-table-column>
+              min-width="130" />
             <default-table-column :prop="'GoodsName'" :namespace="conf.namespace" :show-overflow-tooltip="true"
-              min-width="130"></default-table-column>
+              min-width="130" />
             <default-table-column :prop="'Specifications'" :namespace="conf.namespace" :show-overflow-tooltip="true"
-              min-width="130"></default-table-column>
+              min-width="130" />
             <default-table-column :prop="'GoodsUnit'" :namespace="conf.namespace" :show-overflow-tooltip="true"
-              min-width="130"></default-table-column>
+              min-width="130" />
             <default-table-column :prop="'QuantityRequired'" :namespace="conf.namespace" :show-overflow-tooltip="true"
-              min-width="130"></default-table-column>
+              align="center" min-width="130" />
             <default-table-column :prop="'UnitPrice'" :namespace="conf.namespace" :show-overflow-tooltip="true"
-              min-width="130"></default-table-column>
+              align="center" min-width="130" />
             <default-table-column :prop="'money'" :namespace="conf.namespace" :show-overflow-tooltip="true"
-              min-width="130"></default-table-column>
+              align="center" min-width="130" />
             <default-table-column :prop="'stock'" :namespace="conf.namespace" :show-overflow-tooltip="true"
-              min-width="130"></default-table-column>
+              align="center" min-width="130" />
             <el-table-column align="center" width="170px" fixed="right">
               <template slot-scope="scope">
-                <el-button size="mini" type="primary" round plain v-if="!scope.row.editable"
+                <el-button size="mini" type="text" v-if="!scope.row.editable"
                   @click="valChange(scope.row,scope.$index,true)">{{ $t('common.edit') }}</el-button>
-                <el-button size="mini" type="primary" round plain v-else
-                  @click="valChange(scope.row,scope.$index,true)">{{ $t('common.save') }}</el-button>
-                <el-button size="mini" type="danger" round plain v-if="!scope.row.editable"
+                <el-button size="mini" type="text" v-else @click="valChange(scope.row,scope.$index,true)">{{
+                $t('common.save') }}</el-button>
+                <el-button size="mini" style="color:red" type="text" v-if="!scope.row.editable"
                   @click="handleDelete(scope.$index, scope.row)">{{ $t('common.delete') }}</el-button>
-                <el-button size="mini" type="danger" round plain v-else
+                <el-button size="mini" style="color:red" type="text" v-else
                   @click="valChange(scope.row,scope.$index,false)">{{ $t('common.cancel') }}</el-button>
               </template>
             </el-table-column>
@@ -77,7 +75,6 @@ import * as conf from './api'
 import AddBtn from '@/components/CURD/Btns/AddBtn'
 import UpdateBtn from '@/components/CURD/Btns/UpdateBtn'
 import CuForm from '@/components/CURD/Form/cuFrom'
-import HfTable from '@/components/CURD/Table/HfTable'// 单表组件
 import RowSpanSlot from '@/components/CURD/Slot/RowSpanSlot'
 import FormItemCol from '@/components/CURD/Form/formItemCol'
 import FormItemColDict from '@/components/CURD/Form/formItemColDict'
@@ -88,16 +85,7 @@ import hfBaseSonColumns from './hfBaseSonColumns'// 表头
 import SectionTableColumn from '@/components/CURD/Table/column/base/SectionTableColumn'
 import DefaultTableColumn from '@/components/CURD/Table/column/DefaultTableColumn'
 import EditTable from '@/components/CURD/Table/EditTable.vue' //编辑表格
-const defaultProp = {
-  GoodsCode: '',
-  GoodsName: '',
-  Specifications: '',
-  GoodsUnit: '',
-  QuantityRequired: '',
-  UnitPrice: '',
-  money: '',
-  stock: '',
-}
+
 
 export default {
   name: 'HfBaseRightRoleCu',
@@ -105,7 +93,7 @@ export default {
     BaseTenantInputRefer,
     FormItemColDict, FormItemCol, RowSpanSlot,
     CuForm, AddBtn, UpdateBtn, FormItemColEnableState,
-    HfTable, hfBaseSonColumns, DefaultTableColumn,
+    hfBaseSonColumns, DefaultTableColumn,
     SectionTableColumn,
     EditTable
   },
@@ -117,20 +105,29 @@ export default {
       }
     },
     isShow: Boolean,
-
   },
+
   data() {
+
     return {
       conf: conf,
       formRules: null,
-      sonJsonData: null,
       propTableData: {
         sel: null, // 选中行
         col: []
       },
       toggleRowSelectionArray: [],
-      auditstatus: '1',
-
+      rowData: {
+        GoodsCode:"",
+        GoodsName:"",
+        Specifications:"",
+        GoodsUnit:"",
+        QuantityRequired:"",
+        UnitPrice:"",
+        money:"",
+        stock:"",
+        editable:false
+      }
     }
   },
   computed: {
@@ -173,7 +170,6 @@ export default {
   },
   created() {
     this.formRules = conf.formRules(this)
-
   },
   mounted() {
     this.propTableData = {
@@ -186,7 +182,7 @@ export default {
         UnitPrice: '待付款',
         money: '已发货',
         stock: '支付宝',
-        editable: false
+        editable: false,
       }, {
         GoodsCode: 20210121000001,
         GoodsName: '2022/08/19',
@@ -231,31 +227,24 @@ export default {
     }
   },
   methods: {
-    /**
-   * 选中后处理的事件
-   * @param section
-   */
-    selectionChange(section) {
-      this.toggleRowSelectionArray = section
-      console.log(section, "section")
-    },
+    // 新增行数据
     handleAddBtn(data) {
-      console.log(data, "handleAddBtn")
+      this.propTableData = data
     },
     //修改
     valChange(row, index, qx) {
-      console.log('edit', this.propTableData)
       //点击修改，判断是否已经保存所有操作
       for (let i of this.propTableData.col) {
-        console.log('i.editable', i.editable, i.id, row.id)
         if (i.editable && i.id != row.id) {
-          this.Message(this.$t('basicData.device.propDlg.pleSave'), 'warning')
+          this.$message({
+            message: '请保存',
+            type: 'warning'
+          });
           return false
         }
       }
       //是否是取消操作
       if (!qx) {
-        console.log('qx', this.propTableData.sel.id)
         if (!this.propTableData.sel.id) {
           this.propTableData.col.splice(index, 1)
         }
@@ -265,12 +254,18 @@ export default {
       if (row.editable) {
         console.log('tableData.sel', this.propTableData.sel)
         const v = this.propTableData.sel
-        // 必填项判断
+        // 必填项判断(预留)
         if (v.code == '' || v.name == '') {
-          this.Message(this.$t('common.pleEnter'), 'warning')
+          this.$message({
+            message: '请填写必填项',
+            type: 'warning'
+          });
         } else {
-          this.$emit('confirm', this.propTableData.sel)
           row.editable = false
+          this.$message({
+            message: '保存成功',
+            type: 'success'
+          });
         }
       } else {
         this.propTableData.sel = row
@@ -280,15 +275,7 @@ export default {
     // 删除
     handleDelete(index, row) {
       this.propTableData.col.splice(index, 1)
-      // this.$emit('delete', row.id)
-    },
-    beforeClose() {
-      this.$emit('cancel')
-    },
-    Message(msg, type) {
-      this.$message({ type: type ? type : 'info', message: msg })
-    },
-
+    }
   }
 }
 </script>

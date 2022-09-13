@@ -3,19 +3,11 @@
     <el-table-column :prop="prop" :label="$t(namespace + '.' + prop)" v-bind="$attrs" :align="align">
       <template slot-scope="scope">
         <slot>
-          <span v-if="scope.row.editable">
+          <slot v-if="scope.row.editable"  name="othertype">
             <el-input size="mini" v-model="scope.row[prop]"></el-input>
-            <!-- <slot ></slot> -->
-          </span>
-          <copier-render v-else
-            :copyable="copyable"
-            :prop="prop"
-            :row="scope.row"
-            :max-words="maxWords"
-          />
-          <!-- <span v-else>{{ scope.row.GoodsCode }}</span> -->
+          </slot>
+          <copier-render v-else :copyable="copyable" :prop="prop" :row="scope.row" :max-words="maxWords" />
         </slot>
-       <slot name="one" />
       </template>
     </el-table-column>
   </div>
@@ -49,4 +41,5 @@ export default {
 </script>
 
 <style scoped>
+
 </style>

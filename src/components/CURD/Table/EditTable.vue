@@ -2,10 +2,10 @@
   <div>
     <!-- 子表内容 -->
     <!-- 批量操作 -->
-    <el-button v-model="handleAdd" size="mini" style="margin:0px 10px 10px 0" type="primary"
-      icon="el-icon-circle-plus-outline" @click="handleAdd()">新增行</el-button>
+    <el-button size="mini" style="margin:0px 10px 10px 0" type="primary" icon="el-icon-circle-plus-outline"
+      @click="handleAdd()">新增行</el-button>
     <el-dropdown :hide-on-click="false" trigger="click" v-if="conf.urlMethods.disableUrl
-            && toggleRowSelectionArray.length > 0">
+    && toggleRowSelectionArray.length > 0">
       <el-button>
         批量操作<i class="el-icon-arrow-down el-icon--right" />
       </el-button>
@@ -25,8 +25,24 @@
             :value="toggleRowSelectionArray" :label="$t('common.batchDelete')" :btn-type="'text'" @success="doSearch" />
         </el-dropdown-item>
         <el-dropdown-item icon="el-icon-check">
-          审核
-          <!-- <examine :auditstatus="auditstatus" /> -->
+          <dialog-btn-page :type="'text'" :label="'批量审核'" :title="'批量审核'">
+            <template slot-scope="{ closeDialog }">
+              <div @closeDialog="closeDialog">
+                <el-card>
+                  <el-form>
+                    <el-form-item label="审核状态">
+                      <el-radio v-model="auditstatus" label="1" border size="medium">通过</el-radio>
+                      <el-radio v-model="auditstatus" label="2" border size="medium">不通过</el-radio>
+                    </el-form-item>
+                  </el-form>
+                </el-card>
+                <div style="float:right;margin:10px 0">
+                  <el-button type="primary">确定</el-button>
+                  <el-button @click="closeDialog">取消</el-button>
+                </div>
+              </div>
+            </template>
+          </dialog-btn-page>
         </el-dropdown-item>
         <el-dropdown-item icon="el-icon-circle-check">
           <dialog-btn-page :type="'text'" :label="'导入'" :title="'导入'">
@@ -66,7 +82,7 @@
     </el-dropdown>
     <!-- 主表内容 -->
     <el-table ref="editMainTable" :size="size" :data="tableData.col" border :row-key="rowKey" v-bind="$attrs"
-      :max-height="maxheight" v-on="$listeners">
+      :max-height="maxheight" v-on="$listeners" @selection-change="selectionChange">
       <slot />
     </el-table>
   </div>
@@ -79,10 +95,17 @@ import TemplateConfirmBtn from '@/components/CURD/Btns/TemplateConfirmBtn'// 按
 import DelBtn from '@/components/CURD/Btns/DelBtn'// 删除按钮
 import UploadExcelComponent from '@/components/UploadExcel/index.vue'
 import DialogBtnPage from '@/components/CURD/Btns/DialogBtnPage'// 按钮弹窗
+import { deepClone } from '@/utils'
 export default {
   name: 'EditTable',
   created() {
     this.doSearch()
+  },
+  data() {
+    return {
+      auditstatus: '1',
+      toggleRowSelectionArray: []
+    }
   },
   mixins: [CurdMixin],
   props: {
@@ -102,14 +125,9 @@ export default {
       type: Number
     },
     conf: {},
-    toggleRowSelectionArray:{
-      type:Array,
-      default:[]
-    }
-  },
-  watch:{
-    toggleRowSelectionArray(oldval,val){
-      console.log(oldval,val,"123123")
+    rowData: {
+      type: Object,
+      default: {}
     }
   },
   components: {
@@ -141,29 +159,16 @@ export default {
         }
       }
     },
+    /**
+    * 选中后处理的事件
+    * @param section
+    */
+    selectionChange(section) {
+      this.toggleRowSelectionArray = section
+    },
     // 添加
     handleAdd() {
-      for (let i of this.tableData.col) {
-        if (i.editable) {
-          return this.Message(
-            this.$t('basicData.device.propDlg.pleSave'),
-            'warning'
-          )
-        }
-      }
-      console.log(this.tableData, "1")
-      const row = {
-        GoodsCode: '',
-        GoodsName: '',
-        Specifications: '',
-        GoodsUnit: '',
-        QuantityRequired: '',
-        id: '',
-        UnitPrice: '',
-        money: '',
-        stock: '',
-        editable: true
-      }
+      const row = deepClone(this.rowData)
       this.tableData.col.push(row)
       this.tableData.sel = row
       this.$emit("handleAddBtn", this.tableData)
@@ -182,12 +187,11 @@ export default {
       return false
     },
     doSearch() {
-
+      //
     },
     handleSuccess() {
       // 导入成功回调
     },
-
   }
 }
 </script>
