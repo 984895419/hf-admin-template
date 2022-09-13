@@ -102,25 +102,10 @@ export default {
       this.tableData.push(row)
       this.$emit("handleAddBtn", this.tableData)
     },
-
-    // 导入前判断
-    beforeUpload(file) {
-      const isLt1M = file.size / 1024 / 1024 < 1
-      if (isLt1M) {
-        return true
-      }
-      this.$message({
-        message: '文件大于1M 请重新上传',
-        type: 'warning'
-      })
-      return false
-    },
+    // 成功回调
     doSearch() {
       //
-    },
-    handleSuccess() {
-      // 导入成功回调
-    },
+    }
   }
 }
 </script>
