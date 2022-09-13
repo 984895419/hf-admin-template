@@ -1,16 +1,17 @@
 <template>
   <div>
     <!-- 子表内容 -->
-    <el-button v-model="handleAdd" size="mini" style="margin:0px 10px 10px 0" type="success" round plain
-      @click="handleAdd()">{{$t('common.add')}}</el-button>
-    <el-dropdown :hide-on-click="false" trigger="click">
+    <!-- 批量操作 -->
+    <el-button v-model="handleAdd" size="mini" style="margin:0px 10px 10px 0" type="primary"
+      icon="el-icon-circle-plus-outline" @click="handleAdd()">新增行</el-button>
+    <el-dropdown :hide-on-click="false" trigger="click" v-if="conf.urlMethods.disableUrl
+            && toggleRowSelectionArray.length > 0">
       <el-button>
         批量操作<i class="el-icon-arrow-down el-icon--right" />
       </el-button>
       <!-- 下拉框 -->
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item icon="el-icon-plus">
-          <!-- {{conf.urlMethods}} -->
           <template-confirm-btn :url="templateUrl(conf.urlMethods.enableUrl, toggleRowSelectionArray)"
             :btn-type="'text'" :label="$t('common.batchEnable')" :value="toggleRowSelectionArray" @success="doSearch" />
         </el-dropdown-item>
@@ -80,11 +81,6 @@ import UploadExcelComponent from '@/components/UploadExcel/index.vue'
 import DialogBtnPage from '@/components/CURD/Btns/DialogBtnPage'// 按钮弹窗
 export default {
   name: 'EditTable',
-  data() {
-    return {
-      toggleRowSelectionArray: [],
-    }
-  },
   created() {
     this.doSearch()
   },
@@ -106,8 +102,14 @@ export default {
       type: Number
     },
     conf: {},
-    selectionChange: {
-
+    toggleRowSelectionArray:{
+      type:Array,
+      default:[]
+    }
+  },
+  watch:{
+    toggleRowSelectionArray(oldval,val){
+      console.log(oldval,val,"123123")
     }
   },
   components: {
@@ -167,7 +169,6 @@ export default {
       this.$emit("handleAddBtn", this.tableData)
     },
 
-
     // 导入前判断
     beforeUpload(file) {
       const isLt1M = file.size / 1024 / 1024 < 1
@@ -182,12 +183,21 @@ export default {
     },
     doSearch() {
 
-    }
+    },
+    handleSuccess() {
+      // 导入成功回调
+    },
+
   }
 }
 </script>
   
 <style scoped lang="less">
+.sonTableBtn {
+  display: flex;
+  justify-content: flex-end;
+}
+
 .el-table /deep/ .el-table__row td:not(.is-hidden):last-child {
   border-left: 1px solid #EBEEF5;
 }

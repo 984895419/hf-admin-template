@@ -33,7 +33,7 @@
           </row-span-slot>
 
           <edit-table :tableData="propTableData" border @selection-change="selectionChange" @handleAddBtn="handleAddBtn"
-            :conf="conf">
+            :conf="conf" :toggleRowSelectionArray="toggleRowSelectionArray">
             <section-table-column />
             <el-table-column label="id" type="index" fixed="left" align="center" width="50"></el-table-column>
             <default-table-column :prop="'GoodsCode'" :namespace="conf.namespace" :show-overflow-tooltip="true"
