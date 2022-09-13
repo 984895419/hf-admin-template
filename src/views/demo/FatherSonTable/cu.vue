@@ -33,6 +33,15 @@
           </row-span-slot>
           <!--handleAddBtn 新增行按钮事件  -->
           <edit-table :tableData="propTableData" border @handleAddBtn="handleAddBtn" :conf="conf" :rowData="rowData">
+            <!-- 其他批量操作方法插槽 -->
+            <template #dropdownList>
+              <!-- 导入 -->
+              <el-dropdown-item icon="el-icon-circle-check">
+                <dialog-btn-page :type="'text'" :label="'导入'" :title="'导入'">
+                  <upload-excel-component :on-success="handleSuccess" :before-upload="beforeUpload" />
+                </dialog-btn-page>
+              </el-dropdown-item>
+            </template>
             <section-table-column />
             <default-table-column :prop="'GoodsCode'" :namespace="conf.namespace" :show-overflow-tooltip="true"
               min-width="130" />
@@ -75,6 +84,7 @@ import * as conf from './api'
 import AddBtn from '@/components/CURD/Btns/AddBtn'
 import UpdateBtn from '@/components/CURD/Btns/UpdateBtn'
 import CuForm from '@/components/CURD/Form/cuFrom'
+import CurdMixin from '@/components/CURD/curd.mixin'
 import RowSpanSlot from '@/components/CURD/Slot/RowSpanSlot'
 import FormItemCol from '@/components/CURD/Form/formItemCol'
 import FormItemColDict from '@/components/CURD/Form/formItemColDict'
@@ -85,6 +95,8 @@ import hfBaseSonColumns from './hfBaseSonColumns'// 表头
 import SectionTableColumn from '@/components/CURD/Table/column/base/SectionTableColumn'
 import DefaultTableColumn from '@/components/CURD/Table/column/DefaultTableColumn'
 import EditTable from '@/components/CURD/Table/EditTable.vue' //编辑表格
+import UploadExcelComponent from '@/components/UploadExcel/index.vue'
+import DialogBtnPage from '@/components/CURD/Btns/DialogBtnPage'// 按钮弹窗
 
 
 export default {
@@ -95,8 +107,9 @@ export default {
     CuForm, AddBtn, UpdateBtn, FormItemColEnableState,
     hfBaseSonColumns, DefaultTableColumn,
     SectionTableColumn,
-    EditTable
+    EditTable, UploadExcelComponent, DialogBtnPage
   },
+  mixins: [CurdMixin],
   props: {
     value: {
       type: Object,
@@ -112,10 +125,7 @@ export default {
     return {
       conf: conf,
       formRules: null,
-      propTableData: {
-        sel: null, // 选中行
-        col: []
-      },
+      propTableData: [],
       toggleRowSelectionArray: [],
       rowData: {
         GoodsCode: "",
@@ -126,7 +136,7 @@ export default {
         UnitPrice: "",
         money: "",
         stock: "",
-        editable: false
+        editable: true
       }
     }
   },
@@ -172,59 +182,57 @@ export default {
     this.formRules = conf.formRules(this)
   },
   mounted() {
-    this.propTableData = {
-      col: [{
-        GoodsCode: 20210121000001,
-        GoodsName: '2022/08/19',
-        Specifications: 2000,
-        GoodsUnit: '张三莆田华峰啥的那是你的啊骚大师莆田华峰啥的那是你的啊骚大师',
-        QuantityRequired: '已完成',
-        UnitPrice: '待付款',
-        money: '已发货',
-        stock: '支付宝',
-        editable: false,
-      }, {
-        GoodsCode: 20210121000001,
-        GoodsName: '2022/08/19',
-        Specifications: 2000,
-        GoodsUnit: '张三莆田华峰啥的那是你的啊骚大师莆田华峰啥的那是你的啊骚大师',
-        QuantityRequired: '已完成',
-        UnitPrice: '待付款',
-        money: '已发货',
-        stock: '支付宝',
-        editable: false
-      }, {
-        GoodsCode: 20210121000001,
-        GoodsName: '2022/08/19',
-        Specifications: 2000,
-        GoodsUnit: '张三莆田华峰啥的那是你的啊骚大师莆田华峰啥的那是你的啊骚大师',
-        QuantityRequired: '已完成',
-        UnitPrice: '待付款',
-        money: '已发货',
-        stock: '支付宝',
-        editable: false
-      }, {
-        GoodsCode: 20210121000001,
-        GoodsName: '2022/08/19',
-        Specifications: 2000,
-        GoodsUnit: '张三莆田华峰啥的那是你的啊骚大师莆田华峰啥的那是你的啊骚大师',
-        QuantityRequired: '已完成',
-        UnitPrice: '待付款',
-        money: '已发货',
-        stock: '支付宝',
-        editable: false
-      }, {
-        GoodsCode: 20210121000001,
-        GoodsName: '2022/08/19',
-        Specifications: 2000,
-        GoodsUnit: '张三莆田华峰啥的那是你的啊骚大师莆田华峰啥的那是你的啊骚大师',
-        QuantityRequired: '已完成',
-        UnitPrice: '待付款',
-        money: '已发货',
-        stock: '支付宝',
-        editable: false
-      }],
-    }
+    this.propTableData = [{
+      GoodsCode: 20210121000001,
+      GoodsName: '2022/08/19',
+      Specifications: 2000,
+      GoodsUnit: '张三莆田华峰啥的那是你的啊骚大师莆田华峰啥的那是你的啊骚大师',
+      QuantityRequired: '已完成',
+      UnitPrice: '待付款',
+      money: '已发货',
+      stock: '支付宝',
+      editable: false,
+    }, {
+      GoodsCode: 20210121000001,
+      GoodsName: '2022/08/19',
+      Specifications: 2000,
+      GoodsUnit: '张三莆田华峰啥的那是你的啊骚大师莆田华峰啥的那是你的啊骚大师',
+      QuantityRequired: '已完成',
+      UnitPrice: '待付款',
+      money: '已发货',
+      stock: '支付宝',
+      editable: false
+    }, {
+      GoodsCode: 20210121000001,
+      GoodsName: '2022/08/19',
+      Specifications: 2000,
+      GoodsUnit: '张三莆田华峰啥的那是你的啊骚大师莆田华峰啥的那是你的啊骚大师',
+      QuantityRequired: '已完成',
+      UnitPrice: '待付款',
+      money: '已发货',
+      stock: '支付宝',
+      editable: false
+    }, {
+      GoodsCode: 20210121000001,
+      GoodsName: '2022/08/19',
+      Specifications: 2000,
+      GoodsUnit: '张三莆田华峰啥的那是你的啊骚大师莆田华峰啥的那是你的啊骚大师',
+      QuantityRequired: '已完成',
+      UnitPrice: '待付款',
+      money: '已发货',
+      stock: '支付宝',
+      editable: false
+    }, {
+      GoodsCode: 20210121000001,
+      GoodsName: '2022/08/19',
+      Specifications: 2000,
+      GoodsUnit: '张三莆田华峰啥的那是你的啊骚大师莆田华峰啥的那是你的啊骚大师',
+      QuantityRequired: '已完成',
+      UnitPrice: '待付款',
+      money: '已发货',
+      stock: '支付宝',
+      editable: false
+    }]
   },
   methods: {
     // 新增行数据
@@ -234,7 +242,7 @@ export default {
     //修改
     valChange(row, index, qx) {
       //点击修改，判断是否已经保存所有操作
-      for (let i of this.propTableData.col) {
+      for (let i of this.propTableData) {
         if (i.editable && i.id != row.id) {
           this.$message({
             message: '请保存',
@@ -245,15 +253,15 @@ export default {
       }
       //是否是取消操作
       if (!qx) {
-        if (!this.propTableData.sel.id) {
-          this.propTableData.col.splice(index, 1)
+        if (!this.propTableData) {
+          this.propTableData.splice(index, 1)
         }
         return (row.editable = !row.editable)
       }
       //提交数据
       if (row.editable) {
-        console.log('tableData.sel', this.propTableData.sel)
-        const v = this.propTableData.sel
+        console.log('tableData.sel', this.rowData)
+        const v = this.rowData
         // 必填项判断(预留)
         if (v.code == '' || v.name == '') {
           this.$message({
@@ -278,7 +286,22 @@ export default {
         message: '删除成功',
         type: 'success'
       });
-      this.propTableData.col.splice(index, 1)
+      this.propTableData.splice(index, 1)
+    },
+    // 导入前判断
+    beforeUpload(file) {
+      const isLt1M = file.size / 1024 / 1024 < 1
+      if (isLt1M) {
+        return true
+      }
+      this.$message({
+        message: '文件大于1M 请重新上传',
+        type: 'warning'
+      })
+      return false
+    },
+    handleSuccess() {
+
     }
   }
 }

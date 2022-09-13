@@ -4,85 +4,25 @@
     <!-- 批量操作 -->
     <el-button size="mini" style="margin:0px 10px 10px 0" type="primary" icon="el-icon-circle-plus-outline"
       @click="handleAdd()">新增行</el-button>
-    <el-dropdown 
-    :hide-on-click="false" trigger="click" v-if="conf.urlMethods.disableUrl
+    <el-dropdown :hide-on-click="false" trigger="click" v-if="conf.urlMethods.disableUrl
     && toggleRowSelectionArray.length > 0">
       <el-button>
         批量操作<i class="el-icon-arrow-down el-icon--right" />
       </el-button>
+
       <!-- 下拉框 -->
       <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item icon="el-icon-plus">
-          <template-confirm-btn :url="templateUrl(conf.urlMethods.enableUrl, toggleRowSelectionArray)"
-            :btn-type="'text'" :label="$t('common.batchEnable')" :value="toggleRowSelectionArray" @success="doSearch" />
-        </el-dropdown-item>
-        <el-dropdown-item icon="el-icon-circle-plus">
-          <template-confirm-btn :url="templateUrl(conf.urlMethods.disableUrl, toggleRowSelectionArray)"
-            :btn-type="'text'" :value="toggleRowSelectionArray" :label="$t('common.batchDisable')"
-            @success="doSearch" />
-        </el-dropdown-item>
+        <!-- 删除 -->
         <el-dropdown-item icon="el-icon-circle-plus-outline">
           <del-btn :url="templateUrl(conf.urlMethods.deleteUrl, toggleRowSelectionArray)"
             :value="toggleRowSelectionArray" :label="$t('common.batchDelete')" :btn-type="'text'" @success="doSearch" />
         </el-dropdown-item>
-        <el-dropdown-item icon="el-icon-check">
-          <dialog-btn-page :type="'text'" :label="'批量审核'" :title="'批量审核'">
-            <template slot-scope="{ closeDialog }">
-              <div @closeDialog="closeDialog">
-                <el-card>
-                  <el-form>
-                    <el-form-item label="审核状态">
-                      <el-radio v-model="auditstatus" label="1" border size="medium">通过</el-radio>
-                      <el-radio v-model="auditstatus" label="2" border size="medium">不通过</el-radio>
-                    </el-form-item>
-                  </el-form>
-                </el-card>
-                <div style="float:right;margin:10px 0">
-                  <el-button type="primary">确定</el-button>
-                  <el-button @click="closeDialog">取消</el-button>
-                </div>
-              </div>
-            </template>
-          </dialog-btn-page>
-        </el-dropdown-item>
-        <el-dropdown-item icon="el-icon-circle-check">
-          <dialog-btn-page :type="'text'" :label="'导入'" :title="'导入'">
-            <upload-excel-component :on-success="handleSuccess" :before-upload="beforeUpload" />
-          </dialog-btn-page>
-        </el-dropdown-item>
-        <!-- 导出集合 -->
-        <el-dropdown-item icon="el-icon-circle-check">
-          <el-dropdown :hide-on-click="false" placement="bottom">
-            <span class="el-dropdown-link">
-              导出
-            </span>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item icon="el-icon-plus">
-                <template-confirm-btn :url="templateUrl(conf.urlMethods.batchExportSelectUrl, toggleRowSelectionArray)"
-                  :btn-type="'text'" :label="'选中导出'" @success="doSearch" />
-              </el-dropdown-item>
-
-              <el-dropdown-item icon="el-icon-circle-plus">
-                <template-confirm-btn
-                  :url="templateUrl(conf.urlMethods.batchExportSinglePageUrl, toggleRowSelectionArray)"
-                  :btn-type="'text'" :label="'单页导出'" @success="doSearch" />
-              </el-dropdown-item>
-              <el-dropdown-item icon="el-icon-circle-plus-outline">
-                <template-confirm-btn :url="templateUrl(conf.urlMethods.batchExportAllUrl, toggleRowSelectionArray)"
-                  :btn-type="'text'" :label="'全部导出'" @success="doSearch" />
-              </el-dropdown-item>
-              <el-dropdown-item icon="el-icon-check">
-                <template-confirm-btn
-                  :url="templateUrl(conf.urlMethods.batchExportTemplateUrl, toggleRowSelectionArray)" :btn-type="'text'"
-                  :label="'模板导出'" @success="doSearch" />
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
-        </el-dropdown-item>
+        <!-- 其他批量操作拓展 -->
+        <slot name="dropdownList"></slot>
       </el-dropdown-menu>
     </el-dropdown>
     <!-- 主表内容 -->
-    <el-table ref="editMainTable" :size="size" :data="tableData.col" border :row-key="rowKey" v-bind="$attrs"
+    <el-table ref="editMainTable" :size="size" :data="tableData" border :row-key="rowKey" v-bind="$attrs"
       :max-height="maxheight" v-on="$listeners" @selection-change="selectionChange">
       <slot />
     </el-table>
@@ -92,31 +32,21 @@
 <script>
 import { mapGetters } from 'vuex'
 import CurdMixin from '@/components/CURD/curd.mixin'
-import TemplateConfirmBtn from '@/components/CURD/Btns/TemplateConfirmBtn'// 按钮弹窗
 import DelBtn from '@/components/CURD/Btns/DelBtn'// 删除按钮
-import UploadExcelComponent from '@/components/UploadExcel/index.vue'
-import DialogBtnPage from '@/components/CURD/Btns/DialogBtnPage'// 按钮弹窗
 import { deepClone } from '@/utils'
 export default {
   name: 'EditTable',
-  created() {
-    this.doSearch()
-  },
+  created() { },
   data() {
     return {
-      auditstatus: '1',
       toggleRowSelectionArray: []
     }
   },
   mixins: [CurdMixin],
   props: {
     tableData: {
-      default: function () {
-        return {
-          sel: null, // 选中行
-          col: []
-        }
-      }
+      type:Array,
+      default:[]
     },
     rowKey: {
       type: String
@@ -125,17 +55,16 @@ export default {
       default: 300,
       type: Number
     },
-    conf: {},
+    conf: {
+      type: Object
+    },
     rowData: {
       type: Object,
       default: {}
     }
   },
   components: {
-    TemplateConfirmBtn,
     DelBtn,
-    UploadExcelComponent,
-    DialogBtnPage
   },
   computed: {
     ...mapGetters([
@@ -170,8 +99,7 @@ export default {
     // 添加
     handleAdd() {
       const row = deepClone(this.rowData)
-      this.tableData.col.push(row)
-      this.tableData.sel = row
+      this.tableData.push(row)
       this.$emit("handleAddBtn", this.tableData)
     },
 
