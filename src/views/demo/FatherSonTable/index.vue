@@ -42,9 +42,9 @@
           :hide-on-click="false"
           trigger="click"
         >
-          <span class="el-dropdown-link">
+          <el-button class="el-dropdown-link">
             批量操作<i class="el-icon-arrow-down el-icon--right" />
-          </span>
+          </el-button>
           <!-- 下拉框 -->
           <el-dropdown-menu slot="dropdown">
             <!-- 启用 -->

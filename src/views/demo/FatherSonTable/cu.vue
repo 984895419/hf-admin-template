@@ -118,15 +118,15 @@ export default {
       },
       toggleRowSelectionArray: [],
       rowData: {
-        GoodsCode:"",
-        GoodsName:"",
-        Specifications:"",
-        GoodsUnit:"",
-        QuantityRequired:"",
-        UnitPrice:"",
-        money:"",
-        stock:"",
-        editable:false
+        GoodsCode: "",
+        GoodsName: "",
+        Specifications: "",
+        GoodsUnit: "",
+        QuantityRequired: "",
+        UnitPrice: "",
+        money: "",
+        stock: "",
+        editable: false
       }
     }
   },
@@ -274,6 +274,10 @@ export default {
     },
     // 删除
     handleDelete(index, row) {
+      this.$message({
+        message: '删除成功',
+        type: 'success'
+      });
       this.propTableData.col.splice(index, 1)
     }
   }

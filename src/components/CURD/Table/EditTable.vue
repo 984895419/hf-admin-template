@@ -4,7 +4,8 @@
     <!-- 批量操作 -->
     <el-button size="mini" style="margin:0px 10px 10px 0" type="primary" icon="el-icon-circle-plus-outline"
       @click="handleAdd()">新增行</el-button>
-    <el-dropdown :hide-on-click="false" trigger="click" v-if="conf.urlMethods.disableUrl
+    <el-dropdown 
+    :hide-on-click="false" trigger="click" v-if="conf.urlMethods.disableUrl
     && toggleRowSelectionArray.length > 0">
       <el-button>
         批量操作<i class="el-icon-arrow-down el-icon--right" />
