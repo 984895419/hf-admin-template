@@ -5,7 +5,9 @@
         v-on="$listeners" @closeDialog="closeDialog">
         <template v-slot="{ errorMessage }">
           <row-span-slot>
+
             <template v-slot="{ span }">
+
               <!-- 新增的的字段配置 -->
               <form-item-col :value="data" :error="errorMessage('orderNo')" :span="span" prop="orderNo"
                 :namespace="conf.namespace" :disabled="true" />
@@ -33,10 +35,9 @@
           </row-span-slot>
           <!--handleAddBtn 新增行按钮事件  -->
           <edit-table :tableData="data.propTableData" border @handleAddBtn="handleAddBtn" :conf="conf"
-            :rowData="rowData">
+            @handleChangeBtn="handleChangeBtn" :rowData="rowData">
             <!-- 其他批量操作方法插槽 -->
             <template #dropdownList="{toggleRowSelectionArray}">
-              <!-- {{toggleRowSelectionArray}} -->
               <!-- 导入 -->
               <el-dropdown-item icon="el-icon-circle-check">
                 <dialog-btn-page :type="'text'" :label="'导入'" :title="'导入'">
@@ -45,7 +46,6 @@
               </el-dropdown-item>
             </template>
             <section-table-column />
-       
             <default-table-column :prop="'GoodsCode'" :namespace="conf.namespace" :show-overflow-tooltip="true"
               min-width="130" />
             <default-table-column :prop="'GoodsName'" :namespace="conf.namespace" :show-overflow-tooltip="true"
@@ -170,6 +170,7 @@ export default {
   created() {
     this.formRules = conf.formRules(this)
   },
+
   mounted() {
     this.value.propTableData = [{
       GoodsCode: 20210121000001,
@@ -180,7 +181,6 @@ export default {
       UnitPrice: '待付款',
       money: '已发货',
       stock: '支付宝',
-      editable: false,
     }, {
       GoodsCode: 20210121000002,
       GoodsName: '2022/08/19',
@@ -189,8 +189,7 @@ export default {
       QuantityRequired: '已完成',
       UnitPrice: '待付款',
       money: '已发货',
-      stock: '支付宝',
-      editable: false
+      stock: '支付宝'
     }, {
       GoodsCode: 20210121000003,
       GoodsName: '2022/08/19',
@@ -199,8 +198,7 @@ export default {
       QuantityRequired: '已完成',
       UnitPrice: '待付款',
       money: '已发货',
-      stock: '支付宝',
-      editable: false
+      stock: '支付宝'
     }, {
       GoodsCode: 20210121000004,
       GoodsName: '2022/08/19',
@@ -209,8 +207,7 @@ export default {
       QuantityRequired: '已完成',
       UnitPrice: '待付款',
       money: '已发货',
-      stock: '支付宝',
-      editable: false
+      stock: '支付宝'
     }, {
       GoodsCode: 20210121000005,
       GoodsName: '2022/08/19',
@@ -219,8 +216,7 @@ export default {
       QuantityRequired: '已完成',
       UnitPrice: '待付款',
       money: '已发货',
-      stock: '支付宝',
-      editable: false
+      stock: '支付宝'
     }]
   },
   methods: {
@@ -228,7 +224,10 @@ export default {
     handleAddBtn(data) {
       this.value.propTableData = data
     },
-
+    handleChangeBtn(data) {
+      this.$set(this.value,"propTableData",data)
+      // this.value.propTableData = data
+    },
 
     // 导入前判断
     beforeUpload(file) {
@@ -244,7 +243,22 @@ export default {
     },
     handleSuccess() {
       // 导入成功回调
-    }
+    },
+    // 对部分表单字段进行校验
+    validateField(form, index) {
+      let result = true
+      for (const item of this.$refs[sonForm].fields) {
+        if (item.prop.split('.')[1] === index.toString()) {
+          this.$refs[form].validateField(item.prop, (error) => {
+            if (error !== '') {
+              result = false
+            }
+          })
+        }
+        if (!result) break
+      }
+      return result
+    },
   }
 }
 </script>

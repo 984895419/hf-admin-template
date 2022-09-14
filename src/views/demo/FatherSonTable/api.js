@@ -64,13 +64,16 @@ export  {
  */
 export function formRules(vm) {
   return {
+    // 主表
     orderNo: [{
       message: vm.$t(getI18nName('orderNo')) + vm.$t('common.notAllowedNull'),
       trigger: 'blur'
     }],
     ordertime: [{
       message: vm.$t(getI18nName('ordertime')) + vm.$t('common.notAllowedNull'),
-      trigger: 'blur'
+      trigger: 'blur',
+      required: true,
+
     }],
     ordertotal: [{
       message: vm.$t(getI18nName('ordertotal')) + vm.$t('common.notAllowedNull'),
@@ -106,43 +109,38 @@ export function formRules(vm) {
       message: vm.$t(getI18nName('customeraddress')) + vm.$t('common.notAllowedNull'),
       trigger: 'blur'
     }],
+    
+    //子表
     GoodsCode: [{
       required: true,
       message: vm.$t(getI18nName('GoodsCode')) + vm.$t('common.notAllowedNull'),
       trigger: 'blur'
     }],
     GoodsName: [{
-      required: true,
       message: vm.$t(getI18nName('GoodsName')) + vm.$t('common.notAllowedNull'),
       trigger: 'blur'
     }],
     Specifications: [{
-      required: true,
       message: vm.$t(getI18nName('Specifications')) + vm.$t('common.notAllowedNull'),
       trigger: 'blur'
     }],
     GoodsUnit: [{
-      required: true,
       message: vm.$t(getI18nName('GoodsUnit')) + vm.$t('common.notAllowedNull'),
       trigger: 'blur'
     }],
     QuantityRequired: [{
-      required: true,
       message: vm.$t(getI18nName('QuantityRequired')) + vm.$t('common.notAllowedNull'),
       trigger: 'blur'
     }],
     UnitPrice: [{
-      required: true,
       message: vm.$t(getI18nName('UnitPrice')) + vm.$t('common.notAllowedNull'),
       trigger: 'blur'
     }],
     money: [{
-      required: true,
       message: vm.$t(getI18nName('money')) + vm.$t('common.notAllowedNull'),
       trigger: 'blur'
     }],
     stock: [{
-      required: true,
       message: vm.$t(getI18nName('stock')) + vm.$t('common.notAllowedNull'),
       trigger: 'blur'
     }],

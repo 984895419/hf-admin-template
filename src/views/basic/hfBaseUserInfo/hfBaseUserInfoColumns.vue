@@ -32,9 +32,11 @@
         :label="$t(conf.namespace + '.pkDept')"
         min-width="130"
       />
-      <el-table-column
+      <select-table-column
         v-if="item.value === 'gender'"
         prop="gender"
+        :namespace="conf.namespace"
+        :list="conf.genders"
         :label="$t(conf.namespace + '.gender')"
         min-width="130"
       />
@@ -62,10 +64,10 @@
         :label="$t(conf.namespace + '.userFrom')"
         min-width="130"
       />
-      <creator-table-column :width="item.width" v-if="item.value === 'creatorUserName'" />
-      <create-time-table-column :width="item.width" v-if="item.value === 'createTime'" />
-      <modifier-table-column :width="item.width" v-if="item.value === 'modifierUserName'" />
-      <modify-time-table-column :width="item.width" v-if="item.value === 'modifyTime'" />
+      <creator-table-column v-if="item.value === 'creatorUserName'" :width="item.width" />
+      <create-time-table-column v-if="item.value === 'createTime'" :width="item.width" />
+      <modifier-table-column v-if="item.value === 'modifierUserName'" :width="item.width" />
+      <modify-time-table-column v-if="item.value === 'modifyTime'" :width="item.width" />
       <enable-state-table-column
         v-if="item.value === 'enableState'"
         :operate="false"

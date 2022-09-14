@@ -92,7 +92,7 @@ export default {
      */
     doSearch(cb) {
       this.$emit('search')
-      if (cb) {
+      if (cb && typeof cb === 'function') {
         cb()
       }
     },
@@ -102,7 +102,7 @@ export default {
     doReset(cb) {
       this.$emit('input', deepClone(this.initValue))
       this.$emit('search')
-      if (cb) {
+      if (cb && typeof cb === 'function') {
         cb()
       }
     }
