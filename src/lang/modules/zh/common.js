@@ -25,6 +25,8 @@ export default {
   notExist: '不存在',
   notEmpty: '不能为空字符串/空集合',
   notDuplicate: '不能重复',
+  batchOperation:'批量操作',
+  newAddRow:'新增行',
   enable: '启用',
   batchEnable: '批量启用',
   disable: '禁用',
