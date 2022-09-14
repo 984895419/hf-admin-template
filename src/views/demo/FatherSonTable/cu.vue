@@ -45,7 +45,6 @@
               </el-dropdown-item>
             </template>
             <section-table-column />
-       
             <default-table-column :prop="'GoodsCode'" :namespace="conf.namespace" :show-overflow-tooltip="true"
               min-width="130" />
             <default-table-column :prop="'GoodsName'" :namespace="conf.namespace" :show-overflow-tooltip="true"

@@ -176,22 +176,21 @@ export default {
     // 批量删除事件
     confirmDel(value) {
       if (value == null || value.length <= 0) {
-        this.$message.warning('请选择1至少一条记录')
+        this.$message.warning('请选择至少一条记录')
         return
       } else {
         const deepVal = deepClone(value)
         deepVal.forEach((val, index) => {
           //遍历源数据
           this.tableData.forEach((v, i) => {
-            //如果选中数据和源数据的某一条唯一标识符相等，删除对应的源数据
             if (val.GoodsCode === v.GoodsCode) {
               this.tableData.splice(i, 1)
-              this.$message({
-                type: 'success',
-                message: '删除成功!'
-              })
             }
           })
+          this.$message({
+              type: 'success',
+              message: '删除成功!'
+            })
         })
       }
     },
@@ -202,7 +201,6 @@ export default {
         message: '已取消删除'
       })
     },
-
   }
 }
 </script>
