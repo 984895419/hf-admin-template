@@ -57,7 +57,7 @@ export default {
   created() { },
   data() {
     return {
-      toggleRowSelectionArray: []
+      toggleRowSelectionArray: [],
     }
   },
   mixins: [CurdMixin],
@@ -84,7 +84,14 @@ export default {
   components: {
     DelBtn, OperateTableColumn
   },
+  created() {
+
+    console.log(this.tableData, "this.tableData11")
+  },
   mounted() {
+    this.tableData.forEach((item) => {
+      this.$set(item,'editable',false)
+    })
     this.rowData.editable = true
   },
   computed: {
@@ -96,7 +103,7 @@ export default {
         const sectionIds = vals ? vals.map(s => s[this.rowKey]) : []
         return this.tableData.filter(s => sectionIds.indexOf(s[this.rowKey]) >= 0)
       }
-    }
+    },
   },
   methods: {
     toggleRowSelection(vals, flag) {
@@ -120,15 +127,17 @@ export default {
     // 添加
     handleAdd() {
       const row = deepClone(this.rowData)
+      console.log(row,"row")
       this.tableData.unshift(row)
       this.$emit("handleAddBtn", this.tableData)
     },
     //修改
     valChange(row, index, qx) {
-      console.log(this.tableData, "this.tableData")
+      console.log(row, index, qx, "row, index, qx")
       //点击修改，判断是否已经保存所有操作
       for (let i of this.tableData) {
         if (i.editable && i.id != row.id) {
+
           this.$message({
             message: '请保存',
             type: 'warning'
@@ -145,7 +154,6 @@ export default {
       }
       //提交数据
       if (row.editable) {
-        console.log('rowData', this.rowData)
         const v = this.rowData
         // 必填项判断(预留)
         if (v.code == '' || v.name == '') {
@@ -155,6 +163,8 @@ export default {
           });
         } else {
           row.editable = false
+          this.$forceUpdate();
+
           this.$message({
             message: '保存成功',
             type: 'success'
@@ -162,6 +172,8 @@ export default {
         }
       } else {
         row.editable = true
+        this.$forceUpdate();
+
       }
     },
     // 删除
@@ -188,9 +200,9 @@ export default {
             }
           })
           this.$message({
-              type: 'success',
-              message: '删除成功!'
-            })
+            type: 'success',
+            message: '删除成功!'
+          })
         })
       }
     },
@@ -238,7 +250,7 @@ export default {
 
 .el-table /deep/ td div div {
   white-space: nowrap;
-  overflow: hidden;
+  // overflow: hidden;
   text-overflow: ellipsis;
 }
 
