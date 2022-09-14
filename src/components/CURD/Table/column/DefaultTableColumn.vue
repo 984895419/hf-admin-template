@@ -2,13 +2,23 @@
   <div>
     <el-table-column :prop="prop" :label="$t(namespace + '.' + prop)" v-bind="$attrs" :align="align">
       <template slot-scope="scope">
-        <slot>
-          <slot v-if="scope.row.editable" name="othertype">
-            <el-form-item   :prop="prop"  >
-              <el-input size="mini" v-model="scope.row[prop]" ></el-input>
-            </el-form-item>
-          </slot>
-          <copier-render v-else :copyable="copyable" :prop="prop" :row="scope.row" :max-words="maxWords" />
+        <slot v-if="scope.row.editable !== undefined">
+
+          <el-form-item
+            :rules=" required && {
+              required: true, message: $t(namespace + '.' + prop) + '不能为空', trigger: 'blur'
+            }"
+            :prop="pathName && pathName + '.' + scope.$index + '.' + prop"
+            :required="required"
+          >
+            <slot v-if="scope.row.editable" name="othertype">
+              <el-input v-model="scope.row[prop]" size="mini" />
+            </slot>
+            <copier-render v-else :copyable="copyable" :prop="prop" :row="scope.row" :max-words="maxWords" />
+          </el-form-item>
+        </slot>
+        <slot v-else>
+          <copier-render :copyable="copyable" :prop="prop" :row="scope.row" :max-words="maxWords" />
         </slot>
       </template>
     </el-table-column>
@@ -38,7 +48,15 @@ export default {
       type: Number,
       default: 27
     },
-    formRules:{
+    formRules: {
+    },
+    required: {
+      type: Boolean,
+      default: false
+    },
+    pathName: {
+      type: String,
+      default: undefined
     }
   }
 }
