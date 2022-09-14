@@ -2,10 +2,19 @@
   <div>
     <!-- 子表内容 -->
     <!-- 批量操作 -->
-    <el-button size="mini" style="margin:0px 10px 10px 0" type="primary" icon="el-icon-circle-plus-outline"
-      @click="handleAdd()">新增行</el-button>
-    <el-dropdown :hide-on-click="false" trigger="click" v-if="conf.urlMethods.disableUrl
-    && toggleRowSelectionArray.length > 0">
+    <el-button
+      size="mini"
+      style="margin:0px 10px 10px 0"
+      type="primary"
+      icon="el-icon-circle-plus-outline"
+      @click="handleAdd()"
+    >新增行</el-button>
+    <el-dropdown
+      v-if="conf.urlMethods.disableUrl
+        && toggleRowSelectionArray.length > 0"
+      :hide-on-click="false"
+      trigger="click"
+    >
       <el-button>
         批量操作<i class="el-icon-arrow-down el-icon--right" />
       </el-button>
@@ -14,21 +23,35 @@
       <el-dropdown-menu slot="dropdown">
         <!-- 删除 -->
         <el-dropdown-item icon="el-icon-circle-plus-outline">
-          <del-btn :url="templateUrl(conf.urlMethods.deleteUrl, toggleRowSelectionArray)"
-            :value="toggleRowSelectionArray" :label="$t('common.batchDelete')" :btn-type="'text'" @success="doSearch" />
+          <del-btn
+            :url="templateUrl(conf.urlMethods.deleteUrl, toggleRowSelectionArray)"
+            :value="toggleRowSelectionArray"
+            :label="$t('common.batchDelete')"
+            :btn-type="'text'"
+            @success="doSearch"
+          />
         </el-dropdown-item>
         <!-- 其他批量操作拓展 -->
-        <slot name="dropdownList"></slot>
+        <slot name="dropdownList" />
       </el-dropdown-menu>
     </el-dropdown>
     <!-- 主表内容 -->
-    <el-table ref="editMainTable" :size="size" :data="tableData" border :row-key="rowKey" v-bind="$attrs"
-      :max-height="maxheight" v-on="$listeners" @selection-change="selectionChange">
+    <el-table
+      ref="editMainTable"
+      :size="size"
+      :data="tableData"
+      border
+      :row-key="rowKey"
+      v-bind="$attrs"
+      :max-height="maxheight"
+      v-on="$listeners"
+      @selection-change="selectionChange"
+    >
       <slot />
     </el-table>
   </div>
 </template>
-  
+
 <script>
 import { mapGetters } from 'vuex'
 import CurdMixin from '@/components/CURD/curd.mixin'
@@ -36,17 +59,14 @@ import DelBtn from '@/components/CURD/Btns/DelBtn'// 删除按钮
 import { deepClone } from '@/utils'
 export default {
   name: 'EditTable',
-  created() { },
-  data() {
-    return {
-      toggleRowSelectionArray: []
-    }
+  components: {
+    DelBtn
   },
   mixins: [CurdMixin],
   props: {
     tableData: {
-      type:Array,
-      default:[]
+      type: Array,
+      default: []
     },
     rowKey: {
       type: String
@@ -63,8 +83,10 @@ export default {
       default: {}
     }
   },
-  components: {
-    DelBtn,
+  data() {
+    return {
+      toggleRowSelectionArray: []
+    }
   },
   computed: {
     ...mapGetters([
@@ -100,16 +122,12 @@ export default {
     handleAdd() {
       const row = deepClone(this.rowData)
       this.tableData.push(row)
-      this.$emit("handleAddBtn", this.tableData)
-    },
-    // 成功回调
-    doSearch() {
-      //
+      this.$emit('handleAddBtn', this.tableData)
     }
   }
 }
 </script>
-  
+
 <style scoped lang="less">
 .sonTableBtn {
   display: flex;
@@ -159,4 +177,4 @@ export default {
   }
 }
 </style>
-  
+
