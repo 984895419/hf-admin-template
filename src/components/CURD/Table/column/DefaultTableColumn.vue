@@ -4,7 +4,9 @@
       <template slot-scope="scope">
         <slot>
           <slot v-if="scope.row.editable" name="othertype">
-            <el-input v-model="scope.row[prop]" size="mini" />
+            <el-form-item   :prop="prop"  >
+              <el-input size="mini" v-model="scope.row[prop]" ></el-input>
+            </el-form-item>
           </slot>
           <copier-render v-else :copyable="copyable" :prop="prop" :row="scope.row" :max-words="maxWords" />
         </slot>
@@ -35,11 +37,15 @@ export default {
     maxWords: {
       type: Number,
       default: 27
+    },
+    formRules:{
     }
   }
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="less">
+ /deep/ .el-form-item__content{
+  margin-left: 0!important;
+}
 </style>
