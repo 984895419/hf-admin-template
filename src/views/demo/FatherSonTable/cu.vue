@@ -32,9 +32,11 @@
             </template>
           </row-span-slot>
           <!--handleAddBtn 新增行按钮事件  -->
-          <edit-table :tableData="propTableData" border @handleAddBtn="handleAddBtn" :conf="conf" :rowData="rowData">
+          <edit-table :tableData="data.propTableData" border @handleAddBtn="handleAddBtn" :conf="conf"
+            :rowData="rowData">
             <!-- 其他批量操作方法插槽 -->
-            <template #dropdownList>
+            <template #dropdownList="{toggleRowSelectionArray}">
+              <!-- {{toggleRowSelectionArray}} -->
               <!-- 导入 -->
               <el-dropdown-item icon="el-icon-circle-check">
                 <dialog-btn-page :type="'text'" :label="'导入'" :title="'导入'">
@@ -59,18 +61,6 @@
               align="center" min-width="130" />
             <default-table-column :prop="'stock'" :namespace="conf.namespace" :show-overflow-tooltip="true"
               align="center" min-width="130" />
-            <el-table-column align="center" width="170px" fixed="right">
-              <template slot-scope="scope">
-                <el-button size="mini" type="text" v-if="!scope.row.editable"
-                  @click="valChange(scope.row,scope.$index,true)">{{ $t('common.edit') }}</el-button>
-                <el-button size="mini" type="text" v-else @click="valChange(scope.row,scope.$index,true)">{{
-                $t('common.save') }}</el-button>
-                <el-button size="mini" style="color:red" type="text" v-if="!scope.row.editable"
-                  @click="handleDelete(scope.$index, scope.row)">{{ $t('common.delete') }}</el-button>
-                <el-button size="mini" style="color:red" type="text" v-else
-                  @click="valChange(scope.row,scope.$index,false)">{{ $t('common.cancel') }}</el-button>
-              </template>
-            </el-table-column>
           </edit-table>
         </template>
       </cu-form>
@@ -114,19 +104,18 @@ export default {
     value: {
       type: Object,
       default: function () {
-        return { enableState: 1 }
+        return { enableState: 1, propTableData: [] }
       }
     },
     isShow: Boolean,
   },
+
 
   data() {
 
     return {
       conf: conf,
       formRules: null,
-      propTableData: [],
-      toggleRowSelectionArray: [],
       rowData: {
         GoodsCode: "",
         GoodsName: "",
@@ -136,7 +125,6 @@ export default {
         UnitPrice: "",
         money: "",
         stock: "",
-        editable: true
       }
     }
   },
@@ -182,7 +170,7 @@ export default {
     this.formRules = conf.formRules(this)
   },
   mounted() {
-    this.propTableData = [{
+    this.value.propTableData = [{
       GoodsCode: 20210121000001,
       GoodsName: '2022/08/19',
       Specifications: 2000,
@@ -193,7 +181,7 @@ export default {
       stock: '支付宝',
       editable: false,
     }, {
-      GoodsCode: 20210121000001,
+      GoodsCode: 20210121000002,
       GoodsName: '2022/08/19',
       Specifications: 2000,
       GoodsUnit: '张三莆田华峰啥的那是你的啊骚大师莆田华峰啥的那是你的啊骚大师',
@@ -203,7 +191,7 @@ export default {
       stock: '支付宝',
       editable: false
     }, {
-      GoodsCode: 20210121000001,
+      GoodsCode: 20210121000003,
       GoodsName: '2022/08/19',
       Specifications: 2000,
       GoodsUnit: '张三莆田华峰啥的那是你的啊骚大师莆田华峰啥的那是你的啊骚大师',
@@ -213,7 +201,7 @@ export default {
       stock: '支付宝',
       editable: false
     }, {
-      GoodsCode: 20210121000001,
+      GoodsCode: 20210121000004,
       GoodsName: '2022/08/19',
       Specifications: 2000,
       GoodsUnit: '张三莆田华峰啥的那是你的啊骚大师莆田华峰啥的那是你的啊骚大师',
@@ -223,7 +211,7 @@ export default {
       stock: '支付宝',
       editable: false
     }, {
-      GoodsCode: 20210121000001,
+      GoodsCode: 20210121000005,
       GoodsName: '2022/08/19',
       Specifications: 2000,
       GoodsUnit: '张三莆田华峰啥的那是你的啊骚大师莆田华峰啥的那是你的啊骚大师',
@@ -237,57 +225,10 @@ export default {
   methods: {
     // 新增行数据
     handleAddBtn(data) {
-      this.propTableData = data
+      this.value.propTableData = data
     },
-    //修改
-    valChange(row, index, qx) {
-      //点击修改，判断是否已经保存所有操作
-      for (let i of this.propTableData) {
-        if (i.editable && i.id != row.id) {
-          this.$message({
-            message: '请保存',
-            type: 'warning'
-          });
-          return false
-        }
-      }
-      //是否是取消操作
-      if (!qx) {
-        if (!this.propTableData) {
-          this.propTableData.splice(index, 1)
-        }
-        return (row.editable = !row.editable)
-      }
-      //提交数据
-      if (row.editable) {
-        console.log('tableData.sel', this.rowData)
-        const v = this.rowData
-        // 必填项判断(预留)
-        if (v.code == '' || v.name == '') {
-          this.$message({
-            message: '请填写必填项',
-            type: 'warning'
-          });
-        } else {
-          row.editable = false
-          this.$message({
-            message: '保存成功',
-            type: 'success'
-          });
-        }
-      } else {
-        this.propTableData.sel = row
-        row.editable = true
-      }
-    },
-    // 删除
-    handleDelete(index, row) {
-      this.$message({
-        message: '删除成功',
-        type: 'success'
-      });
-      this.propTableData.splice(index, 1)
-    },
+
+
     // 导入前判断
     beforeUpload(file) {
       const isLt1M = file.size / 1024 / 1024 < 1
@@ -301,7 +242,7 @@ export default {
       return false
     },
     handleSuccess() {
-        // 导入成功回调
+      // 导入成功回调
     }
   }
 }
