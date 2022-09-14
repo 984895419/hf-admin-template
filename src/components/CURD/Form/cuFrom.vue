@@ -66,21 +66,23 @@ export default {
     errorMessage() {
       return (field) => {
         if (this.errorInfo) {
+          // 对于行内编辑的提示需要去掉这个
+          const clearField = field.replace(/\[\d+\]/g, '')
           // 不能为空
           if (this.namespace && this.errorInfo[field] && this.errorInfo[field].endsWith('NOT_NULL')) {
-            return this.$t(this.namespace + '.' + field) + this.$t('common.notAllowedNull')
+            return this.$t(this.namespace + '.' + clearField) + this.$t('common.notAllowedNull')
           }
           // 不存在
           if (this.namespace && this.errorInfo[field] && this.errorInfo[field].endsWith('NOT_EXIST')) {
-            return this.$t(this.namespace + '.' + field) + this.$t('common.notExist')
+            return this.$t(this.namespace + '.' + clearField) + this.$t('common.notExist')
           }
           // 不能为空串/空集合
           if (this.namespace && this.errorInfo[field] && this.errorInfo[field].endsWith('NOT_EMPTY')) {
-            return this.$t(this.namespace + '.' + field) + this.$t('common.notEmpty')
+            return this.$t(this.namespace + '.' + clearField) + this.$t('common.notEmpty')
           }
           // 不可重复
           if (this.namespace && this.errorInfo[field] && this.errorInfo[field].endsWith('NOT_DUPLICATE')) {
-            return this.$t(this.namespace + '.' + field) + this.$t('common.notDuplicate')
+            return this.$t(this.namespace + '.' + clearField) + this.$t('common.notDuplicate')
           }
           return this.errorInfo[field]
         }
