@@ -1,11 +1,12 @@
 <template>
-  <el-card class="app-container">
-    <!-- 查询框 -->
-    <div>
+  <!-- 单表布局 -->
+  <simple-table-layout :table-fields="conf.default" :conf="conf">
+    <template #search>
+
       <simple-search v-model="searchForm" :inline="true" @search="doSearch">
         <template v-slot="{ span }">
           <!-- 新增的的字段配置 -->
-                    <form-item-col
+          <form-item-col
             :value="searchForm"
             :span="span"
             prop="productName"
@@ -17,46 +18,6 @@
             prop="productStyle"
             :namespace="conf.namespace"
           />
-          <form-item-col
-            :value="searchForm"
-            :span="span"
-            prop="productAddress"
-            :namespace="conf.namespace"
-          />
-            <form-item-col
-                    :value="searchForm"
-                    :span="span"
-                    prop="companyId"
-                    :namespace="conf.namespace"
-            >
-              <demo-company-info-input-refer
-              :value="searchForm"
-              value-refer-id="companyId"
-              value-refer-name="companyIdName"/>
-            </form-item-col>
-            <form-item-col
-                    :value="searchForm"
-                    :span="span"
-                    prop="storeId"
-                    :namespace="conf.namespace"
-            >
-              <demo-store-info-input-refer
-              :value="searchForm"
-              value-refer-id="storeId"
-              value-refer-name="storeIdName"/>
-            </form-item-col>
-          <form-item-col
-            :value="searchForm"
-            :span="span"
-            prop="productExpiredTime"
-            :namespace="conf.namespace"
-          />
-          <form-item-col
-            :value="searchForm"
-            :span="span"
-            prop="enableState"
-            :namespace="conf.namespace"
-          />
           <!-- 字典字段字段设置方法如下
           <form-item-col-dict
             :value="searchForm"
@@ -66,25 +27,73 @@
             :namespace="conf.namespace"
           /> -->
         </template>
+        <template #advanced="{span}">
+          <form-item-col
+            :value="searchForm"
+            :span="span"
+            prop="productAddress"
+            :namespace="conf.namespace"
+          />
+          <form-item-col
+            :value="searchForm"
+            :span="span"
+            prop="companyId"
+            :namespace="conf.namespace"
+          >
+            <demo-company-info-input-refer
+              :value="searchForm"
+              value-refer-id="companyId"
+              value-refer-name="companyIdName"
+            />
+          </form-item-col>
+          <form-item-col
+            :value="searchForm"
+            :span="span"
+            prop="storeId"
+            :namespace="conf.namespace"
+          >
+            <demo-store-info-input-refer
+              :value="searchForm"
+              :company-id="searchForm.companyId"
+              value-refer-id="storeId"
+              value-refer-name="storeIdName"
+            />
+          </form-item-col>
+          <form-item-col
+            :value="searchForm"
+            :span="span"
+            prop="productExpiredTime"
+            :namespace="conf.namespace"
+          />
+          <form-item-col-enable-state
+            :value="searchForm"
+            :span="span"
+            prop="enableState"
+            :namespace="conf.namespace"
+            show-by="select"
+          />
+        </template>
       </simple-search>
-    </div>
-    <!-- 操作栏-->
-    <div style="margin-bottom: 10px" class="col-btn-display">
-      <demo-product-info-add v-permission="[conf.namespace + ':save']" :action-url="conf.urlMethods.addUrl"  @success="doSearch" />
+    </template>
+    <template #btnslist>
+      <product-cu
+        v-permission="[conf.namespace + ':save']"
+        @success="doSearch"
+      />
       <div style="float: right" class="col-btn-display">
         <del-btn
-          v-permission="[conf.namespace + ':delete']"
           v-if="conf.urlMethods.deleteUrl
             && toggleRowSelectionArray.length > 0"
+          v-permission="[conf.namespace + ':delete']"
           :url="templateUrl(conf.urlMethods.deleteUrl, toggleRowSelectionArray)"
           :value="toggleRowSelectionArray"
           :label="$t('common.batchDelete')"
           @success="doSearch"
         />
         <template-confirm-btn
-          v-permission="[conf.namespace + ':enable']"
           v-if="conf.urlMethods.enableUrl
             && toggleRowSelectionArray.length > 0"
+          v-permission="[conf.namespace + ':enable']"
           :url="templateUrl(conf.urlMethods.enableUrl, toggleRowSelectionArray)"
           :btn-type="'primary'"
           :label="$t('common.batchEnable')"
@@ -92,9 +101,9 @@
           @success="doSearch"
         />
         <template-confirm-btn
-          v-permission="[conf.namespace + ':disable']"
           v-if="conf.urlMethods.disableUrl
             && toggleRowSelectionArray.length > 0"
+          v-permission="[conf.namespace + ':disable']"
           :url="templateUrl(conf.urlMethods.disableUrl, toggleRowSelectionArray)"
           :btn-type="'primary'"
           :value="toggleRowSelectionArray"
@@ -102,119 +111,94 @@
           @success="doSearch"
         />
       </div>
-    </div>
-    <!-- 列表-->
-    <table-column-preference-setting-api-slot
-            :init-data="tableFields"
-            v-model="showFields"
-            :preference-alias="conf.namespace">
-      <template v-slot="{doSave, preferenceData, headerDragend}">
-        <hf-table
-          v-if="showFields"
-          v-loading="loading"
-          :table-data="jsonData.list"
-          @selection-change="handleSelectionChange"
-          @sort-change="sortChange"
-          @header-dragend="headerDragend"
+    </template>
+    <template v-slot="{ showFields, headerDragend}">
+      <hf-table
+        v-if="showFields"
+        v-loading="loading"
+        :table-data="jsonData.list"
+        @selection-change="handleSelectionChange"
+        @sort-change="sortChange"
+        @header-dragend="headerDragend"
+      >
+        <section-table-column />
+        <!-- 显示的字段-->
+        <demo-product-info-columns :show-fields="showFields" :url-methods="conf.urlMethods" @success="doSearch" />
+        <el-table-column
+          fixed="right"
+          :label="$t('common.operate')"
+          width="150"
         >
-          <section-table-column/>
-          <!-- 显示的字段-->
-          <demo-product-info-columns :show-fields="showFields" :url-methods="conf.urlMethods" @success="doSearch" />
-          <el-table-column
-            fixed="right"
-            :label="$t('common.operate')"
-            width="150"
-          >
-            <template v-slot:header>
-              {{$t('common.operate')}}
-              <curd-table-column-select
-                v-model="showFields"
-                :preference-alias="conf.namespace"
-                :table-fields="preferenceData"
-                style="float: right"
-                @selectedChange="reRenderTable"
-                @doSave="doSave"
+          <template slot-scope="scopeRow">
+            <div class="col-btn-display">
+              <!-- 更新 -->
+              <product-cu
+                v-permission="[conf.namespace + ':update']"
+                :value="scopeRow.row"
+                @success="doSearch"
               />
-            </template>
-            <template slot-scope="scopeRow">
-              <div class="col-btn-display">
-                <!-- 更新 -->
-                <demo-product-info-update
-                  v-permission="[conf.namespace + ':update']"
-                  :value="scopeRow.row"
-                  :query-url="conf.urlMethods.queryUrl"
-                  :update-url="conf.urlMethods.updateUrl"
-                  @success="doSearch"
-                />
-                <!-- 删除-->
-                <del-btn
-                  v-permission="[conf.namespace + ':delete']"
-                  :url="templateUrl(conf.urlMethods.deleteUrl, scopeRow.row)"
-                  :btn-type="'text'"
-                  :value="scopeRow.row"
-                  @success="doSearch"
-                />
-                <!-- 查看 -->
-                <demo-product-info-detail
-                  :value="scopeRow.row"
-                />
-              </div>
-            </template>
-          </el-table-column>
-        </hf-table>
-      </template>
-    </table-column-preference-setting-api-slot>
-    <!-- 分页信息 -->
-    <curd-pagination
-      :current-page.sync="searchForm.pageInfo.pageNo"
-      :page-size.sync="searchForm.pageInfo.pageSize"
-      :total="jsonData.total"
-      @size-change="doSearch"
-      @current-change="doSearch"
-    />
-  </el-card>
+              <!-- 删除-->
+              <del-btn
+                v-permission="[conf.namespace + ':delete']"
+                :url="templateUrl(conf.urlMethods.deleteUrl, scopeRow.row)"
+                :btn-type="'text'"
+                :value="scopeRow.row"
+                @success="doSearch"
+              />
+              <!-- 查看 -->
+              <demo-product-info-detail
+                :value="scopeRow.row"
+              />
+            </div>
+          </template>
+        </el-table-column>
+      </hf-table>
+    </template>
+    <template #pagination>
+      <curd-pagination
+        :current-page.sync="searchForm.pageInfo.pageNo"
+        :page-size.sync="searchForm.pageInfo.pageSize"
+        :total="jsonData.total"
+        @size-change="doSearch"
+        @current-change="doSearch"
+      />
+    </template>
+  </simple-table-layout>
 </template>
 
 <script>
     import * as conf from './api'
-    import DemoProductInfoAdd from './add'
     import HfTable from '@/components/CURD/Table/HfTable'
     import { baseApiGetMethod } from '@/components/CURD/baseApi'
     import { isSuccessResult } from '@/utils/ajaxResultUtil'
     import CurdPagination from '@/components/CURD/pagination/Pagination'
-    import DemoProductInfoUpdate from './update'
     import DelBtn from '@/components/CURD/Btns/DelBtn'
     import CurdMixin from '@/components/CURD/curd.mixin'
-    import CurdTableColumnSelect from '@/components/CURD/Table/select/TableColumnSelect'
     import DemoProductInfoDetail from './detail'
     import DemoProductInfoColumns from './demoProductInfoColumns'
     import TemplateConfirmBtn from '@/components/CURD/Btns/TemplateConfirmBtn'
     import FormItemColDict from '@/components/CURD/Form/formItemColDict.vue'
     import FormItemCol from '@/components/CURD/Form/formItemCol.vue'
     import SimpleSearch from '@/components/CURD/Query/search'
-    import TableColumnPreferenceSettingApiSlot from '@/views/basic/preferenceSetting/TableColumnPrefenceSettingApiSlot'
-    import SectionTableColumn from '@/components/CURD/Table/column/base/SectionTableColumn'
     import DemoCompanyInfoInputRefer from '@/views/fs/demoCompanyInfo/inputRefer'
     import DemoStoreInfoInputRefer from '@/views/fs/demoStoreInfo/inputRefer'
+    import ProductCu from './cu.vue'
 
     export default {
         name: 'DemoProductInfoIndexVue',
         components: {
           DemoCompanyInfoInputRefer,
           DemoStoreInfoInputRefer,
-          SectionTableColumn,
           TemplateConfirmBtn,
           DemoProductInfoColumns,
           DemoProductInfoDetail,
-            CurdTableColumnSelect,
             DelBtn,
-          DemoProductInfoUpdate,
+          ProductCu,
             CurdPagination,
-            HfTable, DemoProductInfoAdd,
+            HfTable,
           FormItemColDict,
           FormItemCol,
-          SimpleSearch,
-          TableColumnPreferenceSettingApiSlot
+          SimpleSearch
         },
         mixins: [CurdMixin],
         data() {

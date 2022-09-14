@@ -3,6 +3,7 @@
     <el-input
       v-model="value[valueReferName]"
       v-bind="$attrs"
+      placeholder="请选择所属公司"
       @focus="openDialog"
       v-on="$listeners"
     />
@@ -234,7 +235,7 @@
                         }
                     }
                     // 已经选完后要调用的事件
-                    this.$emit('selectHandler')
+                    this.$emit('selectHandler', this.value, row)
                     this.closeDialog()
                 } else {
                     console.log('参照回填错误')

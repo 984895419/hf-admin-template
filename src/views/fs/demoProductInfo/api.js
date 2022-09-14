@@ -8,7 +8,11 @@ export const baseUrl = '/api/demoProductInfo'
  * 基础查询地址
  * @type {{pageUrl: string}}
  */
-export const urlMethods = defaultUrlMethod(baseUrl, 'productId', {
+/**
+ * 定义主键字段
+ */
+ export const primaryKeyField = 'productId'
+export const urlMethods = defaultUrlMethod(baseUrl, primaryKeyField, {
   pageUrl: baseUrl + '/pageQuery'
 })
 /**
@@ -68,6 +72,6 @@ export function formRules(vm) {
         ],
         enableState: [
           { required: true, message: vm.$t(getI18nName('enableState')) + vm.$t('common.notAllowedNull'), trigger: 'blur' }
-        ],
+        ]
   }
 }

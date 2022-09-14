@@ -117,6 +117,13 @@
              */
             valueExpendRefers: {
                 type: Array
+            },
+            /**
+             * 公司ID
+             */
+            companyId: {
+              type: [String, Number],
+              default: undefined
             }
         },
         data() {
@@ -163,6 +170,11 @@
                 }
             }
         },
+        watch: {
+          companyId() {
+            this.doSearch()
+          }
+        },
         created() {
         },
         methods: {
@@ -182,6 +194,7 @@
                 if (this.conf.urlMethods && this.conf.urlMethods.pageUrl) {
                     this.loading = true
                     this.alreadyInit = true
+                    this.searchForm.companyId = this.companyId
                     baseApiGetMethod(this.conf.urlMethods.pageUrl, this.searchForm).then(resp => {
                         if (isSuccessResult(resp)) {
                             this.$set(this.jsonData, 'list', getData(resp).list)
