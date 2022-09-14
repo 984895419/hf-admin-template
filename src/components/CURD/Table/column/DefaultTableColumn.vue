@@ -3,8 +3,8 @@
     <el-table-column :prop="prop" :label="$t(namespace + '.' + prop)" v-bind="$attrs" :align="align">
       <template slot-scope="scope">
         <slot>
-          <slot v-if="scope.row.editable"  name="othertype">
-            <el-input size="mini" v-model="scope.row[prop]"></el-input>
+          <slot v-if="scope.row.editable" name="othertype">
+            <el-input v-model="scope.row[prop]" size="mini" />
           </slot>
           <copier-render v-else :copyable="copyable" :prop="prop" :row="scope.row" :max-words="maxWords" />
         </slot>
