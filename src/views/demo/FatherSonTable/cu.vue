@@ -32,10 +32,11 @@
             </template>
           </row-span-slot>
           <!--handleAddBtn 新增行按钮事件  -->
-          <edit-table :tableData="data.propTableData" border @handleAddBtn="handleAddBtn"  :conf="conf"
-            :rowData="rowData" >
+          <edit-table :tableData="data.propTableData" border @handleAddBtn="handleAddBtn" :conf="conf"
+            :rowData="rowData">
             <!-- 其他批量操作方法插槽 -->
-            <template #dropdownList>
+            <template #dropdownList="{toggleRowSelectionArray}">
+              <!-- {{toggleRowSelectionArray}} -->
               <!-- 导入 -->
               <el-dropdown-item icon="el-icon-circle-check">
                 <dialog-btn-page :type="'text'" :label="'导入'" :title="'导入'">
@@ -44,6 +45,7 @@
               </el-dropdown-item>
             </template>
             <section-table-column />
+       
             <default-table-column :prop="'GoodsCode'" :namespace="conf.namespace" :show-overflow-tooltip="true"
               min-width="130" />
             <default-table-column :prop="'GoodsName'" :namespace="conf.namespace" :show-overflow-tooltip="true"
@@ -115,7 +117,6 @@ export default {
     return {
       conf: conf,
       formRules: null,
-      toggleRowSelectionArray: [],
       rowData: {
         GoodsCode: "",
         GoodsName: "",
@@ -125,7 +126,6 @@ export default {
         UnitPrice: "",
         money: "",
         stock: "",
-        editable: true
       }
     }
   },
@@ -229,7 +229,7 @@ export default {
       this.value.propTableData = data
     },
 
-  
+
     // 导入前判断
     beforeUpload(file) {
       const isLt1M = file.size / 1024 / 1024 < 1

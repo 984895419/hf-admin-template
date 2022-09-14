@@ -3,22 +3,24 @@
     <!-- 子表内容 -->
     <!-- 批量操作 -->
     <el-button size="mini" style="margin:0px 10px 10px 0" type="primary" icon="el-icon-circle-plus-outline"
-      @click="handleAdd()">新增行</el-button>
+      @click="handleAdd()">{{$t('common.newAddRow')}}</el-button>
     <el-dropdown :hide-on-click="false" trigger="click" v-if="conf.urlMethods.disableUrl
     && toggleRowSelectionArray.length > 0">
       <el-button>
-        批量操作<i class="el-icon-arrow-down el-icon--right" />
+        {{$t('common.batchOperation')}}
+        <i class="el-icon-arrow-down el-icon--right" />
       </el-button>
-
       <!-- 下拉框 -->
       <el-dropdown-menu slot="dropdown">
         <!-- 删除 -->
         <el-dropdown-item icon="el-icon-circle-plus-outline">
-          <del-btn :url="templateUrl(conf.urlMethods.deleteUrl, toggleRowSelectionArray)"
-            :value="toggleRowSelectionArray" :label="$t('common.batchDelete')" :btn-type="'text'" />
+          <el-popconfirm confirm-button-text="确定" cancel-button-text="取消" icon="el-icon-info" icon-color="red"
+            title="此操作将永久删除该记录, 是否继续?" @onConfirm="confirmDel(toggleRowSelectionArray)" @onCancel="onCancel">
+            <el-button slot="reference" type="text" style="color:red">删除</el-button>
+          </el-popconfirm>
         </el-dropdown-item>
         <!-- 其他批量操作拓展 -->
-        <slot name="dropdownList"></slot>
+        <slot name="dropdownList" :toggleRowSelectionArray="toggleRowSelectionArray"></slot>
       </el-dropdown-menu>
     </el-dropdown>
     <!-- 主表内容 -->
@@ -82,6 +84,9 @@ export default {
   components: {
     DelBtn, OperateTableColumn
   },
+  mounted() {
+    this.rowData.editable = true
+  },
   computed: {
     ...mapGetters([
       'size'
@@ -115,7 +120,7 @@ export default {
     // 添加
     handleAdd() {
       const row = deepClone(this.rowData)
-      this.tableData.push(row)
+      this.tableData.unshift(row)
       this.$emit("handleAddBtn", this.tableData)
     },
     //修改
@@ -140,7 +145,7 @@ export default {
       }
       //提交数据
       if (row.editable) {
-        console.log('tableData.sel', this.rowData)
+        console.log('rowData', this.rowData)
         const v = this.rowData
         // 必填项判断(预留)
         if (v.code == '' || v.name == '') {
@@ -166,6 +171,36 @@ export default {
         type: 'success'
       });
       this.tableData.splice(index, 1)
+    },
+    // 批量系列
+    // 批量删除事件
+    confirmDel(value) {
+      if (value == null || value.length <= 0) {
+        this.$message.warning('请选择1至少一条记录')
+        return
+      } else {
+        const deepVal = deepClone(value)
+        deepVal.forEach((val, index) => {
+          //遍历源数据
+          this.tableData.forEach((v, i) => {
+            //如果选中数据和源数据的某一条唯一标识符相等，删除对应的源数据
+            if (val.GoodsCode === v.GoodsCode) {
+              this.tableData.splice(i, 1)
+              this.$message({
+                type: 'success',
+                message: '删除成功!'
+              })
+            }
+          })
+        })
+      }
+    },
+    //删除取消事件
+    onCancel() {
+      this.$message({
+        type: 'info',
+        message: '已取消删除'
+      })
     },
 
   }
