@@ -7,6 +7,7 @@
             :rules="computeRules"
             :prop="pathName && pathName + '.' + scope.$index + '.' + prop"
             :required="required"
+            :error="errorMessage ? errorMessage('compositions[' +scope.$index+'].' + prop) : undefined"
           >
             <slot v-if="scope.row.editable" name="othertype">
               <!-- {{$attrs.rules }} -->
@@ -53,6 +54,9 @@ export default {
     pathName: {
       type: String,
       default: undefined
+    },
+    errorMessage: {
+      type: Function
     }
   },
   computed: {
