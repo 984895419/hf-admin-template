@@ -22,6 +22,7 @@
                 prop="orderNo"
                 :namespace="conf.namespace"
                 :disabled="true"
+                :rules="[123123]"
               />
               <form-item-col
                 :value="data"

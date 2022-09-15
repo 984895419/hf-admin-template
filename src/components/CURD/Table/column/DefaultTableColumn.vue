@@ -3,15 +3,10 @@
     <el-table-column :prop="prop" :label="$t(namespace + '.' + prop)" v-bind="$attrs" :align="align">
       <template slot-scope="scope">
         <slot v-if="scope.row.editable !== undefined">
-
-          <el-form-item
-            :rules=" required && {
-              required: true, message: $t(namespace + '.' + prop) + '不能为空', trigger: 'blur'
-            }"
-            :prop="pathName && pathName + '.' + scope.$index + '.' + prop"
-            :required="required"
-          >
+          <el-form-item :rules="$attrs.rules || required && [{required: true, message: $t(namespace + '.' + prop) + '不能为空', trigger: 'blur'}]||[]"
+            :prop="pathName && pathName + '.' + scope.$index + '.' + prop" :required="required">
             <slot v-if="scope.row.editable" name="othertype">
+              <!-- {{$attrs.rules }} -->
               <el-input v-model="scope.row[prop]" size="mini" />
             </slot>
             <copier-render v-else :copyable="copyable" :prop="prop" :row="scope.row" :max-words="maxWords" />
@@ -48,8 +43,6 @@ export default {
       type: Number,
       default: 27
     },
-    formRules: {
-    },
     required: {
       type: Boolean,
       default: false
@@ -57,13 +50,17 @@ export default {
     pathName: {
       type: String,
       default: undefined
+    },
+    rules: {
+      type: Array,
+      default: () => [],
     }
   }
 }
 </script>
 
 <style scoped lang="less">
- /deep/ .el-form-item__content{
-  margin-left: 0!important;
+/deep/ .el-form-item__content {
+  margin-left: 0 !important;
 }
 </style>
