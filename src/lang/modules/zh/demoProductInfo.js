@@ -1,3 +1,4 @@
+import compositions from './demoCompositionInfo'
 export default {
   productId: '产品ID',
   productName: '产品名称',
@@ -14,5 +15,6 @@ export default {
   modifyTime: '修改时间',
   enableState: '启用/禁用',
   deleted: '删除状态',
-  tenantId: '所属的租户ID'
+  tenantId: '所属的租户ID',
+  compositions: compositions
 }

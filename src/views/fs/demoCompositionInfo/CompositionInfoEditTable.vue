@@ -14,6 +14,7 @@
       :namespace="conf.namespace"
       :show-overflow-tooltip="true"
       min-width="130"
+      :error-message="errorMessage"
     />
 
     <default-table-column
@@ -21,6 +22,7 @@
       :namespace="conf.namespace"
       :show-overflow-tooltip="true"
       min-width="130"
+      :error-message="errorMessage"
     />
   </edit-table>
 </template>
@@ -31,6 +33,9 @@
       data: {
         type: Array,
         default: () => []
+      },
+      errorMessage: {
+        type: Function
       }
     },
     data() {
