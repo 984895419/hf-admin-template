@@ -6,7 +6,6 @@
           <el-form-item :rules="$attrs.rules || required && [{required: true, message: $t(namespace + '.' + prop) + '不能为空', trigger: 'blur'}]||[]"
             :prop="pathName && pathName + '.' + scope.$index + '.' + prop" :required="required">
             <slot v-if="scope.row.editable" name="othertype">
-              <!-- {{$attrs.rules }} -->
               <el-input v-model="scope.row[prop]" size="mini" />
             </slot>
             <copier-render v-else :copyable="copyable" :prop="prop" :row="scope.row" :max-words="maxWords" />
