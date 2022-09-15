@@ -123,8 +123,14 @@
               :namespace="conf.namespace"
               :show-overflow-tooltip="true"
               min-width="130"
+              :rules="[
+                { required: true, message: '不能为空', trigger: 'blur'},
+                { regex: '[^a-zA-Z0-9]+', message: '只能输入数字', trigger: 'blur'}
+              ]"
             />
             <default-table-column
+              :required="true"
+              :path-name="'propTableData'"
               :prop="'GoodsName'"
               :namespace="conf.namespace"
               :show-overflow-tooltip="true"

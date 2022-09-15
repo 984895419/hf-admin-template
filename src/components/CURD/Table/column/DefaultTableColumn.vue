@@ -3,8 +3,11 @@
     <el-table-column :prop="prop" :label="$t(namespace + '.' + prop)" v-bind="$attrs" :align="align">
       <template slot-scope="scope">
         <slot v-if="scope.row.editable !== undefined">
-          <el-form-item :rules="$attrs.rules || required && [{required: true, message: $t(namespace + '.' + prop) + '不能为空', trigger: 'blur'}]||[]"
-            :prop="pathName && pathName + '.' + scope.$index + '.' + prop" :required="required">
+          <el-form-item
+            :rules="computeRules"
+            :prop="pathName && pathName + '.' + scope.$index + '.' + prop"
+            :required="required"
+          >
             <slot v-if="scope.row.editable" name="othertype">
               <!-- {{$attrs.rules }} -->
               <el-input v-model="scope.row[prop]" size="mini" />
@@ -50,10 +53,20 @@ export default {
     pathName: {
       type: String,
       default: undefined
-    },
-    rules: {
-      type: Array,
-      default: () => [],
+    }
+  },
+  computed: {
+    computeRules() {
+      if (this.$attrs.rules) {
+        return this.$attrs.rules
+      }
+      if (this.required) {
+        return [{ required: true,
+           message: this.$t(this.namespace + '.' + this.prop) + this.$t('common.notEmpty'),
+            trigger: 'blur' }]
+      } else {
+        return []
+      }
     }
   }
 }
