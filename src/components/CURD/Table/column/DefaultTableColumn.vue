@@ -3,6 +3,7 @@
     <el-table-column :prop="prop" :label="$t(namespace + '.' + prop)" v-bind="$attrs" :align="align">
       <template slot-scope="scope">
         <slot v-if="scope.row.editable !== undefined">
+          
           <el-form-item :rules="$attrs.rules || required && [{required: true, message: $t(namespace + '.' + prop) + '不能为空', trigger: 'blur'}]||[]"
             :prop="pathName && pathName + '.' + scope.$index + '.' + prop" :required="required">
             <slot v-if="scope.row.editable" name="othertype">
