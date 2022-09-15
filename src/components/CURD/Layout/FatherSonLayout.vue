@@ -26,10 +26,10 @@
         <el-card v-loading="reRending">
           <slot
             v-if="showFields && showFields.length > 0"
-            :doSave="doSave"
             :showFields="showFields"
             :headerDragend="headerDragend"
             :heightTable="heightTable"
+            :rowClick="rowClick"
           />
           <span v-else>
             {{ $t('common.selectShowFields') }}
@@ -39,7 +39,7 @@
     </table-column-preference-setting-api-slot>
     <slot name="pagination" />
     <!-- 定义子表的显示方式 -->
-    <slot name="children" />
+    <slot name="children" :row="row" />
   </div>
 </template>
 <script>
@@ -81,7 +81,8 @@
       return {
         showFields: undefined,
         heightTable: 900,
-        reRending: false
+        reRending: false,
+        row: undefined
       }
     },
     methods: {
@@ -100,6 +101,9 @@
           // 标记为重新渲染中
           this.reRending = false
         }, 50)
+      },
+      rowClick(row, column, event) {
+        this.row = row
       }
     }
   }

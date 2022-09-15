@@ -112,7 +112,7 @@
         />
       </div>
     </template>
-    <template v-slot="{ showFields, headerDragend}">
+    <template v-slot="{ showFields, headerDragend, rowClick}">
       <hf-table
         v-if="showFields"
         v-loading="loading"
@@ -120,6 +120,7 @@
         @selection-change="handleSelectionChange"
         @sort-change="sortChange"
         @header-dragend="headerDragend"
+        @row-click="rowClick"
       >
         <section-table-column />
         <!-- 显示的字段-->
@@ -163,8 +164,8 @@
         @current-change="doSearch"
       />
     </template>
-    <template #children>
-      <CompositionIndex />
+    <template #children="{ row}">
+      <CompositionIndex v-if="row" :product-id="row.productId" />
     </template>
   </father-son-layout>
 </template>

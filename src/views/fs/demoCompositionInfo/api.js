@@ -37,7 +37,7 @@ const exportTableFields = (fields) => {
  * 字段的配置，用在国际化及列表选择显示字段的时候
  * @type {*[]}
  */
-const tableFields = ['compositionId', 'productIdName', 'compositionName', 'compositionRate', 'creatorUserName', 'createTime', 'modifierUserName', 'modifyTime', 'enableState', 'tenantId']
+const tableFields = ['compositionId', 'compositionName', 'compositionRate', 'creatorUserName', 'createTime', 'modifierUserName', 'modifyTime', 'enableState']
 
 export default exportTableFields(tableFields)
 
@@ -59,6 +59,6 @@ export function formRules(vm) {
         ],
         enableState: [
           { required: true, message: vm.$t(getI18nName('enableState')) + vm.$t('common.notAllowedNull'), trigger: 'blur' }
-        ],
+        ]
   }
 }
