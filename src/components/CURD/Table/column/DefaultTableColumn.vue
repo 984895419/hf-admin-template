@@ -11,7 +11,18 @@
           >
             <slot v-if="scope.row.editable" name="othertype">
               <!-- {{$attrs.rules }} -->
-              <el-input v-model="scope.row[prop]" size="mini" />
+              <hf-tooltip
+                :namespace="namespace"
+                :prop="prop"
+              >
+                <template v-slot="{placeholder}">
+                  <el-input
+                    v-model="scope.row[prop]"
+                    :size="size"
+                    :placeholder="placeholder"
+                  />
+                </template>
+              </hf-tooltip>
             </slot>
             <copier-render v-else :copyable="copyable" :prop="prop" :row="scope.row" :max-words="maxWords" />
           </el-form-item>
@@ -26,6 +37,7 @@
 
 <script>
 import CopierRender from './other/CopierRender'
+import { mapGetters } from 'vuex'
 export default {
   name: 'DefaultTableColumn',
   components: { CopierRender },
@@ -60,6 +72,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters([
+      'size'
+    ]),
     computeRules() {
       if (this.$attrs.rules) {
         return this.$attrs.rules

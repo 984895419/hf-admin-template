@@ -11,25 +11,18 @@
     >
       <slot>
         <!--        <el-input v-if="$attrs.type === 'number'"  v-model.number="value[prop]" v-bind="$attrs" :placeholer="computedPlaceholder"></el-input>-->
-        <el-tooltip
-          v-if="existComputedSuffix('Helper')"
-          class="item"
-          effect="dark"
-          :content="computedSuffixContent('Helper')"
-          placement="right"
+        <hf-tooltip
+          :namespace="namespace"
+          :prop="prop"
         >
-          <el-input
-            v-model="value[prop]"
-            v-bind="$attrs"
-            :placeholder="computedPlaceholder"
-          />
-        </el-tooltip>
-        <el-input
-          v-else
-          v-model="value[prop]"
-          v-bind="$attrs"
-          :placeholder="computedPlaceholder"
-        />
+          <template v-slot="{ placeholder}">
+            <el-input
+              v-model="value[prop]"
+              v-bind="$attrs"
+              :placeholder="placeholder"
+            />
+          </template>
+        </hf-tooltip>
       </slot>
     </el-form-item>
   </el-col>

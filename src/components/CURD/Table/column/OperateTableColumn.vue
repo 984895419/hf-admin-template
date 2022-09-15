@@ -7,7 +7,7 @@
     v-on="$listeners"
   >
     <template slot-scope="scopeRow">
-      <slot :row="scopeRow.row" />
+      <slot :row="scopeRow.row" :$index="scopeRow.$index" />
     </template>
   </el-table-column>
 </template>

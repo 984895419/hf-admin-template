@@ -2,64 +2,154 @@
   <div>
     <!-- 子表内容 -->
     <!-- 批量操作 -->
-    <el-button size="mini" style="margin:0px 10px 10px 0" type="primary" icon="el-icon-circle-plus-outline"
-      @click="handleAdd()">{{$t('common.newAddRow')}}</el-button>
-    <el-dropdown :hide-on-click="false" trigger="click" v-if="conf.urlMethods.disableUrl
-    && toggleRowSelectionArray.length > 0">
+    <el-button
+      :size="size"
+      style="margin:0px 10px 10px 0"
+      type="primary"
+      icon="el-icon-circle-plus-outline"
+      @click="handleAdd()"
+    >{{ $t('common.newAddRow') }}</el-button>
+    <el-button
+      v-if="toggleRowSelectionArray.length > 0 && !batchEditStatus"
+      :size="size"
+      style="margin:0px 10px 10px 0"
+      type="primary"
+      icon="el-icon-edit"
+      @click="handleBatchEdit()"
+    >
+      {{ $t('common.batchEdit') }}
+    </el-button>
+    <el-button
+      v-if="batchEditStatus"
+      :size="size"
+      style="margin:0px 10px 10px 0"
+      type="danger"
+      icon="el-icon-delete"
+      @click="handleBatchEdit(false)"
+    >
+      {{ $t('common.cancelEdit') }}
+    </el-button>
+    <el-button
+      v-if="fillingStatus"
+      :size="size"
+      style="margin:0px 10px 10px 0"
+      type="danger"
+      icon="el-icon-right"
+      @click="saveHandleFilling()"
+    >
+      {{ $t('common.saveFill') }}
+    </el-button>
+    <el-button
+      v-if="fillingStatus"
+      :size="size"
+      style="margin:0px 10px 10px 0"
+      type="danger"
+      icon="el-icon-back"
+      @click="calcelFilling()"
+    >
+      {{ $t('common.cancelFill') }}
+    </el-button>
+    <el-button
+      v-if="!fillingStatus && toggleRowSelectionArray.length > 0"
+      :size="size"
+      style="margin:0px 10px 10px 0"
+      type="primary"
+      icon="el-icon-s-open"
+      @click="handleFilling()"
+    >
+      {{ $t('common.batchFill') }}
+    </el-button>
+    <el-dropdown
+      v-if="conf.urlMethods.disableUrl
+        && toggleRowSelectionArray.length > 0"
+      :hide-on-click="false"
+      trigger="click"
+    >
       <el-button>
-        {{$t('common.batchOperation')}}
+        {{ $t('common.batchOperation') }}
         <i class="el-icon-arrow-down el-icon--right" />
       </el-button>
       <!-- 下拉框 -->
       <el-dropdown-menu slot="dropdown">
         <!-- 删除 -->
         <el-dropdown-item icon="el-icon-circle-plus-outline">
-          <el-popconfirm confirm-button-text="确定" cancel-button-text="取消" icon="el-icon-info" icon-color="red"
-            title="此操作将永久删除该记录, 是否继续?" @onConfirm="confirmDel(toggleRowSelectionArray)" @onCancel="onCancel">
+          <el-popconfirm
+            confirm-button-text="确定"
+            cancel-button-text="取消"
+            icon="el-icon-info"
+            icon-color="red"
+            title="此操作将永久删除该记录, 是否继续?"
+            @onConfirm="confirmDel(toggleRowSelectionArray)"
+            @onCancel="onCancel"
+          >
             <el-button slot="reference" type="text" style="color:red">删除</el-button>
           </el-popconfirm>
         </el-dropdown-item>
         <!-- 其他批量操作拓展 -->
-        <slot name="dropdownList" :toggleRowSelectionArray="toggleRowSelectionArray"></slot>
+        <slot name="dropdownList" :toggleRowSelectionArray="toggleRowSelectionArray" />
       </el-dropdown-menu>
     </el-dropdown>
     <!-- 主表内容 -->
-    <el-table ref="editMainTable" :size="size" :data="tableData" border :row-key="rowKey" v-bind="$attrs"
-      :max-height="maxheight" v-on="$listeners" @selection-change="selectionChange">
-      <slot></slot>
+    <el-table
+      ref="editMainTable"
+      :size="size"
+      :data="tableData"
+      border
+      :row-key="rowKey"
+      v-bind="$attrs"
+      :max-height="maxheight"
+      :class="fillingStatus ? 'fillingStatus' : ''"
+      v-on="$listeners"
+      @selection-change="selectionChange"
+    >
+      <slot />
       <operate-table-column>
         <template slot-scope="scope">
           <!-- 主表基本操作  可拓展 -->
-          <slot name="operation" :row="scope.row">
-            <el-button size="mini" type="text" v-if="!scope.row.editable"
-              @click="valChange(scope.row,scope.$index,true)">{{ $t('common.edit') }}</el-button>
-            <el-button size="mini" type="text" v-else @click="valChange(scope.row,scope.$index,true)">{{
-            $t('common.save') }}</el-button>
-            <el-button size="mini" style="color:red" type="text" v-if="!scope.row.editable"
-              @click="handleDelete(scope.$index, scope.row)">{{ $t('common.delete') }}</el-button>
-            <el-button size="mini" style="color:red" type="text" v-else
-              @click="valChange(scope.row,scope.$index,false)">{{ $t('common.cancel') }}</el-button>
+          <span v-if="fillingStatus && scope.$index === 0" style="color: red">
+            {{ $t('common.fillRow') }}
+          </span>
+          <slot v-else name="operation" :row="scope.row">
+            <el-button
+              v-if="!scope.row.editable"
+              :size="size"
+              type="text"
+              @click="valChange(scope.row,scope.$index,true)"
+            >{{ $t('common.edit') }}</el-button>
+            <el-button v-else :size="size" type="text" @click="valChange(scope.row,scope.$index,true)">{{
+              $t('common.save') }}</el-button>
+            <el-button
+              v-if="!scope.row.editable"
+              :size="size"
+              style="color:red"
+              type="text"
+              @click="handleDelete(scope.$index, scope.row)"
+            >{{ $t('common.delete') }}</el-button>
+            <el-button
+              v-else
+              :size="size"
+              style="color:red"
+              type="text"
+              @click="valChange(scope.row,scope.$index,false)"
+            >{{ $t('common.cancel') }}</el-button>
+            <el-button
+              :size="size"
+              type="text"
+              @click="handleSpliceAdd(scope.row)"
+            >{{ $t('common.newAddRow') }}</el-button>
           </slot>
         </template>
       </operate-table-column>
     </el-table>
   </div>
 </template>
-  
+
 <script>
 import { mapGetters } from 'vuex'
 import CurdMixin from '@/components/CURD/curd.mixin'
-import DelBtn from '@/components/CURD/Btns/DelBtn'// 删除按钮
-import OperateTableColumn from '@/components/CURD/Table/column/OperateTableColumn'
 import { deepClone } from '@/utils'
 export default {
   name: 'EditTable',
-  created() { },
-  data() {
-    return {
-      toggleRowSelectionArray: [],
-    }
-  },
   mixins: [CurdMixin],
   props: {
     tableData: {
@@ -79,20 +169,32 @@ export default {
     rowData: {
       type: Object,
       default: {}
+    },
+    /**
+     * 防呆设计，防止误删子表有主键的
+     */
+    foolProoing: {
+      type: Boolean,
+      default: true
     }
   },
-  components: {
-    DelBtn, OperateTableColumn
-  },
-  created() {
-
-    console.log(this.tableData, "this.tableData11")
+  data() {
+    return {
+      toggleRowSelectionArray: [],
+      fillingRow: null,
+      initFillingRow: null,
+      fillingStatus: false,
+      batchEditStatus: false,
+      /**
+       * 批量填充前快照的数据
+       */
+      lastStoreData: null
+    }
   },
   mounted() {
     this.tableData.forEach((item) => {
-      this.$set(item,'editable',false)
+      this.$set(item, 'editable', false)
     })
-    this.rowData.editable = true
   },
   computed: {
     ...mapGetters([
@@ -103,9 +205,67 @@ export default {
         const sectionIds = vals ? vals.map(s => s[this.rowKey]) : []
         return this.tableData.filter(s => sectionIds.indexOf(s[this.rowKey]) >= 0)
       }
-    },
+    }
+  },
+  watch: {
+    fillingRow: {
+      handler(val) {
+        if (this.fillingStatus && this.initFillingRow) {
+          for (const key in val) {
+            if ((val[key] !== this.initFillingRow[key])) {
+              this.toggleRowSelectionArray.forEach(s => {
+                this.$set(s, key, val[key])
+              })
+            }
+          }
+        }
+      },
+      deep: true
+    }
   },
   methods: {
+    handleBatchEdit(editable = true) {
+      this.toggleRowSelectionArray.forEach(s => {
+        s.editable = editable
+      })
+      this.batchEditStatus = editable
+    },
+    /**
+     * 批量填充
+     */
+    handleFilling() {
+      const clearRow = { editable: true }
+      for (const key in this.rowData) {
+        clearRow[key] = this.rowData[key]
+      }
+      this.fillingRow = clearRow
+      this.initFillingRow = Object.assign({}, clearRow)
+      // 快照数据
+      this.lastStoreData = deepClone(this.tableData)
+      this.tableData.splice(0, 0, this.fillingRow)
+      this.fillingStatus = true
+    },
+    /**
+     * 取消填充
+     */
+    calcelFilling() {
+      this.tableData.splice(0, 1)
+      this.tableData.forEach((data, index) => {
+        Object.assign(data, this.lastStoreData[index])
+      })
+      this.fillingStatus = false
+      this.lastStoreData = undefined
+    },
+    /**
+     * 保存批量填充
+     */
+    saveHandleFilling() {
+      this.tableData.splice(0, 1)
+      this.fillingStatus = false
+    },
+    /**
+     * 选中操作
+     */
     toggleRowSelection(vals, flag) {
       if (this.$refs.editMainTable && vals) {
         // 清空选中
@@ -126,33 +286,37 @@ export default {
     },
     // 添加
     handleAdd() {
-      const row = deepClone(this.rowData)
-      console.log(row,"row")
+      const row = Object.assign({ editable: true }, this.rowData)
       this.tableData.unshift(row)
-      this.$emit("handleAddBtn", this.tableData)
+      this.$emit('handleAddBtn', this.tableData)
     },
-    //修改
+    // 添加
+    handleSpliceAdd(indexRow) {
+      const row = Object.assign({ editable: true }, this.rowData)
+      this.tableData.splice(this.tableData.indexOf(indexRow) + 1, 0, row)
+      this.$emit('handleAddBtn', this.tableData)
+    },
+    // 修改
     valChange(row, index, qx) {
-      console.log(row, index, qx, "row, index, qx")
-      //点击修改，判断是否已经保存所有操作
-      for (let i of this.tableData) {
+      console.log(row, index, qx, 'row, index, qx')
+      // 点击修改，判断是否已经保存所有操作
+      for (const i of this.tableData) {
         if (i.editable && i.id != row.id) {
-
-          this.$message({
-            message: '请保存',
-            type: 'warning'
-          });
+          // this.$message({
+          //   message: '请保存',
+          //   type: 'warning'
+          // })
           return false
         }
       }
-      //是否是取消操作
+      // 是否是取消操作
       if (!qx) {
         if (!this.tableData) {
           this.tableData.splice(index, 1)
         }
         return (row.editable = !row.editable)
       }
-      //提交数据
+      // 提交数据
       if (row.editable) {
         const v = this.rowData
         // 必填项判断(预留)
@@ -160,29 +324,48 @@ export default {
           this.$message({
             message: '请填写必填项',
             type: 'warning'
-          });
+          })
         } else {
           row.editable = false
-          this.$forceUpdate();
+          this.$forceUpdate()
 
-          this.$message({
-            message: '保存成功',
-            type: 'success'
-          });
+          // this.$message({
+          //   message: '保存成功',
+          //   type: 'success'
+          // })
         }
       } else {
         row.editable = true
-        this.$forceUpdate();
-
+        this.$forceUpdate()
       }
     },
     // 删除
     handleDelete(index, row) {
-      this.$message({
-        message: '删除成功',
-        type: 'success'
-      });
-      this.tableData.splice(index, 1)
+      if (this.foolProoing && row[this.rowKey]) {
+        // 有防呆设计，且有主键，要进行防呆删除
+        this.$confirm(this.$t('common.ensureToDelete'), this.$t('common.note'), {
+          confirmButtonText: this.$t('common.ensure'),
+          cancelButtonText: this.$t('common.cancel'),
+          type: 'warning'
+        }).then(() => {
+            this.$message({
+            message: this.$t('common.deleteSuccess'),
+            type: 'success'
+          })
+          this.tableData.splice(index, 1)
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: this.$('common.alreadyCancel')
+          })
+        })
+      } else {
+        this.$message({
+          message: '删除成功',
+          type: 'success'
+        })
+        this.tableData.splice(index, 1)
+      }
     },
     // 批量系列
     // 批量删除事件
@@ -193,7 +376,7 @@ export default {
       } else {
         const deepVal = deepClone(value)
         deepVal.forEach((val, index) => {
-          //遍历源数据
+          // 遍历源数据
           this.tableData.forEach((v, i) => {
             if (val.GoodsCode === v.GoodsCode) {
               this.tableData.splice(i, 1)
@@ -206,17 +389,17 @@ export default {
         })
       }
     },
-    //删除取消事件
+    // 删除取消事件
     onCancel() {
       this.$message({
         type: 'info',
         message: '已取消删除'
       })
-    },
+    }
   }
 }
 </script>
-  
+
 <style scoped lang="less">
 .sonTableBtn {
   display: flex;
@@ -244,6 +427,13 @@ export default {
   }
 }
 
+.fillingStatus /deep/ .el-table__body .el-table__row:nth-child(1) {
+  background-color: #F5F7FA;
+}
+.fillingStatus /deep/ .el-table__body .el-table__row:nth-child(1):hover {
+  background-color: #F5F7FA;
+}
+
 .el-table /deep/ th>.cell {
   text-align: center;
 }
@@ -252,6 +442,10 @@ export default {
   white-space: nowrap;
   // overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.el-table  /deep/ .el-table__row .el-form-item {
+  margin-bottom: 13px;
 }
 
 .el-table /deep/ td {
@@ -266,4 +460,4 @@ export default {
   }
 }
 </style>
-  
+

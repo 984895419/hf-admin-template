@@ -25,8 +25,6 @@ export const urlMethods = defaultUrlMethod(baseUrl, primaryKeyField, {
 const modelName = 'baseFatherSonTable'
 export const namespace = modelName
 
-
-
 /**
  * 正则
  * @param name
@@ -54,7 +52,7 @@ const tableFields = ['orderNo', 'ordertime', 'ordertotal', 'consignee', 'orderst
 const SonTableFields = ['GoodsCode', 'GoodsName', 'Specifications', 'GoodsUnit', 'QuantityRequired', 'UnitPrice', 'money', 'stock']
 const exportSonTableFields = exportTableFields(SonTableFields)
 export default exportTableFields(tableFields)
-export  {
+export {
   exportSonTableFields
 }
 /**
@@ -72,7 +70,7 @@ export function formRules(vm) {
     ordertime: [{
       message: vm.$t(getI18nName('ordertime')) + vm.$t('common.notAllowedNull'),
       trigger: 'blur',
-      required: true,
+      required: true
 
     }],
     ordertotal: [{
@@ -108,41 +106,6 @@ export function formRules(vm) {
     customeraddress: [{
       message: vm.$t(getI18nName('customeraddress')) + vm.$t('common.notAllowedNull'),
       trigger: 'blur'
-    }],
-    
-    //子表
-    GoodsCode: [{
-      required: true,
-      message: vm.$t(getI18nName('GoodsCode')) + vm.$t('common.notAllowedNull'),
-      trigger: 'blur'
-    }],
-    GoodsName: [{
-      message: vm.$t(getI18nName('GoodsName')) + vm.$t('common.notAllowedNull'),
-      trigger: 'blur'
-    }],
-    Specifications: [{
-      message: vm.$t(getI18nName('Specifications')) + vm.$t('common.notAllowedNull'),
-      trigger: 'blur'
-    }],
-    GoodsUnit: [{
-      message: vm.$t(getI18nName('GoodsUnit')) + vm.$t('common.notAllowedNull'),
-      trigger: 'blur'
-    }],
-    QuantityRequired: [{
-      message: vm.$t(getI18nName('QuantityRequired')) + vm.$t('common.notAllowedNull'),
-      trigger: 'blur'
-    }],
-    UnitPrice: [{
-      message: vm.$t(getI18nName('UnitPrice')) + vm.$t('common.notAllowedNull'),
-      trigger: 'blur'
-    }],
-    money: [{
-      message: vm.$t(getI18nName('money')) + vm.$t('common.notAllowedNull'),
-      trigger: 'blur'
-    }],
-    stock: [{
-      message: vm.$t(getI18nName('stock')) + vm.$t('common.notAllowedNull'),
-      trigger: 'blur'
-    }],
+    }]
   }
 }

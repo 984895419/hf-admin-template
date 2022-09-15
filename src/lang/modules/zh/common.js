@@ -25,8 +25,8 @@ export default {
   notExist: '不存在',
   notEmpty: '不能为空字符串/空集合',
   notDuplicate: '不能重复',
-  batchOperation:'批量操作',
-  newAddRow:'新增行',
+  batchOperation: '批量操作',
+  newAddRow: '新增行',
   enable: '启用',
   batchEnable: '批量启用',
   disable: '禁用',
@@ -72,5 +72,14 @@ export default {
     any: '随便填',
     thirdparty: '第三方登录',
     thirdpartyTips: '本地不能模拟，请结合自己业务进行模拟！！！'
-  }
+  },
+  saveFill: '保存填充',
+  cancelFill: '取消填充',
+  batchFill: '批量填充',
+  batchEdit: '批量编辑',
+  cancelEdit: '取消编辑',
+  fillRow: '该行为填充行',
+  note: '提示',
+  ensureToDelete: '确定删除？',
+  alreadyCancel: '已取消'
 }
