@@ -3,6 +3,7 @@
     <!-- 子表内容 -->
     <!-- 批量操作 -->
     <el-button
+      v-if="!fillingStatus"
       :size="size"
       style="margin:0px 10px 10px 0"
       type="primary"
@@ -10,7 +11,7 @@
       @click="handleAdd()"
     >{{ $t('common.newAddRow') }}</el-button>
     <el-button
-      v-if="toggleRowSelectionArray.length > 0 && !batchEditStatus"
+      v-if="toggleRowSelectionArray.length > 0 && !batchEditStatus && !fillingStatus"
       :size="size"
       style="margin:0px 10px 10px 0"
       type="primary"
@@ -20,7 +21,7 @@
       {{ $t('common.batchEdit') }}
     </el-button>
     <el-button
-      v-if="batchEditStatus"
+      v-if="batchEditStatus && !fillingStatus"
       :size="size"
       style="margin:0px 10px 10px 0"
       type="danger"
@@ -50,7 +51,7 @@
       {{ $t('common.cancelFill') }}
     </el-button>
     <el-button
-      v-if="!fillingStatus && toggleRowSelectionArray.length > 0"
+      v-if="!batchEditStatus && !fillingStatus && toggleRowSelectionArray.length > 0"
       :size="size"
       style="margin:0px 10px 10px 0"
       type="primary"
@@ -61,7 +62,8 @@
     </el-button>
     <el-dropdown
       v-if="conf.urlMethods.disableUrl
-        && toggleRowSelectionArray.length > 0"
+        && toggleRowSelectionArray.length > 0
+        && !fillingStatus"
       :hide-on-click="false"
       trigger="click"
     >
