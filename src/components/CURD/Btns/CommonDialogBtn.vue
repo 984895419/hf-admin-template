@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-button :size="size" :type="type" @click="openDialog">{{ label }}</el-button>
+    <el-button :size="size" :type="type" @click="openDialog" :icon="icon">{{ label }}</el-button>
     <el-dialog
       :top="'5vh'"
       :visible.sync="showImportDialog"
@@ -30,7 +30,11 @@ export default {
       type: String,
       default: 'primary'
     },
-    title: String
+    title: String,
+    icon:{
+      type:String,
+      default:""
+    }
   },
   data() {
     return {

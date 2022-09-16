@@ -7,9 +7,9 @@
           <!-- 新增的的字段配置 -->
           <form-item-col :value="searchForm" :span="span" prop="orderNo" :namespace="conf.namespace" />
           <form-item-col-date-time :value="searchForm" :span="span" prop="ordertime" :namespace="conf.namespace" />
+          <form-item-col :value="searchForm" :span="span" prop="ordertotal" :namespace="conf.namespace" />
         </template>
         <template #advanced="{ span }">
-          <form-item-col :value="searchForm" :span="span" prop="ordertotal" :namespace="conf.namespace" />
           <form-item-col :value="searchForm" :span="span" prop="consignee" :namespace="conf.namespace" />
           <form-item-col :value="searchForm" :span="span" prop="orderstatus" :namespace="conf.namespace" />
           <form-item-col :value="searchForm" :span="span" prop="paystatus" :namespace="conf.namespace" />
@@ -624,5 +624,8 @@ export default {
 .block /deep/ .el-dropdown-menu__item {
     display: flex!important;
     align-items: center;
+  }
+  /deep/  .el-date-editor.el-input, .el-date-editor.el-input__inner{
+      width: 100%;
   }
 </style>
