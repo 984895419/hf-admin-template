@@ -1,7 +1,7 @@
 <template>
-  <el-card class="app-container">
+  <simple-table-layout :table-fields="conf.default" :conf="conf">
     <!-- 查询框 -->
-    <div>
+    <template #search>
       <simple-search v-model="searchForm" :inline="true" @search="doSearch">
         <template v-slot="{ span }">
           <!-- 新增的的字段配置 -->
@@ -27,159 +27,121 @@
           /> -->
         </template>
       </simple-search>
-    </div>
+    </template>
     <!-- 操作栏-->
-    <div style="margin-bottom: 10px" class="col-btn-display">
+    <template #btnslist>
       <base-system-config-add :action-url="conf.urlMethods.addUrl" @success="doSearch" />
-      <div style="float: right" class="col-btn-display">
-        <del-btn
-          v-if="conf.urlMethods.deleteUrl
-            && toggleRowSelectionArray.length > 0"
-          :url="templateUrl(conf.urlMethods.deleteUrl, toggleRowSelectionArray)"
-          :value="toggleRowSelectionArray"
-          :label="$t('common.batchDelete')"
-          @success="doSearch"
-        />
-        <template-confirm-btn
-          v-if="conf.urlMethods.enableUrl
-            && toggleRowSelectionArray.length > 0"
-          :url="templateUrl(conf.urlMethods.enableUrl, toggleRowSelectionArray)"
-          :btn-type="'primary'"
-          :label="$t('common.batchEnable')"
-          :value="toggleRowSelectionArray"
-          @success="doSearch"
-        />
-        <template-confirm-btn
-          v-if="conf.urlMethods.disableUrl
-            && toggleRowSelectionArray.length > 0"
-          :url="templateUrl(conf.urlMethods.disableUrl, toggleRowSelectionArray)"
-          :btn-type="'primary'"
-          :value="toggleRowSelectionArray"
-          :label="$t('common.batchDisable')"
-          @success="doSearch"
-        />
-        <export-btn
-          v-if="conf.urlMethods.exportDataUrl"
-          v-model="searchForm"
-          :url="conf.urlMethods.exportDataUrl"
-          http-method="post"
-          :btn-type="'primary'"
-          :label="$t('导出')"
-        />
-      </div>
-    </div>
+      <del-btn
+        v-if="conf.urlMethods.deleteUrl
+          && toggleRowSelectionArray.length > 0"
+        :url="templateUrl(conf.urlMethods.deleteUrl, toggleRowSelectionArray)"
+        :value="toggleRowSelectionArray"
+        :label="$t('common.batchDelete')"
+        @success="doSearch"
+      />
+      <template-confirm-btn
+        v-if="conf.urlMethods.enableUrl
+          && toggleRowSelectionArray.length > 0"
+        :url="templateUrl(conf.urlMethods.enableUrl, toggleRowSelectionArray)"
+        :btn-type="'primary'"
+        :label="$t('common.batchEnable')"
+        :value="toggleRowSelectionArray"
+        @success="doSearch"
+      />
+      <template-confirm-btn
+        v-if="conf.urlMethods.disableUrl
+          && toggleRowSelectionArray.length > 0"
+        :url="templateUrl(conf.urlMethods.disableUrl, toggleRowSelectionArray)"
+        :btn-type="'primary'"
+        :value="toggleRowSelectionArray"
+        :label="$t('common.batchDisable')"
+        @success="doSearch"
+      />
+      <export-btn
+        v-if="conf.urlMethods.exportDataUrl"
+        v-model="searchForm"
+        :url="conf.urlMethods.exportDataUrl"
+        http-method="post"
+        :btn-type="'primary'"
+        :label="$t('导出')"
+      />
+    </template>
     <!-- 列表-->
-    <table-column-preference-setting-api-slot
-      v-model="showFields"
-      :init-data="tableFields"
-      :preference-alias="conf.namespace"
-    >
-      <template v-slot="{doSave, preferenceData, headerDragend}">
-        <hf-table
-          v-if="showFields"
-          v-loading="loading"
-          :table-data="jsonData.list"
-          @selection-change="handleSelectionChange"
-          @sort-change="sortChange"
-          @header-dragend="headerDragend"
+    <template v-slot="{showFields, headerDragend}">
+      <hf-table
+        v-if="showFields"
+        v-loading="loading"
+        :table-data="jsonData.list"
+        @selection-change="handleSelectionChange"
+        @sort-change="sortChange"
+        @header-dragend="headerDragend"
+      >
+        <section-table-column />
+        <!-- 显示的字段-->
+        <base-system-config-columns :show-fields="showFields" :url-methods="conf.urlMethods" @success="doSearch" />
+        <el-table-column
+          fixed="right"
+          :label="$t('common.operate')"
+          width="150"
         >
-          <section-table-column />
-          <!-- 显示的字段-->
-          <base-system-config-columns :show-fields="showFields" :url-methods="conf.urlMethods" @success="doSearch" />
-          <el-table-column
-            fixed="right"
-            :label="$t('common.operate')"
-            width="150"
-          >
-            <template v-slot:header>
-              {{ $t('common.operate') }}
-              <curd-table-column-select
-                v-model="showFields"
-                :preference-alias="conf.namespace"
-                :table-fields="preferenceData"
-                style="float: right"
-                @selectedChange="reRenderTable"
-                @doSave="doSave"
+          <template slot-scope="scopeRow">
+            <div class="col-btn-display">
+              <!-- 更新 -->
+              <base-system-config-update
+                v-permission="['baseSystemConfig:update']"
+                :value="scopeRow.row"
+                :query-url="conf.urlMethods.queryUrl"
+                :update-url="conf.urlMethods.updateUrl"
+                @success="doSearch"
               />
-            </template>
-            <template slot-scope="scopeRow">
-              <div class="col-btn-display">
-                <!-- 更新 -->
-                <base-system-config-update
-                  v-permission="['baseSystemConfig:update']"
-                  :value="scopeRow.row"
-                  :query-url="conf.urlMethods.queryUrl"
-                  :update-url="conf.urlMethods.updateUrl"
-                  @success="doSearch"
-                />
-                <!-- 删除-->
-                <del-btn
-                  v-if="scopeRow.row.initData !== '1'"
-                  v-permission="['baseSystemConfig:delete']"
-                  :url="templateUrl(conf.urlMethods.deleteUrl, scopeRow.row)"
-                  :btn-type="'text'"
-                  :value="scopeRow.row"
-                  @success="doSearch"
-                />
-                <!-- 查看 -->
-                <base-system-config-detail
-                  :value="scopeRow.row"
-                />
-              </div>
-            </template>
-          </el-table-column>
-        </hf-table>
-      </template>
-    </table-column-preference-setting-api-slot>
+              <!-- 删除-->
+              <del-btn
+                v-if="scopeRow.row.initData !== '1'"
+                v-permission="['baseSystemConfig:delete']"
+                :url="templateUrl(conf.urlMethods.deleteUrl, scopeRow.row)"
+                :btn-type="'text'"
+                :value="scopeRow.row"
+                @success="doSearch"
+              />
+              <!-- 查看 -->
+              <base-system-config-detail
+                :value="scopeRow.row"
+              />
+            </div>
+          </template>
+        </el-table-column>
+      </hf-table>
+    </template>
     <!-- 分页信息 -->
-    <curd-pagination
-      :current-page.sync="searchForm.pageInfo.pageNo"
-      :page-size.sync="searchForm.pageInfo.pageSize"
-      :total="jsonData.total"
-      @size-change="doSearch"
-      @current-change="doSearch"
-    />
-  </el-card>
+    <template #pagination>
+      <curd-pagination
+        :current-page.sync="searchForm.pageInfo.pageNo"
+        :page-size.sync="searchForm.pageInfo.pageSize"
+        :total="jsonData.total"
+        @size-change="doSearch"
+        @current-change="doSearch"
+      />
+    </template>
+  </simple-table-layout>
 </template>
 
-<script>
-    import * as conf from './api'
-    import BaseSystemConfigAdd from './add'
-    import HfTable from '@/components/CURD/Table/HfTable'
-    import { baseApiGetMethod } from '@/components/CURD/baseApi'
-    import { isSuccessResult } from '@/utils/ajaxResultUtil'
-    import CurdPagination from '@/components/CURD/pagination/Pagination'
-    import BaseSystemConfigUpdate from './update'
-    import DelBtn from '@/components/CURD/Btns/DelBtn'
-    import CurdMixin from '@/components/CURD/curd.mixin'
-    import CurdTableColumnSelect from '@/components/CURD/Table/select/TableColumnSelect'
-    import BaseSystemConfigDetail from './detail'
-    import BaseSystemConfigColumns from './baseSystemConfigColumns'
-    import TemplateConfirmBtn from '@/components/CURD/Btns/TemplateConfirmBtn'
-    import FormItemColDict from '@/components/CURD/Form/formItemColDict.vue'
-    import FormItemCol from '@/components/CURD/Form/formItemCol.vue'
-    import SimpleSearch from '@/components/CURD/Query/search'
-    import TableColumnPreferenceSettingApiSlot from '@/views/basic/preferenceSetting/TableColumnPrefenceSettingApiSlot'
-    import SectionTableColumn from '@/components/CURD/Table/column/base/SectionTableColumn'
-    import ExportBtn from '../../../components/CURD/Btns/ExportBtn'
+      <script>
+        import * as conf from './api'
+        import BaseSystemConfigAdd from './add'
+        import BaseSystemConfigUpdate from './update'
+        import { isSuccessResult } from '@/utils/ajaxResultUtil'
+        import CurdMixin from '@/components/CURD/curd.mixin'
+        import BaseSystemConfigDetail from './detail'
+        import BaseSystemConfigColumns from './baseSystemConfigColumns'
+import { baseApiGetMethod } from '@/components/CURD/baseApi'
 
-    export default {
+        export default {
         name: 'BaseSystemConfigIndexVue',
         components: {
-            ExportBtn,
-          SectionTableColumn,
-          TemplateConfirmBtn,
           BaseSystemConfigColumns,
           BaseSystemConfigDetail,
-            CurdTableColumnSelect,
-            DelBtn,
           BaseSystemConfigUpdate,
-            CurdPagination,
-            HfTable, BaseSystemConfigAdd,
-          FormItemColDict,
-          FormItemCol,
-          SimpleSearch,
-          TableColumnPreferenceSettingApiSlot
+          BaseSystemConfigAdd
         },
         mixins: [CurdMixin],
         data() {
@@ -291,7 +253,7 @@
 <style scoped>
   /deep/ .col-btn-display > div,
   .col-btn-display > .el-button {
-    display: inline-block;
-    margin-right: 10px;
+  display: inline-block;
+  margin-right: 10px;
   }
 </style>

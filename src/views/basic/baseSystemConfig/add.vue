@@ -1,7 +1,14 @@
 <template>
-  <add-btn :init-data="value">
+  <component :is="componentBtn" :init-data="initValue" v-bind="componentAttrs">
     <template v-slot="{ closeDialog, data }">
-      <cu-form :namespace="conf.namespace" :value="data" :action-method="addUrl" :form-rules="formRules" v-on="$listeners" @closeDialog="closeDialog">
+      <cu-form
+        :namespace="conf.namespace"
+        :value="data"
+        :action-method="actionMethod"
+        :form-rules="formRules"
+        v-on="$listeners"
+        @closeDialog="closeDialog"
+      >
         <template v-slot="{ errorMessage }">
           <row-span-slot>
             <template v-slot="{ span }">
@@ -27,9 +34,12 @@
                 prop="configDescription"
                 :namespace="conf.namespace"
               />
-              <form-item-col-enable-state
+              <form-item-col-dict
                 :value="data"
+                :error="errorMessage('terminal')"
                 :span="span"
+                prop="terminal"
+                :dict-code="'CONFIG_TERMINAL'"
                 :namespace="conf.namespace"
               />
               <form-item-col-dict
@@ -40,71 +50,96 @@
                 :dict-code="'YES_OR_NO'"
                 :namespace="conf.namespace"
               />
-              <form-item-col-dict
+              <form-item-col-enable-state
                 :value="data"
-                :error="errorMessage('terminal')"
                 :span="span"
-                prop="terminal"
-                :dict-code="'CONFIG_TERMINAL'"
                 :namespace="conf.namespace"
               />
-              <!-- 字典字段字段设置方法如下
-              <form-item-col-dict
-                :value="data"
-                :error="errorMessage('clientMethod')"
-                :span="span"
-                prop="clientMethod"
-                :dict-code="'CLIENT_METHOD_TYPES'"
-                :namespace="conf.namespace"
-              /> -->
             </template>
           </row-span-slot>
         </template>
       </cu-form>
     </template>
-  </add-btn>
+  </component>
 </template>
 
 <script>
-    import * as conf from './api'
-    import AddBtn from '@/components/CURD/Btns/AddBtn'
-    import CuForm from '@/components/CURD/Form/cuFrom'
-    import RowSpanSlot from '@/components/CURD/Slot/RowSpanSlot'
-    import FormItemCol from '@/components/CURD/Form/formItemCol'
-    import FormItemColDict from '@/components/CURD/Form/formItemColDict'
-    import { baseApiPostMethod } from '@/components/CURD/baseApi'
-    import FormItemColEnableState from '@/components/CURD/Form/formItemColEnableState'
-    export default {
-        name: 'BaseSystemConfigAdd',
-        components: { FormItemColDict, FormItemCol, RowSpanSlot, CuForm, AddBtn, FormItemColEnableState },
-        props: {
-            value: {
-                type: Object,
-                default: function() {
-                    return { enableState: 1 }
-                }
-            },
-            actionUrl: String
-        },
-        data() {
-            return {
-                conf: conf,
-                formRules: null
-            }
-        },
-        computed: {
-            addUrl() {
-              return (data) => {
-                  return baseApiPostMethod(this.actionUrl, data)
-              }
-            }
-        },
-        created() {
-          this.formRules = conf.formRules(this)
-        }
+import { mapGetters } from 'vuex'
+import * as conf from './api'
+import CurdMixin from '@/components/CURD/curd.mixin'
+import { baseApiPostMethod, baseApiPutMethod } from '@/components/CURD/baseApi'
+export default {
+  name: 'HfBaseRightRoleCu',
+  mixins: [CurdMixin],
+  props: {
+    value: {
+      type: Object,
+      default: function() {
+        return { enableState: 1, compositions: [] }
+      }
     }
+  },
+  data() {
+    return {
+      conf: conf,
+      formRules: null
+    }
+  },
+  computed: {
+    ...mapGetters([
+      'tenantId'
+    ]),
+    existId() {
+      return this.value[this.conf.primaryKeyField]
+    },
+    initValue() {
+      return this.existId ? undefined : this.value
+    },
+    actionMethod() {
+      return (data) => {
+        if (this.existId) {
+          return baseApiPutMethod(this.templateUrl(this.conf.urlMethods.updateUrl, data), data)
+        } else {
+          return baseApiPostMethod(this.conf.urlMethods.addUrl, data)
+        }
+      }
+    },
+    /**
+     * 主键按钮的类型
+     */
+    componentBtn() {
+      // 如果主键的值存在，则为修改，否则为新增
+      if (this.existId) {
+        return 'update-btn'
+      } else {
+        return 'add-btn'
+      }
+    },
+    /**
+     * componentAttrs的属性
+     */
+    componentAttrs() {
+      // 如果主键的值存在，则为修改，否则为新增
+      if (this.existId) {
+        return {
+          type: 'text',
+          url: this.templateUrl(this.conf.urlMethods.queryUrl, this.value)
+        }
+      } else {
+        return {}
+      }
+    }
+  },
+  created() {
+    this.formRules = conf.formRules(this)
+  },
+  methods: {
+    selectHandler(value, row) {
+      value.productAddress = row.companyAddress
+    }
+  }
+}
 </script>
 
 <style scoped>
-
 </style>

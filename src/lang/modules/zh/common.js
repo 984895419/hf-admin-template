@@ -81,5 +81,6 @@ export default {
   fillRow: '该行为填充行',
   note: '提示',
   ensureToDelete: '确定删除？',
-  alreadyCancel: '已取消'
+  alreadyCancel: '已取消',
+  deleteSuccess: '删除成功'
 }

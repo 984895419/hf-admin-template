@@ -8,7 +8,9 @@ export const baseUrl = '/api/baseSystemConfig'
  * 基础查询地址
  * @type {{pageUrl: string}}
  */
-export const urlMethods = defaultUrlMethod(baseUrl, 'configId', {
+export const primaryKeyField = 'configId'
+
+export const urlMethods = defaultUrlMethod(baseUrl, 'primaryKeyField', {
   pageUrl: baseUrl + '/pageQuery',
   exportDataUrl: baseUrl + '/excel/export'
 })

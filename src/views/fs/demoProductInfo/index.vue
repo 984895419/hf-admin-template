@@ -18,6 +18,12 @@
             prop="productStyle"
             :namespace="conf.namespace"
           />
+          <form-item-col
+            :value="searchForm"
+            :span="span"
+            prop="productAddress"
+            :namespace="conf.namespace"
+          />
           <!-- 字典字段字段设置方法如下
           <form-item-col-dict
             :value="searchForm"
@@ -28,12 +34,6 @@
           /> -->
         </template>
         <template #advanced="{span}">
-          <form-item-col
-            :value="searchForm"
-            :span="span"
-            prop="productAddress"
-            :namespace="conf.namespace"
-          />
           <form-item-col
             :value="searchForm"
             :span="span"

@@ -10,14 +10,14 @@
       :preference-alias="conf.namespace"
     >
       <template v-slot="{ doSave, preferenceData, headerDragend }">
-        <div class="btnslist">
+        <div class="btnslist col-btn-display">
           <slot name="btnslist" />
           <curd-table-column-select
             v-if="showFields"
             v-model="showFields"
             :preference-alias="conf.namespace"
             :table-fields="preferenceData"
-            style="float: right;margin-left: 10px;"
+            style="float: right;"
             @selectedChange="reRenderTable"
             @doSave="doSave"
           />
@@ -120,7 +120,7 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
   }
 
   .total {

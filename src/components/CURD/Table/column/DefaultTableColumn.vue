@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-table-column :prop="prop" :label="$t(namespace + '.' + prop)" v-bind="$attrs" :align="align">
+    <el-table-column :prop="prop" :label="($attrs && $attrs.label) || $t(namespace + '.' + prop)" v-bind="$attrs" :align="align">
       <template slot-scope="scope">
         <slot v-if="scope.row.editable !== undefined">
           <el-form-item

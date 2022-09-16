@@ -11,7 +11,7 @@ export default {
   modifyTime: '修改时间',
   enableState: '启用/禁用',
   deleted: '删除状态',
-  initData: '是否属于系统(系统的不可删除)',
+  initData: '系统配置',
   tenantId: '所属的租户ID',
   terminal: '所属端点',
   terminalName: '所属端点名称',
