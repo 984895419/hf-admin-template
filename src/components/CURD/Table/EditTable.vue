@@ -63,18 +63,9 @@
           </span>
           <!-- 基本操作  -->
           <slot v-else name="operation" :row="scope.row">
-            <!-- 编辑 -->
-            <el-button v-if="!scope.row.editable" :size="size" type="text"
-              @click="valChange(scope.row,scope.$index,true)">{{ $t('common.edit') }}</el-button>
-            <!-- 保存 -->
-            <el-button v-else :size="size" type="text" @click="valChange(scope.row,scope.$index,true)">{{
-            $t('common.save') }}</el-button>
             <!-- 删除 -->
-            <el-button v-if="!scope.row.editable" :size="size" style="color:red" type="text"
+            <el-button :size="size" style="color:red" type="text"
               @click="handleDelete(scope.$index, scope.row)">{{ $t('common.delete') }}</el-button>
-            <!-- 取消 -->
-            <el-button v-else :size="size" style="color:red" type="text"
-              @click="valChange(scope.row,scope.$index,false)">{{ $t('common.cancel') }}</el-button>
             <!--新增行按钮 -->
             <el-button :size="size" type="text" @click="handleSpliceAdd(scope.row)">{{ $t('common.newAddRow') }}
             </el-button>
@@ -136,7 +127,6 @@ export default {
       fillingStatus: false,
       batchEditStatus: false,
       uploadExlStatus: false,
-
       /**
        * 批量填充前快照的数据
        */
@@ -177,6 +167,9 @@ export default {
     },
   },
   methods: {
+    /**
+     * 批量编辑
+     */
     handleBatchEdit(editable = true) {
       this.toggleRowSelectionArray.forEach(s => {
         s.editable = editable
@@ -261,39 +254,35 @@ export default {
       this.$emit('handleAddBtn', this.tableData)
     },
     // 修改
-    valChange(row, index, qx) {
-      console.log(row, index, qx, 'row, index, qx')
-      // 点击修改，判断是否已经保存所有操作
-      for (const i of this.tableData) {
-        if (i.editable && i.id != row.id) {
-          return false
-        }
-      }
-      // 是否是取消操作
-      if (!qx) {
-        if (!this.tableData) {
-          this.tableData.splice(index, 1)
-        }
-        return (row.editable = !row.editable)
-      }
-      // 提交数据
-      if (row.editable) {
-        const v = this.rowData
-        // 必填项判断(预留)
-        if (v.code == '' || v.name == '') {
-          this.$message({
-            message: '请填写必填项',
-            type: 'warning'
-          })
-        } else {
-          row.editable = false
-          this.$forceUpdate()
-        }
-      } else {
-        row.editable = true
-        this.$forceUpdate()
-      }
-    },
+    // valChange(row, index, qx) {
+    //   console.log(row, index, qx, 'row, index, qx')
+    //   for (const i of this.tableData) {
+    //     if (i.editable && i.id != row.id) {
+    //       return false
+    //     }
+    //   }
+    //   if (!qx) {
+    //     if (!this.tableData) {
+    //       this.tableData.splice(index, 1)
+    //     }
+    //     return (row.editable = !row.editable)
+    //   }
+    //   if (row.editable) {
+    //     const v = this.rowData
+    //     if (v.code == '' || v.name == '') {
+    //       this.$message({
+    //         message: '请填写必填项',
+    //         type: 'warning'
+    //       })
+    //     } else {
+    //       row.editable = false
+    //       this.$forceUpdate()
+    //     }
+    //   } else {
+    //     row.editable = true
+    //     this.$forceUpdate()
+    //   }
+    // },
     // 删除
     handleDelete(index, row) {
       if (this.foolProoing && row[this.rowKey]) {
