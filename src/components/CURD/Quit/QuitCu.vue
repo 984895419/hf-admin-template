@@ -17,6 +17,9 @@
             </template>
           </row-span-slot>
         </template>
+        <template #add-btn-before="{ formValidate }">
+          <slot name="add-btn-before" :data="data" :formValidate="formValidate" />
+        </template>
       </cu-form>
     </template>
   </component>
