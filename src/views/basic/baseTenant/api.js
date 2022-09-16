@@ -8,7 +8,8 @@ export const baseUrl = '/api/baseTenant'
  * 基础查询地址
  * @type {{pageUrl: string}}
  */
-export const urlMethods = defaultUrlMethod(baseUrl, 'id', {
+export const primaryKeyField = 'id'
+export const urlMethods = defaultUrlMethod(baseUrl, primaryKeyField, {
   pageUrl: baseUrl + '/pageQuery'
 })
 /**

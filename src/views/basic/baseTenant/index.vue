@@ -1,7 +1,7 @@
 <template>
-  <el-card class="app-container">
+  <simple-table-layout :table-fileds="conf.namespace" :conf="conf">
     <!-- 查询框 -->
-    <div>
+    <template #search>
       <simple-search v-model="searchForm" :inline="true" @search="doSearch">
         <template v-slot="{ span }">
           <!-- 新增的的字段配置 -->
@@ -27,129 +27,108 @@
           /> -->
         </template>
       </simple-search>
-    </div>
+    </template>
     <!-- 操作栏-->
-    <div style="margin-bottom: 10px" class="col-btn-display">
-      <base-tenant-add :action-url="conf.urlMethods.addUrl" @success="doSearch" />
-      <div style="float: right" class="col-btn-display">
-        <del-btn
-          v-if="conf.urlMethods.deleteUrl
-            && toggleRowSelectionArray.length > 0"
-          :url="templateUrl(conf.urlMethods.deleteUrl, toggleRowSelectionArray)"
-          :value="toggleRowSelectionArray"
-          :label="$t('common.batchDelete')"
-          @success="doSearch"
-        />
-        <template-confirm-btn
-          v-if="conf.urlMethods.enableUrl
-            && toggleRowSelectionArray.length > 0"
-          :url="templateUrl(conf.urlMethods.enableUrl, toggleRowSelectionArray)"
-          :btn-type="'primary'"
-          :label="$t('common.batchEnable')"
-          :value="toggleRowSelectionArray"
-          @success="doSearch"
-        />
-        <template-confirm-btn
-          v-if="conf.urlMethods.disableUrl
-            && toggleRowSelectionArray.length > 0"
-          :url="templateUrl(conf.urlMethods.disableUrl, toggleRowSelectionArray)"
-          :btn-type="'primary'"
-          :value="toggleRowSelectionArray"
-          :label="$t('common.batchDisable')"
-          @success="doSearch"
-        />
-      </div>
-    </div>
+    <template #btnslist>
+      <base-tenant-cu @success="doSearch" />
+      <del-btn
+        v-if="conf.urlMethods.deleteUrl
+          && toggleRowSelectionArray.length > 0"
+        :url="templateUrl(conf.urlMethods.deleteUrl, toggleRowSelectionArray)"
+        :value="toggleRowSelectionArray"
+        :label="$t('common.batchDelete')"
+        @success="doSearch"
+      />
+      <template-confirm-btn
+        v-if="conf.urlMethods.enableUrl
+          && toggleRowSelectionArray.length > 0"
+        :url="templateUrl(conf.urlMethods.enableUrl, toggleRowSelectionArray)"
+        :btn-type="'primary'"
+        :label="$t('common.batchEnable')"
+        :value="toggleRowSelectionArray"
+        @success="doSearch"
+      />
+      <template-confirm-btn
+        v-if="conf.urlMethods.disableUrl
+          && toggleRowSelectionArray.length > 0"
+        :url="templateUrl(conf.urlMethods.disableUrl, toggleRowSelectionArray)"
+        :btn-type="'primary'"
+        :value="toggleRowSelectionArray"
+        :label="$t('common.batchDisable')"
+        @success="doSearch"
+      />
+    </template>
     <!-- 列表-->
-    <table-column-preference-setting-api-slot
-      v-model="showFields"
-      :init-data="tableFields"
-      :preference-alias="conf.namespace"
-    >
-      <template v-slot="{doSave, preferenceData, headerDragend}">
-        <hf-table
-          v-if="showFields"
-          v-loading="loading"
-          :table-data="jsonData.list"
-          @selection-change="handleSelectionChange"
-          @sort-change="sortChange"
-          @header-dragend="headerDragend"
+    <template v-slot="{ showFields, headerDragend}">
+      <hf-table
+        v-if="showFields"
+        v-loading="loading"
+        :table-data="jsonData.list"
+        @selection-change="handleSelectionChange"
+        @sort-change="sortChange"
+        @header-dragend="headerDragend"
+      >
+        <section-table-column />
+        <!-- 显示的字段-->
+        <base-tenant-columns :show-fields="showFields" :url-methods="conf.urlMethods" @success="doSearch" />
+        <el-table-column
+          fixed="right"
+          :label="$t('common.operate')"
+          width="150"
         >
-          <section-table-column />
-          <!-- 显示的字段-->
-          <base-tenant-columns :show-fields="showFields" :url-methods="conf.urlMethods" @success="doSearch" />
-          <el-table-column
-            fixed="right"
-            :label="$t('common.operate')"
-            width="150"
-          >
-            <template v-slot:header>
-              {{ $t('common.operate') }}
-              <curd-table-column-select
-                v-model="showFields"
-                :preference-alias="conf.namespace"
-                :table-fields="preferenceData"
-                style="float: right"
-                @selectedChange="reRenderTable"
-                @doSave="doSave"
+          <template slot-scope="scopeRow">
+            <div class="col-btn-display">
+              <!-- 更新 -->
+              <BaseTenantCu
+                v-if="scopeRow.row.initData + '' !== '1' && scopeRow.row.id !== 0"
+                v-permission="['baseTenant:update']"
+                :value="scopeRow.row"
+                @success="doSearch"
               />
-            </template>
-            <template slot-scope="scopeRow">
-              <div class="col-btn-display">
-                <!-- 更新 -->
-                <base-tenant-update
-                  v-if="scopeRow.row.initData + '' !== '1' && scopeRow.row.id !== 0"
-                  v-permission="['baseTenant:update']"
-                  :value="scopeRow.row"
-                  :query-url="conf.urlMethods.queryUrl"
-                  :update-url="conf.urlMethods.updateUrl"
-                  @success="doSearch"
-                />
-                <!-- 删除-->
-                <del-btn
-                  v-if="scopeRow.row.initData + '' !== '1'"
-                  v-permission="['baseTenant:delete']"
-                  :url="templateUrl(conf.urlMethods.deleteUrl, scopeRow.row)"
-                  :btn-type="'text'"
-                  :value="scopeRow.row"
-                  @success="doSearch"
-                />
-                <!-- 查看 -->
-                <base-tenant-detail
-                  :value="scopeRow.row"
-                />
-              </div>
-            </template>
-          </el-table-column>
-        </hf-table>
-      </template>
-    </table-column-preference-setting-api-slot>
+              <!-- 删除-->
+              <del-btn
+                v-if="scopeRow.row.initData + '' !== '1'"
+                v-permission="['baseTenant:delete']"
+                :url="templateUrl(conf.urlMethods.deleteUrl, scopeRow.row)"
+                :btn-type="'text'"
+                :value="scopeRow.row"
+                @success="doSearch"
+              />
+              <!-- 查看 -->
+              <base-tenant-detail
+                :value="scopeRow.row"
+              />
+            </div>
+          </template>
+        </el-table-column>
+      </hf-table>
+    </template>
     <!-- 分页信息 -->
-    <curd-pagination
-      :current-page.sync="searchForm.pageInfo.pageNo"
-      :page-size.sync="searchForm.pageInfo.pageSize"
-      :total="jsonData.total"
-      @size-change="doSearch"
-      @current-change="doSearch"
-    />
-  </el-card>
+    <template #pagination>
+      <curd-pagination
+        :current-page.sync="searchForm.pageInfo.pageNo"
+        :page-size.sync="searchForm.pageInfo.pageSize"
+        :total="jsonData.total"
+        @size-change="doSearch"
+        @current-change="doSearch"
+      />
+    </template>
+  </simple-table-layout>
 </template>
 
 <script>
     import * as conf from './api'
-    import BaseTenantAdd from './add'
+    import BaseTenantCu from './cu'
     import HfTable from '@/components/CURD/Table/HfTable'
     import { baseApiGetMethod } from '@/components/CURD/baseApi'
     import { isSuccessResult } from '@/utils/ajaxResultUtil'
     import CurdPagination from '@/components/CURD/pagination/Pagination'
-    import BaseTenantUpdate from './update'
     import DelBtn from '@/components/CURD/Btns/DelBtn'
     import CurdMixin from '@/components/CURD/curd.mixin'
     import CurdTableColumnSelect from '@/components/CURD/Table/select/TableColumnSelect'
     import BaseTenantDetail from './detail'
     import BaseTenantColumns from './baseTenantColumns'
     import TemplateConfirmBtn from '@/components/CURD/Btns/TemplateConfirmBtn'
-    import FormItemColDict from '@/components/CURD/Form/formItemColDict.vue'
     import FormItemCol from '@/components/CURD/Form/formItemCol.vue'
     import SimpleSearch from '@/components/CURD/Query/search'
     import TableColumnPreferenceSettingApiSlot from '@/views/basic/preferenceSetting/TableColumnPrefenceSettingApiSlot'
@@ -164,10 +143,8 @@
           BaseTenantDetail,
             CurdTableColumnSelect,
             DelBtn,
-          BaseTenantUpdate,
             CurdPagination,
-            HfTable, BaseTenantAdd,
-          FormItemColDict,
+            HfTable, BaseTenantCu,
           FormItemCol,
           SimpleSearch,
           TableColumnPreferenceSettingApiSlot

@@ -8,9 +8,9 @@
           <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="companyType" />
           <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="companyAddress" />
           <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="companyBelong" />
-          <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="creator" />
+            <form-item-text :span="span" namespace="common" :value="value" prop="creatorUserName" />
           <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="createTime" />
-          <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="modifier" />
+          <form-item-text :span="span" namespace="common" :value="value" prop="modifierUserName" />
           <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="modifyTime" />
           <enable-state-form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="enableState" />
           <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="deleted" />

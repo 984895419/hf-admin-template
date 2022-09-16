@@ -30,7 +30,7 @@
     </template>
     <!-- 操作栏-->
     <template #btnslist>
-      <base-system-config-add :action-url="conf.urlMethods.addUrl" @success="doSearch" />
+      <system-config-cu @success="doSearch" />
       <del-btn
         v-if="conf.urlMethods.deleteUrl
           && toggleRowSelectionArray.length > 0"
@@ -87,11 +87,9 @@
           <template slot-scope="scopeRow">
             <div class="col-btn-display">
               <!-- 更新 -->
-              <base-system-config-update
+              <system-config-cu
                 v-permission="['baseSystemConfig:update']"
                 :value="scopeRow.row"
-                :query-url="conf.urlMethods.queryUrl"
-                :update-url="conf.urlMethods.updateUrl"
                 @success="doSearch"
               />
               <!-- 删除-->
@@ -127,21 +125,19 @@
 
       <script>
         import * as conf from './api'
-        import BaseSystemConfigAdd from './add'
-        import BaseSystemConfigUpdate from './update'
+        import SystemConfigCu from './cu'
         import { isSuccessResult } from '@/utils/ajaxResultUtil'
         import CurdMixin from '@/components/CURD/curd.mixin'
         import BaseSystemConfigDetail from './detail'
         import BaseSystemConfigColumns from './baseSystemConfigColumns'
-import { baseApiGetMethod } from '@/components/CURD/baseApi'
+        import { baseApiGetMethod } from '@/components/CURD/baseApi'
 
         export default {
         name: 'BaseSystemConfigIndexVue',
         components: {
           BaseSystemConfigColumns,
           BaseSystemConfigDetail,
-          BaseSystemConfigUpdate,
-          BaseSystemConfigAdd
+          SystemConfigCu
         },
         mixins: [CurdMixin],
         data() {

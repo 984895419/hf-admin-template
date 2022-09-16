@@ -3,20 +3,20 @@
     <el-form ref="form" :model="value">
       <row-span-slot>
         <template v-slot="{ span }">
-                    <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="id" />
+          <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="id" />
           <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="tenantKey" />
           <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="tenantName" />
           <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="tenantDescription" />
           <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="tenantInit" />
-          <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="creator" />
+          <form-item-text :span="span" namespace="common" :value="value" prop="creatorUserName" />
           <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="createTime" />
-          <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="modifier" />
+          <form-item-text :span="span" namespace="common" :value="value" prop="modifierUserName" />
           <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="modifyTime" />
           <enable-state-form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="enableState" />
           <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="deleted" />
           <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="initData" />
-          <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="parentId" >
-            {{value.parentName}}
+          <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="parentId">
+            {{ value.parentName }}
           </form-item-text>
           <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="level" />
           <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="levelStr" />

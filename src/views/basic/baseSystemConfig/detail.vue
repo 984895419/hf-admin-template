@@ -3,13 +3,13 @@
     <el-form ref="form" :model="value">
       <row-span-slot>
         <template v-slot="{ span }">
-                    <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="configId" />
+          <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="configId" />
           <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="configKey" />
           <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="configValue" />
           <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="configDescription" />
-          <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="creator" />
+          <form-item-text :span="span" namespace="common" :value="value" prop="creatorUserName" />
           <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="createTime" />
-          <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="modifier" />
+          <form-item-text :span="span" namespace="common" :value="value" prop="modifierUserName" />
           <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="modifyTime" />
           <enable-state-form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="enableState" />
           <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="deleted" />

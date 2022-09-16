@@ -7,9 +7,9 @@
           <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="metTitle" />
           <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="metContent" />
           <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="metTime" />
-          <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="creator" />
+            <form-item-text :span="span" namespace="common" :value="value" prop="creatorUserName" />
           <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="createTime" />
-          <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="modifier" />
+          <form-item-text :span="span" namespace="common" :value="value" prop="modifierUserName" />
           <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="modifyTime" />
           <form-item-text :span="span" :namespace="conf.namespace" :value="value" prop="deleted" />
         </template>

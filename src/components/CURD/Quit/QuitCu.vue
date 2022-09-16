@@ -13,48 +13,7 @@
           <row-span-slot>
             <template v-slot="{ span }">
               <!-- 新增的的字段配置 -->
-              <form-item-col
-                :value="data"
-                :error="errorMessage('configKey')"
-                :span="span"
-                prop="configKey"
-                :namespace="conf.namespace"
-              />
-              <form-item-col
-                :value="data"
-                :error="errorMessage('configValue')"
-                :span="span"
-                prop="configValue"
-                :namespace="conf.namespace"
-              />
-              <form-item-col
-                :value="data"
-                :error="errorMessage('configDescription')"
-                :span="span"
-                prop="configDescription"
-                :namespace="conf.namespace"
-              />
-              <form-item-col-dict
-                :value="data"
-                :error="errorMessage('terminal')"
-                :span="span"
-                prop="terminal"
-                :dict-code="'CONFIG_TERMINAL'"
-                :namespace="conf.namespace"
-              />
-              <form-item-col-dict
-                :value="data"
-                :error="errorMessage('initData')"
-                :span="span"
-                prop="initData"
-                :dict-code="'YES_OR_NO'"
-                :namespace="conf.namespace"
-              />
-              <form-item-col-enable-state
-                :value="data"
-                :span="span"
-                :namespace="conf.namespace"
-              />
+              <slot :span="span" :errorMessage="errorMessage" :data="data" :closeDialog="closeDialog" />
             </template>
           </row-span-slot>
         </template>
@@ -65,11 +24,10 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import * as conf from './api'
-import CurdMixin from '@/components/CURD/curd.mixin'
-import { baseApiPostMethod, baseApiPutMethod } from '@/components/CURD/baseApi'
+import CurdMixin from '../curd.mixin'
+import { baseApiPostMethod, baseApiPutMethod } from '../baseApi'
 export default {
-  name: 'HfBaseRightRoleCu',
+  name: 'QuitCu',
   mixins: [CurdMixin],
   props: {
     value: {
@@ -77,11 +35,14 @@ export default {
       default: function() {
         return { enableState: 1, compositions: [] }
       }
+    },
+    conf: {
+      type: Object,
+      default: () => {}
     }
   },
   data() {
     return {
-      conf: conf,
       formRules: null
     }
   },
@@ -121,6 +82,7 @@ export default {
     componentAttrs() {
       // 如果主键的值存在，则为修改，否则为新增
       if (this.existId) {
+        debugger
         return {
           type: 'text',
           url: this.templateUrl(this.conf.urlMethods.queryUrl, this.value)
@@ -131,15 +93,8 @@ export default {
     }
   },
   created() {
-    this.formRules = conf.formRules(this)
-  },
-  methods: {
-    selectHandler(value, row) {
-      value.productAddress = row.companyAddress
-    }
+    this.formRules = this.conf.formRules(this)
   }
 }
 </script>
 
-<style scoped>
-</style>
