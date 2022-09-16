@@ -77,7 +77,7 @@
               />
             </template>
           </row-span-slot>
-          <CompositionInfoEditTable :data="data.compositions" />
+          <CompositionInfoEditTable :error-message="errorMessage" :data="data.compositions" />
         </template>
       </cu-form>
     </template>

@@ -1,6 +1,6 @@
 <template>
-  <!-- 单表布局 -->
-  <simple-table-layout :table-fields="conf.default" :conf="conf">
+  <!-- 父子表布局 -->
+  <father-son-layout :table-fields="conf.default" :conf="conf">
     <template #search>
 
       <simple-search v-model="searchForm" :inline="true" @search="doSearch">
@@ -112,7 +112,7 @@
         />
       </div>
     </template>
-    <template v-slot="{ showFields, headerDragend}">
+    <template v-slot="{ showFields, headerDragend, rowClick}">
       <hf-table
         v-if="showFields"
         v-loading="loading"
@@ -120,6 +120,7 @@
         @selection-change="handleSelectionChange"
         @sort-change="sortChange"
         @header-dragend="headerDragend"
+        @row-click="rowClick"
       >
         <section-table-column />
         <!-- 显示的字段-->
@@ -163,7 +164,10 @@
         @current-change="doSearch"
       />
     </template>
-  </simple-table-layout>
+    <template #children="{ row}">
+      <CompositionIndex v-if="row" :product-id="row.productId" />
+    </template>
+  </father-son-layout>
 </template>
 
 <script>
@@ -183,10 +187,12 @@
     import DemoCompanyInfoInputRefer from '@/views/fs/demoCompanyInfo/inputRefer'
     import DemoStoreInfoInputRefer from '@/views/fs/demoStoreInfo/inputRefer'
     import ProductCu from './cu.vue'
+    import CompositionIndex from '../demoCompositionInfo'
 
     export default {
         name: 'DemoProductInfoIndexVue',
         components: {
+          CompositionIndex,
           DemoCompanyInfoInputRefer,
           DemoStoreInfoInputRefer,
           TemplateConfirmBtn,
