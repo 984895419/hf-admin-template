@@ -2,36 +2,72 @@
   <div>
     <!-- 子表内容 -->
     <!-- 批量操作 -->
-    <el-button v-if="!fillingStatus" :size="size" style="margin:0px 10px 10px 0" type="primary"
-      icon="el-icon-circle-plus-outline" @click="handleAdd()">{{ $t('common.newAddRow') }}</el-button>
-    <el-button v-if="toggleRowSelectionArray.length > 0 && !batchEditStatus && !fillingStatus" :size="size"
-      style="margin:0px 10px 10px 0" type="primary" icon="el-icon-edit" @click="handleBatchEdit()">
+    <el-button
+      v-if="!fillingStatus"
+      :size="size"
+      style="margin:0px 10px 10px 0"
+      type="primary"
+      icon="el-icon-circle-plus-outline"
+      @click="handleAdd()"
+    >{{ $t('common.newAddRow') }}</el-button>
+    <el-button
+      v-if="toggleRowSelectionArray.length > 0 && !batchEditStatus && !fillingStatus"
+      :size="size"
+      style="margin:0px 10px 10px 0"
+      type="primary"
+      icon="el-icon-edit"
+      @click="handleBatchEdit()"
+    >
       {{ $t('common.batchEdit') }}
     </el-button>
-    <el-button v-if="batchEditStatus && !fillingStatus" :size="size" style="margin:0px 10px 10px 0" type="danger"
-      icon="el-icon-delete" @click="handleBatchEdit(false)">
+    <el-button
+      v-if="batchEditStatus && !fillingStatus"
+      :size="size"
+      style="margin:0px 10px 10px 0"
+      type="danger"
+      icon="el-icon-delete"
+      @click="handleBatchEdit(false)"
+    >
       {{ $t('common.cancelEdit') }}
     </el-button>
-    <el-button v-if="fillingStatus" :size="size" style="margin:0px 10px 10px 0" type="danger" icon="el-icon-right"
-      @click="saveHandleFilling()">
+    <el-button
+      v-if="fillingStatus"
+      :size="size"
+      style="margin:0px 10px 10px 0"
+      type="danger"
+      icon="el-icon-right"
+      @click="saveHandleFilling()"
+    >
       {{ $t('common.saveFill') }}
     </el-button>
 
-    <el-button v-if="fillingStatus" :size="size" style="margin:0px 10px 10px 0" type="danger" icon="el-icon-back"
-      @click="calcelFilling()">
+    <el-button
+      v-if="fillingStatus"
+      :size="size"
+      style="margin:0px 10px 10px 0"
+      type="danger"
+      icon="el-icon-back"
+      @click="calcelFilling()"
+    >
       {{ $t('common.cancelFill') }}
     </el-button>
-    <el-button v-if="!batchEditStatus && !fillingStatus && toggleRowSelectionArray.length > 0" :size="size"
-      style="margin:0px 10px 10px 0" type="primary" icon="el-icon-s-open" @click="handleFilling()">
+    <el-button
+      v-if="!batchEditStatus && !fillingStatus"
+      :size="size"
+      style="margin:0px 10px 10px 0"
+      type="primary"
+      icon="el-icon-s-open"
+      @click="handleFilling()"
+    >
       {{ $t('common.batchFill') }}
     </el-button>
-    <dialog-btn-page v-if="!uploadExlStatus &&  !fillingStatus && toggleRowSelectionArray.length > 0" :type="'primary'"
-      :label="'导入'" :title="'导入'" :icon="'el-icon-folder-add'">
-      <upload-excel-component :on-success="handleSuccess" :before-upload="beforeUpload" />
-    </dialog-btn-page>
-    <el-dropdown v-if="conf.urlMethods.disableUrl
-    && toggleRowSelectionArray.length > 0
-    && !fillingStatus" :hide-on-click="false" trigger="click">
+    <el-dropdown
+      v-if="conf.urlMethods.disableUrl
+        && toggleRowSelectionArray.length > 0
+        && !fillingStatus"
+      :hide-on-click="false"
+      trigger="click"
+    >
       <el-button>
         {{ $t('common.batchOperation') }}
         <i class="el-icon-arrow-down el-icon--right" />
@@ -40,8 +76,15 @@
       <el-dropdown-menu slot="dropdown">
         <!-- 删除 -->
         <el-dropdown-item icon="el-icon-circle-plus-outline">
-          <el-popconfirm confirm-button-text="确定" cancel-button-text="取消" icon="el-icon-info" icon-color="red"
-            title="此操作将永久删除该记录, 是否继续?" @onConfirm="confirmDel(toggleRowSelectionArray)" @onCancel="onCancel">
+          <el-popconfirm
+            confirm-button-text="确定"
+            cancel-button-text="取消"
+            icon="el-icon-info"
+            icon-color="red"
+            title="此操作将永久删除该记录, 是否继续?"
+            @onConfirm="confirmDel(toggleRowSelectionArray)"
+            @onCancel="onCancel"
+          >
             <el-button slot="reference" type="text" style="color:red">删除</el-button>
           </el-popconfirm>
         </el-dropdown-item>
@@ -50,9 +93,19 @@
       </el-dropdown-menu>
     </el-dropdown>
     <!-- 主表内容 -->
-    <el-table ref="editMainTable" :size="size" :data="tableData" border :row-key="rowKey" v-bind="$attrs"
-      :cell-class-name="checkboxClassName" :max-height="maxheight" :class="fillingStatus ? 'fillingStatus' : ''"
-      v-on="$listeners" @selection-change="selectionChange">
+    <el-table
+      ref="editMainTable"
+      :size="size"
+      :data="tableData"
+      border
+      :row-key="rowKey"
+      v-bind="$attrs"
+      :cell-class-name="checkboxClassName"
+      :max-height="maxheight"
+      :class="fillingStatus ? 'fillingStatus' : ''"
+      v-on="$listeners"
+      @selection-change="selectionChange"
+    >
       <slot />
       <operate-table-column>
         <template slot-scope="scope">
@@ -64,8 +117,12 @@
           <!-- 基本操作  -->
           <slot v-else name="operation" :row="scope.row">
             <!-- 删除 -->
-            <el-button :size="size" style="color:red" type="text"
-              @click="handleDelete(scope.$index, scope.row)">{{ $t('common.delete') }}</el-button>
+            <el-button
+              :size="size"
+              style="color:red"
+              type="text"
+              @click="handleDelete(scope.$index, scope.row)"
+            >{{ $t('common.delete') }}</el-button>
             <!--新增行按钮 -->
             <el-button :size="size" type="text" @click="handleSpliceAdd(scope.row)">{{ $t('common.newAddRow') }}
             </el-button>
@@ -81,10 +138,12 @@ import { mapGetters } from 'vuex'
 import CurdMixin from '@/components/CURD/curd.mixin'
 import { deepClone } from '@/utils'
 import DialogBtnPage from '@/components/CURD/Btns/DialogBtnPage'// 按钮弹窗
-import UploadExcelComponent from '@/components/UploadExcel/index.vue'
 
 export default {
   name: 'EditTable',
+  components: {
+    DialogBtnPage
+  },
   mixins: [CurdMixin],
   props: {
     tableData: {
@@ -112,9 +171,6 @@ export default {
       type: Boolean,
       default: true
     }
-  },
-  components: {
-    DialogBtnPage, UploadExcelComponent
   },
   data() {
     return {
@@ -164,7 +220,7 @@ export default {
         }
       },
       deep: true
-    },
+    }
   },
   methods: {
     /**
@@ -219,6 +275,7 @@ export default {
     saveHandleFilling() {
       this.tableData.splice(0, 1)
       this.fillingStatus = false
+      this.$emit('saveFilling')
     },
     /**
      * 选中操作
@@ -339,22 +396,7 @@ export default {
         type: 'info',
         message: '已取消删除'
       })
-    },
-    // 导入前判断
-    beforeUpload(file) {
-      const isLt1M = file.size / 1024 / 1024 < 1
-      if (isLt1M) {
-        return true
-      }
-      this.$message({
-        message: '文件大于1M 请重新上传',
-        type: 'warning'
-      })
-      return false
-    },
-    handleSuccess() {
-      // 导入成功回调
-    },
+    }
   }
 }
 </script>
@@ -363,8 +405,6 @@ export default {
 /deep/ .tb_cell .el-checkbox__input {
   display: none;
 }
-
-
 
 .sonTableBtn {
   display: flex;
