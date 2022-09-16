@@ -1,14 +1,7 @@
 <template>
   <div>
-    <el-form
-      ref="form"
-      :size="size"
-      :model="value"
-      :label-position="labelPosition"
-      v-bind="$attrs"
-      :label-width="$attrs.labelWidth || '100px'"
-      @submit.native.prevent
-    >
+    <el-form ref="form" :size="size" :model="value" :label-position="labelPosition" v-bind="$attrs"
+      :label-width="$attrs.labelWidth || '100px'" @submit.native.prevent>
       <row-span-slot>
         <template v-slot="{ span }">
           <div>
@@ -19,21 +12,16 @@
                 <slot name="btns-before" />
                 <slot name="btns" />
                 <el-button type="primary" :size="size" native-type="submit" icon="el-icon-search" @click="doSearch">{{
-                  $t('common.search')
+                $t('common.search')
                 }}</el-button>
                 <el-button icon="el-icon-circle-close" :size="size" @click="doReset">{{ $t('common.reset') }}
                 </el-button>
                 <!-- 高级搜索-->
-                <common-dialog-btn
-                  v-if="$scopedSlots['advanced']"
-                  ref="advanced"
-                  style="display:inline-block;margin-left:10px"
-                  :size="size"
-                  :label="'高级搜索'"
-                  :icon="'el-icon-platform-eleme'"
-                >
+                <common-dialog-btn v-if="$scopedSlots['advanced']" ref="advanced"
+                  style="display:inline-block;margin-left:10px" :size="size" :label="'高级搜索'"
+                  :icon="'el-icon-platform-eleme'">
                   <template v-slot="{ closeDialog, showState }">
-                    <div>
+                    <div class="advancedSty">
                       <div class="advanced-title">高级搜索</div>
                       <el-form :model="value" v-bind="$attrs" :label-width="$attrs.labelWidth || '100px'">
                         <row-span-slot>
@@ -43,17 +31,12 @@
                             <el-col :span="span" style="width:auto">
                               <el-form-item>
                                 <slot name="btns-before" />
-                                <el-button
-                                  type="primary"
-                                  :size="size"
-                                  native-type="submit"
-                                  icon="el-icon-search"
-                                  @click="doSearch(closeDialog)"
-                                >{{
+                                <el-button type="primary" :size="size" native-type="submit" icon="el-icon-search"
+                                  @click="doSearch(closeDialog)">{{
                                   $t('common.search')
-                                }}</el-button>
+                                  }}</el-button>
                                 <el-button icon="el-icon-circle-close" :size="size" @click="doReset">{{
-                                  $t('common.reset')
+                                $t('common.reset')
                                 }}</el-button>
                                 <slot name="btns" />
                               </el-form-item>
@@ -134,6 +117,15 @@ export default {
   font-size: 18px;
   font-weight: 600;
   margin-bottom: 10px;
+}
+
+
+.advancedSty /deep/ .el-form-item__content {
+  width: 100%;
+}
+
+.advancedSty /deep/ .el-form-item--mini.el-form-item {
+  display: flex;
 }
 
 /deep/ .el-icon-platform-eleme {
