@@ -14,7 +14,14 @@
     <el-form-item style="margin:10px 0 5px 0">
       <div style="float: right">
         <slot name="add-btn-before" :data="value" :formValidate="formValidate" />
-        <el-button :loading="loading" type="primary" native-type="submit" :size="size" icon="el-icon-search" @click="doSubmit">{{
+        <el-button
+          :loading="loading"
+          type="primary"
+          native-type="submit"
+          :size="size"
+          icon="el-icon-search"
+          @click="doSubmit"
+        >{{
           $t('common.submit')
         }}</el-button>
         <el-button icon="el-icon-circle-close" :size="size" @click="doCancel">{{ $t('common.cancel') }}</el-button>

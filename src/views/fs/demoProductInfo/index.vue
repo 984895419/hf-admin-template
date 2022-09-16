@@ -112,7 +112,7 @@
         />
       </div>
     </template>
-    <template v-slot="{ showFields, headerDragend, rowClick}">
+    <template v-slot="{ showFields, headerDragend, openChild}">
       <hf-table
         v-if="showFields"
         v-loading="loading"
@@ -120,7 +120,7 @@
         @selection-change="handleSelectionChange"
         @sort-change="sortChange"
         @header-dragend="headerDragend"
-        @row-click="rowClick"
+        @row-click="openChild"
       >
         <section-table-column />
         <!-- 显示的字段-->

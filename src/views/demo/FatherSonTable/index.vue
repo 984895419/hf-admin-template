@@ -1,5 +1,5 @@
 <template>
-  <simple-table-layout :conf="conf" :table-fields="tableFields">
+  <father-son-layout :conf="conf" :table-fields="tableFields">
     <!-- 查询框 -->
     <template #search>
       <simple-search v-model="searchForm" :inline="true" @search="doSearch">
@@ -33,7 +33,7 @@
     <!-- 操作栏-->
     <template #btnslist>
       <!-- 新增组件  -->
-      <demo-cu style="margin-right:10px"  :action-url="conf.urlMethods.addUrl" @success="doSearch" />
+      <demo-cu style="margin-right:10px" :action-url="conf.urlMethods.addUrl" @success="doSearch" />
       <!-- 右边批量操作栏 只有选择checkbox时候 才显示 -->
       <div class="block">
         <el-dropdown
@@ -196,8 +196,10 @@
         @current-change="doSearch"
       />
     </template>
-  </simple-table-layout>
-</template>
+    <template #child>
+      dddddd
+    </template>
+  </father-son-layout></template>
 
 <script>
 import * as conf from './api'
@@ -614,7 +616,7 @@ export default {
       })
       return false
     },
-    handleSuccess(){
+    handleSuccess() {
       // 导入成功回调
     }
   }

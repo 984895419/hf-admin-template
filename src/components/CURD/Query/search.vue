@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-form ref="form" :size="size" :model="value" v-bind="$attrs" @submit.native.prevent>
+    <el-form ref="form" :size="size" :model="value" v-bind="$attrs" :label-width="$attrs.labelWidth || '100px'" @submit.native.prevent>
       <row-span-slot>
         <template v-slot="{ span }">
           <div>
@@ -12,7 +12,7 @@
                 <el-button type="primary" :size="size" native-type="submit" icon="el-icon-search" @click="doSearch">{{
                   $t('common.search')
                 }}</el-button>
-                <el-button icon="el-icon-circle-close" :size="size" @click="doReset">{{ $t('common.reset') }}</el-button>
+                <el-button icon="el-icon-refresh" :size="size" @click="doReset">{{ $t('common.reset') }}</el-button>
                 <slot name="btns" />
 
                 <!-- 高级搜索-->
@@ -26,7 +26,7 @@
                   <template v-slot="{ closeDialog, showState }">
                     <div>
                       <div class="advanced-title">高级搜索</div>
-                      <el-form :model="value" v-bind="$attrs">
+                      <el-form :model="value" :size="size" :label-width="$attrs.labelWidth || '100px'" v-bind="$attrs">
                         <row-span-slot>
                           <template v-slot="{ span }">
                             <slot :span="span" />
@@ -34,7 +34,7 @@
                             <el-col :span="span" style="width:auto">
                               <el-form-item>
                                 <slot name="btns-before" />
-                                <el-button type="primary" :size="size" native-type="submit" icon="el-icon-search" @click="doSearch(closeDialog)">{{
+                                <el-button type="primary" :size="size" icon="el-icon-search" @keyup.enter.native="doSearch(closeDialog)" @click="doSearch(closeDialog)">{{
                                   $t('common.search')
                                 }}</el-button>
                                 <el-button icon="el-icon-circle-close" :size="size" @click="doReset">{{ $t('common.reset') }}</el-button>
