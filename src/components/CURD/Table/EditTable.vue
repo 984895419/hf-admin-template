@@ -2,71 +2,36 @@
   <div>
     <!-- 子表内容 -->
     <!-- 批量操作 -->
-    <el-button
-      v-if="!fillingStatus"
-      :size="size"
-      style="margin:0px 10px 10px 0"
-      type="primary"
-      icon="el-icon-circle-plus-outline"
-      @click="handleAdd()"
-    >{{ $t('common.newAddRow') }}</el-button>
-    <el-button
-      v-if="toggleRowSelectionArray.length > 0 && !batchEditStatus && !fillingStatus"
-      :size="size"
-      style="margin:0px 10px 10px 0"
-      type="primary"
-      icon="el-icon-edit"
-      @click="handleBatchEdit()"
-    >
+    <el-button v-if="!fillingStatus" :size="size" style="margin:0px 10px 10px 0" type="primary"
+      icon="el-icon-circle-plus-outline" @click="handleAdd()">{{ $t('common.newAddRow') }}</el-button>
+    <el-button v-if="toggleRowSelectionArray.length > 0 && !batchEditStatus && !fillingStatus" :size="size"
+      style="margin:0px 10px 10px 0" type="primary" icon="el-icon-edit" @click="handleBatchEdit()">
       {{ $t('common.batchEdit') }}
     </el-button>
-    <el-button
-      v-if="batchEditStatus && !fillingStatus"
-      :size="size"
-      style="margin:0px 10px 10px 0"
-      type="danger"
-      icon="el-icon-delete"
-      @click="handleBatchEdit(false)"
-    >
+    <el-button v-if="batchEditStatus && !fillingStatus" :size="size" style="margin:0px 10px 10px 0" type="danger"
+      icon="el-icon-delete" @click="handleBatchEdit(false)">
       {{ $t('common.cancelEdit') }}
     </el-button>
-    <el-button
-      v-if="fillingStatus"
-      :size="size"
-      style="margin:0px 10px 10px 0"
-      type="danger"
-      icon="el-icon-right"
-      @click="saveHandleFilling()"
-    >
+    <el-button v-if="fillingStatus" :size="size" style="margin:0px 10px 10px 0" type="danger" icon="el-icon-right"
+      @click="saveHandleFilling()">
       {{ $t('common.saveFill') }}
     </el-button>
-    <el-button
-      v-if="fillingStatus"
-      :size="size"
-      style="margin:0px 10px 10px 0"
-      type="danger"
-      icon="el-icon-back"
-      @click="calcelFilling()"
-    >
+
+    <el-button v-if="fillingStatus" :size="size" style="margin:0px 10px 10px 0" type="danger" icon="el-icon-back"
+      @click="calcelFilling()">
       {{ $t('common.cancelFill') }}
     </el-button>
-    <el-button
-      v-if="!batchEditStatus && !fillingStatus && toggleRowSelectionArray.length > 0"
-      :size="size"
-      style="margin:0px 10px 10px 0"
-      type="primary"
-      icon="el-icon-s-open"
-      @click="handleFilling()"
-    >
+    <el-button v-if="!batchEditStatus && !fillingStatus && toggleRowSelectionArray.length > 0" :size="size"
+      style="margin:0px 10px 10px 0" type="primary" icon="el-icon-s-open" @click="handleFilling()">
       {{ $t('common.batchFill') }}
     </el-button>
-    <el-dropdown
-      v-if="conf.urlMethods.disableUrl
-        && toggleRowSelectionArray.length > 0
-        && !fillingStatus"
-      :hide-on-click="false"
-      trigger="click"
-    >
+    <dialog-btn-page v-if="!uploadExlStatus &&  !fillingStatus && toggleRowSelectionArray.length > 0" :type="'primary'"
+      :label="'导入'" :title="'导入'" :icon="'el-icon-folder-add'">
+      <upload-excel-component :on-success="handleSuccess" :before-upload="beforeUpload" />
+    </dialog-btn-page>
+    <el-dropdown v-if="conf.urlMethods.disableUrl
+    && toggleRowSelectionArray.length > 0
+    && !fillingStatus" :hide-on-click="false" trigger="click">
       <el-button>
         {{ $t('common.batchOperation') }}
         <i class="el-icon-arrow-down el-icon--right" />
@@ -75,15 +40,8 @@
       <el-dropdown-menu slot="dropdown">
         <!-- 删除 -->
         <el-dropdown-item icon="el-icon-circle-plus-outline">
-          <el-popconfirm
-            confirm-button-text="确定"
-            cancel-button-text="取消"
-            icon="el-icon-info"
-            icon-color="red"
-            title="此操作将永久删除该记录, 是否继续?"
-            @onConfirm="confirmDel(toggleRowSelectionArray)"
-            @onCancel="onCancel"
-          >
+          <el-popconfirm confirm-button-text="确定" cancel-button-text="取消" icon="el-icon-info" icon-color="red"
+            title="此操作将永久删除该记录, 是否继续?" @onConfirm="confirmDel(toggleRowSelectionArray)" @onCancel="onCancel">
             <el-button slot="reference" type="text" style="color:red">删除</el-button>
           </el-popconfirm>
         </el-dropdown-item>
@@ -92,53 +50,34 @@
       </el-dropdown-menu>
     </el-dropdown>
     <!-- 主表内容 -->
-    <el-table
-      ref="editMainTable"
-      :size="size"
-      :data="tableData"
-      border
-      :row-key="rowKey"
-      v-bind="$attrs"
-      :max-height="maxheight"
-      :class="fillingStatus ? 'fillingStatus' : ''"
-      v-on="$listeners"
-      @selection-change="selectionChange"
-    >
+    <el-table ref="editMainTable" :size="size" :data="tableData" border :row-key="rowKey" v-bind="$attrs"
+      :cell-class-name="checkboxClassName" :max-height="maxheight" :class="fillingStatus ? 'fillingStatus' : ''"
+      v-on="$listeners" @selection-change="selectionChange">
       <slot />
       <operate-table-column>
         <template slot-scope="scope">
           <!-- 主表基本操作  可拓展 -->
+          <!-- 填充行 -->
           <span v-if="fillingStatus && scope.$index === 0" style="color: red">
             {{ $t('common.fillRow') }}
           </span>
+          <!-- 基本操作  -->
           <slot v-else name="operation" :row="scope.row">
-            <el-button
-              v-if="!scope.row.editable"
-              :size="size"
-              type="text"
-              @click="valChange(scope.row,scope.$index,true)"
-            >{{ $t('common.edit') }}</el-button>
+            <!-- 编辑 -->
+            <el-button v-if="!scope.row.editable" :size="size" type="text"
+              @click="valChange(scope.row,scope.$index,true)">{{ $t('common.edit') }}</el-button>
+            <!-- 保存 -->
             <el-button v-else :size="size" type="text" @click="valChange(scope.row,scope.$index,true)">{{
-              $t('common.save') }}</el-button>
-            <el-button
-              v-if="!scope.row.editable"
-              :size="size"
-              style="color:red"
-              type="text"
-              @click="handleDelete(scope.$index, scope.row)"
-            >{{ $t('common.delete') }}</el-button>
-            <el-button
-              v-else
-              :size="size"
-              style="color:red"
-              type="text"
-              @click="valChange(scope.row,scope.$index,false)"
-            >{{ $t('common.cancel') }}</el-button>
-            <el-button
-              :size="size"
-              type="text"
-              @click="handleSpliceAdd(scope.row)"
-            >{{ $t('common.newAddRow') }}</el-button>
+            $t('common.save') }}</el-button>
+            <!-- 删除 -->
+            <el-button v-if="!scope.row.editable" :size="size" style="color:red" type="text"
+              @click="handleDelete(scope.$index, scope.row)">{{ $t('common.delete') }}</el-button>
+            <!-- 取消 -->
+            <el-button v-else :size="size" style="color:red" type="text"
+              @click="valChange(scope.row,scope.$index,false)">{{ $t('common.cancel') }}</el-button>
+            <!--新增行按钮 -->
+            <el-button :size="size" type="text" @click="handleSpliceAdd(scope.row)">{{ $t('common.newAddRow') }}
+            </el-button>
           </slot>
         </template>
       </operate-table-column>
@@ -150,6 +89,9 @@
 import { mapGetters } from 'vuex'
 import CurdMixin from '@/components/CURD/curd.mixin'
 import { deepClone } from '@/utils'
+import DialogBtnPage from '@/components/CURD/Btns/DialogBtnPage'// 按钮弹窗
+import UploadExcelComponent from '@/components/UploadExcel/index.vue'
+
 export default {
   name: 'EditTable',
   mixins: [CurdMixin],
@@ -180,13 +122,21 @@ export default {
       default: true
     }
   },
+  components: {
+    DialogBtnPage, UploadExcelComponent
+  },
   data() {
     return {
       toggleRowSelectionArray: [],
+      // 填充内容
       fillingRow: null,
+      // 初始填充行内容
       initFillingRow: null,
+      // 填充状态
       fillingStatus: false,
       batchEditStatus: false,
+      uploadExlStatus: false,
+
       /**
        * 批量填充前快照的数据
        */
@@ -216,6 +166,7 @@ export default {
           for (const key in val) {
             if ((val[key] !== this.initFillingRow[key])) {
               this.toggleRowSelectionArray.forEach(s => {
+                console.log(s, val, val[key], 123123)
                 this.$set(s, key, val[key])
               })
             }
@@ -223,7 +174,7 @@ export default {
         }
       },
       deep: true
-    }
+    },
   },
   methods: {
     handleBatchEdit(editable = true) {
@@ -233,10 +184,21 @@ export default {
       this.batchEditStatus = editable
     },
     /**
+     * 原生样式回调  根据条件
+     */
+    checkboxClassName({ row, column, rowIndex, columnIndex }) {
+      if (row.filltable) {
+        return 'tb_cell'
+      } else {
+        return
+      }
+    },
+
+    /**
      * 批量填充
      */
     handleFilling() {
-      const clearRow = { editable: true }
+      const clearRow = { editable: true, filltable: true }
       for (const key in this.rowData) {
         clearRow[key] = this.rowData[key]
       }
@@ -304,10 +266,6 @@ export default {
       // 点击修改，判断是否已经保存所有操作
       for (const i of this.tableData) {
         if (i.editable && i.id != row.id) {
-          // this.$message({
-          //   message: '请保存',
-          //   type: 'warning'
-          // })
           return false
         }
       }
@@ -330,11 +288,6 @@ export default {
         } else {
           row.editable = false
           this.$forceUpdate()
-
-          // this.$message({
-          //   message: '保存成功',
-          //   type: 'success'
-          // })
         }
       } else {
         row.editable = true
@@ -350,7 +303,7 @@ export default {
           cancelButtonText: this.$t('common.cancel'),
           type: 'warning'
         }).then(() => {
-            this.$message({
+          this.$message({
             message: this.$t('common.deleteSuccess'),
             type: 'success'
           })
@@ -384,10 +337,10 @@ export default {
               this.tableData.splice(i, 1)
             }
           })
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
-          })
+        })
+        this.$message({
+          type: 'success',
+          message: '删除成功!'
         })
       }
     },
@@ -397,12 +350,33 @@ export default {
         type: 'info',
         message: '已取消删除'
       })
-    }
+    },
+    // 导入前判断
+    beforeUpload(file) {
+      const isLt1M = file.size / 1024 / 1024 < 1
+      if (isLt1M) {
+        return true
+      }
+      this.$message({
+        message: '文件大于1M 请重新上传',
+        type: 'warning'
+      })
+      return false
+    },
+    handleSuccess() {
+      // 导入成功回调
+    },
   }
 }
 </script>
 
 <style scoped lang="less">
+/deep/ .tb_cell .el-checkbox__input {
+  display: none;
+}
+
+
+
 .sonTableBtn {
   display: flex;
   justify-content: flex-end;
@@ -432,6 +406,7 @@ export default {
 .fillingStatus /deep/ .el-table__body .el-table__row:nth-child(1) {
   background-color: #F5F7FA;
 }
+
 .fillingStatus /deep/ .el-table__body .el-table__row:nth-child(1):hover {
   background-color: #F5F7FA;
 }
@@ -446,7 +421,12 @@ export default {
   text-overflow: ellipsis;
 }
 
-.el-table  /deep/ .el-table__row .el-form-item {
+.dialog-btn {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.el-table /deep/ .el-table__row .el-form-item {
   margin-bottom: 13px;
 }
 

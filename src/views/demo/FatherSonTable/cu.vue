@@ -106,14 +106,7 @@
             @handleChangeBtn="handleChangeBtn"
           >
             <!-- 其他批量操作方法插槽 -->
-            <template #dropdownList="{toggleRowSelectionArray}">
-              <!-- 导入 -->
-              <el-dropdown-item icon="el-icon-circle-check">
-                <dialog-btn-page :type="'text'" :label="'导入'" :title="'导入'">
-                  <upload-excel-component :on-success="handleSuccess" :before-upload="beforeUpload" />
-                </dialog-btn-page>
-              </el-dropdown-item>
-            </template>
+            <template #dropdownList="{toggleRowSelectionArray}"></template>
             <section-table-column />
             <default-table-column
               :required="true"
@@ -199,8 +192,6 @@ import hfBaseSonColumns from './hfBaseSonColumns'// 表头
 import SectionTableColumn from '@/components/CURD/Table/column/base/SectionTableColumn'
 import DefaultTableColumn from '@/components/CURD/Table/column/DefaultTableColumn'
 import EditTable from '@/components/CURD/Table/EditTable.vue' // 编辑表格
-import UploadExcelComponent from '@/components/UploadExcel/index.vue'
-import DialogBtnPage from '@/components/CURD/Btns/DialogBtnPage'// 按钮弹窗
 
 export default {
   name: 'HfBaseRightRoleCu',
@@ -210,7 +201,7 @@ export default {
     CuForm, AddBtn, UpdateBtn, FormItemColEnableState,
     hfBaseSonColumns, DefaultTableColumn,
     SectionTableColumn,
-    EditTable, UploadExcelComponent, DialogBtnPage
+    EditTable
   },
   mixins: [CurdMixin],
   props: {
