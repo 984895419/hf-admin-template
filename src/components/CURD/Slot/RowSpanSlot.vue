@@ -55,7 +55,7 @@ export default {
         } else if (s > 768 && s < 1200) {
           this.showNum = 2
         } else if (s > 1200 && s < 1912) {
-          this.showNum = 3
+          this.showNum = 4
         } else if (s >= 1912) {
           this.showNum = 4
         }
