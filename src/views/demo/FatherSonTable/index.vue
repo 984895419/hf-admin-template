@@ -1,5 +1,5 @@
 <template>
-  <father-son-layout :conf="conf" :table-fields="tableFields">
+  <father-son-layout :conf="conf" :table-fields="tableFields" :align="'middle'" >
     <!-- 查询框 -->
     <template #search>
       <simple-search v-model="searchForm" :inline="true" @search="doSearch">
@@ -130,7 +130,6 @@
         </el-table-column>
       </hf-table>
       <!-- 双击查看抽屉明细表 rowdata:双击table行数据  -->
-      <drawer-detail ref="detail" :title="'订单明细表'" />
     </template>
 
     <!-- 分页-->
@@ -141,9 +140,18 @@
         @current-change="doSearch" />
     </template>
     <template #children="{row,align}">
-      <hf-table :table-data="row.propTableData" v-if="row&&align=='middle'">
-        <default-column-list v-if="row" :Rowlist='row.propTableData' />
+      <!-- 底部 -->
+      <hf-table  :table-data="row.propTableData" v-if="row&&align=='bottom'">
+        <default-column-list :Rowlist='row.propTableData' />
       </hf-table>
+      <!-- 弹窗 -->
+      <drawer-detail ref="detail" v-else>
+        <template>
+          <hf-table :table-data="row.propTableData" v-if="row">
+            <default-column-list :Rowlist='row.propTableData' />
+          </hf-table>
+        </template>
+      </drawer-detail>
     </template>
   </father-son-layout>
 </template>
@@ -171,8 +179,8 @@ import UploadExcelComponent from '@/components/UploadExcel/index.vue' // 本是 
 import Examine from './examine.vue' // 审核页面
 import SimpleTableLayout from '@/components/CURD/Layout/SimpleTableLayout.vue'
 import FormItemColDateTimeRange from '@/components/CURD/Form/formItemColDateTimeRange.vue'
+import ChildrenDetail from './ChildrenDetail.vue'
 import defaultColumnList from './defaultColumnList.vue'
-
 export default {
   name: 'HfBaseRightRoleIndexVue',
   components: {
@@ -194,6 +202,7 @@ export default {
     Examine,
     SimpleTableLayout,
     FormItemColDateTimeRange,
+    ChildrenDetail,
     defaultColumnList
   },
 
@@ -249,6 +258,7 @@ export default {
     this.doSearch()
   },
   methods: {
+   
     /**
      * 排序发生变化的时候执行的排序变化
      * @param column
