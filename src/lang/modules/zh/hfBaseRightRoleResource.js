@@ -4,7 +4,7 @@ export default {
   roleIdName: '角色id',
   roleId: '角色id',
   resourceId: '资源的ID',
-  resourceKey: '资源的key(唯一)',
+  resourceKey: '资源key',
   label: '资源名称',
   value: '资源值',
   creator: '创建人',

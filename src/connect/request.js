@@ -94,11 +94,11 @@ service.interceptors.response.use(
     }
   },
   error => {
-    debugger
+    
     const status = error.response.status
     let message = error.message
     if (status === 401) {
-      debugger
+      
       message = '请求未授权:' + error.request.responseURL.substring(error.request.responseURL.indexOf('/api'),
         error.request.responseURL.indexOf('?') > 0 ? error.request.responseURL.indexOf('?') : error.request.responseURL.length)
     } else if (status === 500) {

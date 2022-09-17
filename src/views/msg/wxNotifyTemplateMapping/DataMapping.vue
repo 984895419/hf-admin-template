@@ -83,7 +83,7 @@
               return {}
             },
             sourceFields() {
-                debugger
+                
                 let exampleMap = {}
                 try {
                     exampleMap = JSON.parse(this.exampleData)

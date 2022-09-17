@@ -272,7 +272,7 @@
                 if (this.toggleRowSelectionArray) {
                     // 先去掉当前行的，在插入section
                     if (!section) {
-                        debugger
+                        
                     }
                     const sectionIds = section ? section.map(s => s[this.uniqueColumn]) : []
                     const deleteIds = this.jsonData.list.filter(s => sectionIds.indexOf(s[this.uniqueColumn]) < 0).map(s => s[this.uniqueColumn])

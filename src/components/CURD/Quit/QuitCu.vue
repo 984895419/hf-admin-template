@@ -85,7 +85,6 @@ export default {
     componentAttrs() {
       // 如果主键的值存在，则为修改，否则为新增
       if (this.existId) {
-        debugger
         return {
           type: 'text',
           url: this.templateUrl(this.conf.urlMethods.queryUrl, this.value)

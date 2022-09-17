@@ -457,7 +457,7 @@ export default {
             doSave(this.tableInfo)
         },
         toSave() {
-            debugger
+            
             if (this.$refs.saveBtn) {
                 this.$refs.saveBtn.handleClick()
             }
