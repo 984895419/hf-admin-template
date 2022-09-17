@@ -1,5 +1,5 @@
 <template>
-  <father-son-layout :conf="conf" :table-fields="tableFields" :align="'middle'">
+  <father-son-layout :conf="conf" :table-fields="tableFields" :align="'bottom'">
     <!-- 查询框 -->
     <template #search>
       <simple-search v-model="searchForm" :inline="true" @search="doSearch">

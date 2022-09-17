@@ -63,6 +63,8 @@ export default {
       type: Object,
       required: true
     },
+    // 弹窗为middle   底部为bottom  
+    // 默认为bottom
     align: {
       type: String,
       default: () => {
