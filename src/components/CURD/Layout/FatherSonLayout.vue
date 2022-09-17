@@ -39,7 +39,7 @@
     </table-column-preference-setting-api-slot>
     <slot name="pagination" />
     <!-- 定义子表的显示方式 -->
-    <slot name="children" :row="row" />
+    <slot name="children" :row="row" :align="childrenAlign" />
   </div>
 </template>
 <script>
@@ -82,7 +82,8 @@
         showFields: undefined,
         heightTable: 900,
         reRending: false,
-        row: undefined
+        row: undefined,
+        childrenAlign:'middle'
       }
     },
     methods: {
@@ -104,6 +105,7 @@
       },
       openChild(row, column, event) {
         this.row = row
+     console.log("1123",this.row)
       }
     }
   }
