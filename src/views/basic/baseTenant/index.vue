@@ -119,35 +119,18 @@
 <script>
     import * as conf from './api'
     import BaseTenantCu from './cu'
-    import HfTable from '@/components/CURD/Table/HfTable'
+    import CurdMixin from '@/components/CURD/curd.mixin'
     import { baseApiGetMethod } from '@/components/CURD/baseApi'
     import { isSuccessResult } from '@/utils/ajaxResultUtil'
-    import CurdPagination from '@/components/CURD/pagination/Pagination'
-    import DelBtn from '@/components/CURD/Btns/DelBtn'
-    import CurdMixin from '@/components/CURD/curd.mixin'
-    import CurdTableColumnSelect from '@/components/CURD/Table/select/TableColumnSelect'
     import BaseTenantDetail from './detail'
     import BaseTenantColumns from './baseTenantColumns'
-    import TemplateConfirmBtn from '@/components/CURD/Btns/TemplateConfirmBtn'
-    import FormItemCol from '@/components/CURD/Form/formItemCol.vue'
-    import SimpleSearch from '@/components/CURD/Query/search'
-    import TableColumnPreferenceSettingApiSlot from '@/views/basic/preferenceSetting/TableColumnPrefenceSettingApiSlot'
-    import SectionTableColumn from '@/components/CURD/Table/column/base/SectionTableColumn'
 
     export default {
         name: 'BaseTenantIndexVue',
         components: {
-          SectionTableColumn,
-          TemplateConfirmBtn,
           BaseTenantColumns,
           BaseTenantDetail,
-            CurdTableColumnSelect,
-            DelBtn,
-            CurdPagination,
-            HfTable, BaseTenantCu,
-          FormItemCol,
-          SimpleSearch,
-          TableColumnPreferenceSettingApiSlot
+           BaseTenantCu
         },
         mixins: [CurdMixin],
         data() {

@@ -2,7 +2,6 @@
   <quit-cu :value="value" :conf="conf">
     <template v-slot="{ span, errorMessage, data }">
       <!-- 新增的的字段配置 -->
-      <!-- 新增的的字段配置 -->
       <form-item-col
         :value="data"
         :error="errorMessage('tenantKey')"
