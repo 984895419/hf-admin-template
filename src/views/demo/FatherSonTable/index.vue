@@ -145,15 +145,13 @@
         <default-column-list :Rowlist='row.propTableData' />
       </hf-table>
       <!-- 弹窗 -->
-      <div v-else>
-        <drawer-detail ref="detail" >
-          <template>
-            <hf-table :table-data="row.propTableData" v-if="row">
-              <default-column-list :Rowlist='row.propTableData' />
-            </hf-table>
-          </template>
-        </drawer-detail>
-      </div>
+      <drawer-detail ref="detail" v-show="align=='middle'">
+        <template>
+          <hf-table :table-data="row.propTableData" v-if="row">
+            <default-column-list :Rowlist='row.propTableData' />
+          </hf-table>
+        </template>
+      </drawer-detail>
     </template>
   </father-son-layout>
 </template>

@@ -45,8 +45,8 @@ export default {
       this.isshowdetail = false
     },
     openDialog(row) {
-      this.rowdata = row
-      this.isshowdetail = true
+        this.rowdata = row
+        this.isshowdetail = true
     }
   }
 }
