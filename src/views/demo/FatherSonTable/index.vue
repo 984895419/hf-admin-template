@@ -1,5 +1,5 @@
 <template>
-  <father-son-layout :conf="conf" :table-fields="tableFields" :align="'middle'" >
+  <father-son-layout :conf="conf" :table-fields="tableFields" :align="'middle'">
     <!-- 查询框 -->
     <template #search>
       <simple-search v-model="searchForm" :inline="true" @search="doSearch">
@@ -141,17 +141,19 @@
     </template>
     <template #children="{row,align}">
       <!-- 底部 -->
-      <hf-table  :table-data="row.propTableData" v-if="row&&align=='bottom'">
+      <hf-table :table-data="row.propTableData" v-if="row&&align=='bottom'">
         <default-column-list :Rowlist='row.propTableData' />
       </hf-table>
       <!-- 弹窗 -->
-      <drawer-detail ref="detail" v-else>
-        <template>
-          <hf-table :table-data="row.propTableData" v-if="row">
-            <default-column-list :Rowlist='row.propTableData' />
-          </hf-table>
-        </template>
-      </drawer-detail>
+      <div v-else>
+        <drawer-detail ref="detail" >
+          <template>
+            <hf-table :table-data="row.propTableData" v-if="row">
+              <default-column-list :Rowlist='row.propTableData' />
+            </hf-table>
+          </template>
+        </drawer-detail>
+      </div>
     </template>
   </father-son-layout>
 </template>
@@ -258,7 +260,7 @@ export default {
     this.doSearch()
   },
   methods: {
-   
+
     /**
      * 排序发生变化的时候执行的排序变化
      * @param column
