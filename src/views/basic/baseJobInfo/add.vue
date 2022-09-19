@@ -28,11 +28,6 @@
                 prop="triggerTime"
                 :namespace="conf.namespace"
               />
-              <form-item-col-enable-state
-                :value="data"
-                :span="span"
-                :namespace="conf.namespace"
-              />
               <form-item-col
                 :value="data"
                 :error="errorMessage('jobTypeId')"
@@ -66,6 +61,11 @@
                 :error="errorMessage('jobDescription')"
                 :span="span"
                 prop="jobDescription"
+                :namespace="conf.namespace"
+              />
+              <form-item-col-enable-state
+                :value="data"
+                :span="span"
                 :namespace="conf.namespace"
               />
             </template>

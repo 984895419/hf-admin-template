@@ -6,44 +6,46 @@
           <row-span-slot>
             <template v-slot="{ span }">
               <!-- 新增的的字段配置 -->
-                             <form-item-col
+              <form-item-col
                 :value="data"
                 :error="errorMessage('helperTitle')"
                 :span="span"
                 prop="helperTitle"
                 :namespace="conf.namespace"
-               />
-               <form-item-col
+              />
+              <form-item-col
                 :value="data"
                 :error="errorMessage('helperContent')"
                 :span="span"
                 prop="helperContent"
                 :namespace="conf.namespace"
-               />
-               <form-item-col
+              />
+              <form-item-col
                 :value="data"
                 :error="errorMessage('helperAuthor')"
                 :span="span"
                 prop="helperAuthor"
                 :namespace="conf.namespace"
-               />
+              />
+              <form-item-col
+                :value="data"
+                :error="errorMessage('menuIdName')"
+                :span="span"
+                prop="menuIdName"
+                :namespace="conf.namespace"
+              >
+                <hf-base-right-menu-input-refer
+                  :value="data"
+                  :menu-type="'ENDING_MENU'"
+                  value-refer-id="menuId"
+                  value-refer-name="menuIdName"
+                />
+              </form-item-col>
               <form-item-col-enable-state
                 :value="data"
                 :span="span"
                 :namespace="conf.namespace"
               />
-               <form-item-col
-                 :value="data"
-                 :error="errorMessage('menuIdName')"
-                 :span="span"
-                 prop="menuIdName"
-                 :namespace="conf.namespace" >
-                 <hf-base-right-menu-input-refer
-                   :value="data"
-                   :menu-type="'ENDING_MENU'"
-                   value-refer-id="menuId"
-                   value-refer-name="menuIdName"/>
-               </form-item-col>
             </template>
           </row-span-slot>
         </template>
@@ -71,7 +73,7 @@
             value: {
                 type: Object,
                 default: function() {
-                    return { enableState: 1}
+                    return { enableState: 1 }
                 }
             },
             actionUrl: String

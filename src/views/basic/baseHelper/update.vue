@@ -2,12 +2,12 @@
   <div>
     <update-btn btn-type="text" :url="templateUrl(queryUrl, value)">
       <template v-slot="{ closeDialog, data }">
-        <cu-form :form-rules="formRules" :value="data" :action-method="updateMethod"  @success="actionSuccess" @closeDialog="closeDialog">
+        <cu-form :form-rules="formRules" :value="data" :action-method="updateMethod" @success="actionSuccess" @closeDialog="closeDialog">
           <template v-slot="{ errorMessage }">
             <row-span-slot>
               <template v-slot="{ span }">
                 <!-- 修改的字段配置 -->
-                                <form-item-col
+                <form-item-col
                   :value="data"
                   :error="errorMessage('helperTitle')"
                   :span="span"
@@ -28,22 +28,19 @@
                   prop="helperAuthor"
                   :namespace="conf.namespace"
                 />
-                <form-item-col-enable-state
-                  :value="data"
-                  :span="span"
-                  :namespace="conf.namespace"
-                />
                 <form-item-col
                   :value="data"
                   :error="errorMessage('menuIdName')"
                   :span="span"
                   prop="menuIdName"
-                  :namespace="conf.namespace" >
+                  :namespace="conf.namespace"
+                >
                   <hf-base-right-menu-input-refer
-                  :value="data"
-                  :menu-type="'ENDING_MENU'"
-                  value-refer-id="menuId"
-                  value-refer-name="menuIdName"/>
+                    :value="data"
+                    :menu-type="'ENDING_MENU'"
+                    value-refer-id="menuId"
+                    value-refer-name="menuIdName"
+                  />
                 </form-item-col>
                 <!-- 字段字段设置方法如下
                 <form-item-col-dict
@@ -54,6 +51,12 @@
                   :dict-code="'CLIENT_METHOD_TYPES'"
                   :namespace="conf.namespace"
                 /> -->
+
+                <form-item-col-enable-state
+                  :value="data"
+                  :span="span"
+                  :namespace="conf.namespace"
+                />
               </template>
             </row-span-slot>
           </template>

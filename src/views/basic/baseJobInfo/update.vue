@@ -2,7 +2,7 @@
   <div>
     <update-btn btn-type="text" :url="templateUrl(queryUrl, value)">
       <template v-slot="{ closeDialog, data }">
-        <cu-form :form-rules="formRules" :value="data" :action-method="updateMethod"  @success="actionSuccess" @closeDialog="closeDialog">
+        <cu-form :form-rules="formRules" :value="data" :action-method="updateMethod" @success="actionSuccess" @closeDialog="closeDialog">
           <template v-slot="{ errorMessage }">
             <row-span-slot>
               <template v-slot="{ span }">
@@ -36,11 +36,6 @@
                   prop="triggerTime"
                   :namespace="conf.namespace"
                 />
-                <form-item-col-enable-state
-                  :value="data"
-                  :span="span"
-                  :namespace="conf.namespace"
-                />
                 <form-item-col
                   :value="data"
                   :error="errorMessage('jobTypeId')"
@@ -48,11 +43,11 @@
                   prop="jobTypeId"
                   :namespace="conf.namespace"
                 >
-                  <base-job-type-input-refer :value="data" value-refer-id="jobTypeId" value-refer-name="jobTypeName"/>
+                  <base-job-type-input-refer :value="data" value-refer-id="jobTypeId" value-refer-name="jobTypeName" />
                 </form-item-col>
                 <form-item-col
-                  :value="data"
                   v-if="data.jobTypeId"
+                  :value="data"
                   :error="errorMessage('jobData')"
                   :span="span"
                   prop="jobData"
@@ -61,12 +56,17 @@
                   <base-job-type-job-type-id-slot :job-type-ids="[data.jobTypeId]">
                     <template v-slot="scopeRow">
                       <div v-if="scopeRow.data && scopeRow.data.length > 0">
-                        <component v-model="data.jobData" v-if="scopeRow.data[0].jobComponentPath && !scopeRow.data[0].jobComponentPath.startsWith('http')" :is="scopeRow.data[0].jobComponentPath"></component>
+                        <component :is="scopeRow.data[0].jobComponentPath" v-if="scopeRow.data[0].jobComponentPath && !scopeRow.data[0].jobComponentPath.startsWith('http')" v-model="data.jobData" />
                       </div>
                       <div v-else>不支持的类型</div>
                     </template>
                   </base-job-type-job-type-id-slot>
                 </form-item-col>
+                <form-item-col-enable-state
+                  :value="data"
+                  :span="span"
+                  :namespace="conf.namespace"
+                />
                 <!-- 字典字段字段设置方法如下
                 <form-item-col-dict
                   :value="data"
@@ -95,8 +95,8 @@
     import { baseApiPutMethod } from '@/components/CURD/baseApi'
     import FormItemColDict from '@/components/CURD/Form/formItemColDict'
     import FormItemColEnableState from '@/components/CURD/Form/formItemColEnableState'
-    import FormItemColTextArea from "../../../components/CURD/Form/formItemColTextarea";
-    import BaseJobTypeJobTypeIdSlot from "../baseJobType/baseJobTypeApiSlot";
+    import FormItemColTextArea from '../../../components/CURD/Form/formItemColTextarea'
+    import BaseJobTypeJobTypeIdSlot from '../baseJobType/baseJobTypeApiSlot'
     export default {
         name: 'BaseJobInfoUpdate',
         components: {
