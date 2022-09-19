@@ -10,6 +10,13 @@
           <form-item-col-date-time :value="searchForm" :span="span" prop="ordertime" :namespace="conf.namespace" />
           <form-item-col-date-time-range :value="searchForm" :span="span" prop="ordertime" :namespace="conf.namespace"
             :min-prop="'createTimeMin'" :max-prop="'createTimeMax'" />
+          <form-item-col-dict
+          :value="searchForm"
+          :span="span"
+          prop="paymethod"
+          :dict-code="'PAYMETHODS'"
+          :namespace="conf.namespace"
+          /> 
         </template>
         <template #advanced="{ span }">
           <form-item-col :value="searchForm" :span="span" prop="ordertotal" :namespace="conf.namespace" />
