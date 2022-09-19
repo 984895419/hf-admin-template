@@ -1,7 +1,7 @@
 <template>
   <div v-resize="handleResize" class="fathersontable">
     <!-- 不是左右分的子表展示方式 -->
-    <div v-if="align !== 'pannel'">
+    <div v-if="effect !== 'pannel'">
       <div>
         <slot name="search" />
       </div>
