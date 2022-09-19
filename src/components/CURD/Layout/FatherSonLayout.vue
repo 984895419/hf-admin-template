@@ -42,27 +42,37 @@
       <slot name="pagination" />
       <!-- 定义子表的显示方式 -->
       <el-dialog
-        v-if="align=='dialog'"
+        v-if="effect=='dialog'"
         v-bind="{width: '75%',
                  top: '5vh',
                  title: $t('common.detail'),
-                 ...$attrs._dialog}"
+                 ...$attrs._effect}"
         :visible.sync="isshowdetail"
       >
         <slot name="children" :row="row" />
         <div class="dialog-footer">
-          <el-button @click="closeDetailDialog">取 消</el-button>
+          <el-button @click="closeDetailDialog">{{ $t('common.cancel') }}</el-button>
         </div>
       </el-dialog>
+      <el-drawer
+        v-if="effect=='drawer'"
+        v-bind="{size: '60%',
+                 direction: 'rtl',
+                 title: $t('common.detail'),
+                 ...$attrs._effect}"
+        :visible.sync="isshowdetail"
+      >
+        <slot name="children" :row="row" />
+      </el-drawer>
       <slot
-        v-if="align=='bottom'"
+        v-if="effect=='bottom'"
         name="children"
         :row="row"
       />
     </div>
     <!-- 左右面板的展示方式-->
     <div v-else>
-      <hf-resize-split-pane v-bind="$attrs">
+      <hf-resize-split-pane v-bind="$attrs._effect">
         <div style="padding:5px">
           <div>
             <slot name="search" />
@@ -147,9 +157,9 @@ export default {
       type: Object,
       required: true
     },
-    // 弹窗为dialog   底部为bottom  左右分pannel
+    // 弹窗为dialog   底部为bottom  左右分pannel 抽屉方式drawer
     // 默认为none
-    align: {
+    effect: {
       type: String,
       default: () => {
         return '默认为none'
