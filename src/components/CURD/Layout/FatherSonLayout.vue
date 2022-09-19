@@ -2,8 +2,8 @@
   <div v-resize="handleResize" class="fathersontable">
     <!-- 不是左右分的子表展示方式 -->
     <div v-if="effect !== 'pannel'">
-      <div>
-        <slot name="search" />
+      <div style="margin-top:20px">
+        <slot name="search"  />
       </div>
       <!-- 列表-->
       <table-column-preference-setting-api-slot
@@ -73,7 +73,7 @@
     <!-- 左右面板的展示方式-->
     <div v-else>
       <hf-resize-split-pane v-bind="$attrs._effect">
-        <div style="padding:5px">
+        <div style="padding:15px 10px 0 10px">
           <div>
             <slot name="search" />
           </div>
@@ -113,10 +113,12 @@
           <slot name="pagination" />
         </div>
         <template #right>
-          <slot
+          <div style="padding:15px 10px 0 10px">
+            <slot
             name="children"
             :row="row"
           />
+          </div>
         </template>
       </hf-resize-split-pane>
     </div>
@@ -179,7 +181,7 @@ export default {
     // 表格宽高
     handleResize({ width, height }) {
       this.heightTable = parseFloat(height) - 210
-      this.heightTablePannel = parseFloat(height) - 350
+      this.heightTablePannel = parseFloat(height) - 340
     },
 
     reRenderTable(res) {
@@ -206,11 +208,14 @@ export default {
 </script>
 
 <style scoped lang="less">
+  .aa{
+    margin-top: 30px;
+  }
 /* 表内部分样式 */
 .fathersontable {
-  margin: 20px 10px 10px 10px;
+  margin: 0px 10px 10px 10px;
   height: 100%;
-  padding-bottom: 30px;
+  padding: 0 0 30px 0;
   box-sizing: border-box;
   overflow: scroll;
 
