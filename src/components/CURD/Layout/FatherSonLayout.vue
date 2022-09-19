@@ -25,8 +25,17 @@
     </table-column-preference-setting-api-slot>
     <slot name="pagination" />
     <!-- 定义子表的显示方式 -->
-    <slot name="children" :row="row" :align="align">
+    <el-dialog width="75%" :top="'5vh'" :title="'详情'" :visible.sync="isshowdetail" v-if="align=='middle'">
+      <slot name="children" :row="row">
+      </slot>
+      <div class="dialog-footer">
+        <el-button @click="cancelForm">取 消</el-button>
+        <el-button type="primary" @click="cancelForm" >确定</el-button>
+      </div>
+    </el-dialog>
+    <slot name="children" :row="row" v-else>
     </slot>
+
   </div>
 </template>
 <script>
@@ -78,6 +87,7 @@ export default {
       heightTable: 900,
       reRending: false,
       row: undefined,
+      isshowdetail: false,
     }
   },
   methods: {
@@ -98,8 +108,17 @@ export default {
       }, 50)
     },
     openChild(row, column, event) {
+      console.log(row, column, event, "row, column, event")
       this.row = row
-      this.$emit("childrenAlign", this.align)
+      if (this.align == 'middle') {
+        this.isshowdetail = true
+      }else{
+        return
+      }
+    },
+    // 关闭弹窗
+    cancelForm() {
+      this.isshowdetail = false
     }
   }
 }
@@ -110,6 +129,8 @@ export default {
 .fathersontable {
   margin: 20px 10px 10px 10px;
   height: 100%;
+  padding-bottom: 30px;
+  box-sizing: border-box;
   overflow: scroll;
 
   &::-webkit-scrollbar {
@@ -156,6 +177,11 @@ export default {
 .el-dropdown-menu--mini .el-dropdown-menu__item {
   display: flex;
   align-items: center;
+}
+
+.dialog-footer {
+  float: right;
+  margin: 10px 10px 10px 0;
 }
 </style>
 

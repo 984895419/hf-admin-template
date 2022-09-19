@@ -1,5 +1,5 @@
 <template>
-  <father-son-layout :conf="conf" :table-fields="tableFields" :align="'bottom'">
+  <father-son-layout :conf="conf" :table-fields="tableFields" :align="'middle'">
     <!-- 查询框 -->
     <template #search>
       <simple-search v-model="searchForm" :inline="true" @search="doSearch">
@@ -102,10 +102,11 @@
 
     <!-- 列表-->
     <template v-slot="{ doSave, headerDragend, showFields, heightTable,openChild}">
+      <!--  @row-dblclick="(row) => { $refs.detail.openDialog(row)  }"  @row-click="openChild" -->
       <!-- 主表内容区域 table-data:数据list   maxheight:最大高度  row-dblclick:双击事件 sort-change:表头上出现一个上下箭头图标  headerDragend:拖动列改变宽度事件  handleSelectionChange:checkbox当选项发生变化时会触发该事件 -->
       <hf-table v-if="showFields" v-loading="loading" :table-data="jsonData.list" :maxheight="heightTable"
-        @row-dblclick="(row) => { $refs.detail.openDialog(row) }" @row-click="openChild"
-        @selection-change="handleSelectionChange" @sort-change="sortChange" @header-dragend="headerDragend">
+        @row-dblclick="openChild" @selection-change="handleSelectionChange" @sort-change="sortChange"
+        @header-dragend="headerDragend">
         <section-table-column />
 
         <!-- 显示的字段-->
@@ -129,7 +130,6 @@
           </template>
         </el-table-column>
       </hf-table>
-      <!-- 双击查看抽屉明细表 rowdata:双击table行数据  -->
     </template>
 
     <!-- 分页-->
@@ -139,19 +139,31 @@
         :page-size.sync="searchForm.pageInfo.pageSize" :total="jsonData.total" @size-change="doSearch"
         @current-change="doSearch" />
     </template>
-    <template #children="{row,align}">
-      <!-- 底部 -->
-      <hf-table :table-data="row.propTableData" v-if="row&&align=='bottom'">
-        <default-column-list :Rowlist='row.propTableData' />
-      </hf-table>
-      <!-- 弹窗 -->
-      <drawer-detail ref="detail" v-show="align=='middle'">
-        <template>
-          <hf-table :table-data="row.propTableData" v-if="row">
-            <default-column-list :Rowlist='row.propTableData' />
-          </hf-table>
-        </template>
-      </drawer-detail>
+    <template #children="{row}">
+      <el-card>
+        <el-form :label-position="'right'"  :model="row">
+          <row-span-slot>
+            <template v-slot="{ span }">
+              <form-item-col :value="row" :span="span" prop="orderNo" :namespace="conf.namespace" />
+              <form-item-col :span="span" :namespace="conf.namespace" :value="row" prop="ordertime" />
+              <form-item-col :span="span" :namespace="conf.namespace" :value="row" prop="ordertotal" />
+              <form-item-col :span="span" :namespace="conf.namespace" :value="row" prop="consignee" />
+              <form-item-col :span="span" :namespace="conf.namespace" :value="row" prop="orderstatus" />
+              <form-item-col :span="span" :namespace="conf.namespace" :value="row" prop="paystatus" />
+              <form-item-col :span="span" :namespace="conf.namespace" :value="row" prop="shipmentstatus" />
+              <form-item-col :span="span" :namespace="conf.namespace" :value="row" prop="paymethod" />
+              <form-item-col :span="span" :namespace="conf.namespace" :value="row" prop="customerphone" />
+              <form-item-col :span="span" :namespace="conf.namespace" :value="row" prop="customeraddress" />
+              <form-item-col :span="span" :namespace="conf.namespace" :value="row" prop="customermail" />
+            </template>
+          </row-span-slot>
+        </el-form>
+        <hf-table :table-data="row.propTableData" v-if="row">
+          <default-column-list :Rowlist='row.propTableData' />
+        </hf-table>
+      </el-card>
+
+
     </template>
   </father-son-layout>
 </template>
@@ -179,8 +191,8 @@ import UploadExcelComponent from '@/components/UploadExcel/index.vue' // 本是 
 import Examine from './examine.vue' // 审核页面
 import SimpleTableLayout from '@/components/CURD/Layout/SimpleTableLayout.vue'
 import FormItemColDateTimeRange from '@/components/CURD/Form/formItemColDateTimeRange.vue'
-import ChildrenDetail from './ChildrenDetail.vue'
 import defaultColumnList from './defaultColumnList.vue'
+import CuForm from '@/components/CURD/Form/cuFrom'
 export default {
   name: 'HfBaseRightRoleIndexVue',
   components: {
@@ -202,8 +214,8 @@ export default {
     Examine,
     SimpleTableLayout,
     FormItemColDateTimeRange,
-    ChildrenDetail,
-    defaultColumnList
+    defaultColumnList,
+    CuForm
   },
 
   mixins: [CurdMixin],
@@ -258,7 +270,9 @@ export default {
     this.doSearch()
   },
   methods: {
-
+    // openChild(){
+    //   alert(11)
+    // },
     /**
      * 排序发生变化的时候执行的排序变化
      * @param column
