@@ -1,6 +1,6 @@
 <template>
   <!-- effect : 弹窗为dialog   底部为bottom  左右分pannel, 抽屉drawer 默认为none-->
-  <father-son-layout :conf="conf" :table-fields="tableFields" >
+  <father-son-layout :conf="conf" :table-fields="tableFields" effect="pannel">
     <!-- 查询框 -->
     <template #search>
       <simple-search v-model="searchForm" :inline="true" @search="doSearch">
@@ -8,10 +8,10 @@
           <!-- 新增的的字段配置 -->
           <form-item-col :value="searchForm" :span="span" prop="orderNo" :namespace="conf.namespace" />
           <form-item-col-date-time :value="searchForm" :span="span" prop="ordertime" :namespace="conf.namespace" />
-        </template>
-        <template #advanced="{ span }">
           <form-item-col-date-time-range :value="searchForm" :span="span" prop="ordertime" :namespace="conf.namespace"
             :min-prop="'createTimeMin'" :max-prop="'createTimeMax'" />
+        </template>
+        <template #advanced="{ span }">
           <form-item-col :value="searchForm" :span="span" prop="ordertotal" :namespace="conf.namespace" />
           <form-item-col :value="searchForm" :span="span" prop="consignee" :namespace="conf.namespace" />
           <form-item-col :value="searchForm" :span="span" prop="orderstatus" :namespace="conf.namespace" />
@@ -143,7 +143,7 @@
     <template #children="{row,closeDetailDialog}">
       <!-- 详情内容 -->
       <el-card>
-        <el-form :label-position="'right'" label-width="100px" :value="row" >
+        <el-form :label-position="'right'" label-width="100px" :value="row" v-if="row" >
           <row-span-slot>
             <template v-slot="{ span }">
               <form-item-col :value="row" :span="span" prop="orderNo" :namespace="conf.namespace" />

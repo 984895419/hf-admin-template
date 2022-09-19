@@ -96,13 +96,12 @@
                   @doSave="doSave"
                 />
               </div>
-
               <el-card v-loading="reRending">
                 <slot
                   v-if="showFields && showFields.length > 0"
                   :showFields="showFields"
                   :headerDragend="headerDragend"
-                  :heightTable="heightTable"
+                  :heightTable="heightTablePannel"
                   :openChild="openChild"
                 />
                 <span v-else>
@@ -170,6 +169,7 @@ export default {
     return {
       showFields: undefined,
       heightTable: 900,
+      heightTablePannel:900,
       reRending: false,
       row: undefined,
       isshowdetail: false
@@ -179,6 +179,7 @@ export default {
     // 表格宽高
     handleResize({ width, height }) {
       this.heightTable = parseFloat(height) - 210
+      this.heightTablePannel = parseFloat(height) - 350
     },
 
     reRenderTable(res) {
