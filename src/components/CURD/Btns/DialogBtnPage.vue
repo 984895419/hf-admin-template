@@ -22,7 +22,7 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'CommonDialogBtn',
+  name: 'DialogBtnPage',
   props: {
     label: {
       type: String,
