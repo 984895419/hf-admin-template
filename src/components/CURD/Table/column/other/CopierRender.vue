@@ -1,17 +1,16 @@
 <template>
-  <div v-if="copyable" @mouseenter="textHover = true" @mouseleave="textHover = false">
-    {{ ellipsis(row[prop]) | numberToCurrency }}
-    <i
-      v-if="textHover"
-      v-clipboard:success="successHandler"
-      v-clipboard:error="failedHandler"
-      v-clipboard:copy="copyData(row)"
-      class="el-icon-document-copy"
-    />
-  </div>
-  <div v-else>
-    {{ ellipsis(row[prop]) }}
-  </div>
+    <div>
+        <div v-if="copyable" @mouseenter="textHover = true" @mouseleave="textHover = false">
+            <span v-if="row[prop]">
+                {{ ellipsis(row[prop]) | numberToCurrency }}
+            </span>
+            <i v-if="textHover" v-clipboard:success="successHandler" v-clipboard:error="failedHandler"
+                v-clipboard:copy="copyData(row)" class="el-icon-document-copy" />
+        </div>
+        <div v-else>
+            {{ ellipsis(row[prop]) }}
+        </div>
+    </div>
 </template>
 
 <script>
@@ -64,4 +63,5 @@ export default {
 </script>
 
 <style scoped>
+
 </style>

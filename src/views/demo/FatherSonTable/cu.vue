@@ -11,7 +11,6 @@
       >
         <template v-slot="{ errorMessage }">
           <row-span-slot>
-
             <template v-slot="{ span }">
 
               <!-- 新增的的字段配置 -->
@@ -103,7 +102,6 @@
             :conf="conf"
             :row-data="rowData"
             @handleAddBtn="handleAddBtn"
-            @handleChangeBtn="handleChangeBtn"
           >
             <!-- 其他批量操作方法插槽 -->
             <template #dropdownList="{toggleRowSelectionArray}"></template>
@@ -114,6 +112,7 @@
               :prop="'GoodsCode'"
               :namespace="conf.namespace"
               :show-overflow-tooltip="true"
+              :propName="'GoodsCode'"
               min-width="130"
               :rules="[
                 { required: true, message: '不能为空', trigger: 'blur'},
@@ -124,24 +123,28 @@
               :required="true"
               :path-name="'propTableData'"
               :prop="'GoodsName'"
+              :propName="'GoodsName'"
               :namespace="conf.namespace"
               :show-overflow-tooltip="true"
               min-width="130"
             />
             <default-table-column
               :prop="'Specifications'"
+              :propName="'Specifications'"
               :namespace="conf.namespace"
               :show-overflow-tooltip="true"
               min-width="130"
             />
             <default-table-column
               :prop="'GoodsUnit'"
+              :propName="'GoodsUnit'"
               :namespace="conf.namespace"
               :show-overflow-tooltip="true"
               min-width="130"
             />
             <default-table-column
               :prop="'QuantityRequired'"
+              :propName="'QuantityRequired'"
               :namespace="conf.namespace"
               :show-overflow-tooltip="true"
               align="center"
@@ -149,6 +152,7 @@
             />
             <default-table-column
               :prop="'UnitPrice'"
+              :propName="'UnitPrice'"
               :namespace="conf.namespace"
               :show-overflow-tooltip="true"
               align="center"
@@ -156,17 +160,20 @@
             />
             <default-table-column
               :prop="'money'"
+              :propName="'money'"
               :namespace="conf.namespace"
               :show-overflow-tooltip="true"
               align="center"
               min-width="130"
             />
-            <default-table-column
+            <dict-table-column
               :prop="'stock'"
+              :propName="'stock'"
               :namespace="conf.namespace"
               :show-overflow-tooltip="true"
               align="center"
               min-width="130"
+              :dict-code="'PAYMETHODS'"
             />
           </edit-table>
         </template>
@@ -181,12 +188,14 @@ import * as conf from './api'
 import CurdMixin from '@/components/CURD/curd.mixin'
 import BaseTenantInputRefer from '../../basic/baseTenant/inputRefer'
 import hfBaseSonColumns from './hfBaseSonColumns'// 表头
+import DictTableColumn from '@/components/CURD/Table/column/DictTableColumn.vue'
 
 export default {
   name: 'HfBaseRightRoleCu',
   components: {
     BaseTenantInputRefer,
     hfBaseSonColumns,
+    DictTableColumn
   },
   mixins: [CurdMixin],
   props: {
@@ -310,10 +319,9 @@ export default {
     handleAddBtn(data) {
       this.value.propTableData = data
     },
-    handleChangeBtn(data) {
-      this.$set(this.value, 'propTableData', data)
-      // this.value.propTableData = data
-    },
+    // handleChangeBtn(data) {
+    //   this.$set(this.value, 'propTableData', data)
+    // },
 
     // 导入前判断
     beforeUpload(file) {
