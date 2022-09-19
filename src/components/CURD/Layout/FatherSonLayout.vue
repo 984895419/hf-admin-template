@@ -193,7 +193,6 @@ export default {
       }, 50)
     },
     openChild(row, column, event) {
-      console.log(row, column, event, 'row, column, event')
       this.row = row
       this.isshowdetail = true
     },
