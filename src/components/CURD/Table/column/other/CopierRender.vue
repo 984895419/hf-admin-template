@@ -1,7 +1,6 @@
 <template>
     <div>
-        {{ ellipsis(row[prop]) }}
-        <!-- <div v-if="copyable" @mouseenter="textHover = true" @mouseleave="textHover = false">
+        <div v-if="copyable" @mouseenter="textHover = true" @mouseleave="textHover = false">
             <span v-if="row[prop]">
                 {{ ellipsis(row[prop]) | numberToCurrency }}
             </span>
@@ -10,7 +9,7 @@
         </div>
         <div v-else>
             {{ ellipsis(row[prop]) }}
-        </div> -->
+        </div>
     </div>
 </template>
 

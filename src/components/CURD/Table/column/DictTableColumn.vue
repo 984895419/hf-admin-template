@@ -3,13 +3,11 @@
         <el-table-column :prop="prop" :label="($attrs && $attrs.label) || $t(namespace + '.' + prop)" v-bind="$attrs"
             :align="align">
             <template slot-scope="scope">
-                {{propName}}
                 <slot v-if="scope.row.editable !== undefined">
                     <el-form-item :rules="computeRules" :prop="pathName && pathName + '.' + scope.$index + '.' + prop"
                         :required="required"
                         :error="errorMessage ? errorMessage('compositions[' +scope.$index+'].' + prop) : undefined">
                         <slot v-if="scope.row.editable" name="othertype">
-                            <!-- {{$attrs.rules }} -->
                             <hf-tooltip :namespace="namespace" :prop="prop">
                                 <template v-slot="{placeholder}">
                                     <hf-dict :namespace="namespace" v-bind="$attrs" :value="scope.row" :prop="prop"
@@ -17,12 +15,12 @@
                                 </template>
                             </hf-tooltip>
                         </slot>
-                        <copier-render v-else :copyable="copyable" :prop="propName || (prop + 'Name')" :row="scope.row"
+                        <copier-render v-else :copyable="copyable" :prop="propName || `${prop} + 'Name'` " :row="scope.row"
                             :max-words="maxWords" />
                     </el-form-item>
                 </slot>
                 <slot v-else>
-                    <copier-render :copyable="copyable" :prop="propName ||(prop + 'Name')" :row="scope.row"
+                    <copier-render :copyable="copyable" :prop="propName || `${prop} + 'Name'` " :row="scope.row"
                         :max-words="maxWords" />
                 </slot>
             </template>
@@ -34,7 +32,7 @@
 import CopierRender from './other/CopierRender'
 import { mapGetters } from 'vuex'
 export default {
-    name: 'DefaultTableColumn',
+    name: 'DictTableColumn',
     components: { CopierRender },
     props: {
         copyable: {

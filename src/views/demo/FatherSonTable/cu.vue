@@ -112,6 +112,7 @@
               :prop="'GoodsCode'"
               :namespace="conf.namespace"
               :show-overflow-tooltip="true"
+              :propName="'GoodsCode'"
               min-width="130"
               :rules="[
                 { required: true, message: '不能为空', trigger: 'blur'},
@@ -122,24 +123,28 @@
               :required="true"
               :path-name="'propTableData'"
               :prop="'GoodsName'"
+              :propName="'GoodsName'"
               :namespace="conf.namespace"
               :show-overflow-tooltip="true"
               min-width="130"
             />
             <default-table-column
               :prop="'Specifications'"
+              :propName="'Specifications'"
               :namespace="conf.namespace"
               :show-overflow-tooltip="true"
               min-width="130"
             />
             <default-table-column
               :prop="'GoodsUnit'"
+              :propName="'GoodsUnit'"
               :namespace="conf.namespace"
               :show-overflow-tooltip="true"
               min-width="130"
             />
             <default-table-column
               :prop="'QuantityRequired'"
+              :propName="'QuantityRequired'"
               :namespace="conf.namespace"
               :show-overflow-tooltip="true"
               align="center"
@@ -147,6 +152,7 @@
             />
             <default-table-column
               :prop="'UnitPrice'"
+              :propName="'UnitPrice'"
               :namespace="conf.namespace"
               :show-overflow-tooltip="true"
               align="center"
@@ -154,6 +160,7 @@
             />
             <default-table-column
               :prop="'money'"
+              :propName="'money'"
               :namespace="conf.namespace"
               :show-overflow-tooltip="true"
               align="center"
@@ -161,6 +168,7 @@
             />
             <default-table-column
               :prop="'stock'"
+              :propName="'stock'"
               :namespace="conf.namespace"
               :show-overflow-tooltip="true"
               align="center"
@@ -168,6 +176,7 @@
             />
             <dict-table-column
               :prop="'stock'"
+              :propName="'stock'"
               :namespace="conf.namespace"
               :show-overflow-tooltip="true"
               align="center"
