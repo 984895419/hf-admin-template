@@ -83,5 +83,11 @@ export default {
   ensureToDelete: '确定删除？',
   alreadyCancel: '已取消',
   deleteSuccess: '删除成功',
-  detail:'详情'
+  detail: '详情',
+  validate: {
+    pleaseInput: '请输入'
+  },
+  result: {
+    successed: '登录成功'
+  }
 }
