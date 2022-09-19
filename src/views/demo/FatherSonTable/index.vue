@@ -141,7 +141,7 @@
     </template>
     <template #children="{row}">
       <el-card>
-        <el-form :label-position="'right'"  :model="row">
+        <!-- <el-form :label-position="'right'"  :model="row">
           <row-span-slot>
             <template v-slot="{ span }">
               <form-item-col :value="row" :span="span" prop="orderNo" :namespace="conf.namespace" />
@@ -155,6 +155,24 @@
               <form-item-col :span="span" :namespace="conf.namespace" :value="row" prop="customerphone" />
               <form-item-col :span="span" :namespace="conf.namespace" :value="row" prop="customeraddress" />
               <form-item-col :span="span" :namespace="conf.namespace" :value="row" prop="customermail" />
+            </template>
+          </row-span-slot>
+        </el-form> -->
+        <el-form :label-position="'right'" label-width="100px" :value="row">
+          <row-span-slot>
+            <template v-slot="{ span }">
+              <!-- 新增的的字段配置 -->
+              <form-item-col :value="row" :span="span" prop="orderNo" :namespace="conf.namespace"  />
+              <form-item-col :value="row" :span="span" prop="ordertime" :namespace="conf.namespace" />
+              <form-item-col :value="row" :span="span" prop="ordertotal" :namespace="conf.namespace" />
+              <form-item-col :value="row" :span="span" prop="consignee" :namespace="conf.namespace" />
+              <form-item-col :value="row" :span="span" prop="orderstatus" :namespace="conf.namespace" />
+              <form-item-col :value="row" :span="span" prop="paystatus" :namespace="conf.namespace" />
+              <form-item-col :value="row" :span="span" prop="shipmentstatus" :namespace="conf.namespace" />
+              <form-item-col :value="row" :span="span" prop="paymethod" :namespace="conf.namespace"  />
+              <form-item-col :value="row" :span="span" prop="customerphone" :namespace="conf.namespace" />
+              <form-item-col :value="row" :span="span" prop="customeraddress" :namespace="conf.namespace" />
+              <form-item-col :value="row" :span="span" prop="customermail" :namespace="conf.namespace" />
             </template>
           </row-span-slot>
         </el-form>
@@ -192,7 +210,6 @@ import Examine from './examine.vue' // 审核页面
 import SimpleTableLayout from '@/components/CURD/Layout/SimpleTableLayout.vue'
 import FormItemColDateTimeRange from '@/components/CURD/Form/formItemColDateTimeRange.vue'
 import defaultColumnList from './defaultColumnList.vue'
-import CuForm from '@/components/CURD/Form/cuFrom'
 export default {
   name: 'HfBaseRightRoleIndexVue',
   components: {
@@ -215,7 +232,6 @@ export default {
     SimpleTableLayout,
     FormItemColDateTimeRange,
     defaultColumnList,
-    CuForm
   },
 
   mixins: [CurdMixin],
