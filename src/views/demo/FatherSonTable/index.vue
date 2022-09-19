@@ -1,6 +1,6 @@
 <template>
   <!-- effect : 弹窗为dialog   底部为bottom  左右分pannel, 抽屉drawer 默认为none-->
-  <father-son-layout :conf="conf" :table-fields="tableFields" effect="pannel">
+  <father-son-layout :conf="conf" :table-fields="tableFields" effect="dialog">
     <!-- 查询框 -->
     <template #search>
       <simple-search v-model="searchForm" :inline="true" @search="doSearch">
@@ -40,13 +40,13 @@
           <el-dropdown-menu slot="dropdown">
             <!-- 启用 -->
             <el-dropdown-item icon="el-icon-plus">
-              <template-confirm-btn :url="templateUrl(conf.urlMethods.enableUrl, toggleRowSelectionArray)"
+              <template-confirm-btn style="display:inline-block" :url="templateUrl(conf.urlMethods.enableUrl, toggleRowSelectionArray)"
                 :btn-type="'text'" :label="$t('common.batchEnable')" :value="toggleRowSelectionArray"
                 @success="doSearch" />
             </el-dropdown-item>
             <!-- 禁用 -->
             <el-dropdown-item icon="el-icon-circle-plus">
-              <template-confirm-btn :url="templateUrl(conf.urlMethods.disableUrl, toggleRowSelectionArray)"
+              <template-confirm-btn style="display:inline-block" :url="templateUrl(conf.urlMethods.disableUrl, toggleRowSelectionArray)"
                 :btn-type="'text'" :value="toggleRowSelectionArray" :label="$t('common.batchDisable')"
                 @success="doSearch" />
             </el-dropdown-item>
@@ -54,42 +54,42 @@
             <el-dropdown-item icon="el-icon-circle-plus-outline">
               <del-btn :url="templateUrl(conf.urlMethods.deleteUrl, toggleRowSelectionArray)"
                 :value="toggleRowSelectionArray" :label="$t('common.batchDelete')" :btn-type="'text'"
-                @success="doSearch" />
+                @success="doSearch" style="display:inline-block" />
             </el-dropdown-item>
             <!-- 审核 -->
             <el-dropdown-item icon="el-icon-check">
-              <examine :auditstatus="auditstatus" />
+              <examine style="display:inline-block" :auditstatus="auditstatus" />
             </el-dropdown-item>
             <!-- 导入 -->
             <el-dropdown-item icon="el-icon-circle-check">
-              <dialog-btn-page :type="'text'" :label="'导入'" :title="'导入'">
+              <dialog-btn-page style="display:inline-block" :type="'text'" :label="'导入'" :title="'导入'">
                 <upload-excel-component :on-success="handleSuccess" :before-upload="beforeUpload" />
               </dialog-btn-page>
             </el-dropdown-item>
             <!-- 导出集合 -->
             <el-dropdown-item icon="el-icon-circle-check">
-              <el-dropdown :hide-on-click="false" placement="bottom">
+              <el-dropdown style="display:inline-block" :hide-on-click="false" placement="bottom">
                 <span class="el-dropdown-link">
                   导出
                 </span>
                 <el-dropdown-menu slot="dropdown">
                   <!--批量导出 功能块-->
                   <el-dropdown-item icon="el-icon-plus">
-                    <template-confirm-btn
+                    <template-confirm-btn style="display:inline-block"
                       :url="templateUrl(conf.urlMethods.batchExportSelectUrl, toggleRowSelectionArray)"
                       :btn-type="'text'" :label="'选中导出'" @success="doSearch" />
                   </el-dropdown-item>
                   <el-dropdown-item icon="el-icon-circle-plus">
-                    <template-confirm-btn
+                    <template-confirm-btn style="display:inline-block"
                       :url="templateUrl(conf.urlMethods.batchExportSinglePageUrl, toggleRowSelectionArray)"
                       :btn-type="'text'" :label="'单页导出'" @success="doSearch" />
                   </el-dropdown-item>
                   <el-dropdown-item icon="el-icon-circle-plus-outline">
-                    <template-confirm-btn :url="templateUrl(conf.urlMethods.batchExportAllUrl, toggleRowSelectionArray)"
+                    <template-confirm-btn style="display:inline-block" :url="templateUrl(conf.urlMethods.batchExportAllUrl, toggleRowSelectionArray)"
                       :btn-type="'text'" :label="'全部导出'" @success="doSearch" />
                   </el-dropdown-item>
                   <el-dropdown-item icon="el-icon-check">
-                    <template-confirm-btn
+                    <template-confirm-btn style="display:inline-block"
                       :url="templateUrl(conf.urlMethods.batchExportTemplateUrl, toggleRowSelectionArray)"
                       :btn-type="'text'" :label="'模板导出'" @success="doSearch" />
                   </el-dropdown-item>
@@ -143,7 +143,7 @@
     <template #children="{row,closeDetailDialog}">
       <!-- 详情内容 -->
       <el-card>
-        <el-form :label-position="'right'" label-width="100px" :value="row" v-if="row" >
+        <el-form :label-position="'right'" label-width="100px" :value="row" v-if="row">
           <row-span-slot>
             <template v-slot="{ span }">
               <form-item-col :value="row" :span="span" prop="orderNo" :namespace="conf.namespace" />
@@ -171,49 +171,24 @@
 
 <script>
 import * as conf from './api'
-import HfTable from '@/components/CURD/Table/HfTable'// 单表组件
-import { baseApiGetMethod } from '@/components/CURD/baseApi'// 统一请求方法
 import { isSuccessResult } from '@/utils/ajaxResultUtil'// 统一请求方法
-import CurdPagination from '@/components/CURD/pagination/Pagination'// 分页
 import DemoCu from './cu'// 更新页面
-import DelBtn from '@/components/CURD/Btns/DelBtn'// 删除按钮
 import CurdMixin from '@/components/CURD/curd.mixin'
 import HfBaseRightRoleColumns from './hfBaseRightRoleColumns'// 表头
 import hfBaseRightRoleColumnsDynamic from './hfBaseRightRoleColumnsDynamic'// 表头
-import TemplateConfirmBtn from '@/components/CURD/Btns/TemplateConfirmBtn'// 按钮弹窗
-import FormItemColDict from '@/components/CURD/Form/formItemColDict.vue'// el-form 封装组件
-import formItemColDateTime from '@/components/CURD/Form/formItemColDateTime.vue'// el-form 封装组件
-import FormItemCol from '@/components/CURD/Form/formItemCol.vue'// 普通搜索
-import SimpleSearch from '@/components/CURD/Query/search'
-import SectionTableColumn from '@/components/CURD/Table/column/base/SectionTableColumn'
-import DialogBtnPage from '@/components/CURD/Btns/DialogBtnPage'// 按钮弹窗
 import DrawerDetail from './drawerDetail.vue'// 双击抽屉详情页
 import UploadExcelComponent from '@/components/UploadExcel/index.vue' // 本是  excel 导出
 import Examine from './examine.vue' // 审核页面
-import SimpleTableLayout from '@/components/CURD/Layout/SimpleTableLayout.vue'
-import FormItemColDateTimeRange from '@/components/CURD/Form/formItemColDateTimeRange.vue'
 import defaultColumnList from './defaultColumnList.vue'
 export default {
   name: 'HfBaseRightRoleIndexVue',
   components: {
-    SectionTableColumn,
-    TemplateConfirmBtn,
     HfBaseRightRoleColumns,
     hfBaseRightRoleColumnsDynamic,
-    DelBtn,
-    CurdPagination,
-    HfTable,
     DemoCu,
-    FormItemColDict,
-    formItemColDateTime,
-    FormItemCol,
-    SimpleSearch,
-    DialogBtnPage,
     DrawerDetail,
     UploadExcelComponent,
     Examine,
-    SimpleTableLayout,
-    FormItemColDateTimeRange,
     defaultColumnList
   },
 
@@ -594,3 +569,4 @@ export default {
   }
 }
 </script>
+

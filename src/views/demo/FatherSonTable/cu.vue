@@ -178,30 +178,15 @@
 <script>
 import { mapGetters } from 'vuex'
 import * as conf from './api'
-import AddBtn from '@/components/CURD/Btns/AddBtn'
-import UpdateBtn from '@/components/CURD/Btns/UpdateBtn'
-import CuForm from '@/components/CURD/Form/cuFrom'
 import CurdMixin from '@/components/CURD/curd.mixin'
-import RowSpanSlot from '@/components/CURD/Slot/RowSpanSlot'
-import FormItemCol from '@/components/CURD/Form/formItemCol'
-import FormItemColDict from '@/components/CURD/Form/formItemColDict'
-import { baseApiPostMethod, baseApiPutMethod } from '@/components/CURD/baseApi'
-import FormItemColEnableState from '@/components/CURD/Form/formItemColEnableState'
 import BaseTenantInputRefer from '../../basic/baseTenant/inputRefer'
 import hfBaseSonColumns from './hfBaseSonColumns'// 表头
-import SectionTableColumn from '@/components/CURD/Table/column/base/SectionTableColumn'
-import DefaultTableColumn from '@/components/CURD/Table/column/DefaultTableColumn'
-import EditTable from '@/components/CURD/Table/EditTable.vue' // 编辑表格
 
 export default {
   name: 'HfBaseRightRoleCu',
   components: {
     BaseTenantInputRefer,
-    FormItemColDict, FormItemCol, RowSpanSlot,
-    CuForm, AddBtn, UpdateBtn, FormItemColEnableState,
-    hfBaseSonColumns, DefaultTableColumn,
-    SectionTableColumn,
-    EditTable
+    hfBaseSonColumns,
   },
   mixins: [CurdMixin],
   props: {

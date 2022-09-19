@@ -3,36 +3,22 @@
     <!-- 不是左右分的子表展示方式 -->
     <div v-if="effect !== 'pannel'">
       <div style="margin-top:20px">
-        <slot name="search"  />
+        <slot name="search" />
       </div>
       <!-- 列表-->
-      <table-column-preference-setting-api-slot
-        v-model="showFields"
-        :init-data="tableFields"
-        :preference-alias="conf.namespace"
-      >
+      <table-column-preference-setting-api-slot v-model="showFields" :init-data="tableFields"
+        :preference-alias="conf.namespace">
         <template v-slot="{ doSave, preferenceData, headerDragend }">
           <div class="btnslist">
             <slot name="btnslist" />
-            <curd-table-column-select
-              v-if="showFields"
-              v-model="showFields"
-              :preference-alias="conf.namespace"
-              :table-fields="preferenceData"
-              style="float: right;margin-left: 10px;"
-              @selectedChange="reRenderTable"
-              @doSave="doSave"
-            />
+            <curd-table-column-select v-if="showFields" v-model="showFields" :preference-alias="conf.namespace"
+              :table-fields="preferenceData" style="float: right;margin-left: 10px;" @selectedChange="reRenderTable"
+              @doSave="doSave" />
           </div>
 
           <el-card v-loading="reRending">
-            <slot
-              v-if="showFields && showFields.length > 0"
-              :showFields="showFields"
-              :headerDragend="headerDragend"
-              :heightTable="heightTable"
-              :openChild="openChild"
-            />
+            <slot v-if="showFields && showFields.length > 0" :showFields="showFields" :headerDragend="headerDragend"
+              :heightTable="heightTable" :openChild="openChild" />
             <span v-else>
               {{ $t('common.selectShowFields') }}
             </span>
@@ -41,34 +27,22 @@
       </table-column-preference-setting-api-slot>
       <slot name="pagination" />
       <!-- 定义子表的显示方式 -->
-      <el-dialog
-        v-if="effect=='dialog'"
-        v-bind="{width: '75%',
-                 top: '5vh',
-                 title: $t('common.detail'),
-                 ...$attrs._effect}"
-        :visible.sync="isshowdetail"
-      >
+      <el-dialog v-if="effect=='dialog'" v-bind="{width: '75%',
+      top: '5vh',
+      title: $t('common.detail'),
+      ...$attrs._effect}" :visible.sync="isshowdetail">
         <slot name="children" :row="row" :closeDetailDialog="closeDetailDialog" />
         <div class="dialog-footer">
           <el-button @click="closeDetailDialog">{{ $t('common.cancel') }}</el-button>
         </div>
       </el-dialog>
-      <el-drawer
-        v-if="effect=='drawer'"
-        v-bind="{size: '60%',
-                 direction: 'rtl',
-                 title: $t('common.detail'),
-                 ...$attrs._effect}"
-        :visible.sync="isshowdetail"
-      >
-        <slot name="children" :row="row" :closeDetailDialog="closeDetailDialog"  />
+      <el-drawer v-if="effect=='drawer'" v-bind="{size: '60%',
+      direction: 'rtl',
+      title: $t('common.detail'),
+      ...$attrs._effect}" :visible.sync="isshowdetail">
+        <slot name="children" :row="row" :closeDetailDialog="closeDetailDialog" />
       </el-drawer>
-      <slot
-        v-if="effect=='bottom'"
-        name="children"
-        :row="row"
-      />
+      <slot v-if="effect=='bottom'" name="children" :row="row" />
     </div>
     <!-- 左右面板的展示方式-->
     <div v-else>
@@ -78,32 +52,18 @@
             <slot name="search" />
           </div>
           <!-- 列表-->
-          <table-column-preference-setting-api-slot
-            v-model="showFields"
-            :init-data="tableFields"
-            :preference-alias="conf.namespace"
-          >
+          <table-column-preference-setting-api-slot v-model="showFields" :init-data="tableFields"
+            :preference-alias="conf.namespace">
             <template v-slot="{ doSave, preferenceData, headerDragend }">
               <div class="btnslist">
                 <slot name="btnslist" />
-                <curd-table-column-select
-                  v-if="showFields"
-                  v-model="showFields"
-                  :preference-alias="conf.namespace"
-                  :table-fields="preferenceData"
-                  style="float: right;margin-left: 10px;"
-                  @selectedChange="reRenderTable"
-                  @doSave="doSave"
-                />
+                <curd-table-column-select v-if="showFields" v-model="showFields" :preference-alias="conf.namespace"
+                  :table-fields="preferenceData" style="float: right;margin-left: 10px;" @selectedChange="reRenderTable"
+                  @doSave="doSave" />
               </div>
               <el-card v-loading="reRending">
-                <slot
-                  v-if="showFields && showFields.length > 0"
-                  :showFields="showFields"
-                  :headerDragend="headerDragend"
-                  :heightTable="heightTablePannel"
-                  :openChild="openChild"
-                />
+                <slot v-if="showFields && showFields.length > 0" :showFields="showFields" :headerDragend="headerDragend"
+                  :heightTable="heightTablePannel" :openChild="openChild" />
                 <span v-else>
                   {{ $t('common.selectShowFields') }}
                 </span>
@@ -114,10 +74,7 @@
         </div>
         <template #right>
           <div style="padding:15px 10px 0 10px">
-            <slot
-            name="children"
-            :row="row"
-          />
+            <slot name="children" :row="row" />
           </div>
         </template>
       </hf-resize-split-pane>
@@ -171,7 +128,7 @@ export default {
     return {
       showFields: undefined,
       heightTable: 900,
-      heightTablePannel:900,
+      heightTablePannel: 900,
       reRending: false,
       row: undefined,
       isshowdetail: false
@@ -207,10 +164,17 @@ export default {
 }
 </script>
 
+
 <style scoped lang="less">
-  .aa{
-    margin-top: 30px;
-  }
+.el-dropdown-menu__item {
+  display: flex;
+  align-items: center;
+
+}
+/deep/ .el-dropdown-menu__item {
+  background: red !important;
+}
+
 /* 表内部分样式 */
 .fathersontable {
   margin: 0px 10px 10px 10px;
@@ -260,10 +224,6 @@ export default {
   font-size: 12px;
 }
 
-.el-dropdown-menu--mini .el-dropdown-menu__item {
-  display: flex;
-  align-items: center;
-}
 
 .dialog-footer {
   float: right;

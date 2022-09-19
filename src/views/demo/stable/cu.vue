@@ -103,18 +103,10 @@
 <script>
 import { mapGetters } from 'vuex'
 import * as conf from './api'
-import AddBtn from '@/components/CURD/Btns/AddBtn'
-import UpdateBtn from '@/components/CURD/Btns/UpdateBtn'
-import CuForm from '@/components/CURD/Form/cuFrom'
-import RowSpanSlot from '@/components/CURD/Slot/RowSpanSlot'
-import FormItemCol from '@/components/CURD/Form/formItemCol'
-import FormItemColDict from '@/components/CURD/Form/formItemColDict'
-import { baseApiPostMethod, baseApiPutMethod } from '@/components/CURD/baseApi'
-import FormItemColEnableState from '@/components/CURD/Form/formItemColEnableState'
 import BaseTenantInputRefer from '../../basic/baseTenant/inputRefer'
 export default {
   name: 'HfBaseRightRoleCu',
-  components: { BaseTenantInputRefer, FormItemColDict, FormItemCol, RowSpanSlot, CuForm, AddBtn, UpdateBtn, FormItemColEnableState },
+  components: { BaseTenantInputRefer },
   props: {
     value: {
       type: Object,
