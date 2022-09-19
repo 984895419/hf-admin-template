@@ -49,7 +49,7 @@
                  ...$attrs._effect}"
         :visible.sync="isshowdetail"
       >
-        <slot name="children" :row="row" />
+        <slot name="children" :row="row" :closeDetailDialog="closeDetailDialog" />
         <div class="dialog-footer">
           <el-button @click="closeDetailDialog">{{ $t('common.cancel') }}</el-button>
         </div>
@@ -62,7 +62,7 @@
                  ...$attrs._effect}"
         :visible.sync="isshowdetail"
       >
-        <slot name="children" :row="row" />
+        <slot name="children" :row="row" :closeDetailDialog="closeDetailDialog"  />
       </el-drawer>
       <slot
         v-if="effect=='bottom'"
@@ -162,7 +162,7 @@ export default {
     effect: {
       type: String,
       default: () => {
-        return '默认为none'
+        return 'dialog'
       }
     }
   },

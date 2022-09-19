@@ -82,5 +82,6 @@ export default {
   note: '提示',
   ensureToDelete: '确定删除？',
   alreadyCancel: '已取消',
-  deleteSuccess: '删除成功'
+  deleteSuccess: '删除成功',
+  detail:'详情'
 }
