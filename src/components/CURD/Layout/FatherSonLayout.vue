@@ -2,8 +2,8 @@
   <div v-resize="handleResize" class="fathersontable">
     <!-- 不是左右分的子表展示方式 -->
     <div v-if="effect !== 'pannel'">
-      <div>
-        <slot name="search" />
+      <div style="margin-top:20px">
+        <slot name="search"  />
       </div>
       <!-- 列表-->
       <table-column-preference-setting-api-slot
@@ -49,7 +49,7 @@
                  ...$attrs._effect}"
         :visible.sync="isshowdetail"
       >
-        <slot name="children" :row="row" />
+        <slot name="children" :row="row" :closeDetailDialog="closeDetailDialog" />
         <div class="dialog-footer">
           <el-button @click="closeDetailDialog">{{ $t('common.cancel') }}</el-button>
         </div>
@@ -62,7 +62,7 @@
                  ...$attrs._effect}"
         :visible.sync="isshowdetail"
       >
-        <slot name="children" :row="row" />
+        <slot name="children" :row="row" :closeDetailDialog="closeDetailDialog"  />
       </el-drawer>
       <slot
         v-if="effect=='bottom'"
@@ -73,7 +73,7 @@
     <!-- 左右面板的展示方式-->
     <div v-else>
       <hf-resize-split-pane v-bind="$attrs._effect">
-        <div style="padding:5px">
+        <div style="padding:15px 10px 0 10px">
           <div>
             <slot name="search" />
           </div>
@@ -96,13 +96,12 @@
                   @doSave="doSave"
                 />
               </div>
-
               <el-card v-loading="reRending">
                 <slot
                   v-if="showFields && showFields.length > 0"
                   :showFields="showFields"
                   :headerDragend="headerDragend"
-                  :heightTable="heightTable"
+                  :heightTable="heightTablePannel"
                   :openChild="openChild"
                 />
                 <span v-else>
@@ -114,10 +113,12 @@
           <slot name="pagination" />
         </div>
         <template #right>
-          <slot
+          <div style="padding:15px 10px 0 10px">
+            <slot
             name="children"
             :row="row"
           />
+          </div>
         </template>
       </hf-resize-split-pane>
     </div>
@@ -162,7 +163,7 @@ export default {
     effect: {
       type: String,
       default: () => {
-        return '默认为none'
+        return 'dialog'
       }
     }
   },
@@ -170,6 +171,7 @@ export default {
     return {
       showFields: undefined,
       heightTable: 900,
+      heightTablePannel:900,
       reRending: false,
       row: undefined,
       isshowdetail: false
@@ -179,6 +181,7 @@ export default {
     // 表格宽高
     handleResize({ width, height }) {
       this.heightTable = parseFloat(height) - 210
+      this.heightTablePannel = parseFloat(height) - 340
     },
 
     reRenderTable(res) {
@@ -193,7 +196,6 @@ export default {
       }, 50)
     },
     openChild(row, column, event) {
-      console.log(row, column, event, 'row, column, event')
       this.row = row
       this.isshowdetail = true
     },
@@ -206,11 +208,14 @@ export default {
 </script>
 
 <style scoped lang="less">
+  .aa{
+    margin-top: 30px;
+  }
 /* 表内部分样式 */
 .fathersontable {
-  margin: 20px 10px 10px 10px;
+  margin: 0px 10px 10px 10px;
   height: 100%;
-  padding-bottom: 30px;
+  padding: 0 0 30px 0;
   box-sizing: border-box;
   overflow: scroll;
 
