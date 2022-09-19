@@ -13,24 +13,24 @@
           <!-- 字典字段字段设置方法如下 -->
         </template>
         <template v-slot:btns>
-          <el-button type="primary" v-if="searchForm.tableName" @click="mergerFields">查询并合并字段</el-button>
-          <el-button type="primary" v-if="searchForm.tableName" @click="loadFromHistory">从历史记录查询</el-button>
+          <el-button v-if="searchForm.tableName" type="primary" @click="mergerFields">查询并合并字段</el-button>
+          <el-button v-if="searchForm.tableName" type="primary" @click="loadFromHistory">从历史记录查询</el-button>
           <el-popconfirm
-            style="margin-right: 10px; margin-left: 10px"
             v-if="searchForm.tableName"
-            @onConfirm="toSave"
+            style="margin-right: 10px; margin-left: 10px"
             title="确定保存成记录，如果已经有记录，将进行覆盖"
+            @onConfirm="toSave"
           >
-          <el-button slot="reference" type="primary">保存成记录</el-button>
+            <el-button slot="reference" type="primary">保存成记录</el-button>
           </el-popconfirm>
-          <el-button type="primary" v-if="searchForm.tableName" @click="submitData">生成代码</el-button>
+          <el-button v-if="searchForm.tableName" type="primary" @click="submitData">生成代码</el-button>
         </template>
       </simple-search>
     </div>
-    <el-form :model="tableInfo" :rules="formRules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+    <el-form ref="ruleForm" :model="tableInfo" :rules="formRules" label-width="100px" class="demo-ruleForm">
       <generator-prefence-setting-api-solt ref="generatorSetting" v-model="tableInfo" :preference-alias="searchForm.tableName">
         <template v-slot="{ preferenceData, doSave }">
-          <el-button v-show="false" ref="saveBtn" type="primary" @click="saveSetting(doSave)"></el-button>
+          <el-button v-show="false" ref="saveBtn" type="primary" @click="saveSetting(doSave)" />
           <el-tabs v-model="activeName">
             <el-tab-pane label="表信息" name="first">
               <first-setting :value="tableInfo" />
@@ -281,17 +281,18 @@
                         </template>
                       </el-table-column>
                       <el-table-column
-                          v-if="item.value === 'tableReferType'"
-                          prop="tableReferType"
+                        v-if="item.value === 'tableReferType'"
+                        prop="tableReferType"
                         :label="$t(conf.namespace + '.tableReferType')"
                         min-width="130"
                       >
                         <template slot-scope="scopeRow">
                           <el-input
-                            clearable
                             v-if="scopeRow.row.referType === 'table'"
                             v-model="scopeRow.row.tableReferType"
-                            placeholder="表名"/>
+                            clearable
+                            placeholder="表名"
+                          />
                         </template>
                       </el-table-column>
 
@@ -305,14 +306,15 @@
                           <el-select
                             v-if="scopeRow.row.referType === 'table'"
                             v-model="scopeRow.row.tableReferColumnName"
-                            clearable>
+                            clearable
+                          >
                             <el-option
                               v-for="fd in tableInfo.fields"
                               :key="fd.propertyName"
                               :label="fd.comment"
                               :value="fd.propertyName"
                               :disabled="fd.propertyName === scopeRow.row.propertyName"
-                              ></el-option>
+                            />
                           </el-select>
                         </template>
                       </el-table-column>
@@ -349,8 +351,8 @@ import CurdTableColumnSelect from '../../../components/CURD/Table/select/TableCo
 export default {
     name: 'Generator',
     components: {
-        CurdTableColumnSelect,
-        TableColumnPreferenceSettingApiSlot,
+      CurdTableColumnSelect,
+      TableColumnPreferenceSettingApiSlot,
     BaseDictTypeInputRefer,
     BaseBusinessCodeInputRefer,
     BaseRegexRuleInputRefer,
@@ -457,7 +459,6 @@ export default {
             doSave(this.tableInfo)
         },
         toSave() {
-            
             if (this.$refs.saveBtn) {
                 this.$refs.saveBtn.handleClick()
             }

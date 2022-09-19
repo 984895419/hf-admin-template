@@ -3,7 +3,7 @@
     <hf-table
       v-loading="loading"
       :table-data="value.functionList"
-      rowKey="columnName"
+      row-key="columnName"
     >
       <el-table-column
         prop="functionName"
@@ -16,7 +16,7 @@
         min-width="130"
       >
         <template slot-scope="scopeRow">
-          <el-checkbox v-model="scopeRow.row.support"></el-checkbox>
+          <el-checkbox v-model="scopeRow.row.support" />
         </template>
       </el-table-column>
       <el-table-column
@@ -25,7 +25,7 @@
         min-width="130"
       >
         <template slot-scope="scopeRow">
-          <el-checkbox v-model="scopeRow.row.permission"></el-checkbox>
+          <el-checkbox v-model="scopeRow.row.permission" />
         </template>
       </el-table-column>
     </hf-table>

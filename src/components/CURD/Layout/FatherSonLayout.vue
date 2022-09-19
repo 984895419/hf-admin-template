@@ -4,19 +4,33 @@
       <slot name="search" />
     </div>
     <!-- 列表-->
-    <table-column-preference-setting-api-slot v-model="showFields" :init-data="tableFields"
-      :preference-alias="conf.namespace">
+    <table-column-preference-setting-api-slot
+      v-model="showFields"
+      :init-data="tableFields"
+      :preference-alias="conf.namespace"
+    >
       <template v-slot="{ doSave, preferenceData, headerDragend }">
         <div class="btnslist">
           <slot name="btnslist" />
-          <curd-table-column-select v-if="showFields" v-model="showFields" :preference-alias="conf.namespace"
-            :table-fields="preferenceData" style="float: right;margin-left: 10px;" @selectedChange="reRenderTable"
-            @doSave="doSave" />
+          <curd-table-column-select
+            v-if="showFields"
+            v-model="showFields"
+            :preference-alias="conf.namespace"
+            :table-fields="preferenceData"
+            style="float: right;margin-left: 10px;"
+            @selectedChange="reRenderTable"
+            @doSave="doSave"
+          />
         </div>
 
         <el-card v-loading="reRending">
-          <slot v-if="showFields && showFields.length > 0" :showFields="showFields" :headerDragend="headerDragend"
-            :heightTable="heightTable" :openChild="openChild" />
+          <slot
+            v-if="showFields && showFields.length > 0"
+            :showFields="showFields"
+            :headerDragend="headerDragend"
+            :heightTable="heightTable"
+            :openChild="openChild"
+          />
           <span v-else>
             {{ $t('common.selectShowFields') }}
           </span>
@@ -25,8 +39,7 @@
     </table-column-preference-setting-api-slot>
     <slot name="pagination" />
     <!-- 定义子表的显示方式 -->
-    <slot name="children" :row="row" :align="align">
-    </slot>
+    <slot name="children" :row="row" :align="align" />
   </div>
 </template>
 <script>
@@ -63,7 +76,7 @@ export default {
       type: Object,
       required: true
     },
-    // 弹窗为middle   底部为bottom  
+    // 弹窗为middle   底部为bottom
     // 默认为bottom
     align: {
       type: String,
@@ -77,7 +90,7 @@ export default {
       showFields: undefined,
       heightTable: 900,
       reRending: false,
-      row: undefined,
+      row: undefined
     }
   },
   methods: {
@@ -99,7 +112,7 @@ export default {
     },
     openChild(row, column, event) {
       this.row = row
-      this.$emit("childrenAlign", this.align)
+      this.$emit('childrenAlign', this.align)
     }
   }
 }

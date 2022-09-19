@@ -4,27 +4,30 @@
       :value="value"
       :span="12"
       prop="tableName"
-      :namespace="conf.namespace">
-      {{value.name}}
+      :namespace="conf.namespace"
+    >
+      {{ value.name }}
     </form-item-text>
     <form-item-text
       :value="value"
       :span="12"
       prop="tableComment"
-      :namespace="conf.namespace">
-      {{value.comment}}
+      :namespace="conf.namespace"
+    >
+      {{ value.comment }}
     </form-item-text>
     <form-item-text
       :value="value"
       :span="12"
       prop="author"
-      :namespace="conf.namespace">
-    </form-item-text>
+      :namespace="conf.namespace"
+    />
     <form-item-text
       :value="value"
       :span="12"
       prop="havePrimaryKey"
-      :namespace="conf.namespace">
+      :namespace="conf.namespace"
+    >
       <span v-if="value.havePrimaryKey === true">
         是
       </span>
@@ -34,26 +37,26 @@
       :value="value"
       :span="12"
       prop="moduleName"
-      :namespace="conf.namespace">
-    </form-item-col>
+      :namespace="conf.namespace"
+    />
     <form-item-col
       :value="value"
       :span="12"
       prop="packageName"
-      :namespace="conf.namespace">
-    </form-item-col>
+      :namespace="conf.namespace"
+    />
     <form-item-col
       :value="value"
       :span="12"
       prop="vuePath"
-      :namespace="conf.namespace">
-    </form-item-col>
+      :namespace="conf.namespace"
+    />
     <form-item-col
       :value="value"
       :span="12"
       prop="javaPath"
-      :namespace="conf.namespace">
-    </form-item-col>
+      :namespace="conf.namespace"
+    />
   </div>
 </template>
 

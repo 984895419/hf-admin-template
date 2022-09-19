@@ -9,8 +9,14 @@
           <form-item-col-date-time :value="searchForm" :span="span" prop="ordertime" :namespace="conf.namespace" />
         </template>
         <template #advanced="{ span }">
-          <form-item-col-date-time-range :value="searchForm" :span="span" prop="ordertime" :namespace="conf.namespace"
-            :min-prop="'createTimeMin'" :max-prop="'createTimeMax'" />
+          <form-item-col-date-time-range
+            :value="searchForm"
+            :span="span"
+            prop="ordertime"
+            :namespace="conf.namespace"
+            :min-prop="'createTimeMin'"
+            :max-prop="'createTimeMax'"
+          />
           <form-item-col :value="searchForm" :span="span" prop="ordertotal" :namespace="conf.namespace" />
           <form-item-col :value="searchForm" :span="span" prop="consignee" :namespace="conf.namespace" />
           <form-item-col :value="searchForm" :span="span" prop="orderstatus" :namespace="conf.namespace" />
@@ -30,8 +36,12 @@
       <demo-cu style="margin-right:10px" :action-url="conf.urlMethods.addUrl" @success="doSearch" />
       <!-- 右边批量操作栏 只有选择checkbox时候 才显示 -->
       <div class="block">
-        <el-dropdown v-if="conf.urlMethods.disableUrl
-        && toggleRowSelectionArray.length > 0" :hide-on-click="false" trigger="click">
+        <el-dropdown
+          v-if="conf.urlMethods.disableUrl
+            && toggleRowSelectionArray.length > 0"
+          :hide-on-click="false"
+          trigger="click"
+        >
           <el-button class="el-dropdown-link">
             批量操作<i class="el-icon-arrow-down el-icon--right" />
           </el-button>
@@ -39,21 +49,33 @@
           <el-dropdown-menu slot="dropdown">
             <!-- 启用 -->
             <el-dropdown-item icon="el-icon-plus">
-              <template-confirm-btn :url="templateUrl(conf.urlMethods.enableUrl, toggleRowSelectionArray)"
-                :btn-type="'text'" :label="$t('common.batchEnable')" :value="toggleRowSelectionArray"
-                @success="doSearch" />
+              <template-confirm-btn
+                :url="templateUrl(conf.urlMethods.enableUrl, toggleRowSelectionArray)"
+                :btn-type="'text'"
+                :label="$t('common.batchEnable')"
+                :value="toggleRowSelectionArray"
+                @success="doSearch"
+              />
             </el-dropdown-item>
             <!-- 禁用 -->
             <el-dropdown-item icon="el-icon-circle-plus">
-              <template-confirm-btn :url="templateUrl(conf.urlMethods.disableUrl, toggleRowSelectionArray)"
-                :btn-type="'text'" :value="toggleRowSelectionArray" :label="$t('common.batchDisable')"
-                @success="doSearch" />
+              <template-confirm-btn
+                :url="templateUrl(conf.urlMethods.disableUrl, toggleRowSelectionArray)"
+                :btn-type="'text'"
+                :value="toggleRowSelectionArray"
+                :label="$t('common.batchDisable')"
+                @success="doSearch"
+              />
             </el-dropdown-item>
             <!-- 删除 -->
             <el-dropdown-item icon="el-icon-circle-plus-outline">
-              <del-btn :url="templateUrl(conf.urlMethods.deleteUrl, toggleRowSelectionArray)"
-                :value="toggleRowSelectionArray" :label="$t('common.batchDelete')" :btn-type="'text'"
-                @success="doSearch" />
+              <del-btn
+                :url="templateUrl(conf.urlMethods.deleteUrl, toggleRowSelectionArray)"
+                :value="toggleRowSelectionArray"
+                :label="$t('common.batchDelete')"
+                :btn-type="'text'"
+                @success="doSearch"
+              />
             </el-dropdown-item>
             <!-- 审核 -->
             <el-dropdown-item icon="el-icon-check">
@@ -76,21 +98,34 @@
                   <el-dropdown-item icon="el-icon-plus">
                     <template-confirm-btn
                       :url="templateUrl(conf.urlMethods.batchExportSelectUrl, toggleRowSelectionArray)"
-                      :btn-type="'text'" :label="'选中导出'" @success="doSearch" />
+                      :btn-type="'text'"
+                      :label="'选中导出'"
+                      @success="doSearch"
+                    />
                   </el-dropdown-item>
                   <el-dropdown-item icon="el-icon-circle-plus">
                     <template-confirm-btn
                       :url="templateUrl(conf.urlMethods.batchExportSinglePageUrl, toggleRowSelectionArray)"
-                      :btn-type="'text'" :label="'单页导出'" @success="doSearch" />
+                      :btn-type="'text'"
+                      :label="'单页导出'"
+                      @success="doSearch"
+                    />
                   </el-dropdown-item>
                   <el-dropdown-item icon="el-icon-circle-plus-outline">
-                    <template-confirm-btn :url="templateUrl(conf.urlMethods.batchExportAllUrl, toggleRowSelectionArray)"
-                      :btn-type="'text'" :label="'全部导出'" @success="doSearch" />
+                    <template-confirm-btn
+                      :url="templateUrl(conf.urlMethods.batchExportAllUrl, toggleRowSelectionArray)"
+                      :btn-type="'text'"
+                      :label="'全部导出'"
+                      @success="doSearch"
+                    />
                   </el-dropdown-item>
                   <el-dropdown-item icon="el-icon-check">
                     <template-confirm-btn
                       :url="templateUrl(conf.urlMethods.batchExportTemplateUrl, toggleRowSelectionArray)"
-                      :btn-type="'text'" :label="'模板导出'" @success="doSearch" />
+                      :btn-type="'text'"
+                      :label="'模板导出'"
+                      @success="doSearch"
+                    />
                   </el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
@@ -101,11 +136,19 @@
     </template>
 
     <!-- 列表-->
-    <template v-slot="{ doSave, headerDragend, showFields, heightTable,openChild}">
+    <template v-slot="{ headerDragend, showFields, heightTable, openChild}">
       <!-- 主表内容区域 table-data:数据list   maxheight:最大高度  row-dblclick:双击事件 sort-change:表头上出现一个上下箭头图标  headerDragend:拖动列改变宽度事件  handleSelectionChange:checkbox当选项发生变化时会触发该事件 -->
-      <hf-table v-if="showFields" v-loading="loading" :table-data="jsonData.list" :maxheight="heightTable"
-        @row-dblclick="(row) => { $refs.detail.openDialog(row) }" @row-click="openChild"
-        @selection-change="handleSelectionChange" @sort-change="sortChange" @header-dragend="headerDragend">
+      <hf-table
+        v-if="showFields"
+        v-loading="loading"
+        :table-data="jsonData.list"
+        :maxheight="heightTable"
+        @row-dblclick="(row) => { $refs.detail.openDialog(row) }"
+        @row-click="openChild"
+        @selection-change="handleSelectionChange"
+        @sort-change="sortChange"
+        @header-dragend="headerDragend"
+      >
         <section-table-column />
 
         <!-- 显示的字段-->
@@ -119,12 +162,21 @@
           <template slot-scope="scopeRow">
             <div class="col-btn-display">
               <!-- 更新 -->
-              <demo-cu v-if="scopeRow.row.initData !== 1" v-permission="['hfBaseRightRole:update']"
-                :value="scopeRow.row" @success="doSearch" />
+              <demo-cu
+                v-if="scopeRow.row.initData !== 1"
+                v-permission="['hfBaseRightRole:update']"
+                :value="scopeRow.row"
+                @success="doSearch"
+              />
               <!-- 删除-->
-              <del-btn v-if="scopeRow.row.initData !== 1" v-permission="['hfBaseRightRole:delete']"
-                :url="templateUrl(conf.urlMethods.deleteUrl, scopeRow.row)" :btn-type="'text'" :value="scopeRow.row"
-                @success="doSearch" />
+              <del-btn
+                v-if="scopeRow.row.initData !== 1"
+                v-permission="['hfBaseRightRole:delete']"
+                :url="templateUrl(conf.urlMethods.deleteUrl, scopeRow.row)"
+                :btn-type="'text'"
+                :value="scopeRow.row"
+                @success="doSearch"
+              />
             </div>
           </template>
         </el-table-column>
@@ -135,20 +187,25 @@
     <!-- 分页-->
     <template #pagination>
       <!-- 分页信息 -->
-      <curd-pagination style="margin-top:10px" :current-page.sync="searchForm.pageInfo.pageNo"
-        :page-size.sync="searchForm.pageInfo.pageSize" :total="jsonData.total" @size-change="doSearch"
-        @current-change="doSearch" />
+      <curd-pagination
+        style="margin-top:10px"
+        :current-page.sync="searchForm.pageInfo.pageNo"
+        :page-size.sync="searchForm.pageInfo.pageSize"
+        :total="jsonData.total"
+        @size-change="doSearch"
+        @current-change="doSearch"
+      />
     </template>
     <template #children="{row,align}">
       <!-- 底部 -->
-      <hf-table :table-data="row.propTableData" v-if="row&&align=='bottom'">
-        <default-column-list :Rowlist='row.propTableData' />
+      <hf-table v-if="row&&align=='bottom'" :table-data="row.propTableData">
+        <default-column-list :rowlist="row.propTableData" />
       </hf-table>
       <!-- 弹窗 -->
-      <drawer-detail ref="detail" v-show="align=='middle'">
+      <drawer-detail v-show="align=='middle'" ref="detail">
         <template>
-          <hf-table :table-data="row.propTableData" v-if="row">
-            <default-column-list :Rowlist='row.propTableData' />
+          <hf-table v-if="row" :table-data="row.propTableData">
+            <default-column-list :rowlist="row.propTableData" />
           </hf-table>
         </template>
       </drawer-detail>
@@ -159,16 +216,12 @@
 <script>
 import * as conf from './api'
 import HfTable from '@/components/CURD/Table/HfTable'// 单表组件
-import { baseApiGetMethod } from '@/components/CURD/baseApi'// 统一请求方法
-import { isSuccessResult } from '@/utils/ajaxResultUtil'// 统一请求方法
 import CurdPagination from '@/components/CURD/pagination/Pagination'// 分页
 import DemoCu from './cu'// 更新页面
 import DelBtn from '@/components/CURD/Btns/DelBtn'// 删除按钮
 import CurdMixin from '@/components/CURD/curd.mixin'
 import HfBaseRightRoleColumns from './hfBaseRightRoleColumns'// 表头
-import hfBaseRightRoleColumnsDynamic from './hfBaseRightRoleColumnsDynamic'// 表头
 import TemplateConfirmBtn from '@/components/CURD/Btns/TemplateConfirmBtn'// 按钮弹窗
-import FormItemColDict from '@/components/CURD/Form/formItemColDict.vue'// el-form 封装组件
 import formItemColDateTime from '@/components/CURD/Form/formItemColDateTime.vue'// el-form 封装组件
 import FormItemCol from '@/components/CURD/Form/formItemCol.vue'// 普通搜索
 import SimpleSearch from '@/components/CURD/Query/search'
@@ -177,9 +230,7 @@ import DialogBtnPage from '@/components/CURD/Btns/DialogBtnPage'// 按钮弹窗
 import DrawerDetail from './drawerDetail.vue'// 双击抽屉详情页
 import UploadExcelComponent from '@/components/UploadExcel/index.vue' // 本是  excel 导出
 import Examine from './examine.vue' // 审核页面
-import SimpleTableLayout from '@/components/CURD/Layout/SimpleTableLayout.vue'
 import FormItemColDateTimeRange from '@/components/CURD/Form/formItemColDateTimeRange.vue'
-import ChildrenDetail from './ChildrenDetail.vue'
 import defaultColumnList from './defaultColumnList.vue'
 export default {
   name: 'HfBaseRightRoleIndexVue',
@@ -187,12 +238,10 @@ export default {
     SectionTableColumn,
     TemplateConfirmBtn,
     HfBaseRightRoleColumns,
-    hfBaseRightRoleColumnsDynamic,
     DelBtn,
     CurdPagination,
     HfTable,
     DemoCu,
-    FormItemColDict,
     formItemColDateTime,
     FormItemCol,
     SimpleSearch,
@@ -200,9 +249,7 @@ export default {
     DrawerDetail,
     UploadExcelComponent,
     Examine,
-    SimpleTableLayout,
     FormItemColDateTimeRange,
-    ChildrenDetail,
     defaultColumnList
   },
 
