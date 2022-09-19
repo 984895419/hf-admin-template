@@ -1,6 +1,6 @@
 <template>
   <div v-resize="handleResize" class="stable">
-    <div>
+    <div ref="search">
       <slot name="search" />
     </div>
     <!-- 列表-->
@@ -10,7 +10,7 @@
       :preference-alias="conf.namespace"
     >
       <template v-slot="{ doSave, preferenceData, headerDragend }">
-        <div class="btnslist col-btn-display">
+        <div ref="btnslist" class="btnslist col-btn-display">
           <slot name="btnslist" />
           <curd-table-column-select
             v-if="showFields"
@@ -37,7 +37,9 @@
         </el-card>
       </template>
     </table-column-preference-setting-api-slot>
-    <slot name="pagination" />
+    <div ref="pagination">
+      <slot name="pagination" />
+    </div>
   </div>
 </template>
 <script>
@@ -73,6 +75,10 @@
       conf: {
         type: Object,
         required: true
+      },
+      skipHeight: {
+        type: Number,
+        default: 210
       }
     },
     data() {
@@ -85,7 +91,13 @@
     methods: {
       // 表格宽高
       handleResize({ width, height }) {
-        this.heightTable = parseFloat(height) - 210
+        this.$nextTick(() => {
+          const searchHeight = this.$refs.search ? this.$refs.search.getBoundingClientRect().height : 0
+          const btnslistHeight = this.$refs.btnslist ? this.$refs.btnslist.getBoundingClientRect().height : 0
+          const paginationHeight = this.$refs.pagination ? this.$refs.pagination.getBoundingClientRect().height : 0
+          this.heightTable = parseFloat(height) - searchHeight - btnslistHeight - paginationHeight - 84
+          debugger
+        })
       },
 
       reRenderTable(res) {

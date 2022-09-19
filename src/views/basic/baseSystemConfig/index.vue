@@ -67,13 +67,15 @@
       />
     </template>
     <!-- 列表-->
-    <template v-slot="{showFields, headerDragend}">
+    <template v-slot="{showFields, headerDragend, heightTable}">
       <hf-table
         v-if="showFields"
         v-loading="loading"
         :table-data="jsonData.list"
-        @selection-change="handleSelectionChange"
-        @sort-change="sortChange"
+        :maxheight="heightTable"
+        sort-change-selection-change="
+        handle-selection-change-
+        @sort-change="
         @header-dragend="headerDragend"
       >
         <section-table-column />

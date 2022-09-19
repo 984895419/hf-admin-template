@@ -9,7 +9,7 @@ export function defaultUrlMethod(baseUrl, primaryKeyField, customUrl) {
   if (baseUrl) {
     return {
       // 分页查询地址等
-      pageUrl: baseUrl + '/nameQuery',
+      pageUrl: baseUrl + '/pageQuery',
       addUrl: baseUrl + '/save',
       updateUrl: baseUrl + '/{' + primaryKeyField + '}',
       queryUrl: baseUrl + '/{' + primaryKeyField + '}',

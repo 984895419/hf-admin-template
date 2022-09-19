@@ -16,7 +16,9 @@
             :span="span"
             prop="jobTypeId"
             :namespace="conf.namespace"
-          />
+          >
+            <base-job-type-input-refer :value="searchForm" value-refer-id="jobTypeId" value-refer-name="jobTypeName" />
+          </form-item-col>
           <form-item-col-dict
             :value="searchForm"
             :span="span"
@@ -199,10 +201,12 @@
     import SimpleSearch from '@/components/CURD/Query/search'
     import TableColumnPreferenceSettingApiSlot from '@/views/basic/preferenceSetting/TableColumnPrefenceSettingApiSlot'
     import SectionTableColumn from '@/components/CURD/Table/column/base/SectionTableColumn'
+    import BaseJobTypeInputRefer from '../baseJobType/inputRefer'
 
     export default {
         name: 'BaseJobInfoIndexVue',
         components: {
+          BaseJobTypeInputRefer,
           SectionTableColumn,
           TemplateConfirmBtn,
           BaseJobInfoColumns,

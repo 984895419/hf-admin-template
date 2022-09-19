@@ -1,5 +1,5 @@
 <template>
-  <simple-table-layout :table-fileds="conf.namespace" :conf="conf">
+  <simple-table-layout :table-fileds="conf.default" :conf="conf">
     <!-- 查询框 -->
     <template #search>
       <simple-search v-model="searchForm" :inline="true" @search="doSearch">

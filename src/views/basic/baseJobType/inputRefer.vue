@@ -14,34 +14,35 @@
     >
       <div style="margin-top: 10px">
         <!-- 查询框 -->
-        <div>
-          <simple-search v-model="searchForm" :inline="true" @search="doSearch">
-            <template v-slot="{ span }">
-              <!-- 新增的的字段配置 -->
-                            <form-item-col
-                :value="searchForm"
-                :span="span"
-                prop="jobTypeName"
-                :namespace="conf.namespace"
-              />
-              <form-item-col
-                :value="searchForm"
-                :span="span"
-                prop="jobTypeKey"
-                :namespace="conf.namespace"
-              />
-              <form-item-col
-                :value="searchForm"
-                :span="span"
-                prop="jobComponentPath"
-                :namespace="conf.namespace"
-              />
-              <form-item-col
-                :value="searchForm"
-                :span="span"
-                prop="enableState"
-                :namespace="conf.namespace"
-              />
+        <simple-table-layout :table-fields="conf.default" :conf="conf">
+          <template #search>
+            <simple-search v-model="searchForm" :inline="true" @search="doSearch">
+              <template v-slot="{ span }">
+                <!-- 新增的的字段配置 -->
+                <form-item-col
+                  :value="searchForm"
+                  :span="span"
+                  prop="jobTypeName"
+                  :namespace="conf.namespace"
+                />
+                <form-item-col
+                  :value="searchForm"
+                  :span="span"
+                  prop="jobTypeKey"
+                  :namespace="conf.namespace"
+                />
+                <form-item-col
+                  :value="searchForm"
+                  :span="span"
+                  prop="jobComponentPath"
+                  :namespace="conf.namespace"
+                />
+                <form-item-col
+                  :value="searchForm"
+                  :span="span"
+                  prop="enableState"
+                  :namespace="conf.namespace"
+                />
               <!-- 字典字段字段设置方法如下
               <form-item-col-dict
                 :value="data"
@@ -51,30 +52,37 @@
                 :dict-code="'CLIENT_METHOD_TYPES'"
                 :namespace="conf.namespace"
               /> -->
-            </template>
-          </simple-search>
-        </div>
-        <!-- 列表-->
-        <hf-table
-          v-loading="loading"
-          :table-data="jsonData.list"
-          @row-dblclick="rowDbClick"
-        >
-          <!-- 显示的字段-->
-          <base-job-type-columns
-            :show-fields="conf.default"
-            :url-methods="conf.urlMethods"
-            @success="doSearch"
-          />
-        </hf-table>
-        <!-- 分页信息 -->
-        <curd-pagination
-          :current-page.sync="searchForm.pageInfo.pageNo"
-          :page-size.sync="searchForm.pageInfo.pageSize"
-          :total="jsonData.total"
-          @size-change="doSearch"
-          @current-change="doSearch"
-        />
+              </template>
+            </simple-search>
+          </template>
+          <template v-slot="{ showFields, headerDragend, heightTable }">
+            <!-- 列表-->
+            <hf-table
+              v-loading="loading"
+              :table-data="jsonData.list"
+              :maxheight="heightTable"
+              @row-dblclick="rowDbClick"
+              @header-dragend="headerDragend"
+            >
+              <!-- 显示的字段-->
+              <base-job-type-columns
+                :show-fields="showFields"
+                :url-methods="conf.urlMethods"
+                @success="doSearch"
+              />
+            </hf-table>
+          </template>
+          <template #pagination>
+            <!-- 分页信息 -->
+            <curd-pagination
+              :current-page.sync="searchForm.pageInfo.pageNo"
+              :page-size.sync="searchForm.pageInfo.pageSize"
+              :total="jsonData.total"
+              @size-change="doSearch"
+              @current-change="doSearch"
+            />
+          </template>
+        </simple-table-layout>
       </div>
     </el-dialog>
   </div>
@@ -126,7 +134,6 @@
         },
         data() {
             return {
-                showFields: null,
                 loading: false,
                 showDialog: false,
                 /**
@@ -169,7 +176,7 @@
                 }
             }
         },
-        
+
         methods: {
             openDialog() {
                 if (!this.alreadyInit) {
