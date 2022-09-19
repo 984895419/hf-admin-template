@@ -7,14 +7,16 @@
     <table-column-preference-setting-api-slot v-model="showFields" :init-data="tableFields"
       :preference-alias="conf.namespace">
       <template v-slot="{ doSave, preferenceData, headerDragend }">
+        <!-- 按钮区 -->
         <div class="btnslist">
           <slot name="btnslist" />
           <curd-table-column-select v-if="showFields" v-model="showFields" :preference-alias="conf.namespace"
             :table-fields="preferenceData" style="float: right;margin-left: 10px;" @selectedChange="reRenderTable"
             @doSave="doSave" />
         </div>
-
+          
         <el-card v-loading="reRending">
+          <!-- 表格table插槽  -->
           <slot v-if="showFields && showFields.length > 0" :showFields="showFields" :headerDragend="headerDragend"
             :heightTable="heightTable" :openChild="openChild" />
           <span v-else>
@@ -24,15 +26,16 @@
       </template>
     </table-column-preference-setting-api-slot>
     <slot name="pagination" />
-    <!-- 定义子表的显示方式 -->
+    <!-- 定义子表的显示方式   弹窗-->
     <el-dialog width="75%" :top="'5vh'" :title="'详情'" :visible.sync="isshowdetail" v-if="align=='middle'">
       <slot name="children" :row="row">
       </slot>
       <div class="dialog-footer">
         <el-button @click="cancelForm">取 消</el-button>
-        <el-button type="primary" @click="cancelForm" >确定</el-button>
+        <el-button type="primary" @click="cancelForm">确定</el-button>
       </div>
     </el-dialog>
+    <!-- 详情页其他展现形式 -->
     <slot name="children" :row="row" v-else>
     </slot>
 
@@ -112,7 +115,7 @@ export default {
       this.row = row
       if (this.align == 'middle') {
         this.isshowdetail = true
-      }else{
+      } else {
         return
       }
     },

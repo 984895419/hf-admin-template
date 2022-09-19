@@ -140,28 +140,11 @@
         @current-change="doSearch" />
     </template>
     <template #children="{row}">
+      <!-- 详情内容 -->
       <el-card>
-        <!-- <el-form :label-position="'right'"  :model="row">
-          <row-span-slot>
-            <template v-slot="{ span }">
-              <form-item-col :value="row" :span="span" prop="orderNo" :namespace="conf.namespace" />
-              <form-item-col :span="span" :namespace="conf.namespace" :value="row" prop="ordertime" />
-              <form-item-col :span="span" :namespace="conf.namespace" :value="row" prop="ordertotal" />
-              <form-item-col :span="span" :namespace="conf.namespace" :value="row" prop="consignee" />
-              <form-item-col :span="span" :namespace="conf.namespace" :value="row" prop="orderstatus" />
-              <form-item-col :span="span" :namespace="conf.namespace" :value="row" prop="paystatus" />
-              <form-item-col :span="span" :namespace="conf.namespace" :value="row" prop="shipmentstatus" />
-              <form-item-col :span="span" :namespace="conf.namespace" :value="row" prop="paymethod" />
-              <form-item-col :span="span" :namespace="conf.namespace" :value="row" prop="customerphone" />
-              <form-item-col :span="span" :namespace="conf.namespace" :value="row" prop="customeraddress" />
-              <form-item-col :span="span" :namespace="conf.namespace" :value="row" prop="customermail" />
-            </template>
-          </row-span-slot>
-        </el-form> -->
         <el-form :label-position="'right'" label-width="100px" :value="row">
           <row-span-slot>
             <template v-slot="{ span }">
-              <!-- 新增的的字段配置 -->
               <form-item-col :value="row" :span="span" prop="orderNo" :namespace="conf.namespace"  />
               <form-item-col :value="row" :span="span" prop="ordertime" :namespace="conf.namespace" />
               <form-item-col :value="row" :span="span" prop="ordertotal" :namespace="conf.namespace" />
