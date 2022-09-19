@@ -1,5 +1,5 @@
 <template>
-  <father-son-layout :conf="conf" :table-fields="tableFields" :align="'pannel'">
+  <father-son-layout :conf="conf" :table-fields="tableFields" :align="'middle'">
     <!-- 查询框 -->
     <template #search>
       <simple-search v-model="searchForm" :inline="true" @search="doSearch">
@@ -9,14 +9,8 @@
           <form-item-col-date-time :value="searchForm" :span="span" prop="ordertime" :namespace="conf.namespace" />
         </template>
         <template #advanced="{ span }">
-          <form-item-col-date-time-range
-            :value="searchForm"
-            :span="span"
-            prop="ordertime"
-            :namespace="conf.namespace"
-            :min-prop="'createTimeMin'"
-            :max-prop="'createTimeMax'"
-          />
+          <form-item-col-date-time-range :value="searchForm" :span="span" prop="ordertime" :namespace="conf.namespace"
+            :min-prop="'createTimeMin'" :max-prop="'createTimeMax'" />
           <form-item-col :value="searchForm" :span="span" prop="ordertotal" :namespace="conf.namespace" />
           <form-item-col :value="searchForm" :span="span" prop="consignee" :namespace="conf.namespace" />
           <form-item-col :value="searchForm" :span="span" prop="orderstatus" :namespace="conf.namespace" />
@@ -36,12 +30,8 @@
       <demo-cu style="margin-right:10px" :action-url="conf.urlMethods.addUrl" @success="doSearch" />
       <!-- 右边批量操作栏 只有选择checkbox时候 才显示 -->
       <div class="block">
-        <el-dropdown
-          v-if="conf.urlMethods.disableUrl
-            && toggleRowSelectionArray.length > 0"
-          :hide-on-click="false"
-          trigger="click"
-        >
+        <el-dropdown v-if="conf.urlMethods.disableUrl
+        && toggleRowSelectionArray.length > 0" :hide-on-click="false" trigger="click">
           <el-button class="el-dropdown-link">
             批量操作<i class="el-icon-arrow-down el-icon--right" />
           </el-button>
@@ -49,33 +39,21 @@
           <el-dropdown-menu slot="dropdown">
             <!-- 启用 -->
             <el-dropdown-item icon="el-icon-plus">
-              <template-confirm-btn
-                :url="templateUrl(conf.urlMethods.enableUrl, toggleRowSelectionArray)"
-                :btn-type="'text'"
-                :label="$t('common.batchEnable')"
-                :value="toggleRowSelectionArray"
-                @success="doSearch"
-              />
+              <template-confirm-btn :url="templateUrl(conf.urlMethods.enableUrl, toggleRowSelectionArray)"
+                :btn-type="'text'" :label="$t('common.batchEnable')" :value="toggleRowSelectionArray"
+                @success="doSearch" />
             </el-dropdown-item>
             <!-- 禁用 -->
             <el-dropdown-item icon="el-icon-circle-plus">
-              <template-confirm-btn
-                :url="templateUrl(conf.urlMethods.disableUrl, toggleRowSelectionArray)"
-                :btn-type="'text'"
-                :value="toggleRowSelectionArray"
-                :label="$t('common.batchDisable')"
-                @success="doSearch"
-              />
+              <template-confirm-btn :url="templateUrl(conf.urlMethods.disableUrl, toggleRowSelectionArray)"
+                :btn-type="'text'" :value="toggleRowSelectionArray" :label="$t('common.batchDisable')"
+                @success="doSearch" />
             </el-dropdown-item>
             <!-- 删除 -->
             <el-dropdown-item icon="el-icon-circle-plus-outline">
-              <del-btn
-                :url="templateUrl(conf.urlMethods.deleteUrl, toggleRowSelectionArray)"
-                :value="toggleRowSelectionArray"
-                :label="$t('common.batchDelete')"
-                :btn-type="'text'"
-                @success="doSearch"
-              />
+              <del-btn :url="templateUrl(conf.urlMethods.deleteUrl, toggleRowSelectionArray)"
+                :value="toggleRowSelectionArray" :label="$t('common.batchDelete')" :btn-type="'text'"
+                @success="doSearch" />
             </el-dropdown-item>
             <!-- 审核 -->
             <el-dropdown-item icon="el-icon-check">
@@ -98,34 +76,21 @@
                   <el-dropdown-item icon="el-icon-plus">
                     <template-confirm-btn
                       :url="templateUrl(conf.urlMethods.batchExportSelectUrl, toggleRowSelectionArray)"
-                      :btn-type="'text'"
-                      :label="'选中导出'"
-                      @success="doSearch"
-                    />
+                      :btn-type="'text'" :label="'选中导出'" @success="doSearch" />
                   </el-dropdown-item>
                   <el-dropdown-item icon="el-icon-circle-plus">
                     <template-confirm-btn
                       :url="templateUrl(conf.urlMethods.batchExportSinglePageUrl, toggleRowSelectionArray)"
-                      :btn-type="'text'"
-                      :label="'单页导出'"
-                      @success="doSearch"
-                    />
+                      :btn-type="'text'" :label="'单页导出'" @success="doSearch" />
                   </el-dropdown-item>
                   <el-dropdown-item icon="el-icon-circle-plus-outline">
-                    <template-confirm-btn
-                      :url="templateUrl(conf.urlMethods.batchExportAllUrl, toggleRowSelectionArray)"
-                      :btn-type="'text'"
-                      :label="'全部导出'"
-                      @success="doSearch"
-                    />
+                    <template-confirm-btn :url="templateUrl(conf.urlMethods.batchExportAllUrl, toggleRowSelectionArray)"
+                      :btn-type="'text'" :label="'全部导出'" @success="doSearch" />
                   </el-dropdown-item>
                   <el-dropdown-item icon="el-icon-check">
                     <template-confirm-btn
                       :url="templateUrl(conf.urlMethods.batchExportTemplateUrl, toggleRowSelectionArray)"
-                      :btn-type="'text'"
-                      :label="'模板导出'"
-                      @success="doSearch"
-                    />
+                      :btn-type="'text'" :label="'模板导出'" @success="doSearch" />
                   </el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
@@ -139,16 +104,9 @@
     <template v-slot="{ doSave, headerDragend, showFields, heightTable,openChild}">
       <!--  @row-dblclick="(row) => { $refs.detail.openDialog(row)  }"  @row-click="openChild" -->
       <!-- 主表内容区域 table-data:数据list   maxheight:最大高度  row-dblclick:双击事件 sort-change:表头上出现一个上下箭头图标  headerDragend:拖动列改变宽度事件  handleSelectionChange:checkbox当选项发生变化时会触发该事件 -->
-      <hf-table
-        v-if="showFields"
-        v-loading="loading"
-        :table-data="jsonData.list"
-        :maxheight="heightTable"
-        @row-dblclick="openChild"
-        @selection-change="handleSelectionChange"
-        @sort-change="sortChange"
-        @header-dragend="headerDragend"
-      >
+      <hf-table v-if="showFields" v-loading="loading" :table-data="jsonData.list" :maxheight="heightTable"
+        @row-dblclick="openChild" @selection-change="handleSelectionChange" @sort-change="sortChange"
+        @header-dragend="headerDragend">
         <section-table-column />
 
         <!-- 显示的字段-->
@@ -162,21 +120,12 @@
           <template slot-scope="scopeRow">
             <div class="col-btn-display">
               <!-- 更新 -->
-              <demo-cu
-                v-if="scopeRow.row.initData !== 1"
-                v-permission="['hfBaseRightRole:update']"
-                :value="scopeRow.row"
-                @success="doSearch"
-              />
+              <demo-cu v-if="scopeRow.row.initData !== 1" v-permission="['hfBaseRightRole:update']"
+                :value="scopeRow.row" @success="doSearch" />
               <!-- 删除-->
-              <del-btn
-                v-if="scopeRow.row.initData !== 1"
-                v-permission="['hfBaseRightRole:delete']"
-                :url="templateUrl(conf.urlMethods.deleteUrl, scopeRow.row)"
-                :btn-type="'text'"
-                :value="scopeRow.row"
-                @success="doSearch"
-              />
+              <del-btn v-if="scopeRow.row.initData !== 1" v-permission="['hfBaseRightRole:delete']"
+                :url="templateUrl(conf.urlMethods.deleteUrl, scopeRow.row)" :btn-type="'text'" :value="scopeRow.row"
+                @success="doSearch" />
             </div>
           </template>
         </el-table-column>
@@ -186,38 +135,36 @@
     <!-- 分页-->
     <template #pagination>
       <!-- 分页信息 -->
-      <curd-pagination
-        style="margin-top:10px"
-        :current-page.sync="searchForm.pageInfo.pageNo"
-        :page-size.sync="searchForm.pageInfo.pageSize"
-        :total="jsonData.total"
-        @size-change="doSearch"
-        @current-change="doSearch"
-      />
+      <curd-pagination style="margin-top:10px" :current-page.sync="searchForm.pageInfo.pageNo"
+        :page-size.sync="searchForm.pageInfo.pageSize" :total="jsonData.total" @size-change="doSearch"
+        @current-change="doSearch" />
     </template>
     <template #children="{row}">
+      <!-- 详情内容 -->
       <el-card>
-        <el-form :label-position="'right'" :model="row">
+        <el-form :label-position="'right'" label-width="100px" :value="row">
           <row-span-slot>
             <template v-slot="{ span }">
-              <form-item-col :value="row" :span="span" prop="orderNo" :namespace="conf.namespace" />
-              <form-item-col :span="span" :namespace="conf.namespace" :value="row" prop="ordertime" />
-              <form-item-col :span="span" :namespace="conf.namespace" :value="row" prop="ordertotal" />
-              <form-item-col :span="span" :namespace="conf.namespace" :value="row" prop="consignee" />
-              <form-item-col :span="span" :namespace="conf.namespace" :value="row" prop="orderstatus" />
-              <form-item-col :span="span" :namespace="conf.namespace" :value="row" prop="paystatus" />
-              <form-item-col :span="span" :namespace="conf.namespace" :value="row" prop="shipmentstatus" />
-              <form-item-col :span="span" :namespace="conf.namespace" :value="row" prop="paymethod" />
-              <form-item-col :span="span" :namespace="conf.namespace" :value="row" prop="customerphone" />
-              <form-item-col :span="span" :namespace="conf.namespace" :value="row" prop="customeraddress" />
-              <form-item-col :span="span" :namespace="conf.namespace" :value="row" prop="customermail" />
+              <form-item-col :value="row" :span="span" prop="orderNo" :namespace="conf.namespace"  />
+              <form-item-col :value="row" :span="span" prop="ordertime" :namespace="conf.namespace" />
+              <form-item-col :value="row" :span="span" prop="ordertotal" :namespace="conf.namespace" />
+              <form-item-col :value="row" :span="span" prop="consignee" :namespace="conf.namespace" />
+              <form-item-col :value="row" :span="span" prop="orderstatus" :namespace="conf.namespace" />
+              <form-item-col :value="row" :span="span" prop="paystatus" :namespace="conf.namespace" />
+              <form-item-col :value="row" :span="span" prop="shipmentstatus" :namespace="conf.namespace" />
+              <form-item-col :value="row" :span="span" prop="paymethod" :namespace="conf.namespace"  />
+              <form-item-col :value="row" :span="span" prop="customerphone" :namespace="conf.namespace" />
+              <form-item-col :value="row" :span="span" prop="customeraddress" :namespace="conf.namespace" />
+              <form-item-col :value="row" :span="span" prop="customermail" :namespace="conf.namespace" />
             </template>
           </row-span-slot>
         </el-form>
-        <hf-table v-if="row" :table-data="row.propTableData">
-          <default-column-list :rowlist="row.propTableData" />
+        <hf-table :table-data="row.propTableData" v-if="row">
+          <default-column-list :Rowlist='row.propTableData' />
         </hf-table>
       </el-card>
+
+
     </template>
   </father-son-layout>
 </template>
@@ -246,7 +193,6 @@ import Examine from './examine.vue' // 审核页面
 import SimpleTableLayout from '@/components/CURD/Layout/SimpleTableLayout.vue'
 import FormItemColDateTimeRange from '@/components/CURD/Form/formItemColDateTimeRange.vue'
 import defaultColumnList from './defaultColumnList.vue'
-import CuForm from '@/components/CURD/Form/cuFrom'
 export default {
   name: 'HfBaseRightRoleIndexVue',
   components: {
@@ -269,7 +215,6 @@ export default {
     SimpleTableLayout,
     FormItemColDateTimeRange,
     defaultColumnList,
-    CuForm
   },
 
   mixins: [CurdMixin],
