@@ -1,5 +1,5 @@
 <template>
-  <father-son-layout :conf="conf" :table-fields="tableFields" :align="'bottom'">
+  <father-son-layout :conf="conf" :table-fields="tableFields" :align="'pannel'">
     <!-- 查询框 -->
     <template #search>
       <simple-search v-model="searchForm" :inline="true" @search="doSearch">
@@ -136,15 +136,15 @@
     </template>
 
     <!-- 列表-->
-    <template v-slot="{ headerDragend, showFields, heightTable, openChild}">
+    <template v-slot="{ doSave, headerDragend, showFields, heightTable,openChild}">
+      <!--  @row-dblclick="(row) => { $refs.detail.openDialog(row)  }"  @row-click="openChild" -->
       <!-- 主表内容区域 table-data:数据list   maxheight:最大高度  row-dblclick:双击事件 sort-change:表头上出现一个上下箭头图标  headerDragend:拖动列改变宽度事件  handleSelectionChange:checkbox当选项发生变化时会触发该事件 -->
       <hf-table
         v-if="showFields"
         v-loading="loading"
         :table-data="jsonData.list"
         :maxheight="heightTable"
-        @row-dblclick="(row) => { $refs.detail.openDialog(row) }"
-        @row-click="openChild"
+        @row-dblclick="openChild"
         @selection-change="handleSelectionChange"
         @sort-change="sortChange"
         @header-dragend="headerDragend"
@@ -181,7 +181,6 @@
           </template>
         </el-table-column>
       </hf-table>
-      <!-- 双击查看抽屉明细表 rowdata:双击table行数据  -->
     </template>
 
     <!-- 分页-->
@@ -196,19 +195,29 @@
         @current-change="doSearch"
       />
     </template>
-    <template #children="{row,align}">
-      <!-- 底部 -->
-      <hf-table v-if="row&&align=='bottom'" :table-data="row.propTableData">
-        <default-column-list :rowlist="row.propTableData" />
-      </hf-table>
-      <!-- 弹窗 -->
-      <drawer-detail v-show="align=='middle'" ref="detail">
-        <template>
-          <hf-table v-if="row" :table-data="row.propTableData">
-            <default-column-list :rowlist="row.propTableData" />
-          </hf-table>
-        </template>
-      </drawer-detail>
+    <template #children="{row}">
+      <el-card>
+        <el-form :label-position="'right'" :model="row">
+          <row-span-slot>
+            <template v-slot="{ span }">
+              <form-item-col :value="row" :span="span" prop="orderNo" :namespace="conf.namespace" />
+              <form-item-col :span="span" :namespace="conf.namespace" :value="row" prop="ordertime" />
+              <form-item-col :span="span" :namespace="conf.namespace" :value="row" prop="ordertotal" />
+              <form-item-col :span="span" :namespace="conf.namespace" :value="row" prop="consignee" />
+              <form-item-col :span="span" :namespace="conf.namespace" :value="row" prop="orderstatus" />
+              <form-item-col :span="span" :namespace="conf.namespace" :value="row" prop="paystatus" />
+              <form-item-col :span="span" :namespace="conf.namespace" :value="row" prop="shipmentstatus" />
+              <form-item-col :span="span" :namespace="conf.namespace" :value="row" prop="paymethod" />
+              <form-item-col :span="span" :namespace="conf.namespace" :value="row" prop="customerphone" />
+              <form-item-col :span="span" :namespace="conf.namespace" :value="row" prop="customeraddress" />
+              <form-item-col :span="span" :namespace="conf.namespace" :value="row" prop="customermail" />
+            </template>
+          </row-span-slot>
+        </el-form>
+        <hf-table v-if="row" :table-data="row.propTableData">
+          <default-column-list :rowlist="row.propTableData" />
+        </hf-table>
+      </el-card>
     </template>
   </father-son-layout>
 </template>
@@ -216,12 +225,16 @@
 <script>
 import * as conf from './api'
 import HfTable from '@/components/CURD/Table/HfTable'// 单表组件
+import { baseApiGetMethod } from '@/components/CURD/baseApi'// 统一请求方法
+import { isSuccessResult } from '@/utils/ajaxResultUtil'// 统一请求方法
 import CurdPagination from '@/components/CURD/pagination/Pagination'// 分页
 import DemoCu from './cu'// 更新页面
 import DelBtn from '@/components/CURD/Btns/DelBtn'// 删除按钮
 import CurdMixin from '@/components/CURD/curd.mixin'
 import HfBaseRightRoleColumns from './hfBaseRightRoleColumns'// 表头
+import hfBaseRightRoleColumnsDynamic from './hfBaseRightRoleColumnsDynamic'// 表头
 import TemplateConfirmBtn from '@/components/CURD/Btns/TemplateConfirmBtn'// 按钮弹窗
+import FormItemColDict from '@/components/CURD/Form/formItemColDict.vue'// el-form 封装组件
 import formItemColDateTime from '@/components/CURD/Form/formItemColDateTime.vue'// el-form 封装组件
 import FormItemCol from '@/components/CURD/Form/formItemCol.vue'// 普通搜索
 import SimpleSearch from '@/components/CURD/Query/search'
@@ -230,18 +243,22 @@ import DialogBtnPage from '@/components/CURD/Btns/DialogBtnPage'// 按钮弹窗
 import DrawerDetail from './drawerDetail.vue'// 双击抽屉详情页
 import UploadExcelComponent from '@/components/UploadExcel/index.vue' // 本是  excel 导出
 import Examine from './examine.vue' // 审核页面
+import SimpleTableLayout from '@/components/CURD/Layout/SimpleTableLayout.vue'
 import FormItemColDateTimeRange from '@/components/CURD/Form/formItemColDateTimeRange.vue'
 import defaultColumnList from './defaultColumnList.vue'
+import CuForm from '@/components/CURD/Form/cuFrom'
 export default {
   name: 'HfBaseRightRoleIndexVue',
   components: {
     SectionTableColumn,
     TemplateConfirmBtn,
     HfBaseRightRoleColumns,
+    hfBaseRightRoleColumnsDynamic,
     DelBtn,
     CurdPagination,
     HfTable,
     DemoCu,
+    FormItemColDict,
     formItemColDateTime,
     FormItemCol,
     SimpleSearch,
@@ -249,8 +266,10 @@ export default {
     DrawerDetail,
     UploadExcelComponent,
     Examine,
+    SimpleTableLayout,
     FormItemColDateTimeRange,
-    defaultColumnList
+    defaultColumnList,
+    CuForm
   },
 
   mixins: [CurdMixin],
@@ -305,7 +324,9 @@ export default {
     this.doSearch()
   },
   methods: {
-
+    // openChild(){
+    //   alert(11)
+    // },
     /**
      * 排序发生变化的时候执行的排序变化
      * @param column

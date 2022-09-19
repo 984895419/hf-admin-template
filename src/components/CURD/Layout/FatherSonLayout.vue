@@ -1,45 +1,116 @@
 <template>
   <div v-resize="handleResize" class="fathersontable">
-    <div>
-      <slot name="search" />
-    </div>
-    <!-- 列表-->
-    <table-column-preference-setting-api-slot
-      v-model="showFields"
-      :init-data="tableFields"
-      :preference-alias="conf.namespace"
-    >
-      <template v-slot="{ doSave, preferenceData, headerDragend }">
-        <div class="btnslist">
-          <slot name="btnslist" />
-          <curd-table-column-select
-            v-if="showFields"
-            v-model="showFields"
-            :preference-alias="conf.namespace"
-            :table-fields="preferenceData"
-            style="float: right;margin-left: 10px;"
-            @selectedChange="reRenderTable"
-            @doSave="doSave"
-          />
-        </div>
+    <!-- 不是左右分的子表展示方式 -->
+    <div v-if="align !== 'pannel'">
+      <div>
+        <slot name="search" />
+      </div>
+      <!-- 列表-->
+      <table-column-preference-setting-api-slot
+        v-model="showFields"
+        :init-data="tableFields"
+        :preference-alias="conf.namespace"
+      >
+        <template v-slot="{ doSave, preferenceData, headerDragend }">
+          <div class="btnslist">
+            <slot name="btnslist" />
+            <curd-table-column-select
+              v-if="showFields"
+              v-model="showFields"
+              :preference-alias="conf.namespace"
+              :table-fields="preferenceData"
+              style="float: right;margin-left: 10px;"
+              @selectedChange="reRenderTable"
+              @doSave="doSave"
+            />
+          </div>
 
-        <el-card v-loading="reRending">
+          <el-card v-loading="reRending">
+            <slot
+              v-if="showFields && showFields.length > 0"
+              :showFields="showFields"
+              :headerDragend="headerDragend"
+              :heightTable="heightTable"
+              :openChild="openChild"
+            />
+            <span v-else>
+              {{ $t('common.selectShowFields') }}
+            </span>
+          </el-card>
+        </template>
+      </table-column-preference-setting-api-slot>
+      <slot name="pagination" />
+      <!-- 定义子表的显示方式 -->
+      <el-dialog
+        v-if="align=='dialog'"
+        v-bind="{width: '75%',
+                 top: '5vh',
+                 title: $t('common.detail'),
+                 ...$attrs._dialog}"
+        :visible.sync="isshowdetail"
+      >
+        <slot name="children" :row="row" />
+        <div class="dialog-footer">
+          <el-button @click="closeDetailDialog">取 消</el-button>
+        </div>
+      </el-dialog>
+      <slot
+        v-if="align=='bottom'"
+        name="children"
+        :row="row"
+      />
+    </div>
+    <!-- 左右面板的展示方式-->
+    <div v-else>
+      <hf-resize-split-pane v-bind="$attrs">
+        <div style="padding:5px">
+          <div>
+            <slot name="search" />
+          </div>
+          <!-- 列表-->
+          <table-column-preference-setting-api-slot
+            v-model="showFields"
+            :init-data="tableFields"
+            :preference-alias="conf.namespace"
+          >
+            <template v-slot="{ doSave, preferenceData, headerDragend }">
+              <div class="btnslist">
+                <slot name="btnslist" />
+                <curd-table-column-select
+                  v-if="showFields"
+                  v-model="showFields"
+                  :preference-alias="conf.namespace"
+                  :table-fields="preferenceData"
+                  style="float: right;margin-left: 10px;"
+                  @selectedChange="reRenderTable"
+                  @doSave="doSave"
+                />
+              </div>
+
+              <el-card v-loading="reRending">
+                <slot
+                  v-if="showFields && showFields.length > 0"
+                  :showFields="showFields"
+                  :headerDragend="headerDragend"
+                  :heightTable="heightTable"
+                  :openChild="openChild"
+                />
+                <span v-else>
+                  {{ $t('common.selectShowFields') }}
+                </span>
+              </el-card>
+            </template>
+          </table-column-preference-setting-api-slot>
+          <slot name="pagination" />
+        </div>
+        <template #right>
           <slot
-            v-if="showFields && showFields.length > 0"
-            :showFields="showFields"
-            :headerDragend="headerDragend"
-            :heightTable="heightTable"
-            :openChild="openChild"
+            name="children"
+            :row="row"
           />
-          <span v-else>
-            {{ $t('common.selectShowFields') }}
-          </span>
-        </el-card>
-      </template>
-    </table-column-preference-setting-api-slot>
-    <slot name="pagination" />
-    <!-- 定义子表的显示方式 -->
-    <slot name="children" :row="row" :align="align" />
+        </template>
+      </hf-resize-split-pane>
+    </div>
   </div>
 </template>
 <script>
@@ -76,12 +147,12 @@ export default {
       type: Object,
       required: true
     },
-    // 弹窗为middle   底部为bottom
-    // 默认为bottom
+    // 弹窗为dialog   底部为bottom  左右分pannel
+    // 默认为none
     align: {
       type: String,
       default: () => {
-        return 'middle'
+        return '默认为none'
       }
     }
   },
@@ -90,7 +161,8 @@ export default {
       showFields: undefined,
       heightTable: 900,
       reRending: false,
-      row: undefined
+      row: undefined,
+      isshowdetail: false
     }
   },
   methods: {
@@ -111,8 +183,13 @@ export default {
       }, 50)
     },
     openChild(row, column, event) {
+      console.log(row, column, event, 'row, column, event')
       this.row = row
-      this.$emit('childrenAlign', this.align)
+      this.isshowdetail = true
+    },
+    // 关闭弹窗
+    closeDetailDialog() {
+      this.isshowdetail = false
     }
   }
 }
@@ -123,6 +200,8 @@ export default {
 .fathersontable {
   margin: 20px 10px 10px 10px;
   height: 100%;
+  padding-bottom: 30px;
+  box-sizing: border-box;
   overflow: scroll;
 
   &::-webkit-scrollbar {
@@ -169,6 +248,11 @@ export default {
 .el-dropdown-menu--mini .el-dropdown-menu__item {
   display: flex;
   align-items: center;
+}
+
+.dialog-footer {
+  float: right;
+  margin: 10px 10px 10px 0;
 }
 </style>
 
