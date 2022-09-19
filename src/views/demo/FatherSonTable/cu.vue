@@ -166,14 +166,6 @@
               align="center"
               min-width="130"
             />
-            <default-table-column
-              :prop="'stock'"
-              :propName="'stock'"
-              :namespace="conf.namespace"
-              :show-overflow-tooltip="true"
-              align="center"
-              min-width="130"
-            />
             <dict-table-column
               :prop="'stock'"
               :propName="'stock'"
