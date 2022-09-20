@@ -7,21 +7,23 @@
                     <el-form-item :rules="computeRules" :prop="pathName && pathName + '.' + scope.$index + '.' + prop"
                         :required="required"
                         :error="errorMessage ? errorMessage('compositions[' +scope.$index+'].' + prop) : undefined">
-                        <slot v-if="scope.row.editable" name="othertype">
-                            <hf-tooltip :namespace="namespace" :prop="prop">
-                                <template v-slot="{placeholder}">
-                                    <hf-dict :namespace="namespace" v-bind="$attrs" :value="scope.row" :prop="prop"
-                                        v-on="$listeners" :placeholder="placeholder" />
-                                </template>
-                            </hf-tooltip>
-                        </slot>
-                        <copier-render v-else :copyable="copyable" :prop="propName || `${prop} + 'Name'` " :row="scope.row"
-                            :max-words="maxWords" />
+                        <div v-show="scope.row.editable">
+                            <slot name="othertype">
+                                <hf-tooltip :namespace="namespace" :prop="prop">
+                                    <template v-slot="{placeholder}">
+                                        <hf-dict :namespace="namespace" v-bind="$attrs" :value="scope.row" :prop="prop"
+                                            v-on="$listeners" :placeholder="placeholder" @change="change(scope.row)"
+                                            ref="dict" />
+                                    </template>
+                                </hf-tooltip>
+                            </slot>
+                        </div>
+                        <copier-render v-if="!scope.row.editable" :copyable="copyable" :prop="copyProps "
+                            :row="scope.row" :max-words="maxWords" />
                     </el-form-item>
                 </slot>
                 <slot v-else>
-                    <copier-render :copyable="copyable" :prop="propName || `${prop} + 'Name'` " :row="scope.row"
-                        :max-words="maxWords" />
+                    <copier-render :copyable="copyable" :prop="copyProps " :row="scope.row" :max-words="maxWords" />
                 </slot>
             </template>
         </el-table-column>
@@ -85,6 +87,16 @@ export default {
             } else {
                 return []
             }
+        },
+        copyProps() {
+            return this.propName || this.prop + 'Name'
+        }
+    },
+    methods: {
+        change(row) {
+            this.$nextTick(() => {
+                row[this.copyProps] = this.$refs.dict.changeItem(row[this.prop])
+            })
         }
     }
 }

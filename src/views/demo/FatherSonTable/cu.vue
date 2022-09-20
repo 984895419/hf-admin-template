@@ -168,11 +168,11 @@
             />
             <dict-table-column
               :prop="'stock'"
-              :propName="'stock'"
               :namespace="conf.namespace"
               :show-overflow-tooltip="true"
               align="center"
               min-width="130"
+              :propName="'stockName'"
               :dict-code="'PAYMETHODS'"
             />
           </edit-table>
@@ -275,7 +275,8 @@ export default {
       QuantityRequired: '已完成',
       UnitPrice: '待付款',
       money: '已发货',
-      stock: '支付宝'
+      stock: 'zifubao',
+      stockName: "支付宝"
     }, {
       GoodsCode: 20210121000002,
       GoodsName: '2022/08/19',
@@ -284,7 +285,8 @@ export default {
       QuantityRequired: '已完成',
       UnitPrice: '待付款',
       money: '已发货',
-      stock: '支付宝'
+      stock: 'zifubao',
+      stockName: "支付宝"
     }, {
       GoodsCode: 20210121000003,
       GoodsName: '2022/08/19',
@@ -293,7 +295,8 @@ export default {
       QuantityRequired: '已完成',
       UnitPrice: '待付款',
       money: '已发货',
-      stock: '支付宝'
+      stock: 'zifubao',
+      stockName: "支付宝"
     }, {
       GoodsCode: 20210121000004,
       GoodsName: '2022/08/19',
@@ -302,7 +305,8 @@ export default {
       QuantityRequired: '已完成',
       UnitPrice: '待付款',
       money: '已发货',
-      stock: '支付宝'
+      stock: 'zifubao',
+      stockName: "支付宝"
     }, {
       GoodsCode: 20210121000005,
       GoodsName: '2022/08/19',
@@ -311,7 +315,8 @@ export default {
       QuantityRequired: '已完成',
       UnitPrice: '待付款',
       money: '已发货',
-      stock: '支付宝'
+      stock: 'zifubao',
+      stockName: "支付宝"
     }]
   },
   methods: {

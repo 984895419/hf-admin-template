@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="row[prop]">
         <div v-if="copyable" @mouseenter="textHover = true" @mouseleave="textHover = false">
             <span v-if="row[prop]">
                 {{ ellipsis(row[prop]) | numberToCurrency }}

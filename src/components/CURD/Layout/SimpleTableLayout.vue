@@ -1,5 +1,5 @@
 <template>
-  <div ref="top" v-resize="handleResize" class="stable">
+  <div v-resize="handleResize" class="stable">
     <div ref="search">
       <slot name="search" />
     </div>
@@ -22,6 +22,7 @@
             @doSave="doSave"
           />
         </div>
+
         <el-card v-loading="reRending">
           <slot
             v-if="showFields && showFields.length > 0"
@@ -94,8 +95,7 @@
           const searchHeight = this.$refs.search ? this.$refs.search.getBoundingClientRect().height : 0
           const btnslistHeight = this.$refs.btnslist ? this.$refs.btnslist.getBoundingClientRect().height : 0
           const paginationHeight = this.$refs.pagination ? this.$refs.pagination.getBoundingClientRect().height : 0
-          const ofsetHeight = this.$refs.top ? this.$refs.top.getBoundingClientRect().top : 0
-          this.heightTable = parseFloat(window.innerHeight) - ofsetHeight - searchHeight - btnslistHeight - paginationHeight - 60
+          this.heightTable = parseFloat(height) - searchHeight - btnslistHeight - paginationHeight - 84
         })
       },
 
@@ -122,7 +122,7 @@
   }
 
   /deep/ .col-btn-display>div,
-  /deep/ .col-btn-display>.el-button {
+  .col-btn-display>.el-button {
     display: inline-block;
     margin-right: 10px;
   }
