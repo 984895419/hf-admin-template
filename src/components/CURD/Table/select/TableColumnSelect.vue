@@ -169,7 +169,6 @@ export default {
           myFieldsMap[myFields[ind].value] = myFields[ind]
         }
       } else {
-        
         for (const ind in this.copyTableFields) {
           // 默认所有的字段都不会在扩展里显示，除非特殊指定
           if (!this.copyTableFields[ind].tableConfig || this.copyTableFields[ind].tableConfig.expand !== true) {
@@ -265,5 +264,8 @@ export default {
 </script>
 
 <style scoped>
-
+.drag-down-items {
+  max-height: 65vh;
+  overflow: scroll;
+}
 </style>
