@@ -78,8 +78,6 @@ export default {
       baseApiGetMethod(this.dictListUrl, { typeCode: this.dictCode, enableState: 1 }).then(resp => {
         if (isSuccessResult(resp)) {
           this.list = getData(resp)
-          console.log(this.list, "dictCode")
-
         } else {
           this.$message.error(getMessage(resp))
         }

@@ -2,7 +2,7 @@
   <div v-resize="handleResize" class="fathersontable">
     <!-- 不是左右分的子表展示方式 -->
     <div v-if="effect !== 'pannel'">
-      <div style="margin-top:20px">
+      <div ref="searchdom" class="searchlist">
         <slot name="search" />
       </div>
       <!-- 列表-->
@@ -48,7 +48,7 @@
     <div v-else>
       <hf-resize-split-pane v-bind="$attrs._effect">
         <div style="padding:15px 10px 0 10px">
-          <div>
+          <div ref="searchdom">
             <slot name="search" />
           </div>
           <!-- 列表-->
@@ -63,7 +63,7 @@
               </div>
               <el-card v-loading="reRending">
                 <slot v-if="showFields && showFields.length > 0" :showFields="showFields" :headerDragend="headerDragend"
-                  :heightTable="heightTablePannel" :openChild="openChild" />
+                  :heightTable="heightTable" :openChild="openChild" />
                 <span v-else>
                   {{ $t('common.selectShowFields') }}
                 </span>
@@ -98,6 +98,7 @@ export default {
           }
           width = style.width
           height = style.height
+
         }
         el.__vueSetInterval__ = setInterval(isReize, 100)
       },
@@ -128,17 +129,17 @@ export default {
     return {
       showFields: undefined,
       heightTable: 900,
-      heightTablePannel: 900,
       reRending: false,
       row: undefined,
-      isshowdetail: false
+      isshowdetail: false,
     }
   },
   methods: {
     // 表格宽高
     handleResize({ width, height }) {
-      this.heightTable = parseFloat(height) - 210
-      this.heightTablePannel = parseFloat(height) - 340
+      const searchDomHeight = window.getComputedStyle(this.$refs.searchdom).height;
+      //  160 是固定值  新增行和分页栏
+      this.heightTable = parseFloat(height) - parseFloat(searchDomHeight) - 160
     },
 
     reRenderTable(res) {
@@ -160,21 +161,18 @@ export default {
     closeDetailDialog() {
       this.isshowdetail = false
     }
+  },
+  mounted() {
+    // this.$nextTick(() => {
+    //   const height1 = window.getComputedStyle(this.$refs.aa).height;
+    //   console.log(height1,1212)
+    // })
   }
 }
 </script>
 
 
 <style scoped lang="less">
-.el-dropdown-menu__item {
-  display: flex;
-  align-items: center;
-
-}
-/deep/ .el-dropdown-menu__item {
-  background: red !important;
-}
-
 /* 表内部分样式 */
 .fathersontable {
   margin: 0px 10px 10px 10px;
@@ -228,6 +226,10 @@ export default {
 .dialog-footer {
   float: right;
   margin: 10px 10px 10px 0;
+}
+
+.searchlist {
+  margin-top: 20px
 }
 </style>
 

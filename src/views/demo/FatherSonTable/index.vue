@@ -1,6 +1,6 @@
 <template>
   <!-- effect : 弹窗为dialog   底部为bottom  左右分pannel, 抽屉drawer 默认为none-->
-  <father-son-layout :conf="conf" :table-fields="tableFields" effect="dialog">
+  <father-son-layout :conf="conf" :table-fields="tableFields" effect="bottom">
     <!-- 查询框 -->
     <template #search>
       <simple-search v-model="searchForm" :inline="true" @search="doSearch">
@@ -10,13 +10,6 @@
           <form-item-col-date-time :value="searchForm" :span="span" prop="ordertime" :namespace="conf.namespace" />
           <form-item-col-date-time-range :value="searchForm" :span="span" prop="ordertime" :namespace="conf.namespace"
             :min-prop="'createTimeMin'" :max-prop="'createTimeMax'" />
-          <form-item-col-dict
-          :value="searchForm"
-          :span="span"
-          prop="paymethod"
-          :dict-code="'PAYMETHODS'"
-          :namespace="conf.namespace"
-          /> 
         </template>
         <template #advanced="{ span }">
           <form-item-col :value="searchForm" :span="span" prop="ordertotal" :namespace="conf.namespace" />
@@ -47,15 +40,15 @@
           <el-dropdown-menu slot="dropdown">
             <!-- 启用 -->
             <el-dropdown-item icon="el-icon-plus">
-              <template-confirm-btn style="display:inline-block" :url="templateUrl(conf.urlMethods.enableUrl, toggleRowSelectionArray)"
-                :btn-type="'text'" :label="$t('common.batchEnable')" :value="toggleRowSelectionArray"
-                @success="doSearch" />
+              <template-confirm-btn style="display:inline-block"
+                :url="templateUrl(conf.urlMethods.enableUrl, toggleRowSelectionArray)" :btn-type="'text'"
+                :label="$t('common.batchEnable')" :value="toggleRowSelectionArray" @success="doSearch" />
             </el-dropdown-item>
             <!-- 禁用 -->
             <el-dropdown-item icon="el-icon-circle-plus">
-              <template-confirm-btn style="display:inline-block" :url="templateUrl(conf.urlMethods.disableUrl, toggleRowSelectionArray)"
-                :btn-type="'text'" :value="toggleRowSelectionArray" :label="$t('common.batchDisable')"
-                @success="doSearch" />
+              <template-confirm-btn style="display:inline-block"
+                :url="templateUrl(conf.urlMethods.disableUrl, toggleRowSelectionArray)" :btn-type="'text'"
+                :value="toggleRowSelectionArray" :label="$t('common.batchDisable')" @success="doSearch" />
             </el-dropdown-item>
             <!-- 删除 -->
             <el-dropdown-item icon="el-icon-circle-plus-outline">
@@ -92,8 +85,9 @@
                       :btn-type="'text'" :label="'单页导出'" @success="doSearch" />
                   </el-dropdown-item>
                   <el-dropdown-item icon="el-icon-circle-plus-outline">
-                    <template-confirm-btn style="display:inline-block" :url="templateUrl(conf.urlMethods.batchExportAllUrl, toggleRowSelectionArray)"
-                      :btn-type="'text'" :label="'全部导出'" @success="doSearch" />
+                    <template-confirm-btn style="display:inline-block"
+                      :url="templateUrl(conf.urlMethods.batchExportAllUrl, toggleRowSelectionArray)" :btn-type="'text'"
+                      :label="'全部导出'" @success="doSearch" />
                   </el-dropdown-item>
                   <el-dropdown-item icon="el-icon-check">
                     <template-confirm-btn style="display:inline-block"
