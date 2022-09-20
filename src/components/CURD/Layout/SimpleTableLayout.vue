@@ -119,6 +119,7 @@
   .stable {
     margin: 20px 10px 10px 10px;
     height: 100%;
+    min-height: 350px;
   }
 
   /deep/ .col-btn-display>div,
