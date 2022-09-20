@@ -54,6 +54,11 @@ export default {
   max-height: 92vh;
   overflow-x: hidden;
   overflow-y: scroll;
+  margin-top: auto!important;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+
 }
 .el-dialog::-webkit-scrollbar{
   display: none;
