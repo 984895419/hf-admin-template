@@ -10,7 +10,7 @@
     <el-dialog
       :visible.sync="showDialog"
       append-to-body
-      v-bind="{ 'close-on-click-modal': false, width: '75%', ...$attrs._dialog }"
+      v-bind="{ 'close-on-click-modal': false, top: '5vh', width: '75%', ...$attrs._dialog }"
     >
       <div style="margin-top: 10px">
         <!-- 查询框 -->
