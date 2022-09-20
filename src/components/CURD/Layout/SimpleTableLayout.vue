@@ -96,7 +96,6 @@
           const btnslistHeight = this.$refs.btnslist ? this.$refs.btnslist.getBoundingClientRect().height : 0
           const paginationHeight = this.$refs.pagination ? this.$refs.pagination.getBoundingClientRect().height : 0
           this.heightTable = parseFloat(height) - searchHeight - btnslistHeight - paginationHeight - 84
-          debugger
         })
       },
 

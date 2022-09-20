@@ -142,12 +142,13 @@ export default {
   methods: {
     // 表格宽高
     handleResize({ width, height }) {
-      const searchDomHeight = window.getComputedStyle(this.$refs.searchdom).height;
-      const btnslistHeight = this.$refs.btnslist ? this.$refs.btnslist.getBoundingClientRect().height : 0
-      const paginationHeight = this.$refs.pagination ? this.$refs.pagination.getBoundingClientRect().height : 0
-      console.log(searchDomHeight,btnslistHeight,paginationHeight)
-      //  130 是固定值边距
-      this.heightTable = parseFloat(height) - parseFloat(searchDomHeight) - btnslistHeight - paginationHeight - 130
+      this.$nextTick(() => {
+        const searchDomHeight = window.getComputedStyle(this.$refs.searchdom).height;
+        const btnslistHeight = this.$refs.btnslist ? this.$refs.btnslist.getBoundingClientRect().height : 0
+        const paginationHeight = this.$refs.pagination ? this.$refs.pagination.getBoundingClientRect().height : 0
+        //  130 是固定值边距
+        this.heightTable = parseFloat(height) - parseFloat(searchDomHeight) - btnslistHeight - paginationHeight - 130
+      })
     },
 
     reRenderTable(res) {
@@ -169,12 +170,6 @@ export default {
     closeDetailDialog() {
       this.isshowdetail = false
     }
-  },
-  mounted() {
-    // this.$nextTick(() => {
-    //   const height1 = window.getComputedStyle(this.$refs.aa).height;
-    //   console.log(height1,1212)
-    // })
   }
 }
 </script>
