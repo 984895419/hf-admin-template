@@ -122,7 +122,7 @@
   }
 
   /deep/ .col-btn-display>div,
-  .col-btn-display>.el-button {
+  /deep/ .col-btn-display>.el-button {
     display: inline-block;
     margin-right: 10px;
   }
