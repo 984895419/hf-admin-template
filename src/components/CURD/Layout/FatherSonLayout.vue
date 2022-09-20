@@ -9,7 +9,7 @@
       <table-column-preference-setting-api-slot v-model="showFields" :init-data="tableFields"
         :preference-alias="conf.namespace">
         <template v-slot="{ doSave, preferenceData, headerDragend }">
-          <div class="btnslist">
+          <div class="btnslist" ref="btnslist">
             <slot name="btnslist" />
             <curd-table-column-select v-if="showFields" v-model="showFields" :preference-alias="conf.namespace"
               :table-fields="preferenceData" style="float: right;margin-left: 10px;" @selectedChange="reRenderTable"
@@ -25,7 +25,9 @@
           </el-card>
         </template>
       </table-column-preference-setting-api-slot>
-      <slot name="pagination" />
+      <span ref="paginationHeight">
+        <slot name="pagination" />
+      </span>
       <!-- 定义子表的显示方式 -->
       <el-dialog v-if="effect=='dialog'" v-bind="{width: '75%',
       top: '5vh',
@@ -55,7 +57,7 @@
           <table-column-preference-setting-api-slot v-model="showFields" :init-data="tableFields"
             :preference-alias="conf.namespace">
             <template v-slot="{ doSave, preferenceData, headerDragend }">
-              <div class="btnslist">
+              <div class="btnslist" ref="btnslist">
                 <slot name="btnslist" />
                 <curd-table-column-select v-if="showFields" v-model="showFields" :preference-alias="conf.namespace"
                   :table-fields="preferenceData" style="float: right;margin-left: 10px;" @selectedChange="reRenderTable"
@@ -70,7 +72,10 @@
               </el-card>
             </template>
           </table-column-preference-setting-api-slot>
-          <slot name="pagination" />
+          <div></div>
+          <span ref="paginationHeight">
+            <slot name="pagination" />
+          </span>
         </div>
         <template #right>
           <div style="padding:15px 10px 0 10px">
@@ -138,8 +143,11 @@ export default {
     // 表格宽高
     handleResize({ width, height }) {
       const searchDomHeight = window.getComputedStyle(this.$refs.searchdom).height;
-      //  160 是固定值  新增行和分页栏
-      this.heightTable = parseFloat(height) - parseFloat(searchDomHeight) - 160
+      const btnslistHeight = this.$refs.btnslist ? this.$refs.btnslist.getBoundingClientRect().height : 0
+      const paginationHeight = this.$refs.pagination ? this.$refs.pagination.getBoundingClientRect().height : 0
+      console.log(searchDomHeight,btnslistHeight,paginationHeight)
+      //  130 是固定值边距
+      this.heightTable = parseFloat(height) - parseFloat(searchDomHeight) - btnslistHeight - paginationHeight - 130
     },
 
     reRenderTable(res) {

@@ -1,6 +1,6 @@
 <template>
   <!-- effect : 弹窗为dialog   底部为bottom  左右分pannel, 抽屉drawer 默认为none-->
-  <father-son-layout :conf="conf" :table-fields="tableFields" effect="bottom">
+  <father-son-layout :conf="conf" :table-fields="tableFields" effect="dialog">
     <!-- 查询框 -->
     <template #search>
       <simple-search v-model="searchForm" :inline="true" @search="doSearch">
