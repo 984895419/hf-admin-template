@@ -1,19 +1,15 @@
 <template>
   <div>
-    <el-button :size="size" :type="type" @click="openDialog" :icon="icon">{{ label }}</el-button>
-    <el-dialog
-      :top="'5vh'"
+    <el-button :size="size" :type="type" :icon="icon" @click="openDialog">{{ label }}</el-button>
+    <hf-dialog
       :visible.sync="showImportDialog"
-      width="75%"
-      :title="title"
-      append-to-body
-      v-bind="Object.assign({ 'close-on-click-modal': false}, $attrs)"
+      v-bind="$attrs"
       v-on="$listeners"
     >
       <div style="margin-top: 10px">
         <slot :closeDialog="closeDialog" :showState="showImportDialog" />
       </div>
-    </el-dialog>
+    </hf-dialog>
   </div>
 </template>
 
@@ -31,9 +27,9 @@ export default {
       default: 'primary'
     },
     title: String,
-    icon:{
-      type:String,
-      default:""
+    icon: {
+      type: String,
+      default: ''
     }
   },
   data() {

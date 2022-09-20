@@ -7,10 +7,9 @@
       @focus="openDialog"
       v-on="$listeners"
     />
-    <el-dialog
+    <hf-dialog
       :visible.sync="showDialog"
-      append-to-body
-      v-bind="{ 'close-on-click-modal': false, top: '5vh', width: '75%', ...$attrs._dialog }"
+      v-bind="$attrs._dialog"
     >
       <div style="margin-top: 10px">
         <!-- 查询框 -->
@@ -50,7 +49,7 @@
           </template>
         </simple-table-layout>
       </div>
-    </el-dialog>
+    </hf-dialog>
   </div>
 </template>
 

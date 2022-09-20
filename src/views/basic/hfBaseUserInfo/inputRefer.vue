@@ -6,11 +6,8 @@
       @focus="openDialog"
       v-on="$listeners"
     />
-    <el-dialog
+    <hf-dialog
       :visible.sync="showDialog"
-      width="75%"
-      append-to-body
-      v-bind="Object.assign({ 'close-on-click-modal': false}, $attrs)"
     >
       <div style="margin-top: 10px">
         <!-- 查询框 -->
@@ -70,7 +67,7 @@
           @current-change="doSearch"
         />
       </div>
-    </el-dialog>
+    </hf-dialog>
   </div>
 </template>
 
@@ -171,7 +168,7 @@
                 }
             }
         },
-        
+
         methods: {
             openDialog() {
                 if (!this.alreadyInit) {
