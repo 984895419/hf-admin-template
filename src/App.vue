@@ -51,9 +51,10 @@ export default {
   background-color: #93c6fa !important;
 }
 .el-dialog{
-  max-height: 92vh;
+  max-height: 90vh;
   overflow-x: hidden;
   overflow-y: scroll;
+  margin-top: 8vh!important;
 }
 .el-dialog::-webkit-scrollbar{
   display: none;
