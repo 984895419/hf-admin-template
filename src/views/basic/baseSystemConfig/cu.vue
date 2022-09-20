@@ -56,7 +56,7 @@ export default {
     value: {
       type: Object,
       default: function() {
-        return { enableState: 1, compositions: [] }
+        return { enableState: 1 }
       }
     }
   },
