@@ -1,5 +1,5 @@
 <template>
-  <quit-cu :value="value" :conf="conf">
+  <quit-cu :value="value" :conf="conf" v-bind="$attrs" v-on="$listeners">
     <template v-slot="{ span, errorMessage, data }">
       <!-- 新增的的字段配置 -->
       <form-item-col

@@ -6,7 +6,7 @@
     <!-- 列表-->
     <table-column-preference-setting-api-slot
       v-model="showFields"
-      :init-data="tableFields"
+      :init-data="fields"
       :preference-alias="conf.namespace"
     >
       <template v-slot="{ doSave, preferenceData, headerDragend }">
@@ -85,7 +85,8 @@
       return {
         showFields: undefined,
         heightTable: 900,
-        reRending: false
+        reRending: false,
+        fields: this.tableFields || this.conf.default
       }
     },
     methods: {
