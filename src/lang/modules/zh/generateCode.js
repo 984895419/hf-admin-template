@@ -30,6 +30,7 @@ export default {
   supportExport: '是否支持导出',
   supportImport: '是否支持导入',
   supportEmpty: '是否可为空',
+  supportAdvanceSearch: '是否折叠搜索',
   referType: '字段引用类型',
   codeReferKey: '编码引用类型',
   dictReferType: '数据字典引用类型',

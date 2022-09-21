@@ -159,6 +159,16 @@
                         </template>
                       </el-table-column>
                       <el-table-column
+                        v-if="item.value === 'supportAdvanceSearch' && functionSupport('search')"
+                        prop="supportAdvanceSearch"
+                        :label="$t(conf.namespace + '.supportAdvanceSearch')"
+                        min-width="130"
+                      >
+                        <template slot-scope="scopeRow">
+                          <el-checkbox v-model="scopeRow.row.supportAdvanceSearch" />
+                        </template>
+                      </el-table-column>
+                      <el-table-column
                         v-if="item.value === 'supportAdd' && functionSupport('add')"
                         prop="supportAdd"
                         :label="$t(conf.namespace + '.supportAdd')"
@@ -245,7 +255,7 @@
                           <base-business-code-input-refer
                             v-if="scopeRow.row.referType === 'code'"
                             v-model="scopeRow.row"
-                            value-refer-id="businessKey"
+                            value-refer-id="codeReferKey"
                             value-refer-name="businessName"
                           />
                         </template>

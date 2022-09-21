@@ -42,7 +42,7 @@ const exportTableFields = (fields) => {
  * @type {*[]}
  */
 const tableFields = ['columnName', 'columnType', 'comment', 'propertyType', 'type',
-  'keyFlag', 'keyIdentityFlag', 'keyWords', 'supportSearch', 'supportKeywordSearch',
+  'keyFlag', 'keyIdentityFlag', 'keyWords', 'supportSearch', 'supportAdvanceSearch', 'supportKeywordSearch',
   'supportFuzzySearch', 'supportAdd',
   'supportUpdate', 'supportDelete', 'supportExport', 'supportImport', 'supportEmpty',
   'referType', 'codeReferKey', 'dictReferType', 'regexReferType', 'tableReferType', 'tableReferColumnName',

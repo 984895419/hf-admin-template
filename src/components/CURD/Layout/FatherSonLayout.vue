@@ -6,19 +6,33 @@
         <slot name="search" />
       </div>
       <!-- 列表-->
-      <table-column-preference-setting-api-slot v-model="showFields" :init-data="tableFields"
-        :preference-alias="conf.namespace">
+      <table-column-preference-setting-api-slot
+        v-model="showFields"
+        :init-data="tableFields"
+        :preference-alias="conf.namespace"
+      >
         <template v-slot="{ doSave, preferenceData, headerDragend }">
-          <div class="btnslist" ref="btnslist">
+          <div ref="btnslist" class="btnslist">
             <slot name="btnslist" />
-            <curd-table-column-select v-if="showFields" v-model="showFields" :preference-alias="conf.namespace"
-              :table-fields="preferenceData" style="float: right;margin-left: 10px;" @selectedChange="reRenderTable"
-              @doSave="doSave" />
+            <curd-table-column-select
+              v-if="showFields"
+              v-model="showFields"
+              :preference-alias="conf.namespace"
+              :table-fields="preferenceData"
+              style="float: right;margin-left: 10px;"
+              @selectedChange="reRenderTable"
+              @doSave="doSave"
+            />
           </div>
 
           <el-card v-loading="reRending">
-            <slot v-if="showFields && showFields.length > 0" :showFields="showFields" :headerDragend="headerDragend"
-              :heightTable="heightTable" :openChild="openChild" />
+            <slot
+              v-if="showFields && showFields.length > 0"
+              :showFields="showFields"
+              :headerDragend="headerDragend"
+              :heightTable="heightTable"
+              :openChild="openChild"
+            />
             <span v-else>
               {{ $t('common.selectShowFields') }}
             </span>
@@ -29,19 +43,27 @@
         <slot name="pagination" />
       </span>
       <!-- 定义子表的显示方式 -->
-      <el-dialog v-if="effect=='dialog'" v-bind="{width: '75%',
-      top: '5vh',
-      title: $t('common.detail'),
-      ...$attrs._effect}" :visible.sync="isshowdetail">
+      <el-dialog
+        v-if="effect=='dialog'"
+        v-bind="{width: '75%',
+                 top: '5vh',
+                 title: $t('common.detail'),
+                 ...$attrs._effect}"
+        :visible.sync="isshowdetail"
+      >
         <slot name="children" :row="row" :closeDetailDialog="closeDetailDialog" />
         <div class="dialog-footer">
           <el-button @click="closeDetailDialog">{{ $t('common.cancel') }}</el-button>
         </div>
       </el-dialog>
-      <el-drawer v-if="effect=='drawer'" v-bind="{size: '60%',
-      direction: 'rtl',
-      title: $t('common.detail'),
-      ...$attrs._effect}" :visible.sync="isshowdetail">
+      <el-drawer
+        v-if="effect=='drawer'"
+        v-bind="{size: '60%',
+                 direction: 'rtl',
+                 title: $t('common.detail'),
+                 ...$attrs._effect}"
+        :visible.sync="isshowdetail"
+      >
         <slot name="children" :row="row" :closeDetailDialog="closeDetailDialog" />
       </el-drawer>
       <slot v-if="effect=='bottom'" name="children" :row="row" />
@@ -54,25 +76,39 @@
             <slot name="search" />
           </div>
           <!-- 列表-->
-          <table-column-preference-setting-api-slot v-model="showFields" :init-data="tableFields"
-            :preference-alias="conf.namespace">
+          <table-column-preference-setting-api-slot
+            v-model="showFields"
+            :init-data="tableFields"
+            :preference-alias="conf.namespace"
+          >
             <template v-slot="{ doSave, preferenceData, headerDragend }">
-              <div class="btnslist" ref="btnslist">
+              <div ref="btnslist" class="btnslist">
                 <slot name="btnslist" />
-                <curd-table-column-select v-if="showFields" v-model="showFields" :preference-alias="conf.namespace"
-                  :table-fields="preferenceData" style="float: right;margin-left: 10px;" @selectedChange="reRenderTable"
-                  @doSave="doSave" />
+                <curd-table-column-select
+                  v-if="showFields"
+                  v-model="showFields"
+                  :preference-alias="conf.namespace"
+                  :table-fields="preferenceData"
+                  style="float: right;margin-left: 10px;"
+                  @selectedChange="reRenderTable"
+                  @doSave="doSave"
+                />
               </div>
               <el-card v-loading="reRending">
-                <slot v-if="showFields && showFields.length > 0" :showFields="showFields" :headerDragend="headerDragend"
-                  :heightTable="heightTable" :openChild="openChild" />
+                <slot
+                  v-if="showFields && showFields.length > 0"
+                  :showFields="showFields"
+                  :headerDragend="headerDragend"
+                  :heightTable="heightTable"
+                  :openChild="openChild"
+                />
                 <span v-else>
                   {{ $t('common.selectShowFields') }}
                 </span>
               </el-card>
             </template>
           </table-column-preference-setting-api-slot>
-          <div></div>
+          <div />
           <span ref="paginationHeight">
             <slot name="pagination" />
           </span>
@@ -103,7 +139,6 @@ export default {
           }
           width = style.width
           height = style.height
-
         }
         el.__vueSetInterval__ = setInterval(isReize, 100)
       },
@@ -136,14 +171,14 @@ export default {
       heightTable: 900,
       reRending: false,
       row: undefined,
-      isshowdetail: false,
+      isshowdetail: false
     }
   },
   methods: {
     // 表格宽高
     handleResize({ width, height }) {
       this.$nextTick(() => {
-        const searchDomHeight = window.getComputedStyle(this.$refs.searchdom).height;
+        const searchDomHeight = window.getComputedStyle(this.$refs.searchdom).height
         const btnslistHeight = this.$refs.btnslist ? this.$refs.btnslist.getBoundingClientRect().height : 0
         const paginationHeight = this.$refs.pagination ? this.$refs.pagination.getBoundingClientRect().height : 0
         //  130 是固定值边距
@@ -173,7 +208,6 @@ export default {
   }
 }
 </script>
-
 
 <style scoped lang="less">
 /* 表内部分样式 */
@@ -224,7 +258,6 @@ export default {
 .el-icon-arrow-down {
   font-size: 12px;
 }
-
 
 .dialog-footer {
   float: right;
