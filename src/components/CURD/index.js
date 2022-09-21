@@ -53,8 +53,8 @@
 // import curdmixin from '../CURD/curd.mixin.js'
 // import defaultUrl from '../CURD/defaultUrl.js'
 
-import TextBtns from '../CURD/TextBtns/index.vue'
-import aa from '../CURD/aa/index.vue'
+// import TextBtns from '../CURD/TextBtns/index.vue'
+// import aa from '../CURD/aa/index.vue'
 
 const coms = [
   // ApiSlot, AddBtn, CommonDialogBtn,
@@ -68,7 +68,7 @@ const coms = [
   // CopierRender, CreateTimeTableColumn, CreatorTableColumn, DefaultTableColumn,
   // EnableStateTableColumn, ImageTableColumn, ModifierTableColumn,
   // ModifyTimeTableColumn, TableColumnSelect,
-  TextBtns, aa
+  // TextBtns, aa
 ] // 将来如果有其它组件,都可以写到这个数组里
 
 // 批量组件注册

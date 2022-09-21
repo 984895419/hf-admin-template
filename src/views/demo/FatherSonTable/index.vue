@@ -177,7 +177,6 @@ import DemoCu from './cu'// 更新页面
 import CurdMixin from '@/components/CURD/curd.mixin'
 import HfBaseRightRoleColumns from './hfBaseRightRoleColumns'// 表头
 import hfBaseRightRoleColumnsDynamic from './hfBaseRightRoleColumnsDynamic'// 表头
-import DrawerDetail from './drawerDetail.vue'// 双击抽屉详情页
 import UploadExcelComponent from '@/components/UploadExcel/index.vue' // 本是  excel 导出
 import Examine from './examine.vue' // 审核页面
 import defaultColumnList from './defaultColumnList.vue'
@@ -187,7 +186,6 @@ export default {
     HfBaseRightRoleColumns,
     hfBaseRightRoleColumnsDynamic,
     DemoCu,
-    DrawerDetail,
     UploadExcelComponent,
     Examine,
     defaultColumnList
