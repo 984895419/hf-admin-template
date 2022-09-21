@@ -454,10 +454,11 @@ export default {
         },
         mergerFields() {
             this.readyDoSearch((val) => {
+              debugger
               const fieldNames = this.tableInfo.fields.map(t => t.columnName)
-              for (const field in val.feilds) {
-                if (fieldNames.indexOf(field.columnName) < 0) {
-                  this.tableInfo.fields.push(field)
+              for (const ind in val.fields) {
+                if (fieldNames.indexOf(val.fields[ind].columnName) < 0) {
+                  this.tableInfo.fields.push(val.fields[ind])
                 }
               }
             })
